@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import logoWhite from '../assets/logo-white.png';
 
 interface IntroLoaderProps {
   onComplete?: () => void;
@@ -97,7 +98,7 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
               }}
             >
               <img
-                src="/logo-white.png"
+                src={logoWhite}
                 alt="iGrey Holdings"
                 style={{
                   height: 'clamp(44px, 5.5vw, 68px)',

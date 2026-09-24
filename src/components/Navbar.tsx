@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
+import logoWhite from '../assets/logo-white.png';
 
 interface NavbarProps {
   onEnquireClick: () => void;
@@ -85,7 +86,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquireClick }) => {
             onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
           >
             <img
-              src="/logo-white.png"
+              src={logoWhite}
               alt="iGrey Holdings"
               style={{
                 height: scrolled ? '36px' : '44px',

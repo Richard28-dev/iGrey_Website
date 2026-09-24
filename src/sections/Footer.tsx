@@ -1,5 +1,6 @@
 import React from 'react';
 import { ShieldCheck } from 'lucide-react';
+import logoWhite from '../assets/logo-white.png';
 
 export const Footer: React.FC = () => {
   const quickLinks = [
@@ -60,7 +61,7 @@ export const Footer: React.FC = () => {
               }}
             >
               <img
-                src="/logo-white.png"
+                src={logoWhite}
                 alt="iGrey Holdings"
                 style={{
                   height: '46px',

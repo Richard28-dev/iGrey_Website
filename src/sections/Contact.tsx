@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, CheckCircle2 } from 'lucide-react';
+import contactProperty from '../assets/contact-property.jpg';
 
 interface ContactProps {
   prefilledProperty?: string;
@@ -119,7 +120,7 @@ export const Contact: React.FC<ContactProps> = ({ prefilledProperty, onSuccessNo
                 }}
               >
                 <img
-                  src="/contact-property.jpg"
+                  src={contactProperty}
                   alt="Property Advisory & Acquisition Desk"
                   style={{
                     width: '100%',
