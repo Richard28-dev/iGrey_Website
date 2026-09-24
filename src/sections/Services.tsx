@@ -4,7 +4,7 @@ import { servicesData } from '../data/services';
 import { ArrowUpRight } from 'lucide-react';
 
 interface ServicesProps {
-  onSelectService: (serviceTitle: string) => void;
+  onSelectService?: (serviceTitle: string) => void;
 }
 
 export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
@@ -100,7 +100,7 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
                 <div
                   key={service.number}
                   onMouseEnter={() => setActiveIdx(idx)}
-                  onClick={() => onSelectService(service.title)}
+                  onClick={() => setActiveIdx(idx)}
                   style={{
                     position: 'relative',
                     padding: '1.75rem 1.5rem',
@@ -262,9 +262,46 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
                 >
                   SERVICE {servicesData[activeIdx].number}
                 </span>
-                <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1.4rem', color: '#fff', lineHeight: 1.3 }}>
+                <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1.4rem', color: '#fff', lineHeight: 1.3, marginBottom: '1rem' }}>
                   "{servicesData[activeIdx].tagline}"
                 </p>
+                {onSelectService && (
+                  <button
+                    type="button"
+                    onClick={() => onSelectService(servicesData[activeIdx].title)}
+                    style={{
+                      alignSelf: 'flex-start',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      padding: '0.6rem 1.25rem',
+                      backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                      backdropFilter: 'blur(10px)',
+                      color: '#FFFFFF',
+                      border: '1px solid rgba(255, 255, 255, 0.3)',
+                      borderRadius: '30px',
+                      fontSize: '0.75rem',
+                      letterSpacing: '0.1em',
+                      textTransform: 'uppercase',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      transition: 'all 0.25s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#C5A880';
+                      e.currentTarget.style.borderColor = '#C5A880';
+                      e.currentTarget.style.color = '#0C0D0E';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                      e.currentTarget.style.color = '#FFFFFF';
+                    }}
+                  >
+                    <span>Inquire About This Service</span>
+                    <ArrowUpRight size={14} />
+                  </button>
+                )}
               </div>
             </div>
 
