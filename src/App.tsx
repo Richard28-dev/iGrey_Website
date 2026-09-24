@@ -72,7 +72,7 @@ export function App() {
         />
 
         {/* Editorial Split About Section (Warm White / Ivory) */}
-        <About onDiscoverStory={() => scrollToContact('Private Portfolio & Brand Dossier')} />
+        <About onDiscoverStory={scrollToProperties} />
 
         {/* Numbered Editorial Services Grid */}
         <Services onSelectService={handleSelectService} />
