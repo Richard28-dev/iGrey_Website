@@ -1,5 +1,10 @@
 # iGREY HOLDINGS — Luxury Real Estate & Advisory
 
+[![Live Website](https://img.shields.io/badge/Live%20Website-Visit%20Site-gold?style=for-the-badge&logo=googlechrome&logoColor=white)](https://richard28-dev.github.io/iGrey_Website/)
+[![GitHub Pages](https://img.shields.io/badge/Deployment-GitHub%20Pages-brightgreen?style=for-the-badge&logo=github)](https://richard28-dev.github.io/iGrey_Website/)
+
+🔗 **Live Working URL**: [https://richard28-dev.github.io/iGrey_Website/](https://richard28-dev.github.io/iGrey_Website/)
+
 A bespoke, ultra-luxury real-estate web application engineered for **iGREY HOLDINGS**.
 
 ## Features
