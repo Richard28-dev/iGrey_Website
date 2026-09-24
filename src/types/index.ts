@@ -15,7 +15,7 @@ export interface Property {
   description: string;
   architecturalHighlights: string[];
   amenities: string[];
-  status: 'Available' | 'Private Treaty' | 'Under Offer';
+  status: 'Available' | 'Private Treaty' | 'Under Offer' | 'Sold';
 }
 
 export interface Service {
