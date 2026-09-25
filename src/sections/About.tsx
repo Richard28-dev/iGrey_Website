@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Handshake, Key, Building2, UserCheck, ArrowUpRight } from 'lucide-react';
-import aboutVilla from '../assets/about-villa.png';
+import aboutArchitecture from '../assets/about-architecture.jpg';
 
 interface AboutProps {
   onDiscoverStory: () => void;
@@ -69,7 +69,7 @@ export const About: React.FC<AboutProps> = ({ onDiscoverStory }) => {
               }}
             >
               <img
-                src={aboutVilla}
+                src={aboutArchitecture}
                 alt="iGrey Holdings Luxury Architecture"
                 style={{
                   width: '100%',
