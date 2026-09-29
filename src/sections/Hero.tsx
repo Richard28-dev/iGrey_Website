@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
+import { scrollToTarget } from '../utils/scroll';
 
 interface HeroProps {
   onExploreClick: () => void;
@@ -62,6 +63,9 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick, onExpertClick }) => 
         <img
           src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2600&q=88"
           alt="iGrey Holdings Luxury Architecture"
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
           style={{
             width: '100%',
             height: '100%',
@@ -179,8 +183,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick, onExpertClick }) => 
           cursor: 'pointer',
         }}
         onClick={() => {
-          const aboutSection = document.getElementById('about');
-          aboutSection?.scrollIntoView({ behavior: 'smooth' });
+          scrollToTarget('#about', { offset: -30, duration: 1.25 });
         }}
       >
         <span

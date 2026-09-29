@@ -165,6 +165,8 @@ export const FeaturedProperties: React.FC<FeaturedPropertiesProps> = ({
                 <img
                   src={property.featuredImage}
                   alt={property.name}
+                  loading="lazy"
+                  decoding="async"
                   style={{
                     width: '100%',
                     height: '100%',

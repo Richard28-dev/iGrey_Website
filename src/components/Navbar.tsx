@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import logoWhite from '../assets/logo-white.png';
+import { scrollToTarget } from '../utils/scroll';
 
 interface NavbarProps {
   onEnquireClick: () => void;
@@ -48,10 +49,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onEnquireClick }) => {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setMobileMenuOpen(false);
-    const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollToTarget(href, { offset: -30, duration: 1.25 });
   };
 
   return (

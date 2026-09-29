@@ -1,6 +1,6 @@
-import React from 'react';
 import { ShieldCheck } from 'lucide-react';
 import logoWhite from '../assets/logo-white.png';
+import { scrollToTarget } from '../utils/scroll';
 
 export const Footer: React.FC = () => {
   const quickLinks = [
@@ -21,10 +21,7 @@ export const Footer: React.FC = () => {
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollToTarget(href, { offset: -30, duration: 1.25 });
   };
 
   return (

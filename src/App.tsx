@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import Lenis from 'lenis';
+import 'lenis/dist/lenis.css';
+import { setLenisInstance, getLenisInstance, scrollToTarget } from './utils/scroll';
 import { Navbar } from './components/Navbar';
 import { Hero } from './sections/Hero';
 import { About } from './sections/About';
@@ -15,6 +18,8 @@ import { Footer } from './sections/Footer';
 import { PropertyModal } from './components/PropertyModal';
 import { Toast } from './components/Toast';
 import { IntroLoader } from './components/IntroLoader';
+import { ScrollProgress } from './components/ScrollProgress';
+import { BackToTop } from './components/BackToTop';
 import { propertiesData } from './data/properties';
 import type { Property } from './types';
 
@@ -22,6 +27,41 @@ export function App() {
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [prefilledServiceOrProperty, setPrefilledServiceOrProperty] = useState<string>('Luxury Residential Acquisition');
+
+  // Initialize Lenis Smooth Inertia Momentum Scroll
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.25,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      wheelMultiplier: 1.05,
+      touchMultiplier: 1.5,
+    });
+
+    setLenisInstance(lenis);
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    const rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+      setLenisInstance(null);
+    };
+  }, []);
+
+  // Lock background scroll when property modal is active
+  useEffect(() => {
+    const lenis = getLenisInstance();
+    if (selectedProperty) {
+      lenis?.stop();
+    } else {
+      lenis?.start();
+    }
+  }, [selectedProperty]);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -34,17 +74,11 @@ export function App() {
     if (context) {
       setPrefilledServiceOrProperty(context);
     }
-    const contactSection = document.getElementById('contact');
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollToTarget('#contact', { offset: -30, duration: 1.3 });
   };
 
   const scrollToProperties = () => {
-    const propSection = document.getElementById('properties');
-    if (propSection) {
-      propSection.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollToTarget('#properties', { offset: -30, duration: 1.3 });
   };
 
   const handleSelectService = (serviceTitle: string) => {
@@ -58,6 +92,8 @@ export function App() {
 
   return (
     <div style={{ backgroundColor: 'var(--color-bg)', minHeight: '100vh', position: 'relative' }}>
+      {/* Luxury Hairline Top Scroll Progress Indicator */}
+      <ScrollProgress />
       {/* Luxury Opening Reveal Animation */}
       <IntroLoader />
 
@@ -121,6 +157,9 @@ export function App() {
 
       {/* Action Toast Notification */}
       <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
+
+      {/* Floating Minimal Luxury Back to Top Button */}
+      <BackToTop />
     </div>
   );
 }

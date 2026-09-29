@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Handshake, Key, Building2, UserCheck, ArrowUpRight } from 'lucide-react';
 import aboutVilla from '../assets/about-villa.png';
 
@@ -31,9 +31,17 @@ const valueCards = [
 ];
 
 export const About: React.FC<AboutProps> = ({ onDiscoverStory }) => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
+  const imageY = useTransform(scrollYProgress, [0, 1], [-25, 25]);
+
   return (
     <section
       id="about"
+      ref={sectionRef}
       style={{
         backgroundColor: '#F7F5F0',
         color: '#121416',
@@ -52,12 +60,13 @@ export const About: React.FC<AboutProps> = ({ onDiscoverStory }) => {
           }}
           className="about-split-grid"
         >
-          {/* Left: Large Editorial Architectural Image with rounded corners */}
+          {/* Left: Large Editorial Architectural Image with rounded corners & gentle parallax */}
           <motion.div
             initial={{ opacity: 0, x: -25 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            style={{ y: imageY }}
           >
             <div
               style={{

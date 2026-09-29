@@ -44,6 +44,8 @@ export const StorytellingBanner: React.FC<StorytellingBannerProps> = ({ onExplor
         <img
           src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2600&q=88"
           alt="Luxury Architectural Atmosphere"
+          loading="lazy"
+          decoding="async"
           style={{
             width: '100%',
             height: '100%',
