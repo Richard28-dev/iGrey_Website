@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://richard28-dev.github.io/iGrey_Website/sitemap.xml
