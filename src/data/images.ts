@@ -70,25 +70,6 @@ export const siteImages = {
     height: 900,
   },
 
-  // Featured Residential Properties
-  propStudio: {
-    src: getImg('prop_studio.jpg'),
-    alt: 'Modern Studio Apartment in Koramangala Bengaluru',
-    width: 574,
-    height: 314,
-  },
-  propExecutive: {
-    src: getImg('prop_executive.jpg'),
-    alt: 'Executive 2 BHK Residence in Gokulam Mysuru',
-    width: 574,
-    height: 314,
-  },
-  propHouse: {
-    src: getImg('prop_house.jpg'),
-    alt: '3 BHK Independent House in Indiranagar Bengaluru',
-    width: 574,
-    height: 314,
-  },
   // Selected Properties (3 Exact Reference Cards)
   propSolarium: {
     src: getImg('prop_solarium.jpg'),
