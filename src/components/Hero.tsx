@@ -273,7 +273,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                     : 'none',
                   transition: 'background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
                 }}
-                className={`hero-stat-pillar hero-stat-cell-${idx}`}
+                className={`hero-stat-pillar hero-stat-cell-${idx} ${isActive ? 'hero-stat-active' : ''}`}
               >
                 {/* Centered Squircle Badge Icon matching reference */}
                 <div
@@ -431,6 +431,10 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
 
       <style>{`
         @media (min-width: 992px) {
+          .hero-floating-stats-grid::before,
+          .hero-floating-stats-grid::after {
+            display: none !important;
+          }
           .hero-floating-stats-grid {
             grid-template-columns: repeat(4, 1fr) !important;
             gap: 0 !important;
@@ -478,7 +482,37 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             grid-template-columns: repeat(2, 1fr) !important;
             border-radius: 20px !important;
             gap: 0 !important;
-            padding: 0.25rem !important;
+            padding: 0.35rem !important;
+            position: relative !important;
+            overflow: hidden !important;
+          }
+          /* Crisp, straight vertical cross divider line */
+          .hero-floating-stats-grid::before {
+            content: '' !important;
+            display: block !important;
+            position: absolute !important;
+            left: 50% !important;
+            top: 0 !important;
+            bottom: 0 !important;
+            width: 1px !important;
+            transform: translateX(-50%) !important;
+            background: rgba(255, 255, 255, 0.12) !important;
+            pointer-events: none !important;
+            z-index: 2 !important;
+          }
+          /* Crisp, straight horizontal cross divider line */
+          .hero-floating-stats-grid::after {
+            content: '' !important;
+            display: block !important;
+            position: absolute !important;
+            top: 50% !important;
+            left: 0 !important;
+            right: 0 !important;
+            height: 1px !important;
+            transform: translateY(-50%) !important;
+            background: rgba(255, 255, 255, 0.12) !important;
+            pointer-events: none !important;
+            z-index: 2 !important;
           }
           .hero-stat-pillar {
             flex-direction: row !important;
@@ -486,22 +520,26 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             text-align: left !important;
             padding: 0.95rem 0.85rem !important;
             gap: 0.75rem !important;
+            border-radius: 14px !important;
+            position: relative !important;
           }
-          .hero-stat-cell-0 {
-            border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+          .hero-stat-pillar:not(.hero-stat-active) {
+            border: 1.5px solid transparent !important;
           }
-          .hero-stat-cell-1 {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-right: none !important;
+          .hero-stat-pillar.hero-stat-active {
+            border: 1.5px solid rgba(229, 203, 163, 0.85) !important;
+            z-index: 5 !important;
           }
-          .hero-stat-cell-2 {
-            border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-bottom: none !important;
-          }
+          .hero-stat-cell-0,
+          .hero-stat-cell-1,
+          .hero-stat-cell-2,
           .hero-stat-cell-3 {
-            border-right: none !important;
-            border-bottom: none !important;
+            border: none !important;
+          }
+          .hero-stat-cell-0::after,
+          .hero-stat-cell-1::after,
+          .hero-stat-cell-2::after {
+            display: none !important;
           }
           .hero-stat-icon-wrapper {
             width: 44px !important;
@@ -577,6 +615,36 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             padding: 0.25rem !important;
             border: 1.5px solid rgba(197, 168, 128, 0.38) !important;
             background: linear-gradient(155deg, rgba(14, 22, 18, 0.88) 0%, rgba(7, 12, 10, 0.96) 100%) !important;
+            position: relative !important;
+            overflow: hidden !important;
+          }
+          /* Crisp, straight vertical cross divider line */
+          .hero-floating-stats-grid::before {
+            content: '' !important;
+            display: block !important;
+            position: absolute !important;
+            left: 50% !important;
+            top: 0 !important;
+            bottom: 0 !important;
+            width: 1px !important;
+            transform: translateX(-50%) !important;
+            background: rgba(255, 255, 255, 0.12) !important;
+            pointer-events: none !important;
+            z-index: 2 !important;
+          }
+          /* Crisp, straight horizontal cross divider line */
+          .hero-floating-stats-grid::after {
+            content: '' !important;
+            display: block !important;
+            position: absolute !important;
+            top: 50% !important;
+            left: 0 !important;
+            right: 0 !important;
+            height: 1px !important;
+            transform: translateY(-50%) !important;
+            background: rgba(255, 255, 255, 0.12) !important;
+            pointer-events: none !important;
+            z-index: 2 !important;
           }
           .hero-stat-pillar {
             flex-direction: row !important;
@@ -584,22 +652,21 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             text-align: left !important;
             padding: 0.95rem 0.75rem !important;
             gap: 0.7rem !important;
+            border-radius: 12px !important;
+            position: relative !important;
           }
-          .hero-stat-cell-0 {
-            border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+          .hero-stat-pillar:not(.hero-stat-active) {
+            border: 1.5px solid transparent !important;
           }
-          .hero-stat-cell-1 {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-right: none !important;
+          .hero-stat-pillar.hero-stat-active {
+            border: 1.5px solid rgba(229, 203, 163, 0.85) !important;
+            z-index: 5 !important;
           }
-          .hero-stat-cell-2 {
-            border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-bottom: none !important;
-          }
+          .hero-stat-cell-0,
+          .hero-stat-cell-1,
+          .hero-stat-cell-2,
           .hero-stat-cell-3 {
-            border-right: none !important;
-            border-bottom: none !important;
+            border: none !important;
           }
           .hero-stat-icon-wrapper {
             width: 42px !important;
