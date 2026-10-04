@@ -440,20 +440,20 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           .hero-floating-stats-grid {
             grid-template-columns: repeat(2, 1fr) !important;
             border-radius: 22px !important;
-            gap: 1.25rem 0.85rem !important;
-            padding: 1.35rem 1rem !important;
+            gap: 1.1rem 0.85rem !important;
+            padding: 1.15rem 1rem !important;
           }
           .hero-stat-pillar {
             flex-direction: column !important;
             align-items: center !important;
             text-align: center !important;
-            padding: 0.65rem 0.5rem !important;
+            padding: 0.35rem 0.35rem !important;
           }
           .hero-stat-icon-wrapper {
-            width: 48px !important;
-            height: 48px !important;
-            border-radius: 14px !important;
-            margin-bottom: 0.65rem !important;
+            width: 44px !important;
+            height: 44px !important;
+            border-radius: 13px !important;
+            margin-bottom: 0.45rem !important;
           }
         }
         @media (max-width: 768px) {
@@ -491,9 +491,9 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           }
           .hero-floating-stats-grid {
             grid-template-columns: repeat(2, 1fr) !important;
-            border-radius: 24px !important;
-            padding: 1.5rem 1rem !important;
-            gap: 1.4rem 0.75rem !important;
+            border-radius: 22px !important;
+            padding: 1.15rem 0.85rem !important;
+            gap: 1.05rem 0.65rem !important;
             border: 1.5px solid rgba(197, 168, 128, 0.38) !important;
             background: linear-gradient(155deg, rgba(14, 22, 18, 0.88) 0%, rgba(7, 12, 10, 0.96) 100%) !important;
           }
@@ -501,36 +501,36 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             flex-direction: column !important;
             align-items: center !important;
             text-align: center !important;
-            padding: 0.35rem 0.25rem !important;
+            padding: 0.2rem 0.25rem !important;
           }
           .hero-stat-icon-wrapper {
-            width: 48px !important;
-            height: 48px !important;
-            min-width: 48px !important;
-            border-radius: 14px !important;
+            width: 44px !important;
+            height: 44px !important;
+            min-width: 44px !important;
+            border-radius: 13px !important;
             border: 1.5px solid rgba(197, 168, 128, 0.42) !important;
-            margin-bottom: 0.65rem !important;
+            margin-bottom: 0.45rem !important;
           }
           .hero-stat-val {
-            font-size: clamp(1.65rem, 5.5vw, 1.85rem) !important;
+            font-size: clamp(1.55rem, 5.2vw, 1.75rem) !important;
             font-weight: 700 !important;
-            margin-bottom: 0.2rem !important;
+            margin-bottom: 0.15rem !important;
             line-height: 1.1 !important;
           }
           .hero-stat-lbl {
-            font-size: 0.82rem !important;
-            line-height: 1.25 !important;
-            margin-bottom: 0.15rem !important;
+            font-size: 0.8rem !important;
+            line-height: 1.22 !important;
+            margin-bottom: 0.12rem !important;
             font-weight: 600 !important;
           }
           .hero-stat-sub {
-            font-size: 0.68rem !important;
-            line-height: 1.25 !important;
+            font-size: 0.66rem !important;
+            line-height: 1.22 !important;
             color: rgba(237, 232, 223, 0.55) !important;
           }
           .hero-scroll-indicator {
-            padding-top: 1.15rem !important;
-            padding-bottom: 0.65rem !important;
+            padding-top: 1rem !important;
+            padding-bottom: 0.5rem !important;
           }
         }
       `}</style>
