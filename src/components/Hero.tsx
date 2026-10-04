@@ -302,59 +302,58 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                   {getStatIcon(st.icon)}
                 </div>
 
-                {/* Stat Value with Luminous Gold Text Shadow */}
-                <div
-                  className="hero-stat-val"
-                  style={{
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: 'clamp(1.55rem, 2.1vw, 2.1rem)',
-                    fontWeight: 700,
-                    color: '#FFFFFF',
-                    lineHeight: 1.1,
-                    marginBottom: '0.25rem',
-                    letterSpacing: '-0.015em',
-                    textShadow: isActive
-                      ? '0 0 20px rgba(229, 203, 163, 0.65), 0 2px 6px rgba(0, 0, 0, 0.9)'
-                      : 'none',
-                    transition: 'text-shadow 0.3s ease',
-                  }}
-                >
-                  {st.value}
-                </div>
+                {/* Stat Text Stack */}
+                <div className="hero-stat-info">
+                  {/* Stat Value with Luminous Gold Text Shadow */}
+                  <div
+                    className="hero-stat-val"
+                    style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: 'clamp(1.55rem, 2.1vw, 2.1rem)',
+                      fontWeight: 700,
+                      color: '#FFFFFF',
+                      lineHeight: 1.1,
+                      marginBottom: '0.25rem',
+                      letterSpacing: '-0.015em',
+                      textShadow: isActive
+                        ? '0 0 20px rgba(229, 203, 163, 0.65), 0 2px 6px rgba(0, 0, 0, 0.9)'
+                        : 'none',
+                      transition: 'text-shadow 0.3s ease',
+                    }}
+                  >
+                    {st.value.includes('+') ? st.value.replace('+', ' +') : st.value}
+                  </div>
 
-                {/* Stat Label */}
-                <div
-                  className="hero-stat-lbl"
-                  style={{
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: '0.82rem',
-                    fontWeight: 600,
-                    color: isGoldLabel ? '#D4B280' : '#FFFFFF',
-                    lineHeight: 1.25,
-                    marginBottom: '0.15rem',
-                    transition: 'color 0.3s ease',
-                  }}
-                >
-                  {st.label === 'Verified Background KYC' ? (
-                    <>Verified Background<br />KYC</>
-                  ) : (
-                    st.label
-                  )}
-                </div>
+                  {/* Stat Label */}
+                  <div
+                    className="hero-stat-lbl"
+                    style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '0.82rem',
+                      fontWeight: 600,
+                      color: isGoldLabel ? '#D4B280' : '#FFFFFF',
+                      lineHeight: 1.25,
+                      marginBottom: '0.15rem',
+                      transition: 'color 0.3s ease',
+                    }}
+                  >
+                    {st.label}
+                  </div>
 
-                {/* Stat Sublabel */}
-                <div
-                  className="hero-stat-sub"
-                  style={{
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: '0.68rem',
-                    color: isActive ? '#E5CBA3' : 'rgba(237, 232, 223, 0.55)',
-                    fontWeight: 400,
-                    lineHeight: 1.25,
-                    transition: 'color 0.3s ease',
-                  }}
-                >
-                  {st.sublabel}
+                  {/* Stat Sublabel */}
+                  <div
+                    className="hero-stat-sub"
+                    style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '0.68rem',
+                      color: isActive ? '#E5CBA3' : 'rgba(237, 232, 223, 0.55)',
+                      fontWeight: 400,
+                      lineHeight: 1.25,
+                      transition: 'color 0.3s ease',
+                    }}
+                  >
+                    {st.sublabel}
+                  </div>
                 </div>
 
                 {/* Bottom Luminous Accent Hairline when Active */}
@@ -432,6 +431,17 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
 
       <style>{`
         @media (min-width: 992px) {
+          .hero-stat-pillar {
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+          }
+          .hero-stat-info {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+          }
           .hero-stat-cell-0, .hero-stat-cell-1, .hero-stat-cell-2 {
             border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
           }
@@ -439,21 +449,65 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
         @media (max-width: 991px) {
           .hero-floating-stats-grid {
             grid-template-columns: repeat(2, 1fr) !important;
-            border-radius: 22px !important;
-            gap: 1.1rem 0.85rem !important;
-            padding: 1.15rem 1rem !important;
+            border-radius: 20px !important;
+            gap: 0 !important;
+            padding: 0.25rem !important;
           }
           .hero-stat-pillar {
-            flex-direction: column !important;
+            flex-direction: row !important;
             align-items: center !important;
-            text-align: center !important;
-            padding: 0.35rem 0.35rem !important;
+            text-align: left !important;
+            padding: 0.95rem 0.85rem !important;
+            gap: 0.75rem !important;
+          }
+          .hero-stat-cell-0 {
+            border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+          }
+          .hero-stat-cell-1 {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-right: none !important;
+          }
+          .hero-stat-cell-2 {
+            border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-bottom: none !important;
+          }
+          .hero-stat-cell-3 {
+            border-right: none !important;
+            border-bottom: none !important;
           }
           .hero-stat-icon-wrapper {
             width: 44px !important;
             height: 44px !important;
-            border-radius: 13px !important;
-            margin-bottom: 0.45rem !important;
+            min-width: 44px !important;
+            border-radius: 12px !important;
+            margin-bottom: 0 !important;
+            flex-shrink: 0 !important;
+          }
+          .hero-stat-info {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            text-align: left !important;
+            min-width: 0 !important;
+          }
+          .hero-stat-val {
+            font-size: 1.35rem !important;
+            font-weight: 700 !important;
+            margin-bottom: 0.15rem !important;
+            line-height: 1.1 !important;
+          }
+          .hero-stat-lbl {
+            font-size: 0.76rem !important;
+            line-height: 1.25 !important;
+            margin-bottom: 0.1rem !important;
+            font-weight: 600 !important;
+            color: #FFFFFF !important;
+          }
+          .hero-stat-sub {
+            font-size: 0.62rem !important;
+            line-height: 1.2 !important;
+            color: rgba(237, 232, 223, 0.55) !important;
           }
         }
         @media (max-width: 768px) {
@@ -491,41 +545,67 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           }
           .hero-floating-stats-grid {
             grid-template-columns: repeat(2, 1fr) !important;
-            border-radius: 22px !important;
-            padding: 1.15rem 0.85rem !important;
-            gap: 1.05rem 0.65rem !important;
+            border-radius: 20px !important;
+            gap: 0 !important;
+            padding: 0.25rem !important;
             border: 1.5px solid rgba(197, 168, 128, 0.38) !important;
             background: linear-gradient(155deg, rgba(14, 22, 18, 0.88) 0%, rgba(7, 12, 10, 0.96) 100%) !important;
           }
           .hero-stat-pillar {
-            flex-direction: column !important;
+            flex-direction: row !important;
             align-items: center !important;
-            text-align: center !important;
-            padding: 0.2rem 0.25rem !important;
+            text-align: left !important;
+            padding: 0.95rem 0.75rem !important;
+            gap: 0.7rem !important;
+          }
+          .hero-stat-cell-0 {
+            border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+          }
+          .hero-stat-cell-1 {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-right: none !important;
+          }
+          .hero-stat-cell-2 {
+            border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-bottom: none !important;
+          }
+          .hero-stat-cell-3 {
+            border-right: none !important;
+            border-bottom: none !important;
           }
           .hero-stat-icon-wrapper {
-            width: 44px !important;
-            height: 44px !important;
-            min-width: 44px !important;
-            border-radius: 13px !important;
+            width: 42px !important;
+            height: 42px !important;
+            min-width: 42px !important;
+            border-radius: 12px !important;
             border: 1.5px solid rgba(197, 168, 128, 0.42) !important;
-            margin-bottom: 0.45rem !important;
+            margin-bottom: 0 !important;
+            flex-shrink: 0 !important;
+          }
+          .hero-stat-info {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            text-align: left !important;
+            min-width: 0 !important;
           }
           .hero-stat-val {
-            font-size: clamp(1.55rem, 5.2vw, 1.75rem) !important;
+            font-size: clamp(1.3rem, 4vw, 1.45rem) !important;
             font-weight: 700 !important;
             margin-bottom: 0.15rem !important;
             line-height: 1.1 !important;
           }
           .hero-stat-lbl {
-            font-size: 0.8rem !important;
-            line-height: 1.22 !important;
-            margin-bottom: 0.12rem !important;
+            font-size: 0.74rem !important;
+            line-height: 1.2 !important;
+            margin-bottom: 0.1rem !important;
             font-weight: 600 !important;
+            color: #FFFFFF !important;
           }
           .hero-stat-sub {
-            font-size: 0.66rem !important;
-            line-height: 1.22 !important;
+            font-size: 0.62rem !important;
+            line-height: 1.2 !important;
             color: rgba(237, 232, 223, 0.55) !important;
           }
           .hero-scroll-indicator {
