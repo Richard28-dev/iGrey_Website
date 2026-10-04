@@ -100,8 +100,8 @@ export const siteContent = {
   about: {
     eyebrow: 'THE iGREY ADVANTAGE',
     headingPart1: 'Why Choose',
-    headingPart2: 'iGrey Holdings?',
-    heading: 'Why Choose iGrey Holdings?',
+    headingPart2: 'iGH?',
+    heading: 'Why Choose iGH?',
     subtitle:
       'We provide a seamless and transparent experience for both homeowners and tenants.',
     features: [
@@ -262,7 +262,7 @@ export const siteContent = {
   testimonials: {
     eyebrow: 'CLIENT EXPERIENCES',
     heading: 'Trusted Through Every Step.',
-    subtitle: 'Hear from our clients about their journey and experience with iGREY Holdings.',
+    subtitle: 'Hear from our clients about their journey and experience with iGH.',
     featured: {
       quote:
         'Professional, responsive and genuinely focused on our needs. We felt supported at every stage of the journey.',

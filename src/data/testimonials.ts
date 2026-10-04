@@ -2,7 +2,7 @@ import type { Testimonial } from '../types';
 
 export const testimonialsData: Testimonial[] = [
   {
-    quote: "iGrey Holdings approaches real estate with discretion, architectural discernment, and flawless execution.",
+    quote: "iGH approaches real estate with discretion, architectural discernment, and flawless execution.",
     client: "Julian Sterling",
     role: "Private Investor",
     property: "The Solarium Pavilion",

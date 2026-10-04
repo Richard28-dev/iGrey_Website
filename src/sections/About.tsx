@@ -120,7 +120,7 @@ export const About: React.FC<AboutProps> = ({ onDiscoverStory }) => {
                   fontWeight: 600,
                 }}
               >
-                ABOUT iGREY HOLDINGS
+                ABOUT iGH
               </span>
             </div>
 
@@ -150,7 +150,7 @@ export const About: React.FC<AboutProps> = ({ onDiscoverStory }) => {
                 marginBottom: '1rem',
               }}
             >
-              iGrey Holdings is a modern real-estate company dedicated to connecting people with quality properties and meaningful opportunities.
+              iGH is a modern real-estate company dedicated to connecting people with quality properties and meaningful opportunities.
             </p>
 
             {/* Paragraph 2 */}

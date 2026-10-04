@@ -102,7 +102,7 @@ export const Contact: React.FC = () => {
                 margin: '0 0 1rem 0',
               }}
             >
-              Contact iGrey Holdings
+              Contact iGH
             </h2>
 
             <p
@@ -116,7 +116,7 @@ export const Contact: React.FC = () => {
                 fontWeight: 400,
               }}
             >
-              Have questions or want to partner with us? Leave your message and our team at iGrey Holdings will get back to you shortly.
+              Have questions or want to partner with us? Leave your message and our team at iGH will get back to you shortly.
             </p>
 
             {/* High-End Architectural Property Image replacing blurry traffic image */}
@@ -202,7 +202,7 @@ export const Contact: React.FC = () => {
                       margin: '0 auto 2rem auto',
                     }}
                   >
-                    Thank you for reaching out to iGrey Holdings. Our advisory team has received your inquiry and will contact you shortly.
+                    Thank you for reaching out to iGH. Our advisory team has received your inquiry and will contact you shortly.
                   </p>
                   <button
                     onClick={() => setIsSuccess(false)}

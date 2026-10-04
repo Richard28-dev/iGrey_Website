@@ -86,7 +86,7 @@ export const About: React.FC = () => {
             </span>
           </div>
 
-          {/* Headline: Why Choose iGrey Holdings? */}
+          {/* Headline: Why Choose iGH? */}
           <h2
             style={{
               fontFamily: 'var(--font-serif)',
@@ -105,7 +105,7 @@ export const About: React.FC = () => {
                 color: 'var(--bronze-hi)',
               }}
             >
-              {headingPart2 || 'iGrey Holdings?'}
+              {headingPart2 || 'iGH?'}
             </span>
           </h2>
 

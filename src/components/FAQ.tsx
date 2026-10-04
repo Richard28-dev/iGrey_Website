@@ -10,9 +10,9 @@ interface FAQItem {
 
 const faqList: FAQItem[] = [
   {
-    question: 'How does iGrey Holdings guarantee on-time rent payouts?',
+    question: 'How does iGH guarantee on-time rent payouts?',
     answer:
-      'iGrey Holdings utilizes an institutional-grade automated rental payout mechanism. Homeowners receive guaranteed monthly rental deposits directly into their designated bank accounts on or before the 5th of every month, regardless of tenant collection cycles.',
+      'iGH utilizes an institutional-grade automated rental payout mechanism. Homeowners receive guaranteed monthly rental deposits directly into their designated bank accounts on or before the 5th of every month, regardless of tenant collection cycles.',
   },
   {
     question: 'What background verification is performed on tenants?',
@@ -32,7 +32,7 @@ const faqList: FAQItem[] = [
   {
     question: 'Are there any hidden brokerages or commission fees for tenants?',
     answer:
-      'No. iGrey Holdings adheres to complete pricing transparency with zero brokerage on curated residential stays. All terms, utility allocations, and security deposits are clearly documented upfront with zero surprise fees.',
+      'No. iGH adheres to complete pricing transparency with zero brokerage on curated residential stays. All terms, utility allocations, and security deposits are clearly documented upfront with zero surprise fees.',
   },
   {
     question: 'What is the difference between Monthly Rent and Long-Term Lease?',
