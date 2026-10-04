@@ -431,10 +431,20 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
 
       <style>{`
         @media (min-width: 992px) {
+          .hero-floating-stats-grid {
+            grid-template-columns: repeat(4, 1fr) !important;
+            gap: 0 !important;
+            padding: 1.35rem 1rem !important;
+            align-items: center !important;
+          }
           .hero-stat-pillar {
             flex-direction: column !important;
             align-items: center !important;
             text-align: center !important;
+            padding: 0.85rem 1rem !important;
+            border-radius: 14px !important;
+            position: relative !important;
+            border-right: none !important;
           }
           .hero-stat-info {
             display: flex !important;
@@ -442,8 +452,25 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             align-items: center !important;
             text-align: center !important;
           }
-          .hero-stat-cell-0, .hero-stat-cell-1, .hero-stat-cell-2 {
-            border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+          /* Perfectly straight, centered vertical hairline between columns */
+          .hero-stat-cell-0::after,
+          .hero-stat-cell-1::after,
+          .hero-stat-cell-2::after {
+            content: '' !important;
+            position: absolute !important;
+            right: 0 !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            width: 1px !important;
+            height: 65% !important;
+            background: linear-gradient(
+              180deg,
+              rgba(197, 168, 128, 0) 0%,
+              rgba(197, 168, 128, 0.45) 20%,
+              rgba(197, 168, 128, 0.45) 80%,
+              rgba(197, 168, 128, 0) 100%
+            ) !important;
+            pointer-events: none !important;
           }
         }
         @media (max-width: 991px) {
