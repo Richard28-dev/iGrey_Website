@@ -42,8 +42,19 @@ Error generating stack: `+e.message+`
             padding: 1.15rem 0 !important;
           }
         }
-      `})]})},qf=`/iGrey_Website/`,Jf=e=>`${qf.endsWith(`/`)?qf:qf+`/`}images/${e}`,Yf={heroResidential:{src:Jf(`hero_residential.jpg`),alt:`Cantilevered glass luxury villa with twilight infinity pool reflections`,width:2e3,height:1125},heroCommercial:{src:Jf(`hero_commercial.jpg`),alt:`Modern architectural commercial glass tower at golden hour sunset`,width:2e3,height:1125},heroInvestment:{src:Jf(`hero_investment.jpg`),alt:`Contemporary waterfront residences and investment apartment pavilions at dusk`,width:2e3,height:1125},heroAdvisory:{src:Jf(`hero_advisory.jpg`),alt:`Double-height luxury penthouse interior with panoramic sunset horizon views`,width:2e3,height:1125},aboutTerrace:{src:Jf(`about_terrace.jpg`),alt:`Open-concept living pavilion and wooden sun deck overlooking sunset coastal skyline`,width:1400,height:1050},serviceAdvisory:{src:Jf(`service_advisory.jpg`),alt:`Private client advisory suite with marble conference table and architectural blueprints`,width:1200,height:900},serviceSales:{src:Jf(`service_sales.jpg`),alt:`High-ceiling modern luxury residence gallery and open terrace foyer`,width:1200,height:900},serviceInvestment:{src:Jf(`service_investment.jpg`),alt:`Architectural scale model of prime city developments and analytical blueprints`,width:1200,height:900},serviceManagement:{src:Jf(`service_management.jpg`),alt:`Luxury private residence reception desk and concierge hospitality lounge`,width:1200,height:900},propSolarium:{src:Jf(`prop_solarium.jpg`),alt:`The Solarium Pavilion — White three-storey modern villa with swimming pool`,width:1600,height:1200},propObscura:{src:Jf(`prop_obscura.jpg`),alt:`Villa Obscura — Contemporary dining room with floating staircase in Lake Como`,width:1600,height:1200},propApex:{src:Jf(`prop_apex.jpg`),alt:`The Apex Penthouse — Modern luxury villa with plunge pool and palm tree`,width:1600,height:1200},propFeatured:{src:Jf(`prop_solarium.jpg`),alt:`The Solarium Pavilion — White three-storey modern villa with swimming pool`,width:1600,height:1200},propPenthouse:{src:Jf(`prop_apex.jpg`),alt:`The Apex Penthouse — Modern luxury villa with plunge pool and palm tree`,width:1600,height:1200},propEstate:{src:Jf(`prop_obscura.jpg`),alt:`Villa Obscura — Contemporary dining room with floating staircase in Lake Como`,width:1600,height:1200},whyIgrey:{src:Jf(`why_igrey.jpg`),alt:`Modern concrete architectural residence surrounded by lush tropical landscaping`,width:1200,height:900},faqSkyline:{src:Jf(`faq_skyline.jpg`),alt:`Panoramic city skyline of modern towers across water at golden hour sunset`,width:1600,height:900},contactVilla:{src:Jf(`contact_villa.jpg`),alt:`Architectural villa at twilight framed by reflection waters`,width:1600,height:900}},Xf=({onExploreClick:e})=>{let[t,n]=(0,_.useState)(null),{headlinePart1:r,headlinePart2:i,subtitle:a,primaryCta:o,stats:s}=Wf.hero,c=Yf.heroResidential,l=()=>{e?e():de(`#properties`,{offset:-40,duration:1.25})},u=e=>{switch(e){case`users`:return(0,B.jsx)(Bf,{size:19,color:`var(--bronze-hi)`,strokeWidth:1.8});case`building`:return(0,B.jsx)(vf,{size:19,color:`var(--bronze-hi)`,strokeWidth:1.8});case`trending`:return(0,B.jsx)(If,{size:19,color:`var(--bronze-hi)`,strokeWidth:1.8});default:return(0,B.jsx)(Pf,{size:19,color:`var(--bronze-hi)`,strokeWidth:1.8})}};return(0,B.jsxs)(`section`,{id:`hero`,className:`hero-section`,style:{position:`relative`,minHeight:`100vh`,width:`100%`,display:`flex`,flexDirection:`column`,justifyContent:`space-between`,overflow:`hidden`,backgroundColor:`#090D0B`,color:`#FFFFFF`,paddingTop:`clamp(7.5rem, 11vw, 10rem)`},children:[(0,B.jsxs)(`div`,{style:{position:`absolute`,inset:0,overflow:`hidden`,zIndex:1},children:[(0,B.jsx)(`img`,{src:c.src,alt:c.alt,width:c.width,height:c.height,loading:`eager`,fetchPriority:`high`,decoding:`async`,style:{width:`100%`,height:`100%`,objectFit:`cover`,objectPosition:`center 45%`,filter:`brightness(0.85) contrast(1.06) saturate(1.12)`}}),(0,B.jsx)(`div`,{style:{position:`absolute`,inset:0,background:`linear-gradient(90deg, rgba(8, 13, 11, 0.72) 0%, rgba(8, 13, 11, 0.45) 45%, rgba(8, 13, 11, 0.15) 75%, rgba(8, 13, 11, 0.3) 100%)`,pointerEvents:`none`}}),(0,B.jsx)(`div`,{style:{position:`absolute`,inset:0,background:`linear-gradient(180deg, rgba(7, 12, 10, 0.55) 0%, rgba(7, 12, 10, 0.1) 40%, rgba(7, 12, 10, 0.6) 80%, rgba(7, 12, 10, 0.95) 100%)`,pointerEvents:`none`}})]}),(0,B.jsx)(`div`,{className:`container hero-main-content`,style:{position:`relative`,zIndex:10,width:`100%`,display:`flex`,flexDirection:`column`,justifyContent:`center`,flexGrow:1},children:(0,B.jsxs)(`div`,{style:{maxWidth:`820px`},children:[(0,B.jsxs)(W.h1,{initial:{opacity:0,y:22},animate:{opacity:1,y:0},transition:{duration:.9,delay:.25,ease:[.16,1,.3,1]},className:`hero-headline`,style:{fontFamily:`var(--font-serif)`,fontSize:`clamp(2.9rem, 5.8vw, 5.6rem)`,lineHeight:1.08,fontWeight:400,color:`#FFFFFF`,letterSpacing:`-0.02em`,marginBottom:`1.5rem`},children:[r||`Where Trust Meets`,` `,(0,B.jsx)(`span`,{style:{fontStyle:`italic`,color:`var(--bronze-hi)`,display:`block`},children:i||`Architectural Grandeur.`})]}),(0,B.jsx)(W.p,{initial:{opacity:0,y:18},animate:{opacity:1,y:0},transition:{duration:.8,delay:.45,ease:[.16,1,.3,1]},className:`hero-subtitle`,style:{fontFamily:`var(--font-sans)`,fontSize:`clamp(1rem, 1.25vw, 1.2rem)`,lineHeight:1.65,color:`rgba(255, 255, 255, 0.88)`,maxWidth:`580px`,marginBottom:`2.5rem`,fontWeight:300},children:a}),(0,B.jsx)(W.div,{initial:{opacity:0,y:18},animate:{opacity:1,y:0},transition:{duration:.8,delay:.6,ease:[.16,1,.3,1]},children:(0,B.jsxs)(`button`,{onClick:l,className:`btn-bronze hero-cta-btn`,style:{padding:`1rem 2.25rem`,fontSize:`0.95rem`,fontWeight:600,letterSpacing:`0.04em`,borderRadius:`8px`,display:`inline-flex`,alignItems:`center`,gap:`0.75rem`,boxShadow:`0 10px 28px rgba(0, 0, 0, 0.35)`,transition:`all 0.3s ease`},onMouseEnter:e=>{e.currentTarget.style.transform=`translateY(-2px)`,e.currentTarget.style.boxShadow=`0 14px 34px rgba(197, 168, 128, 0.4)`},onMouseLeave:e=>{e.currentTarget.style.transform=`translateY(0)`,e.currentTarget.style.boxShadow=`0 10px 28px rgba(0, 0, 0, 0.35)`},children:[(0,B.jsx)(`span`,{children:o.replace(`→`,``).trim()}),(0,B.jsx)(pf,{size:18})]})})]})}),(0,B.jsxs)(`div`,{className:`container hero-stats-container`,style:{position:`relative`,zIndex:10,width:`100%`,paddingBottom:`clamp(0.75rem, 2vw, 1.5rem)`,paddingTop:`0.75rem`},children:[(0,B.jsx)(W.div,{initial:{opacity:0,y:20},animate:{opacity:1,y:0},transition:{duration:.9,delay:.75,ease:[.16,1,.3,1]},style:{maxWidth:`1020px`,margin:`0 auto`,background:`linear-gradient(155deg, rgba(14, 22, 18, 0.88) 0%, rgba(7, 12, 10, 0.96) 100%)`,backdropFilter:`blur(20px)`,WebkitBackdropFilter:`blur(20px)`,border:`1.5px solid rgba(197, 168, 128, 0.38)`,borderRadius:`22px`,boxShadow:`0 24px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.12)`,padding:`1.4rem 1.6rem`,display:`grid`,gridTemplateColumns:`repeat(4, 1fr)`,gap:`1rem`,alignItems:`stretch`},className:`hero-floating-stats-grid`,children:s.map((e,r)=>{let i=t===r,a=r===1;return(0,B.jsxs)(W.div,{onClick:()=>n(e=>e===r?null:r),whileHover:i?void 0:{y:-4,scale:1.02},whileTap:{scale:.97},animate:i?{y:[-4,-9,-4],scale:1.03}:{y:0,scale:1},transition:i?{y:{repeat:1/0,duration:2.4,ease:`easeInOut`},scale:{duration:.3,ease:[.16,1,.3,1]}}:{duration:.3,ease:[.16,1,.3,1]},style:{display:`flex`,flexDirection:`column`,alignItems:`center`,textAlign:`center`,padding:`0.85rem 0.65rem`,borderRadius:`16px`,cursor:`pointer`,position:`relative`,userSelect:`none`,border:i?`1.5px solid rgba(229, 203, 163, 0.85)`:`1.5px solid transparent`,background:i?`linear-gradient(180deg, rgba(35, 54, 43, 0.85) 0%, rgba(14, 23, 18, 0.95) 100%)`:`transparent`,boxShadow:i?`0 16px 36px rgba(0, 0, 0, 0.65), 0 0 24px rgba(197, 168, 128, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2)`:`none`,transition:`background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease`},className:`hero-stat-pillar hero-stat-cell-${r}`,children:[(0,B.jsx)(`div`,{className:`hero-stat-icon-wrapper`,style:{width:`48px`,height:`48px`,borderRadius:`14px`,background:i?`rgba(197, 168, 128, 0.25)`:`rgba(10, 16, 13, 0.85)`,border:i?`1.5px solid #E8D5B7`:`1.5px solid rgba(197, 168, 128, 0.4)`,display:`flex`,alignItems:`center`,justifyContent:`center`,marginBottom:`0.75rem`,boxShadow:i?`0 0 16px rgba(197, 168, 128, 0.75), 0 4px 10px rgba(0, 0, 0, 0.4)`:`0 4px 12px rgba(0, 0, 0, 0.35)`,transition:`all 0.3s ease`,flexShrink:0},children:u(e.icon)}),(0,B.jsx)(`div`,{className:`hero-stat-val`,style:{fontFamily:`var(--font-sans)`,fontSize:`clamp(1.55rem, 2.1vw, 2.1rem)`,fontWeight:700,color:`#FFFFFF`,lineHeight:1.1,marginBottom:`0.25rem`,letterSpacing:`-0.015em`,textShadow:i?`0 0 20px rgba(229, 203, 163, 0.65), 0 2px 6px rgba(0, 0, 0, 0.9)`:`none`,transition:`text-shadow 0.3s ease`},children:e.value}),(0,B.jsx)(`div`,{className:`hero-stat-lbl`,style:{fontFamily:`var(--font-sans)`,fontSize:`0.82rem`,fontWeight:600,color:a?`#D4B280`:`#FFFFFF`,lineHeight:1.25,marginBottom:`0.15rem`,transition:`color 0.3s ease`},children:e.label===`Verified Background KYC`?(0,B.jsxs)(B.Fragment,{children:[`Verified Background`,(0,B.jsx)(`br`,{}),`KYC`]}):e.label}),(0,B.jsx)(`div`,{className:`hero-stat-sub`,style:{fontFamily:`var(--font-sans)`,fontSize:`0.68rem`,color:i?`#E5CBA3`:`rgba(237, 232, 223, 0.55)`,fontWeight:400,lineHeight:1.25,transition:`color 0.3s ease`},children:e.sublabel}),i&&(0,B.jsx)(W.div,{initial:{width:0,opacity:0},animate:{width:`45px`,opacity:1},transition:{duration:.35},style:{position:`absolute`,bottom:`4px`,height:`2px`,backgroundColor:`#C5A880`,borderRadius:`1px`,boxShadow:`0 0 10px rgba(197, 168, 128, 0.9)`}})]},e.label)})}),(0,B.jsxs)(`div`,{className:`hero-scroll-indicator`,style:{display:`flex`,flexDirection:`column`,alignItems:`center`,paddingTop:`1rem`,paddingBottom:`0.5rem`,cursor:`pointer`,zIndex:10},onClick:()=>de(`#about`,{offset:-40,duration:1.2}),children:[(0,B.jsx)(`span`,{style:{fontFamily:`var(--font-sans)`,fontSize:`0.62rem`,letterSpacing:`0.24em`,textTransform:`uppercase`,color:`rgba(212, 178, 128, 0.85)`,fontWeight:600,marginBottom:`0.45rem`},children:`SCROLL TO EXPLORE`}),(0,B.jsx)(`div`,{style:{width:`20px`,height:`32px`,borderRadius:`12px`,border:`1.5px solid rgba(197, 168, 128, 0.55)`,display:`flex`,justifyContent:`center`,paddingTop:`5px`},children:(0,B.jsx)(W.div,{animate:{y:[0,9,0],opacity:[.95,.3,.95]},transition:{repeat:1/0,duration:1.6,ease:`easeInOut`},style:{width:`3px`,height:`6px`,borderRadius:`2px`,backgroundColor:`#C5A880`}})})]})]}),(0,B.jsx)(`style`,{children:`
+      `})]})},qf=`/iGrey_Website/`,Jf=e=>`${qf.endsWith(`/`)?qf:qf+`/`}images/${e}`,Yf={heroResidential:{src:Jf(`hero_residential.jpg`),alt:`Cantilevered glass luxury villa with twilight infinity pool reflections`,width:2e3,height:1125},heroCommercial:{src:Jf(`hero_commercial.jpg`),alt:`Modern architectural commercial glass tower at golden hour sunset`,width:2e3,height:1125},heroInvestment:{src:Jf(`hero_investment.jpg`),alt:`Contemporary waterfront residences and investment apartment pavilions at dusk`,width:2e3,height:1125},heroAdvisory:{src:Jf(`hero_advisory.jpg`),alt:`Double-height luxury penthouse interior with panoramic sunset horizon views`,width:2e3,height:1125},aboutTerrace:{src:Jf(`about_terrace.jpg`),alt:`Open-concept living pavilion and wooden sun deck overlooking sunset coastal skyline`,width:1400,height:1050},serviceAdvisory:{src:Jf(`service_advisory.jpg`),alt:`Private client advisory suite with marble conference table and architectural blueprints`,width:1200,height:900},serviceSales:{src:Jf(`service_sales.jpg`),alt:`High-ceiling modern luxury residence gallery and open terrace foyer`,width:1200,height:900},serviceInvestment:{src:Jf(`service_investment.jpg`),alt:`Architectural scale model of prime city developments and analytical blueprints`,width:1200,height:900},serviceManagement:{src:Jf(`service_management.jpg`),alt:`Luxury private residence reception desk and concierge hospitality lounge`,width:1200,height:900},propSolarium:{src:Jf(`prop_solarium.jpg`),alt:`The Solarium Pavilion — White three-storey modern villa with swimming pool`,width:1600,height:1200},propObscura:{src:Jf(`prop_obscura.jpg`),alt:`Villa Obscura — Contemporary dining room with floating staircase in Lake Como`,width:1600,height:1200},propApex:{src:Jf(`prop_apex.jpg`),alt:`The Apex Penthouse — Modern luxury villa with plunge pool and palm tree`,width:1600,height:1200},propFeatured:{src:Jf(`prop_solarium.jpg`),alt:`The Solarium Pavilion — White three-storey modern villa with swimming pool`,width:1600,height:1200},propPenthouse:{src:Jf(`prop_apex.jpg`),alt:`The Apex Penthouse — Modern luxury villa with plunge pool and palm tree`,width:1600,height:1200},propEstate:{src:Jf(`prop_obscura.jpg`),alt:`Villa Obscura — Contemporary dining room with floating staircase in Lake Como`,width:1600,height:1200},whyIgrey:{src:Jf(`why_igrey.jpg`),alt:`Modern concrete architectural residence surrounded by lush tropical landscaping`,width:1200,height:900},faqSkyline:{src:Jf(`faq_skyline.jpg`),alt:`Panoramic city skyline of modern towers across water at golden hour sunset`,width:1600,height:900},contactVilla:{src:Jf(`contact_villa.jpg`),alt:`Architectural villa at twilight framed by reflection waters`,width:1600,height:900}},Xf=({onExploreClick:e})=>{let[t,n]=(0,_.useState)(null),{headlinePart1:r,headlinePart2:i,subtitle:a,primaryCta:o,stats:s}=Wf.hero,c=Yf.heroResidential,l=()=>{e?e():de(`#properties`,{offset:-40,duration:1.25})},u=e=>{switch(e){case`users`:return(0,B.jsx)(Bf,{size:19,color:`var(--bronze-hi)`,strokeWidth:1.8});case`building`:return(0,B.jsx)(vf,{size:19,color:`var(--bronze-hi)`,strokeWidth:1.8});case`trending`:return(0,B.jsx)(If,{size:19,color:`var(--bronze-hi)`,strokeWidth:1.8});default:return(0,B.jsx)(Pf,{size:19,color:`var(--bronze-hi)`,strokeWidth:1.8})}};return(0,B.jsxs)(`section`,{id:`hero`,className:`hero-section`,style:{position:`relative`,minHeight:`100vh`,width:`100%`,display:`flex`,flexDirection:`column`,justifyContent:`space-between`,overflow:`hidden`,backgroundColor:`#090D0B`,color:`#FFFFFF`,paddingTop:`clamp(7.5rem, 11vw, 10rem)`},children:[(0,B.jsxs)(`div`,{style:{position:`absolute`,inset:0,overflow:`hidden`,zIndex:1},children:[(0,B.jsx)(`img`,{src:c.src,alt:c.alt,width:c.width,height:c.height,loading:`eager`,fetchPriority:`high`,decoding:`async`,style:{width:`100%`,height:`100%`,objectFit:`cover`,objectPosition:`center 45%`,filter:`brightness(0.85) contrast(1.06) saturate(1.12)`}}),(0,B.jsx)(`div`,{style:{position:`absolute`,inset:0,background:`linear-gradient(90deg, rgba(8, 13, 11, 0.72) 0%, rgba(8, 13, 11, 0.45) 45%, rgba(8, 13, 11, 0.15) 75%, rgba(8, 13, 11, 0.3) 100%)`,pointerEvents:`none`}}),(0,B.jsx)(`div`,{style:{position:`absolute`,inset:0,background:`linear-gradient(180deg, rgba(7, 12, 10, 0.55) 0%, rgba(7, 12, 10, 0.1) 40%, rgba(7, 12, 10, 0.6) 80%, rgba(7, 12, 10, 0.95) 100%)`,pointerEvents:`none`}})]}),(0,B.jsx)(`div`,{className:`container hero-main-content`,style:{position:`relative`,zIndex:10,width:`100%`,display:`flex`,flexDirection:`column`,justifyContent:`center`,flexGrow:1},children:(0,B.jsxs)(`div`,{style:{maxWidth:`820px`},children:[(0,B.jsxs)(W.h1,{initial:{opacity:0,y:22},animate:{opacity:1,y:0},transition:{duration:.9,delay:.25,ease:[.16,1,.3,1]},className:`hero-headline`,style:{fontFamily:`var(--font-serif)`,fontSize:`clamp(2.9rem, 5.8vw, 5.6rem)`,lineHeight:1.08,fontWeight:400,color:`#FFFFFF`,letterSpacing:`-0.02em`,marginBottom:`1.5rem`},children:[r||`Where Trust Meets`,` `,(0,B.jsx)(`span`,{style:{fontStyle:`italic`,color:`var(--bronze-hi)`,display:`block`},children:i||`Architectural Grandeur.`})]}),(0,B.jsx)(W.p,{initial:{opacity:0,y:18},animate:{opacity:1,y:0},transition:{duration:.8,delay:.45,ease:[.16,1,.3,1]},className:`hero-subtitle`,style:{fontFamily:`var(--font-sans)`,fontSize:`clamp(1rem, 1.25vw, 1.2rem)`,lineHeight:1.65,color:`rgba(255, 255, 255, 0.88)`,maxWidth:`580px`,marginBottom:`2.5rem`,fontWeight:300},children:a}),(0,B.jsx)(W.div,{initial:{opacity:0,y:18},animate:{opacity:1,y:0},transition:{duration:.8,delay:.6,ease:[.16,1,.3,1]},children:(0,B.jsxs)(`button`,{onClick:l,className:`btn-bronze hero-cta-btn`,style:{padding:`1rem 2.25rem`,fontSize:`0.95rem`,fontWeight:600,letterSpacing:`0.04em`,borderRadius:`8px`,display:`inline-flex`,alignItems:`center`,gap:`0.75rem`,boxShadow:`0 10px 28px rgba(0, 0, 0, 0.35)`,transition:`all 0.3s ease`},onMouseEnter:e=>{e.currentTarget.style.transform=`translateY(-2px)`,e.currentTarget.style.boxShadow=`0 14px 34px rgba(197, 168, 128, 0.4)`},onMouseLeave:e=>{e.currentTarget.style.transform=`translateY(0)`,e.currentTarget.style.boxShadow=`0 10px 28px rgba(0, 0, 0, 0.35)`},children:[(0,B.jsx)(`span`,{children:o.replace(`→`,``).trim()}),(0,B.jsx)(pf,{size:18})]})})]})}),(0,B.jsxs)(`div`,{className:`container hero-stats-container`,style:{position:`relative`,zIndex:10,width:`100%`,paddingBottom:`clamp(0.75rem, 2vw, 1.5rem)`,paddingTop:`0.75rem`},children:[(0,B.jsx)(W.div,{initial:{opacity:0,y:20},animate:{opacity:1,y:0},transition:{duration:.9,delay:.75,ease:[.16,1,.3,1]},style:{maxWidth:`1020px`,margin:`0 auto`,background:`linear-gradient(155deg, rgba(14, 22, 18, 0.88) 0%, rgba(7, 12, 10, 0.96) 100%)`,backdropFilter:`blur(20px)`,WebkitBackdropFilter:`blur(20px)`,border:`1.5px solid rgba(197, 168, 128, 0.38)`,borderRadius:`22px`,boxShadow:`0 24px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.12)`,padding:`1.4rem 1.6rem`,display:`grid`,gridTemplateColumns:`repeat(4, 1fr)`,gap:`1rem`,alignItems:`stretch`},className:`hero-floating-stats-grid`,children:s.map((e,r)=>{let i=t===r,a=r===1;return(0,B.jsxs)(W.div,{onClick:()=>n(e=>e===r?null:r),whileHover:i?void 0:{y:-4,scale:1.02},whileTap:{scale:.97},animate:i?{y:[-4,-9,-4],scale:1.03}:{y:0,scale:1},transition:i?{y:{repeat:1/0,duration:2.4,ease:`easeInOut`},scale:{duration:.3,ease:[.16,1,.3,1]}}:{duration:.3,ease:[.16,1,.3,1]},style:{display:`flex`,flexDirection:`column`,alignItems:`center`,textAlign:`center`,padding:`0.85rem 0.65rem`,borderRadius:`16px`,cursor:`pointer`,position:`relative`,userSelect:`none`,border:i?`1.5px solid rgba(229, 203, 163, 0.85)`:`1.5px solid transparent`,background:i?`linear-gradient(180deg, rgba(35, 54, 43, 0.85) 0%, rgba(14, 23, 18, 0.95) 100%)`:`transparent`,boxShadow:i?`0 16px 36px rgba(0, 0, 0, 0.65), 0 0 24px rgba(197, 168, 128, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2)`:`none`,transition:`background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease`},className:`hero-stat-pillar hero-stat-cell-${r}`,children:[(0,B.jsx)(`div`,{className:`hero-stat-icon-wrapper`,style:{width:`48px`,height:`48px`,borderRadius:`14px`,background:i?`rgba(197, 168, 128, 0.25)`:`rgba(10, 16, 13, 0.85)`,border:i?`1.5px solid #E8D5B7`:`1.5px solid rgba(197, 168, 128, 0.4)`,display:`flex`,alignItems:`center`,justifyContent:`center`,marginBottom:`0.75rem`,boxShadow:i?`0 0 16px rgba(197, 168, 128, 0.75), 0 4px 10px rgba(0, 0, 0, 0.4)`:`0 4px 12px rgba(0, 0, 0, 0.35)`,transition:`all 0.3s ease`,flexShrink:0},children:u(e.icon)}),(0,B.jsxs)(`div`,{className:`hero-stat-info`,children:[(0,B.jsx)(`div`,{className:`hero-stat-val`,style:{fontFamily:`var(--font-sans)`,fontSize:`clamp(1.55rem, 2.1vw, 2.1rem)`,fontWeight:700,color:`#FFFFFF`,lineHeight:1.1,marginBottom:`0.25rem`,letterSpacing:`-0.015em`,textShadow:i?`0 0 20px rgba(229, 203, 163, 0.65), 0 2px 6px rgba(0, 0, 0, 0.9)`:`none`,transition:`text-shadow 0.3s ease`},children:e.value.includes(`+`)?e.value.replace(`+`,` +`):e.value}),(0,B.jsx)(`div`,{className:`hero-stat-lbl`,style:{fontFamily:`var(--font-sans)`,fontSize:`0.82rem`,fontWeight:600,color:a?`#D4B280`:`#FFFFFF`,lineHeight:1.25,marginBottom:`0.15rem`,transition:`color 0.3s ease`},children:e.label}),(0,B.jsx)(`div`,{className:`hero-stat-sub`,style:{fontFamily:`var(--font-sans)`,fontSize:`0.68rem`,color:i?`#E5CBA3`:`rgba(237, 232, 223, 0.55)`,fontWeight:400,lineHeight:1.25,transition:`color 0.3s ease`},children:e.sublabel})]}),i&&(0,B.jsx)(W.div,{initial:{width:0,opacity:0},animate:{width:`45px`,opacity:1},transition:{duration:.35},style:{position:`absolute`,bottom:`4px`,height:`2px`,backgroundColor:`#C5A880`,borderRadius:`1px`,boxShadow:`0 0 10px rgba(197, 168, 128, 0.9)`}})]},e.label)})}),(0,B.jsxs)(`div`,{className:`hero-scroll-indicator`,style:{display:`flex`,flexDirection:`column`,alignItems:`center`,paddingTop:`1rem`,paddingBottom:`0.5rem`,cursor:`pointer`,zIndex:10},onClick:()=>de(`#about`,{offset:-40,duration:1.2}),children:[(0,B.jsx)(`span`,{style:{fontFamily:`var(--font-sans)`,fontSize:`0.62rem`,letterSpacing:`0.24em`,textTransform:`uppercase`,color:`rgba(212, 178, 128, 0.85)`,fontWeight:600,marginBottom:`0.45rem`},children:`SCROLL TO EXPLORE`}),(0,B.jsx)(`div`,{style:{width:`20px`,height:`32px`,borderRadius:`12px`,border:`1.5px solid rgba(197, 168, 128, 0.55)`,display:`flex`,justifyContent:`center`,paddingTop:`5px`},children:(0,B.jsx)(W.div,{animate:{y:[0,9,0],opacity:[.95,.3,.95]},transition:{repeat:1/0,duration:1.6,ease:`easeInOut`},style:{width:`3px`,height:`6px`,borderRadius:`2px`,backgroundColor:`#C5A880`}})})]})]}),(0,B.jsx)(`style`,{children:`
         @media (min-width: 992px) {
+          .hero-stat-pillar {
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+          }
+          .hero-stat-info {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+          }
           .hero-stat-cell-0, .hero-stat-cell-1, .hero-stat-cell-2 {
             border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
           }
@@ -51,21 +62,65 @@ Error generating stack: `+e.message+`
         @media (max-width: 991px) {
           .hero-floating-stats-grid {
             grid-template-columns: repeat(2, 1fr) !important;
-            border-radius: 22px !important;
-            gap: 1.1rem 0.85rem !important;
-            padding: 1.15rem 1rem !important;
+            border-radius: 20px !important;
+            gap: 0 !important;
+            padding: 0.25rem !important;
           }
           .hero-stat-pillar {
-            flex-direction: column !important;
+            flex-direction: row !important;
             align-items: center !important;
-            text-align: center !important;
-            padding: 0.35rem 0.35rem !important;
+            text-align: left !important;
+            padding: 0.95rem 0.85rem !important;
+            gap: 0.75rem !important;
+          }
+          .hero-stat-cell-0 {
+            border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+          }
+          .hero-stat-cell-1 {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-right: none !important;
+          }
+          .hero-stat-cell-2 {
+            border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-bottom: none !important;
+          }
+          .hero-stat-cell-3 {
+            border-right: none !important;
+            border-bottom: none !important;
           }
           .hero-stat-icon-wrapper {
             width: 44px !important;
             height: 44px !important;
-            border-radius: 13px !important;
-            margin-bottom: 0.45rem !important;
+            min-width: 44px !important;
+            border-radius: 12px !important;
+            margin-bottom: 0 !important;
+            flex-shrink: 0 !important;
+          }
+          .hero-stat-info {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            text-align: left !important;
+            min-width: 0 !important;
+          }
+          .hero-stat-val {
+            font-size: 1.35rem !important;
+            font-weight: 700 !important;
+            margin-bottom: 0.15rem !important;
+            line-height: 1.1 !important;
+          }
+          .hero-stat-lbl {
+            font-size: 0.76rem !important;
+            line-height: 1.25 !important;
+            margin-bottom: 0.1rem !important;
+            font-weight: 600 !important;
+            color: #FFFFFF !important;
+          }
+          .hero-stat-sub {
+            font-size: 0.62rem !important;
+            line-height: 1.2 !important;
+            color: rgba(237, 232, 223, 0.55) !important;
           }
         }
         @media (max-width: 768px) {
@@ -103,41 +158,67 @@ Error generating stack: `+e.message+`
           }
           .hero-floating-stats-grid {
             grid-template-columns: repeat(2, 1fr) !important;
-            border-radius: 22px !important;
-            padding: 1.15rem 0.85rem !important;
-            gap: 1.05rem 0.65rem !important;
+            border-radius: 20px !important;
+            gap: 0 !important;
+            padding: 0.25rem !important;
             border: 1.5px solid rgba(197, 168, 128, 0.38) !important;
             background: linear-gradient(155deg, rgba(14, 22, 18, 0.88) 0%, rgba(7, 12, 10, 0.96) 100%) !important;
           }
           .hero-stat-pillar {
-            flex-direction: column !important;
+            flex-direction: row !important;
             align-items: center !important;
-            text-align: center !important;
-            padding: 0.2rem 0.25rem !important;
+            text-align: left !important;
+            padding: 0.95rem 0.75rem !important;
+            gap: 0.7rem !important;
+          }
+          .hero-stat-cell-0 {
+            border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+          }
+          .hero-stat-cell-1 {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-right: none !important;
+          }
+          .hero-stat-cell-2 {
+            border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-bottom: none !important;
+          }
+          .hero-stat-cell-3 {
+            border-right: none !important;
+            border-bottom: none !important;
           }
           .hero-stat-icon-wrapper {
-            width: 44px !important;
-            height: 44px !important;
-            min-width: 44px !important;
-            border-radius: 13px !important;
+            width: 42px !important;
+            height: 42px !important;
+            min-width: 42px !important;
+            border-radius: 12px !important;
             border: 1.5px solid rgba(197, 168, 128, 0.42) !important;
-            margin-bottom: 0.45rem !important;
+            margin-bottom: 0 !important;
+            flex-shrink: 0 !important;
+          }
+          .hero-stat-info {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            text-align: left !important;
+            min-width: 0 !important;
           }
           .hero-stat-val {
-            font-size: clamp(1.55rem, 5.2vw, 1.75rem) !important;
+            font-size: clamp(1.3rem, 4vw, 1.45rem) !important;
             font-weight: 700 !important;
             margin-bottom: 0.15rem !important;
             line-height: 1.1 !important;
           }
           .hero-stat-lbl {
-            font-size: 0.8rem !important;
-            line-height: 1.22 !important;
-            margin-bottom: 0.12rem !important;
+            font-size: 0.74rem !important;
+            line-height: 1.2 !important;
+            margin-bottom: 0.1rem !important;
             font-weight: 600 !important;
+            color: #FFFFFF !important;
           }
           .hero-stat-sub {
-            font-size: 0.66rem !important;
-            line-height: 1.22 !important;
+            font-size: 0.62rem !important;
+            line-height: 1.2 !important;
             color: rgba(237, 232, 223, 0.55) !important;
           }
           .hero-scroll-indicator {
