@@ -1,4 +1,5 @@
 import type { Property } from '../types';
+import { siteImages } from './images';
 
 export const propertiesData: Property[] = [
   {
@@ -13,7 +14,7 @@ export const propertiesData: Property[] = [
     bedrooms: 6,
     bathrooms: 8,
     parking: 5,
-    featuredImage: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=85',
+    featuredImage: siteImages.propFeatured.src,
     gallery: [
       'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=85',
       'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=85',
@@ -66,9 +67,9 @@ export const propertiesData: Property[] = [
     bedrooms: 4,
     bathrooms: 5,
     parking: 3,
-    featuredImage: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1600&q=85',
+    featuredImage: siteImages.propPenthouse.src,
     gallery: [
-      'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1600&q=85',
+      siteImages.propPenthouse.src,
       'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1600&q=85'
     ],
     description: 'Encompassing the top three levels of an iconic landmark, featuring a direct private glass elevator and rooftop heated plunge pool.',
@@ -92,7 +93,7 @@ export const propertiesData: Property[] = [
     bedrooms: 7,
     bathrooms: 9,
     parking: 6,
-    featuredImage: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=85',
+    featuredImage: siteImages.propEstate.src,
     gallery: [
       'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=85',
       'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1600&q=85'
