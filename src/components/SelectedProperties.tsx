@@ -231,8 +231,9 @@ export const SelectedProperties: React.FC = () => {
                 </div>
               </div>
 
-              {/* Card Body: 32px padding, vertical gap 14-16px */}
+              {/* Card Body: 32px desktop, responsive mobile */}
               <div
+                className="property-card-body"
                 style={{
                   padding: '32px',
                   display: 'flex',
@@ -416,7 +417,10 @@ export const SelectedProperties: React.FC = () => {
         @media (max-width: 600px) {
           .properties-three-grid {
             grid-template-columns: 1fr !important;
-            gap: 24px !important;
+            gap: 20px !important;
+          }
+          .property-card-body {
+            padding: 22px 18px !important;
           }
         }
       `}</style>

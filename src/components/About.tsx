@@ -228,6 +228,10 @@ export const About: React.FC = () => {
             grid-template-columns: 1fr !important;
             gap: 1.25rem !important;
           }
+          .about-advantage-card {
+            padding: 1.65rem 1.25rem !important;
+            border-radius: 18px !important;
+          }
         }
       `}</style>
     </section>

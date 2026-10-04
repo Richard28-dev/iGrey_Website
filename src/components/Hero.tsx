@@ -36,6 +36,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
   return (
     <section
       id="hero"
+      className="hero-section"
       style={{
         position: 'relative',
         minHeight: '100vh',
@@ -91,7 +92,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
 
       {/* Main Content */}
       <div
-        className="container"
+        className="container hero-main-content"
         style={{
           position: 'relative',
           zIndex: 10,
@@ -108,6 +109,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="hero-headline"
             style={{
               fontFamily: 'var(--font-serif)',
               fontSize: 'clamp(2.9rem, 5.8vw, 5.6rem)',
@@ -135,6 +137,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            className="hero-subtitle"
             style={{
               fontFamily: 'var(--font-sans)',
               fontSize: 'clamp(1rem, 1.25vw, 1.2rem)',
@@ -156,7 +159,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           >
             <button
               onClick={handleExplore}
-              className="btn-bronze"
+              className="btn-bronze hero-cta-btn"
               style={{
                 padding: '1rem 2.25rem',
                 fontSize: '0.95rem',
@@ -187,13 +190,13 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
 
       {/* Floating Bottom Stats Card matching reference */}
       <div
-        className="container"
+        className="container hero-stats-container"
         style={{
           position: 'relative',
           zIndex: 10,
           width: '100%',
-          paddingBottom: 'clamp(1.5rem, 3vw, 2.5rem)',
-          paddingTop: '1.25rem',
+          paddingBottom: 'clamp(1rem, 2.5vw, 2rem)',
+          paddingTop: '1rem',
         }}
       >
         <motion.div
@@ -206,7 +209,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             background: 'linear-gradient(135deg, rgba(14, 22, 18, 0.88) 0%, rgba(8, 13, 11, 0.95) 100%)',
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
-            border: '1px solid rgba(197, 168, 128, 0.35)',
+            border: '1px solid rgba(197, 168, 128, 0.38)',
             borderRadius: '20px',
             boxShadow: '0 24px 60px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.12)',
             padding: '1.1rem 1.5rem',
@@ -228,8 +231,8 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                 animate={
                   isActive
                     ? {
-                        y: [-6, -13, -6],
-                        scale: 1.035,
+                        y: [-5, -11, -5],
+                        scale: 1.03,
                       }
                     : {
                         y: 0,
@@ -269,14 +272,15 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                     : 'none',
                   transition: 'background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
                 }}
-                className="hero-stat-pillar"
+                className={`hero-stat-pillar hero-stat-cell-${idx}`}
               >
-                {/* Circular Badge Icon with Active Pulse Glow */}
+                {/* Circular / Squircle Badge Icon */}
                 <div
+                  className="hero-stat-icon-wrapper"
                   style={{
                     width: '38px',
                     height: '38px',
-                    borderRadius: '50%',
+                    borderRadius: '10px',
                     background: isActive
                       ? 'rgba(197, 168, 128, 0.25)'
                       : 'rgba(10, 16, 13, 0.75)',
@@ -291,55 +295,62 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                       ? '0 0 16px rgba(197, 168, 128, 0.75), 0 4px 10px rgba(0, 0, 0, 0.4)'
                       : '0 4px 10px rgba(0, 0, 0, 0.3)',
                     transition: 'all 0.3s ease',
+                    flexShrink: 0,
                   }}
                 >
                   {getStatIcon(st.icon)}
                 </div>
 
-                {/* Stat Value with Luminous Gold Text Shadow */}
-                <div
-                  style={{
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: 'clamp(1.65rem, 2.1vw, 2.15rem)',
-                    fontWeight: 700,
-                    color: isActive ? '#FFFFFF' : '#FFFFFF',
-                    lineHeight: 1.1,
-                    marginBottom: '0.2rem',
-                    letterSpacing: '-0.02em',
-                    textShadow: isActive
-                      ? '0 0 20px rgba(229, 203, 163, 0.65), 0 2px 6px rgba(0, 0, 0, 0.9)'
-                      : 'none',
-                    transition: 'text-shadow 0.3s ease',
-                  }}
-                >
-                  {st.value}
-                </div>
+                {/* Text Content Column */}
+                <div className="hero-stat-text-col">
+                  {/* Stat Value with Luminous Gold Text Shadow */}
+                  <div
+                    className="hero-stat-val"
+                    style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: 'clamp(1.65rem, 2.1vw, 2.15rem)',
+                      fontWeight: 700,
+                      color: isActive ? '#FFFFFF' : '#FFFFFF',
+                      lineHeight: 1.1,
+                      marginBottom: '0.2rem',
+                      letterSpacing: '-0.02em',
+                      textShadow: isActive
+                        ? '0 0 20px rgba(229, 203, 163, 0.65), 0 2px 6px rgba(0, 0, 0, 0.9)'
+                        : 'none',
+                      transition: 'text-shadow 0.3s ease',
+                    }}
+                  >
+                    {st.value}
+                  </div>
 
-                {/* Stat Label */}
-                <div
-                  style={{
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: '0.88rem',
-                    fontWeight: 600,
-                    color: isActive ? '#F7F3ED' : '#FFFFFF',
-                    marginBottom: '0.12rem',
-                    transition: 'color 0.3s ease',
-                  }}
-                >
-                  {st.label}
-                </div>
+                  {/* Stat Label */}
+                  <div
+                    className="hero-stat-lbl"
+                    style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '0.88rem',
+                      fontWeight: 600,
+                      color: isActive ? '#F7F3ED' : '#FFFFFF',
+                      marginBottom: '0.12rem',
+                      transition: 'color 0.3s ease',
+                    }}
+                  >
+                    {st.label}
+                  </div>
 
-                {/* Stat Sublabel */}
-                <div
-                  style={{
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: '0.72rem',
-                    color: isActive ? '#E5CBA3' : 'rgba(255, 255, 255, 0.6)',
-                    fontWeight: 500,
-                    transition: 'color 0.3s ease',
-                  }}
-                >
-                  {st.sublabel}
+                  {/* Stat Sublabel */}
+                  <div
+                    className="hero-stat-sub"
+                    style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '0.72rem',
+                      color: isActive ? '#E5CBA3' : 'rgba(255, 255, 255, 0.6)',
+                      fontWeight: 500,
+                      transition: 'color 0.3s ease',
+                    }}
+                  >
+                    {st.sublabel}
+                  </div>
                 </div>
 
                 {/* Bottom Luminous Accent Hairline when Active */}
@@ -362,23 +373,150 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             );
           })}
         </motion.div>
+
+        {/* Scroll to Explore Indicator matching reference */}
+        <div
+          className="hero-scroll-indicator"
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            paddingTop: '0.9rem',
+            paddingBottom: '0.25rem',
+            cursor: 'pointer',
+            zIndex: 10,
+          }}
+          onClick={() => scrollToTarget('#about', { offset: -40, duration: 1.2 })}
+        >
+          <span
+            style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: '0.64rem',
+              letterSpacing: '0.26em',
+              textTransform: 'uppercase',
+              color: 'rgba(229, 203, 163, 0.78)',
+              fontWeight: 600,
+              marginBottom: '0.45rem',
+            }}
+          >
+            SCROLL TO EXPLORE
+          </span>
+          <div
+            style={{
+              width: '18px',
+              height: '28px',
+              borderRadius: '12px',
+              border: '1.5px solid rgba(197, 168, 128, 0.5)',
+              display: 'flex',
+              justifyContent: 'center',
+              paddingTop: '4px',
+            }}
+          >
+            <motion.div
+              animate={{ y: [0, 8, 0], opacity: [0.9, 0.3, 0.9] }}
+              transition={{ repeat: Infinity, duration: 1.6, ease: 'easeInOut' }}
+              style={{
+                width: '2.5px',
+                height: '5px',
+                borderRadius: '2px',
+                backgroundColor: '#C5A880',
+              }}
+            />
+          </div>
+        </div>
       </div>
 
       <style>{`
+        @media (min-width: 992px) {
+          .hero-stat-cell-0, .hero-stat-cell-1, .hero-stat-cell-2 {
+            border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+          }
+        }
         @media (max-width: 991px) {
           .hero-floating-stats-grid {
             grid-template-columns: repeat(2, 1fr) !important;
             border-radius: 18px !important;
-            gap: 2rem 1.5rem !important;
+            gap: 0 !important;
+            padding: 0.85rem 0.65rem !important;
           }
           .hero-stat-pillar {
-            border-right: none !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            text-align: left !important;
+            padding: 0.85rem 0.75rem !important;
+            gap: 0.75rem !important;
+          }
+          .hero-stat-icon-wrapper {
+            margin-bottom: 0 !important;
+          }
+          .hero-stat-cell-0 {
+            border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+          }
+          .hero-stat-cell-1 {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+          }
+          .hero-stat-cell-2 {
+            border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
           }
         }
-        @media (max-width: 540px) {
+        @media (max-width: 768px) {
+          .hero-section {
+            padding-top: clamp(4.25rem, 11vw, 5.25rem) !important;
+            min-height: 100svh !important;
+            justifyContent: space-between !important;
+          }
+          .hero-main-content {
+            padding-top: 0.5rem !important;
+            flex-grow: 0 !important;
+          }
+          .hero-headline {
+            font-size: clamp(1.85rem, 6.8vw, 2.45rem) !important;
+            margin-bottom: 0.55rem !important;
+            line-height: 1.12 !important;
+          }
+          .hero-subtitle {
+            font-size: 0.88rem !important;
+            line-height: 1.5 !important;
+            margin-bottom: 1.15rem !important;
+            max-width: 340px !important;
+          }
+          .hero-cta-btn {
+            padding: 0.75rem 1.65rem !important;
+            font-size: 0.88rem !important;
+            border-radius: 8px !important;
+          }
+          .hero-stats-container {
+            padding-top: 0.65rem !important;
+            padding-bottom: 0.5rem !important;
+          }
           .hero-floating-stats-grid {
-            grid-template-columns: 1fr !important;
-            padding: 1.75rem 1.25rem !important;
+            border-radius: 16px !important;
+            padding: 0.5rem 0.25rem !important;
+          }
+          .hero-stat-pillar {
+            padding: 0.65rem 0.55rem !important;
+            gap: 0.6rem !important;
+          }
+          .hero-stat-icon-wrapper {
+            width: 36px !important;
+            height: 36px !important;
+            min-width: 36px !important;
+            border-radius: 10px !important;
+          }
+          .hero-stat-val {
+            font-size: 1.2rem !important;
+            margin-bottom: 0.1rem !important;
+            line-height: 1.1 !important;
+          }
+          .hero-stat-lbl {
+            font-size: 0.72rem !important;
+            line-height: 1.2 !important;
+            margin-bottom: 0.08rem !important;
+          }
+          .hero-stat-sub {
+            font-size: 0.6rem !important;
+            line-height: 1.18 !important;
           }
         }
       `}</style>
