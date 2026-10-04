@@ -4,51 +4,43 @@ import { MapPin, ArrowRight } from 'lucide-react';
 import { siteImages } from '../data/images';
 import { scrollToTarget } from '../utils/scroll';
 
-interface PropertyCardData {
+interface PropertyItem {
   id: string;
-  status: 'AVAILABLE' | 'PRIVATE TREATY';
-  category: string;
-  price: string;
-  name: string;
+  tag: string;
+  title: string;
   location: string;
-  description: string;
-  specs: string;
+  rent: string;
+  lease: string;
   image: { src: string; alt: string; width: number; height: number };
 }
 
-const propertiesData: PropertyCardData[] = [
+const residentialProperties: PropertyItem[] = [
   {
-    id: 'solarium-pavilion',
-    status: 'AVAILABLE',
-    category: 'ARCHITECTURAL ESTATE',
-    price: '$28,500,000',
-    name: 'The Solarium Pavilion',
-    location: 'Bel-Air Crest, Los Angeles',
-    description: 'Cantilevered sanctuary framed by twilight reflection and open living spaces.',
-    specs: '12,400 sq.ft • 6 Beds',
-    image: siteImages.propSolarium,
+    id: 'SS-BLR-01',
+    tag: 'FULLY FURNISHED • 1 BHK',
+    title: 'Modern Studio Apartment',
+    location: 'Koramangala, Bengaluru',
+    rent: '₹22,000',
+    lease: 'Lease: ₹12L (1-2 Yrs)',
+    image: siteImages.propStudio,
   },
   {
-    id: 'villa-obscura',
-    status: 'PRIVATE TREATY',
-    category: 'VILLA',
-    price: '€19,200,000',
-    name: 'Villa Obscura',
-    location: 'Lake Como, Lombardy',
-    description: 'Monolithic charcoal concrete framing dramatic alpine views and glass walls.',
-    specs: '9,850 sq.ft • 5 Beds',
-    image: siteImages.propObscura,
+    id: 'SS-MYS-02',
+    tag: 'GATED SOCIETY • 2 BHK',
+    title: 'Executive 2 BHK Residence',
+    location: 'Gokulam, Mysuru',
+    rent: '₹38,000',
+    lease: 'Lease: ₹22L (2-3 Yrs)',
+    image: siteImages.propExecutive,
   },
   {
-    id: 'apex-penthouse',
-    status: 'AVAILABLE',
-    category: 'PENTHOUSE',
-    price: '£24,750,000',
-    name: 'The Apex Penthouse',
-    location: 'One Bishopsgate, London',
-    description: 'Triplex sky residence commanding 360-degree metropolitan views.',
-    specs: '8,200 sq.ft • 4 Beds',
-    image: siteImages.propApex,
+    id: 'SS-BLR-03',
+    tag: 'FULLY FURNISHED • 3 BHK',
+    title: '3 BHK Independent House',
+    location: 'Indiranagar, Bengaluru',
+    rent: '₹42,000',
+    lease: 'Lease: ₹25L (2-3 Yrs)',
+    image: siteImages.propHouse,
   },
 ];
 
@@ -62,133 +54,123 @@ export const SelectedProperties: React.FC = () => {
     <section
       id="properties"
       style={{
-        backgroundColor: '#090D0B',
-        color: '#FFFFFF',
-        padding: 'clamp(96px, 8.5vw, 135px) 0',
+        backgroundColor: '#EBF1F7',
+        color: '#0F172A',
+        padding: 'clamp(64px, 7vw, 105px) 0',
         position: 'relative',
-        borderBottom: '1px solid rgba(197, 168, 128, 0.15)',
+        transition: 'background-color 0.3s ease',
       }}
     >
-      <div className="container">
-        {/* Section Header */}
+      <div className="container" style={{ maxWidth: '1240px', margin: '0 auto', padding: '0 1.25rem' }}>
+        {/* Section Header - Centered */}
         <div
           style={{
-            display: 'flex',
-            alignItems: 'flex-end',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: '2rem',
-            marginBottom: 'clamp(3rem, 5vw, 4.5rem)',
+            textAlign: 'center',
+            marginBottom: 'clamp(2.5rem, 4vw, 3.5rem)',
           }}
         >
-          <div>
-            <span
-              style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: '0.8rem',
-                letterSpacing: '0.22em',
-                textTransform: 'uppercase',
-                color: 'var(--bronze)',
-                fontWeight: 600,
-                display: 'block',
-                marginBottom: '1rem',
-              }}
-            >
-              SELECTED RESIDENCES
-            </span>
+          {/* Top Pill: READY TO MOVE IN */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: '#FEF9C3',
+              border: '1px solid #FDE68A',
+              color: '#B45309',
+              borderRadius: '9999px',
+              padding: '6px 18px',
+              fontSize: '0.74rem',
+              fontWeight: 800,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              marginBottom: '1rem',
+              boxShadow: '0 2px 6px rgba(217, 119, 6, 0.08)',
+            }}
+          >
+            READY TO MOVE IN
+          </motion.div>
 
-            <h2
-              style={{
-                fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(2.5rem, 4.8vw, 4rem)',
-                lineHeight: 1.1,
-                color: '#FAF8F4',
-                letterSpacing: '-0.02em',
-                fontWeight: 400,
-                margin: 0,
-              }}
-            >
-              Curated Architectural
-              <span style={{ display: 'block' }}>Portfolio</span>
-            </h2>
-          </div>
+          {/* Heading */}
+          <motion.h2
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: 'clamp(2rem, 3.5vw, 2.75rem)',
+              fontWeight: 800,
+              color: '#0B192C',
+              letterSpacing: '-0.025em',
+              lineHeight: 1.15,
+              margin: '0 0 0.75rem 0',
+            }}
+          >
+            Featured Residential Properties
+          </motion.h2>
 
-          <div>
-            <a
-              href="#contact"
-              onClick={handleNavToContact}
-              style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: '0.82rem',
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                color: 'var(--bronze)',
-                textDecoration: 'none',
-                fontWeight: 600,
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                borderBottom: '1px solid var(--bronze)',
-                paddingBottom: '0.35rem',
-                transition: 'all 0.25s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = '#FFFFFF';
-                e.currentTarget.style.borderColor = '#FFFFFF';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = 'var(--bronze)';
-                e.currentTarget.style.borderColor = 'var(--bronze)';
-              }}
-            >
-              <span>VIEW ALL PROPERTIES</span>
-              <ArrowRight size={15} />
-            </a>
-          </div>
+          {/* Subheading */}
+          <motion.p
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: 'clamp(0.92rem, 1.1vw, 1.05rem)',
+              color: '#64748B',
+              maxWidth: '650px',
+              margin: '0 auto',
+              lineHeight: 1.55,
+              fontWeight: 400,
+            }}
+          >
+            Explore verified homes available for monthly rent and flexible long-term lease.
+          </motion.p>
         </div>
 
-        {/* 3-Column Equal-Height Cards Grid */}
+        {/* 3-Column Residential Cards Grid */}
         <div
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '32px',
+            gap: '26px',
             alignItems: 'stretch',
           }}
-          className="properties-three-grid"
+          className="properties-residential-grid"
         >
-          {propertiesData.map((prop, idx) => (
-            <motion.a
+          {residentialProperties.map((prop, idx) => (
+            <motion.div
               key={prop.id}
-              href="#contact"
-              onClick={handleNavToContact}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 22 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.6, delay: idx * 0.12, ease: [0.16, 1, 0.3, 1] }}
               style={{
-                backgroundColor: '#0F1613',
-                border: '1px solid rgba(197, 168, 128, 0.2)',
-                borderRadius: '2px',
+                backgroundColor: '#FFFFFF',
+                borderRadius: '16px',
+                border: '1px solid #E2E8F0',
+                boxShadow: '0 4px 20px rgba(11, 25, 44, 0.05)',
                 display: 'flex',
                 flexDirection: 'column',
-                textDecoration: 'none',
-                color: 'inherit',
-                cursor: 'pointer',
                 overflow: 'hidden',
-                transition: 'transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease',
+                transition: 'transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease',
               }}
-              className="property-card-curated-dark"
-              aria-label={`View details for ${prop.name} - ${prop.price}`}
+              className="residential-card"
             >
-              {/* Image Container with 4:3 Aspect Ratio and Top-Left Badge */}
+              {/* Card Image Wrapper */}
               <div
                 style={{
                   position: 'relative',
                   width: '100%',
-                  aspectRatio: '4/3',
+                  aspectRatio: '1.83 / 1',
                   overflow: 'hidden',
-                  backgroundColor: '#070B09',
+                  backgroundColor: '#E2E8F0',
                 }}
               >
                 <img
@@ -202,225 +184,225 @@ export const SelectedProperties: React.FC = () => {
                     width: '100%',
                     height: '100%',
                     objectFit: 'cover',
-                    transition: 'transform 600ms ease',
                     display: 'block',
+                    transition: 'transform 0.5s ease',
                   }}
-                  className="property-card-image"
+                  className="residential-card-img"
                 />
-
-                {/* Status Badge: Top-left offset 16px, white background, uppercase, 11-12px, gold text */}
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: '16px',
-                    left: '16px',
-                    backgroundColor: '#FFFFFF',
-                    padding: '6px 12px',
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: '11.5px',
-                    letterSpacing: '0.15em',
-                    fontWeight: 600,
-                    textTransform: 'uppercase',
-                    color: '#9a7432',
-                    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.15)',
-                    borderRadius: '2px',
-                    lineHeight: 1.2,
-                  }}
-                >
-                  {prop.status}
-                </div>
               </div>
 
-              {/* Card Body: 32px desktop, responsive mobile */}
+              {/* Card Body */}
               <div
-                className="property-card-body"
                 style={{
-                  padding: '32px',
+                  padding: '1.4rem 1.45rem 1.35rem 1.45rem',
                   display: 'flex',
                   flexDirection: 'column',
-                  justifyContent: 'space-between',
                   flexGrow: 1,
-                  backgroundColor: '#0F1613',
+                  justifyContent: 'space-between',
                 }}
+                className="residential-card-body"
               >
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '14px',
-                  }}
-                >
-                  {/* Row 1: Category on left (uppercase, 12px, letter-spacing 0.18em, gold) and price on right (sans-serif, 20px, medium, bright) */}
+                <div>
+                  {/* Category Tag */}
                   <div
                     style={{
-                      display: 'flex',
-                      alignItems: 'baseline',
-                      justifyContent: 'space-between',
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '0.74rem',
+                      fontWeight: 800,
+                      letterSpacing: '0.04em',
+                      textTransform: 'uppercase',
+                      color: '#0F172A',
+                      marginBottom: '0.45rem',
                     }}
                   >
-                    <span
-                      style={{
-                        fontFamily: 'var(--font-sans)',
-                        fontSize: '12px',
-                        letterSpacing: '0.18em',
-                        textTransform: 'uppercase',
-                        color: 'var(--bronze)',
-                        fontWeight: 600,
-                      }}
-                    >
-                      {prop.category}
-                    </span>
-                    <span
-                      style={{
-                        fontFamily: 'var(--font-sans)',
-                        fontSize: '20px',
-                        fontWeight: 600,
-                        color: '#FFFFFF',
-                        letterSpacing: '-0.01em',
-                      }}
-                    >
-                      {prop.price}
-                    </span>
+                    {prop.tag}
                   </div>
 
-                  {/* Row 2: Property name in Cormorant Garamond serif ~30px, regular, elegant light tone */}
+                  {/* Title */}
                   <h3
                     style={{
-                      fontFamily: 'var(--font-serif)',
-                      fontSize: '30px',
-                      lineHeight: 1.15,
-                      color: '#FAF8F4',
-                      fontWeight: 400,
-                      margin: 0,
-                      letterSpacing: '-0.01em',
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '1.22rem',
+                      fontWeight: 700,
+                      color: '#0F172A',
+                      lineHeight: 1.25,
+                      margin: '0 0 0.55rem 0',
                     }}
                   >
-                    {prop.name}
+                    {prop.title}
                   </h3>
 
-                  {/* Row 3: Small gold map-pin icon + location in muted grey 15px */}
+                  {/* Location & ID Row */}
                   <div
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '7px',
-                      color: 'rgba(237, 232, 223, 0.72)',
-                      fontSize: '15px',
-                      fontFamily: 'var(--font-sans)',
+                      flexWrap: 'wrap',
+                      gap: '0.55rem',
+                      marginBottom: '1.4rem',
                     }}
                   >
-                    <MapPin size={15} color="var(--bronze)" strokeWidth={1.8} style={{ flexShrink: 0 }} />
-                    <span>{prop.location}</span>
-                  </div>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.35rem',
+                        color: '#64748B',
+                        fontSize: '0.84rem',
+                        fontWeight: 500,
+                      }}
+                    >
+                      <MapPin size={15} style={{ color: '#64748B', flexShrink: 0 }} />
+                      <span>{prop.location}</span>
+                    </div>
 
-                  {/* Row 4: Short description, muted grey, truncated to a single line with ellipsis */}
-                  <p
-                    style={{
-                      margin: 0,
-                      fontFamily: 'var(--font-sans)',
-                      fontSize: '14.5px',
-                      lineHeight: 1.5,
-                      color: 'rgba(237, 232, 223, 0.55)',
-                      whiteSpace: 'nowrap',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                    }}
-                    title={prop.description}
-                  >
-                    {prop.description}
-                  </p>
-                </div>
-
-                {/* Bottom Section: Divider + Footer Row */}
-                <div style={{ marginTop: '16px' }}>
-                  {/* Thin divider (1px border) */}
-                  <div
-                    style={{
-                      height: '1px',
-                      backgroundColor: 'rgba(197, 168, 128, 0.18)',
-                      marginBottom: '16px',
-                    }}
-                  />
-
-                  {/* Footer Row: Specs on left ("12,400 sq.ft • 6 Beds", muted, 14px) and "Catalogue →" on right (gold, 14px, medium, letter-spacing 0.05em) */}
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      fontFamily: 'var(--font-sans)',
-                    }}
-                  >
                     <span
                       style={{
-                        color: 'rgba(237, 232, 223, 0.65)',
-                        fontSize: '14px',
+                        backgroundColor: '#F8FAFC',
+                        border: '1px solid #E2E8F0',
+                        color: '#475569',
+                        fontSize: '0.72rem',
+                        fontWeight: 600,
+                        padding: '2px 8px',
+                        borderRadius: '4px',
                         letterSpacing: '0.02em',
                       }}
                     >
-                      {prop.specs}
-                    </span>
-
-                    <span
-                      style={{
-                        color: 'var(--bronze-hi)',
-                        fontSize: '14px',
-                        fontWeight: 600,
-                        letterSpacing: '0.05em',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                      }}
-                      className="catalogue-cta"
-                    >
-                      <span>Catalogue</span>
-                      <span
-                        style={{
-                          display: 'inline-block',
-                          transition: 'transform 0.25s ease',
-                        }}
-                        className="catalogue-arrow"
-                      >
-                        →
-                      </span>
+                      • ID: {prop.id}
                     </span>
                   </div>
                 </div>
+
+                {/* Footer: Price on left, Inquire button on right */}
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    paddingTop: '0.95rem',
+                    borderTop: '1px solid #F1F5F9',
+                    marginTop: 'auto',
+                    gap: '0.75rem',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.35rem', flexWrap: 'wrap' }}>
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-sans)',
+                        fontSize: '1.25rem',
+                        fontWeight: 800,
+                        color: '#0F172A',
+                      }}
+                    >
+                      {prop.rent}
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-sans)',
+                        fontSize: '0.78rem',
+                        fontWeight: 500,
+                        color: '#78716C',
+                      }}
+                    >
+                      • {prop.lease}
+                    </span>
+                  </div>
+
+                  <button
+                    onClick={handleNavToContact}
+                    style={{
+                      backgroundColor: '#FFFFFF',
+                      border: '1px solid #CBD5E1',
+                      borderRadius: '8px',
+                      padding: '7px 18px',
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '0.84rem',
+                      fontWeight: 600,
+                      color: '#0F172A',
+                      cursor: 'pointer',
+                      transition: 'all 0.22s ease',
+                      flexShrink: 0,
+                    }}
+                    className="residential-inquire-btn"
+                  >
+                    Inquire
+                  </button>
+                </div>
               </div>
-            </motion.a>
+            </motion.div>
           ))}
         </div>
+
+        {/* Center Bottom Action: See More Properties */}
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: 'clamp(2.5rem, 4.5vw, 3.5rem)',
+          }}
+        >
+          <button
+            onClick={handleNavToContact}
+            style={{
+              backgroundColor: '#0C2340',
+              color: '#FFFFFF',
+              border: 'none',
+              borderRadius: '8px',
+              padding: '0.85rem 2.2rem',
+              fontFamily: 'var(--font-sans)',
+              fontSize: '0.94rem',
+              fontWeight: 600,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.65rem',
+              cursor: 'pointer',
+              boxShadow: '0 4px 16px rgba(12, 35, 64, 0.25)',
+              transition: 'all 0.3s ease',
+            }}
+            className="see-more-btn"
+          >
+            <span>See More Properties</span>
+            <ArrowRight size={17} />
+          </button>
+        </motion.div>
       </div>
 
       <style>{`
-        .property-card-curated-dark:hover {
+        .residential-card:hover {
           transform: translateY(-4px);
-          box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
-          border-color: rgba(197, 168, 128, 0.5) !important;
+          box-shadow: 0 14px 34px rgba(11, 25, 44, 0.1) !important;
+          border-color: #CBD5E1 !important;
         }
-        .property-card-curated-dark:focus-visible {
-          outline: 2px solid var(--bronze);
-          outline-offset: 4px;
+        .residential-card:hover .residential-card-img {
+          transform: scale(1.03);
         }
-        .property-card-curated-dark:hover .property-card-image {
-          transform: scale(1.04);
+        .residential-inquire-btn:hover {
+          background-color: #0F172A !important;
+          color: #FFFFFF !important;
+          border-color: #0F172A !important;
         }
-        .property-card-curated-dark:hover .catalogue-arrow {
-          transform: translateX(4px);
+        .see-more-btn:hover {
+          background-color: #12335C !important;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(12, 35, 64, 0.38) !important;
         }
         @media (max-width: 991px) {
-          .properties-three-grid {
+          .properties-residential-grid {
             grid-template-columns: repeat(2, 1fr) !important;
-            gap: 24px !important;
+            gap: 20px !important;
           }
         }
-        @media (max-width: 600px) {
-          .properties-three-grid {
+        @media (max-width: 640px) {
+          .properties-residential-grid {
             grid-template-columns: 1fr !important;
             gap: 20px !important;
           }
-          .property-card-body {
-            padding: 22px 18px !important;
+          .residential-card-body {
+            padding: 1.2rem 1.15rem 1.15rem 1.15rem !important;
           }
         }
       `}</style>
