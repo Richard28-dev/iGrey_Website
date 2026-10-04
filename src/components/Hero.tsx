@@ -103,7 +103,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           flexGrow: 1,
         }}
       >
-        <div style={{ maxWidth: '820px' }}>
+        <div className="hero-content-inner" style={{ maxWidth: '820px' }}>
           {/* Main Headline: Where Trust Meets Architectural Grandeur */}
           <motion.h1
             initial={{ opacity: 0, y: 22 }}
@@ -153,6 +153,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
 
           {/* Single Gold Action Button matching reference */}
           <motion.div
+            className="hero-cta-wrapper"
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -584,7 +585,15 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           }
           .hero-main-content {
             padding-top: 0.65rem !important;
-            flex-grow: 0 !important;
+            flex-grow: 1 !important;
+            display: flex !important;
+            flex-direction: column !important;
+          }
+          .hero-content-inner {
+            display: flex !important;
+            flex-direction: column !important;
+            flex-grow: 1 !important;
+            width: 100% !important;
           }
           .hero-headline {
             font-size: clamp(2.35rem, 8vw, 2.75rem) !important;
@@ -597,6 +606,10 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             margin-bottom: 1.35rem !important;
             max-width: 345px !important;
             color: rgba(255, 255, 255, 0.72) !important;
+          }
+          .hero-cta-wrapper {
+            margin-top: auto !important;
+            margin-bottom: 1.25rem !important;
           }
           .hero-cta-btn {
             padding: 0.82rem 1.85rem !important;
