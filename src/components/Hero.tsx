@@ -22,14 +22,14 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
   const getStatIcon = (iconName: string) => {
     switch (iconName) {
       case 'users':
-        return <Users size={16} color="var(--bronze-hi)" />;
+        return <Users size={19} color="var(--bronze-hi)" strokeWidth={1.8} />;
       case 'building':
-        return <Building2 size={16} color="var(--bronze-hi)" />;
+        return <Building2 size={19} color="var(--bronze-hi)" strokeWidth={1.8} />;
       case 'trending':
-        return <TrendingUp size={16} color="var(--bronze-hi)" />;
+        return <TrendingUp size={19} color="var(--bronze-hi)" strokeWidth={1.8} />;
       case 'shield':
       default:
-        return <ShieldCheck size={16} color="var(--bronze-hi)" />;
+        return <ShieldCheck size={19} color="var(--bronze-hi)" strokeWidth={1.8} />;
     }
   };
 
@@ -195,8 +195,8 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           position: 'relative',
           zIndex: 10,
           width: '100%',
-          paddingBottom: 'clamp(1rem, 2.5vw, 2rem)',
-          paddingTop: '1rem',
+          paddingBottom: 'clamp(0.75rem, 2vw, 1.5rem)',
+          paddingTop: '0.75rem',
         }}
       >
         <motion.div
@@ -206,32 +206,33 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           style={{
             maxWidth: '1020px',
             margin: '0 auto',
-            background: 'linear-gradient(135deg, rgba(14, 22, 18, 0.88) 0%, rgba(8, 13, 11, 0.95) 100%)',
+            background: 'linear-gradient(155deg, rgba(14, 22, 18, 0.88) 0%, rgba(7, 12, 10, 0.96) 100%)',
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
-            border: '1px solid rgba(197, 168, 128, 0.38)',
-            borderRadius: '20px',
-            boxShadow: '0 24px 60px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.12)',
-            padding: '1.1rem 1.5rem',
+            border: '1.5px solid rgba(197, 168, 128, 0.38)',
+            borderRadius: '22px',
+            boxShadow: '0 24px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.12)',
+            padding: '1.4rem 1.6rem',
             display: 'grid',
             gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: '0.85rem',
+            gap: '1rem',
             alignItems: 'stretch',
           }}
           className="hero-floating-stats-grid"
         >
           {stats.map((st, idx) => {
             const isActive = activeStatIdx === idx;
+            const isGoldLabel = idx === 1; // "Completed Projects" has warm gold accent in reference
             return (
               <motion.div
                 key={st.label}
                 onClick={() => setActiveStatIdx((prev) => (prev === idx ? null : idx))}
-                whileHover={!isActive ? { y: -5, scale: 1.02 } : undefined}
+                whileHover={!isActive ? { y: -4, scale: 1.02 } : undefined}
                 whileTap={{ scale: 0.97 }}
                 animate={
                   isActive
                     ? {
-                        y: [-5, -11, -5],
+                        y: [-4, -9, -4],
                         scale: 1.03,
                       }
                     : {
@@ -256,14 +257,14 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                   flexDirection: 'column',
                   alignItems: 'center',
                   textAlign: 'center',
-                  padding: '0.75rem 0.65rem',
-                  borderRadius: '14px',
+                  padding: '0.85rem 0.65rem',
+                  borderRadius: '16px',
                   cursor: 'pointer',
                   position: 'relative',
                   userSelect: 'none',
                   border: isActive
-                    ? '1px solid rgba(229, 203, 163, 0.85)'
-                    : '1px solid transparent',
+                    ? '1.5px solid rgba(229, 203, 163, 0.85)'
+                    : '1.5px solid transparent',
                   background: isActive
                     ? 'linear-gradient(180deg, rgba(35, 54, 43, 0.85) 0%, rgba(14, 23, 18, 0.95) 100%)'
                     : 'transparent',
@@ -274,26 +275,26 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                 }}
                 className={`hero-stat-pillar hero-stat-cell-${idx}`}
               >
-                {/* Circular / Squircle Badge Icon */}
+                {/* Centered Squircle Badge Icon matching reference */}
                 <div
                   className="hero-stat-icon-wrapper"
                   style={{
-                    width: '38px',
-                    height: '38px',
-                    borderRadius: '10px',
+                    width: '48px',
+                    height: '48px',
+                    borderRadius: '14px',
                     background: isActive
                       ? 'rgba(197, 168, 128, 0.25)'
-                      : 'rgba(10, 16, 13, 0.75)',
+                      : 'rgba(10, 16, 13, 0.85)',
                     border: isActive
                       ? '1.5px solid #E8D5B7'
-                      : '1px solid rgba(197, 168, 128, 0.35)',
+                      : '1.5px solid rgba(197, 168, 128, 0.4)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    marginBottom: '0.65rem',
+                    marginBottom: '0.75rem',
                     boxShadow: isActive
                       ? '0 0 16px rgba(197, 168, 128, 0.75), 0 4px 10px rgba(0, 0, 0, 0.4)'
-                      : '0 4px 10px rgba(0, 0, 0, 0.3)',
+                      : '0 4px 12px rgba(0, 0, 0, 0.35)',
                     transition: 'all 0.3s ease',
                     flexShrink: 0,
                   }}
@@ -301,56 +302,59 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                   {getStatIcon(st.icon)}
                 </div>
 
-                {/* Text Content Column */}
-                <div className="hero-stat-text-col">
-                  {/* Stat Value with Luminous Gold Text Shadow */}
-                  <div
-                    className="hero-stat-val"
-                    style={{
-                      fontFamily: 'var(--font-sans)',
-                      fontSize: 'clamp(1.65rem, 2.1vw, 2.15rem)',
-                      fontWeight: 700,
-                      color: isActive ? '#FFFFFF' : '#FFFFFF',
-                      lineHeight: 1.1,
-                      marginBottom: '0.2rem',
-                      letterSpacing: '-0.02em',
-                      textShadow: isActive
-                        ? '0 0 20px rgba(229, 203, 163, 0.65), 0 2px 6px rgba(0, 0, 0, 0.9)'
-                        : 'none',
-                      transition: 'text-shadow 0.3s ease',
-                    }}
-                  >
-                    {st.value}
-                  </div>
+                {/* Stat Value with Luminous Gold Text Shadow */}
+                <div
+                  className="hero-stat-val"
+                  style={{
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: 'clamp(1.55rem, 2.1vw, 2.1rem)',
+                    fontWeight: 700,
+                    color: '#FFFFFF',
+                    lineHeight: 1.1,
+                    marginBottom: '0.25rem',
+                    letterSpacing: '-0.015em',
+                    textShadow: isActive
+                      ? '0 0 20px rgba(229, 203, 163, 0.65), 0 2px 6px rgba(0, 0, 0, 0.9)'
+                      : 'none',
+                    transition: 'text-shadow 0.3s ease',
+                  }}
+                >
+                  {st.value}
+                </div>
 
-                  {/* Stat Label */}
-                  <div
-                    className="hero-stat-lbl"
-                    style={{
-                      fontFamily: 'var(--font-sans)',
-                      fontSize: '0.88rem',
-                      fontWeight: 600,
-                      color: isActive ? '#F7F3ED' : '#FFFFFF',
-                      marginBottom: '0.12rem',
-                      transition: 'color 0.3s ease',
-                    }}
-                  >
-                    {st.label}
-                  </div>
+                {/* Stat Label */}
+                <div
+                  className="hero-stat-lbl"
+                  style={{
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '0.82rem',
+                    fontWeight: 600,
+                    color: isGoldLabel ? '#D4B280' : '#FFFFFF',
+                    lineHeight: 1.25,
+                    marginBottom: '0.15rem',
+                    transition: 'color 0.3s ease',
+                  }}
+                >
+                  {st.label === 'Verified Background KYC' ? (
+                    <>Verified Background<br />KYC</>
+                  ) : (
+                    st.label
+                  )}
+                </div>
 
-                  {/* Stat Sublabel */}
-                  <div
-                    className="hero-stat-sub"
-                    style={{
-                      fontFamily: 'var(--font-sans)',
-                      fontSize: '0.72rem',
-                      color: isActive ? '#E5CBA3' : 'rgba(255, 255, 255, 0.6)',
-                      fontWeight: 500,
-                      transition: 'color 0.3s ease',
-                    }}
-                  >
-                    {st.sublabel}
-                  </div>
+                {/* Stat Sublabel */}
+                <div
+                  className="hero-stat-sub"
+                  style={{
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '0.68rem',
+                    color: isActive ? '#E5CBA3' : 'rgba(237, 232, 223, 0.55)',
+                    fontWeight: 400,
+                    lineHeight: 1.25,
+                    transition: 'color 0.3s ease',
+                  }}
+                >
+                  {st.sublabel}
                 </div>
 
                 {/* Bottom Luminous Accent Hairline when Active */}
@@ -381,8 +385,8 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            paddingTop: '0.9rem',
-            paddingBottom: '0.25rem',
+            paddingTop: '1rem',
+            paddingBottom: '0.5rem',
             cursor: 'pointer',
             zIndex: 10,
           }}
@@ -391,10 +395,10 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           <span
             style={{
               fontFamily: 'var(--font-sans)',
-              fontSize: '0.64rem',
-              letterSpacing: '0.26em',
+              fontSize: '0.62rem',
+              letterSpacing: '0.24em',
               textTransform: 'uppercase',
-              color: 'rgba(229, 203, 163, 0.78)',
+              color: 'rgba(212, 178, 128, 0.85)',
               fontWeight: 600,
               marginBottom: '0.45rem',
             }}
@@ -403,21 +407,21 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           </span>
           <div
             style={{
-              width: '18px',
-              height: '28px',
+              width: '20px',
+              height: '32px',
               borderRadius: '12px',
-              border: '1.5px solid rgba(197, 168, 128, 0.5)',
+              border: '1.5px solid rgba(197, 168, 128, 0.55)',
               display: 'flex',
               justifyContent: 'center',
-              paddingTop: '4px',
+              paddingTop: '5px',
             }}
           >
             <motion.div
-              animate={{ y: [0, 8, 0], opacity: [0.9, 0.3, 0.9] }}
+              animate={{ y: [0, 9, 0], opacity: [0.95, 0.3, 0.95] }}
               transition={{ repeat: Infinity, duration: 1.6, ease: 'easeInOut' }}
               style={{
-                width: '2.5px',
-                height: '5px',
+                width: '3px',
+                height: '6px',
                 borderRadius: '2px',
                 backgroundColor: '#C5A880',
               }}
@@ -435,88 +439,98 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
         @media (max-width: 991px) {
           .hero-floating-stats-grid {
             grid-template-columns: repeat(2, 1fr) !important;
-            border-radius: 18px !important;
-            gap: 0 !important;
-            padding: 0.85rem 0.65rem !important;
+            border-radius: 22px !important;
+            gap: 1.25rem 0.85rem !important;
+            padding: 1.35rem 1rem !important;
           }
           .hero-stat-pillar {
-            flex-direction: row !important;
+            flex-direction: column !important;
             align-items: center !important;
-            text-align: left !important;
-            padding: 0.85rem 0.75rem !important;
-            gap: 0.75rem !important;
+            text-align: center !important;
+            padding: 0.65rem 0.5rem !important;
           }
           .hero-stat-icon-wrapper {
-            margin-bottom: 0 !important;
-          }
-          .hero-stat-cell-0 {
-            border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-          }
-          .hero-stat-cell-1 {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-          }
-          .hero-stat-cell-2 {
-            border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+            width: 48px !important;
+            height: 48px !important;
+            border-radius: 14px !important;
+            margin-bottom: 0.65rem !important;
           }
         }
         @media (max-width: 768px) {
           .hero-section {
-            padding-top: clamp(4.25rem, 11vw, 5.25rem) !important;
+            padding-top: clamp(4.85rem, 11.5vw, 5.5rem) !important;
+            padding-bottom: 0.5rem !important;
             min-height: 100svh !important;
-            justifyContent: space-between !important;
+            justify-content: space-between !important;
           }
           .hero-main-content {
-            padding-top: 0.5rem !important;
+            padding-top: 0.65rem !important;
             flex-grow: 0 !important;
           }
           .hero-headline {
-            font-size: clamp(1.85rem, 6.8vw, 2.45rem) !important;
-            margin-bottom: 0.55rem !important;
+            font-size: clamp(2.35rem, 8vw, 2.75rem) !important;
+            margin-bottom: 0.75rem !important;
             line-height: 1.12 !important;
           }
           .hero-subtitle {
-            font-size: 0.88rem !important;
-            line-height: 1.5 !important;
-            margin-bottom: 1.15rem !important;
-            max-width: 340px !important;
+            font-size: 0.92rem !important;
+            line-height: 1.55 !important;
+            margin-bottom: 1.35rem !important;
+            max-width: 345px !important;
+            color: rgba(255, 255, 255, 0.72) !important;
           }
           .hero-cta-btn {
-            padding: 0.75rem 1.65rem !important;
-            font-size: 0.88rem !important;
+            padding: 0.82rem 1.85rem !important;
+            font-size: 0.92rem !important;
             border-radius: 8px !important;
+            font-weight: 600 !important;
           }
           .hero-stats-container {
-            padding-top: 0.65rem !important;
-            padding-bottom: 0.5rem !important;
+            padding-top: 0.75rem !important;
+            padding-bottom: 0.25rem !important;
           }
           .hero-floating-stats-grid {
-            border-radius: 16px !important;
-            padding: 0.5rem 0.25rem !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            border-radius: 24px !important;
+            padding: 1.5rem 1rem !important;
+            gap: 1.4rem 0.75rem !important;
+            border: 1.5px solid rgba(197, 168, 128, 0.38) !important;
+            background: linear-gradient(155deg, rgba(14, 22, 18, 0.88) 0%, rgba(7, 12, 10, 0.96) 100%) !important;
           }
           .hero-stat-pillar {
-            padding: 0.65rem 0.55rem !important;
-            gap: 0.6rem !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+            padding: 0.35rem 0.25rem !important;
           }
           .hero-stat-icon-wrapper {
-            width: 36px !important;
-            height: 36px !important;
-            min-width: 36px !important;
-            border-radius: 10px !important;
+            width: 48px !important;
+            height: 48px !important;
+            min-width: 48px !important;
+            border-radius: 14px !important;
+            border: 1.5px solid rgba(197, 168, 128, 0.42) !important;
+            margin-bottom: 0.65rem !important;
           }
           .hero-stat-val {
-            font-size: 1.2rem !important;
-            margin-bottom: 0.1rem !important;
+            font-size: clamp(1.65rem, 5.5vw, 1.85rem) !important;
+            font-weight: 700 !important;
+            margin-bottom: 0.2rem !important;
             line-height: 1.1 !important;
           }
           .hero-stat-lbl {
-            font-size: 0.72rem !important;
-            line-height: 1.2 !important;
-            margin-bottom: 0.08rem !important;
+            font-size: 0.82rem !important;
+            line-height: 1.25 !important;
+            margin-bottom: 0.15rem !important;
+            font-weight: 600 !important;
           }
           .hero-stat-sub {
-            font-size: 0.6rem !important;
-            line-height: 1.18 !important;
+            font-size: 0.68rem !important;
+            line-height: 1.25 !important;
+            color: rgba(237, 232, 223, 0.55) !important;
+          }
+          .hero-scroll-indicator {
+            padding-top: 1.15rem !important;
+            padding-bottom: 0.65rem !important;
           }
         }
       `}</style>

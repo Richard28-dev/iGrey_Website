@@ -55,6 +55,7 @@ export const Header: React.FC<HeaderProps> = ({ onScheduleClick }) => {
   return (
     <>
       <header
+        className="main-header"
         style={{
           position: 'fixed',
           top: 0,
@@ -280,6 +281,11 @@ export const Header: React.FC<HeaderProps> = ({ onScheduleClick }) => {
           }
           .header-mobile-toggle {
             display: block !important;
+          }
+        }
+        @media (max-width: 768px) {
+          .main-header {
+            padding: 1.15rem 0 !important;
           }
         }
       `}</style>
