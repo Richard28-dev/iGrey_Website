@@ -1,5 +1,4 @@
 import React from 'react';
-import { ShieldCheck } from 'lucide-react';
 import { scrollToTarget } from '../utils/scroll';
 import logoWhite from '../assets/logo-white.png';
 
@@ -83,33 +82,12 @@ export const Footer: React.FC = () => {
                 lineHeight: 1.65,
                 color: 'rgba(237, 232, 223, 0.75)',
                 maxWidth: '420px',
-                marginBottom: '1.75rem',
+                marginBottom: 0,
                 fontWeight: 400,
               }}
             >
               India's premier end-to-end residential property services company. Providing guaranteed on-time rent, 100% verified background checks, and seamless property care.
             </p>
-
-            {/* Registered Corporate Entity Pill */}
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.65rem',
-                padding: '0.6rem 1.15rem',
-                borderRadius: '8px',
-                border: '1px solid rgba(255, 255, 255, 0.14)',
-                backgroundColor: 'rgba(255, 255, 255, 0.03)',
-                color: '#E2E8F0',
-                fontSize: '0.84rem',
-                fontWeight: 500,
-                fontFamily: 'var(--font-sans)',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
-              }}
-            >
-              <ShieldCheck size={16} color="#C5A880" />
-              <span>Registered Corporate Entity</span>
-            </div>
           </div>
 
           {/* Column 2: Quick Links */}

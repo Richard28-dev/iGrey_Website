@@ -56,13 +56,14 @@ export const Reviews: React.FC = () => {
   const tickerItems = [...trustedRelationships, ...trustedRelationships, ...trustedRelationships];
 
   return (
-    <section id="reviews" style={{ position: 'relative' }}>
+    <section id="reviews" style={{ position: 'relative', backgroundColor: '#090D0B' }}>
       {/* Top Part: Institutional Accolades / Private Client Reflections */}
       <div
         style={{
-          backgroundColor: '#F9F8F5',
+          backgroundColor: '#090D0B',
+          color: '#FFFFFF',
           padding: 'clamp(5.5rem, 8vw, 7.5rem) 0 clamp(4.5rem, 6vw, 6rem) 0',
-          borderBottom: '1px solid #ECE8E1',
+          borderBottom: '1px solid rgba(197, 168, 128, 0.15)',
         }}
       >
         <div className="container" style={{ maxWidth: '1280px' }}>
@@ -74,13 +75,13 @@ export const Reviews: React.FC = () => {
                 fontSize: '0.78rem',
                 letterSpacing: '0.22em',
                 textTransform: 'uppercase',
-                color: '#9A7432',
+                color: 'var(--bronze)',
                 fontWeight: 600,
                 display: 'block',
                 marginBottom: '0.85rem',
               }}
             >
-              INSTITUTIONAL ACCOLADES
+              VERIFIED REVIEWS
             </span>
 
             <h2
@@ -88,13 +89,13 @@ export const Reviews: React.FC = () => {
                 fontFamily: 'var(--font-serif)',
                 fontSize: 'clamp(2.4rem, 4.2vw, 3.6rem)',
                 lineHeight: 1.15,
-                color: '#1D2A26',
+                color: '#FAF8F4',
                 fontWeight: 400,
                 letterSpacing: '-0.015em',
                 margin: '0 0 1rem 0',
               }}
             >
-              Private Client Reflections
+              Loved by Proud Customers
             </h2>
 
             {/* Small Gold Divider Bar */}
@@ -102,13 +103,27 @@ export const Reviews: React.FC = () => {
               style={{
                 width: '36px',
                 height: '2px',
-                backgroundColor: '#9A7432',
-                margin: '0 auto',
+                backgroundColor: 'var(--bronze)',
+                margin: '0 auto 1.15rem auto',
               }}
             />
+
+            <p
+              style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: 'clamp(0.95rem, 1.15vw, 1.05rem)',
+                lineHeight: 1.6,
+                color: 'rgba(237, 232, 223, 0.75)',
+                maxWidth: '640px',
+                margin: '0 auto',
+                fontWeight: 400,
+              }}
+            >
+              Rated 5/5 by 100+ happy customers across Bangalore, Mysuru, Hyderabad &amp; Chennai.
+            </p>
           </div>
 
-          {/* 3 White Review Cards Grid */}
+          {/* 3 Dark Review Cards Grid matching Hero/Properties palette */}
           <div
             style={{
               display: 'grid',
@@ -126,15 +141,15 @@ export const Reviews: React.FC = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: idx * 0.12, ease: [0.16, 1, 0.3, 1] }}
                 style={{
-                  backgroundColor: '#FFFFFF',
-                  borderRadius: '16px',
-                  border: '1px solid #ECE8E1',
+                  backgroundColor: '#0F1613',
+                  borderRadius: '6px',
+                  border: '1px solid rgba(197, 168, 128, 0.2)',
                   padding: 'clamp(2rem, 3.5vw, 2.75rem) clamp(1.75rem, 2.5vw, 2.25rem)',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  boxShadow: '0 10px 30px rgba(0, 0, 0, 0.03)',
-                  transition: 'transform 0.35s ease, box-shadow 0.35s ease',
+                  boxShadow: '0 14px 34px rgba(0, 0, 0, 0.45)',
+                  transition: 'transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease',
                 }}
                 className="review-card"
               >
@@ -143,9 +158,9 @@ export const Reviews: React.FC = () => {
                   style={{
                     fontFamily: 'var(--font-serif)',
                     fontStyle: 'italic',
-                    fontSize: 'clamp(1.05rem, 1.25vw, 1.18rem)',
-                    lineHeight: 1.65,
-                    color: '#2A3531',
+                    fontSize: 'clamp(1.05rem, 1.25vw, 1.2rem)',
+                    lineHeight: 1.7,
+                    color: 'rgba(250, 248, 244, 0.92)',
                     margin: 0,
                     fontWeight: 400,
                   }}
@@ -158,7 +173,7 @@ export const Reviews: React.FC = () => {
                   <div
                     style={{
                       height: '1px',
-                      backgroundColor: '#EFECE6',
+                      backgroundColor: 'rgba(197, 168, 128, 0.18)',
                       margin: '2rem 0 1.25rem 0',
                     }}
                   />
@@ -169,9 +184,9 @@ export const Reviews: React.FC = () => {
                       fontFamily: 'var(--font-sans)',
                       fontSize: '0.82rem',
                       fontWeight: 700,
-                      letterSpacing: '0.12em',
+                      letterSpacing: '0.14em',
                       textTransform: 'uppercase',
-                      color: '#1D2A26',
+                      color: '#FAF8F4',
                       marginBottom: '0.35rem',
                     }}
                   >
@@ -183,7 +198,8 @@ export const Reviews: React.FC = () => {
                     style={{
                       fontFamily: 'var(--font-sans)',
                       fontSize: '0.85rem',
-                      color: '#727774',
+                      color: 'var(--bronze)',
+                      letterSpacing: '0.02em',
                     }}
                   >
                     {t.role}
@@ -198,9 +214,9 @@ export const Reviews: React.FC = () => {
       {/* Bottom Part: Dark Banner "— TRUSTED RELATIONSHIPS" with Horizontal Floating Marquee Animation */}
       <div
         style={{
-          backgroundColor: '#080D0B',
+          backgroundColor: '#070B09',
           padding: 'clamp(2.75rem, 4.5vw, 4rem) 0',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          borderBottom: '1px solid rgba(197, 168, 128, 0.15)',
           position: 'relative',
           overflow: 'hidden',
         }}
@@ -214,12 +230,12 @@ export const Reviews: React.FC = () => {
               fontSize: '0.72rem',
               letterSpacing: '0.24em',
               textTransform: 'uppercase',
-              color: '#C5A880',
+              color: 'var(--bronze)',
               fontWeight: 600,
               marginBottom: '2.5rem',
             }}
           >
-            — TRUSTED RELATIONSHIPS
+            — TRUSTED RELATIONSHIPS —
           </div>
         </div>
 
@@ -282,7 +298,7 @@ export const Reviews: React.FC = () => {
                       fontWeight: 600,
                       letterSpacing: '0.14em',
                       textTransform: 'uppercase',
-                      color: '#9A7432',
+                      color: 'var(--bronze)',
                       whiteSpace: 'nowrap',
                     }}
                   >
@@ -295,7 +311,7 @@ export const Reviews: React.FC = () => {
                   style={{
                     width: '1px',
                     height: '32px',
-                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                    backgroundColor: 'rgba(197, 168, 128, 0.2)',
                   }}
                 />
               </div>
@@ -307,7 +323,8 @@ export const Reviews: React.FC = () => {
       <style>{`
         .review-card:hover {
           transform: translateY(-4px);
-          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.06);
+          box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65) !important;
+          border-color: rgba(197, 168, 128, 0.5) !important;
         }
 
         @keyframes floatMarquee {

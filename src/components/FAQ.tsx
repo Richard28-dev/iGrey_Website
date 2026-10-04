@@ -42,7 +42,7 @@ const faqList: FAQItem[] = [
 ];
 
 export const FAQ: React.FC = () => {
-  const [openIdx, setOpenIdx] = useState<number | null>(null); // All closed by default
+  const [openIdx, setOpenIdx] = useState<number | null>(null);
 
   const toggle = (idx: number) => {
     setOpenIdx((prev) => (prev === idx ? null : idx));
@@ -57,11 +57,12 @@ export const FAQ: React.FC = () => {
     <section
       id="faq"
       style={{
-        backgroundColor: '#EDF2F7',
-        padding: 'clamp(5rem, 8vw, 8.5rem) 0',
+        backgroundColor: '#090D0B',
+        color: '#FFFFFF',
+        padding: 'clamp(5.5rem, 8.5vw, 8.5rem) 0',
         position: 'relative',
-        borderTop: '1px solid #E2E8F0',
-        borderBottom: '1px solid #E2E8F0',
+        borderTop: '1px solid rgba(197, 168, 128, 0.15)',
+        borderBottom: '1px solid rgba(197, 168, 128, 0.15)',
       }}
     >
       <div className="container" style={{ maxWidth: '920px' }}>
@@ -73,17 +74,17 @@ export const FAQ: React.FC = () => {
               alignItems: 'center',
               justifyContent: 'center',
               padding: '0.35rem 1.15rem',
-              backgroundColor: '#FEF3C7',
-              border: '1px solid rgba(217, 119, 6, 0.25)',
+              backgroundColor: 'rgba(197, 168, 128, 0.08)',
+              border: '1px solid rgba(197, 168, 128, 0.3)',
               borderRadius: '9999px',
               fontFamily: 'var(--font-sans)',
               fontSize: '0.72rem',
               letterSpacing: '0.18em',
               fontWeight: 700,
               textTransform: 'uppercase',
-              color: '#B45309',
+              color: 'var(--bronze-hi)',
               marginBottom: '1.25rem',
-              boxShadow: '0 1px 3px rgba(180, 83, 9, 0.08)',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
             }}
           >
             HELP &amp; CLARITY
@@ -92,11 +93,11 @@ export const FAQ: React.FC = () => {
           <h2
             style={{
               fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(2.3rem, 4vw, 3.4rem)',
+              fontSize: 'clamp(2.4rem, 4.2vw, 3.6rem)',
               lineHeight: 1.15,
-              color: '#0F172A',
+              color: '#FAF8F4',
               letterSpacing: '-0.02em',
-              fontWeight: 500,
+              fontWeight: 400,
               margin: '0 0 1rem 0',
             }}
           >
@@ -108,7 +109,7 @@ export const FAQ: React.FC = () => {
               fontFamily: 'var(--font-sans)',
               fontSize: 'clamp(0.95rem, 1.15vw, 1.05rem)',
               lineHeight: 1.65,
-              color: '#475569',
+              color: 'rgba(237, 232, 223, 0.72)',
               maxWidth: '620px',
               margin: '0 auto',
               fontWeight: 400,
@@ -118,7 +119,7 @@ export const FAQ: React.FC = () => {
           </p>
         </div>
 
-        {/* Accordion Rows: Rounded White Pill Cards matching reference */}
+        {/* Accordion Rows: Dark Obsidian Cards with Bronze Accents */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
           {faqList.map((item, idx) => {
             const isOpen = openIdx === idx;
@@ -130,22 +131,25 @@ export const FAQ: React.FC = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.45, delay: idx * 0.05 }}
                 style={{
-                  backgroundColor: '#FFFFFF',
-                  borderRadius: '14px',
-                  border: isOpen ? '1px solid #CBD5E1' : '1px solid #E2E8F0',
+                  backgroundColor: '#0F1613',
+                  borderRadius: '8px',
+                  border: isOpen
+                    ? '1px solid rgba(197, 168, 128, 0.45)'
+                    : '1px solid rgba(197, 168, 128, 0.18)',
                   boxShadow: isOpen
-                    ? '0 10px 25px rgba(0, 0, 0, 0.06)'
-                    : '0 2px 8px rgba(0, 0, 0, 0.02)',
+                    ? '0 12px 30px rgba(0, 0, 0, 0.45)'
+                    : '0 2px 10px rgba(0, 0, 0, 0.2)',
                   overflow: 'hidden',
                   transition: 'all 0.25s ease',
                 }}
+                className="faq-dark-item"
               >
                 <button
                   onClick={() => toggle(idx)}
                   aria-expanded={isOpen}
                   style={{
                     width: '100%',
-                    padding: '1.25rem clamp(1.25rem, 2.5vw, 1.75rem)',
+                    padding: '1.35rem clamp(1.25rem, 2.5vw, 1.85rem)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
@@ -159,11 +163,12 @@ export const FAQ: React.FC = () => {
                   <span
                     style={{
                       fontFamily: 'var(--font-sans)',
-                      fontSize: 'clamp(0.95rem, 1.15vw, 1.05rem)',
+                      fontSize: 'clamp(0.98rem, 1.15vw, 1.08rem)',
                       fontWeight: 600,
-                      color: isOpen ? '#0F172A' : '#1E293B',
+                      color: isOpen ? 'var(--bronze-hi)' : '#FAF8F4',
                       letterSpacing: '-0.01em',
                       lineHeight: 1.45,
+                      transition: 'color 0.2s ease',
                     }}
                   >
                     {item.question}
@@ -174,11 +179,14 @@ export const FAQ: React.FC = () => {
                       width: '32px',
                       height: '32px',
                       borderRadius: '50%',
-                      backgroundColor: isOpen ? '#F1F5F9' : '#F8FAFC',
+                      backgroundColor: isOpen
+                        ? 'rgba(197, 168, 128, 0.2)'
+                        : 'rgba(255, 255, 255, 0.04)',
+                      border: '1px solid rgba(197, 168, 128, 0.25)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: '#475569',
+                      color: isOpen ? 'var(--bronze-hi)' : 'rgba(237, 232, 223, 0.75)',
                       flexShrink: 0,
                       transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
                       transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease',
@@ -200,8 +208,8 @@ export const FAQ: React.FC = () => {
                     >
                       <div
                         style={{
-                          padding: '0 clamp(1.25rem, 2.5vw, 1.75rem) 1.5rem clamp(1.25rem, 2.5vw, 1.75rem)',
-                          borderTop: '1px solid #F1F5F9',
+                          padding: '0 clamp(1.25rem, 2.5vw, 1.85rem) 1.5rem clamp(1.25rem, 2.5vw, 1.85rem)',
+                          borderTop: '1px solid rgba(197, 168, 128, 0.15)',
                           marginTop: '0.25rem',
                           paddingTop: '1rem',
                         }}
@@ -209,9 +217,9 @@ export const FAQ: React.FC = () => {
                         <p
                           style={{
                             fontFamily: 'var(--font-sans)',
-                            fontSize: '0.95rem',
-                            lineHeight: 1.7,
-                            color: '#475569',
+                            fontSize: '0.96rem',
+                            lineHeight: 1.75,
+                            color: 'rgba(237, 232, 223, 0.78)',
                             margin: 0,
                             fontWeight: 400,
                           }}
@@ -234,7 +242,7 @@ export const FAQ: React.FC = () => {
             marginTop: 'clamp(2.5rem, 4vw, 3.5rem)',
             fontFamily: 'var(--font-sans)',
             fontSize: '0.95rem',
-            color: '#475569',
+            color: 'rgba(237, 232, 223, 0.65)',
           }}
         >
           <span>Still have questions about listing or renting? </span>
@@ -242,19 +250,25 @@ export const FAQ: React.FC = () => {
             href="#contact"
             onClick={handleContactClick}
             style={{
-              color: '#0F172A',
+              color: 'var(--bronze)',
               fontWeight: 600,
               textDecoration: 'underline',
               textUnderlineOffset: '3px',
               transition: 'color 0.2s ease',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = '#B45309')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = '#0F172A')}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#FFFFFF')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--bronze)')}
           >
             Speak with our advisory team →
           </a>
         </div>
       </div>
+
+      <style>{`
+        .faq-dark-item:hover {
+          border-color: rgba(197, 168, 128, 0.38) !important;
+        }
+      `}</style>
     </section>
   );
 };

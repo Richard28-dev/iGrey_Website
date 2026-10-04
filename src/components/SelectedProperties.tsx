@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, ArrowRight } from 'lucide-react';
+import { ArrowRight, Heart } from 'lucide-react';
 import { siteImages } from '../data/images';
 import { scrollToTarget } from '../utils/scroll';
 
 interface PropertyCardData {
   id: string;
-  status: 'AVAILABLE' | 'PRIVATE TREATY';
+  status: string;
   category: string;
   price: string;
   name: string;
   location: string;
-  description: string;
-  specs: string;
+  propertyId: string;
+  lease: string;
   image: { src: string; alt: string; width: number; height: number };
 }
 
@@ -20,39 +20,47 @@ const propertiesData: PropertyCardData[] = [
   {
     id: 'solarium-pavilion',
     status: 'AVAILABLE',
-    category: 'ARCHITECTURAL ESTATE',
-    price: '$28,500,000',
-    name: 'The Solarium Pavilion',
-    location: 'Bel-Air Crest, Los Angeles',
-    description: 'Cantilevered sanctuary framed by twilight reflection and open living spaces.',
-    specs: '12,400 sq.ft • 6 Beds',
+    category: 'GATED SOCIETY • 2 BHK',
+    price: '₹38,000',
+    name: 'Executive 2 BHK Residence',
+    location: 'Gokulam, Mysuru',
+    propertyId: 'SS-MYS-02',
+    lease: 'Lease: ₹22L (2-3 Yrs)',
     image: siteImages.propSolarium,
   },
   {
     id: 'villa-obscura',
-    status: 'PRIVATE TREATY',
-    category: 'VILLA',
-    price: '€19,200,000',
-    name: 'Villa Obscura',
-    location: 'Lake Como, Lombardy',
-    description: 'Monolithic charcoal concrete framing dramatic alpine views and glass walls.',
-    specs: '9,850 sq.ft • 5 Beds',
+    status: 'AVAILABLE',
+    category: 'GATED SOCIETY • 2 BHK',
+    price: '₹38,000',
+    name: 'Executive 2 BHK Residence',
+    location: 'Gokulam, Mysuru',
+    propertyId: 'SS-MYS-02',
+    lease: 'Lease: ₹22L (2-3 Yrs)',
     image: siteImages.propObscura,
   },
   {
     id: 'apex-penthouse',
     status: 'AVAILABLE',
-    category: 'PENTHOUSE',
-    price: '£24,750,000',
-    name: 'The Apex Penthouse',
-    location: 'One Bishopsgate, London',
-    description: 'Triplex sky residence commanding 360-degree metropolitan views.',
-    specs: '8,200 sq.ft • 4 Beds',
+    category: 'GATED SOCIETY • 2 BHK',
+    price: '₹38,000',
+    name: 'Executive 2 BHK Residence',
+    location: 'Gokulam, Mysuru',
+    propertyId: 'SS-MYS-02',
+    lease: 'Lease: ₹22L (2-3 Yrs)',
     image: siteImages.propApex,
   },
 ];
 
 export const SelectedProperties: React.FC = () => {
+  const [favorites, setFavorites] = useState<Record<string, boolean>>({});
+
+  const toggleFavorite = (e: React.MouseEvent, propId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setFavorites((prev) => ({ ...prev, [propId]: !prev[propId] }));
+  };
+
   const handleNavToContact = (e: React.MouseEvent) => {
     e.preventDefault();
     scrollToTarget('#contact', { offset: -40, duration: 1.25 });
@@ -78,7 +86,7 @@ export const SelectedProperties: React.FC = () => {
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             gap: '2rem',
-            marginBottom: 'clamp(3rem, 5vw, 4.5rem)',
+            marginBottom: 'clamp(2.8rem, 4.8vw, 4rem)',
           }}
         >
           <div>
@@ -91,7 +99,7 @@ export const SelectedProperties: React.FC = () => {
                 color: 'var(--bronze)',
                 fontWeight: 600,
                 display: 'block',
-                marginBottom: '1rem',
+                marginBottom: '0.9rem',
               }}
             >
               SELECTED RESIDENCES
@@ -100,16 +108,19 @@ export const SelectedProperties: React.FC = () => {
             <h2
               style={{
                 fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(2.5rem, 4.8vw, 4rem)',
-                lineHeight: 1.1,
+                fontSize: 'clamp(2.8rem, 5.2vw, 4.4rem)',
+                lineHeight: 1.08,
                 color: '#FAF8F4',
                 letterSpacing: '-0.02em',
                 fontWeight: 400,
                 margin: 0,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.65rem',
               }}
             >
-              Curated Architectural
-              <span style={{ display: 'block' }}>Portfolio</span>
+              <span style={{ fontSize: '0.88em', display: 'inline-block' }}>★</span>
+              <span>Featured</span>
             </h2>
           </div>
 
@@ -168,7 +179,7 @@ export const SelectedProperties: React.FC = () => {
               transition={{ duration: 0.6, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
               style={{
                 backgroundColor: '#0F1613',
-                border: '1px solid rgba(197, 168, 128, 0.2)',
+                border: '1px solid rgba(197, 168, 128, 0.18)',
                 borderRadius: '2px',
                 display: 'flex',
                 flexDirection: 'column',
@@ -179,14 +190,14 @@ export const SelectedProperties: React.FC = () => {
                 transition: 'transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease',
               }}
               className="property-card-curated-dark"
-              aria-label={`View details for ${prop.name} - ${prop.price}`}
+              aria-label={`Inquire about ${prop.name} - ${prop.price}`}
             >
-              {/* Image Container with 4:3 Aspect Ratio and Top-Left Badge */}
+              {/* Image Container with Top-Left Badge */}
               <div
                 style={{
                   position: 'relative',
                   width: '100%',
-                  aspectRatio: '4/3',
+                  aspectRatio: '16 / 11',
                   overflow: 'hidden',
                   backgroundColor: '#070B09',
                 }}
@@ -208,34 +219,81 @@ export const SelectedProperties: React.FC = () => {
                   className="property-card-image"
                 />
 
-                {/* Status Badge: Top-left offset 16px, white background, uppercase, 11-12px, gold text */}
+                {/* Status Badge: Top-left offset 16px, white background, uppercase, gold text */}
                 <div
                   style={{
                     position: 'absolute',
                     top: '16px',
                     left: '16px',
                     backgroundColor: '#FFFFFF',
-                    padding: '6px 12px',
+                    padding: '6px 14px',
                     fontFamily: 'var(--font-sans)',
-                    fontSize: '11.5px',
+                    fontSize: '11px',
                     letterSpacing: '0.15em',
-                    fontWeight: 600,
+                    fontWeight: 700,
                     textTransform: 'uppercase',
                     color: '#9a7432',
-                    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.15)',
+                    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.18)',
                     borderRadius: '2px',
                     lineHeight: 1.2,
+                    zIndex: 2,
                   }}
                 >
                   {prop.status}
                 </div>
+
+                {/* Favorite Heart Button: Top-right offset 16px, circular translucent button */}
+                <button
+                  type="button"
+                  onClick={(e) => toggleFavorite(e, prop.id)}
+                  aria-label={favorites[prop.id] ? `Remove ${prop.name} from wishlist` : `Save ${prop.name} to wishlist`}
+                  style={{
+                    position: 'absolute',
+                    top: '16px',
+                    right: '16px',
+                    width: '38px',
+                    height: '38px',
+                    borderRadius: '50%',
+                    backgroundColor: 'rgba(23, 31, 28, 0.65)',
+                    backdropFilter: 'blur(6px)',
+                    WebkitBackdropFilter: 'blur(6px)',
+                    border: '1px solid rgba(255, 255, 255, 0.18)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    zIndex: 3,
+                    transition: 'all 0.25s ease',
+                    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.25)',
+                    color: favorites[prop.id] ? '#E11D48' : '#FFFFFF',
+                    outline: 'none',
+                  }}
+                  className="property-favorite-btn"
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'rgba(23, 31, 28, 0.88)';
+                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.35)';
+                    e.currentTarget.style.transform = 'scale(1.08)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'rgba(23, 31, 28, 0.65)';
+                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.18)';
+                    e.currentTarget.style.transform = 'scale(1)';
+                  }}
+                >
+                  <Heart
+                    size={17}
+                    color={favorites[prop.id] ? '#E11D48' : '#FFFFFF'}
+                    fill={favorites[prop.id] ? '#E11D48' : 'none'}
+                    strokeWidth={1.9}
+                  />
+                </button>
               </div>
 
-              {/* Card Body: 32px desktop, responsive mobile */}
+              {/* Card Body */}
               <div
                 className="property-card-body"
                 style={{
-                  padding: '32px',
+                  padding: '24px 26px 22px 26px',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
@@ -243,26 +301,22 @@ export const SelectedProperties: React.FC = () => {
                   backgroundColor: '#0F1613',
                 }}
               >
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '14px',
-                  }}
-                >
-                  {/* Row 1: Category on left (uppercase, 12px, letter-spacing 0.18em, gold) and price on right (sans-serif, 20px, medium, bright) */}
+                <div>
+                  {/* Row 1: Category on left, Price on right */}
                   <div
                     style={{
                       display: 'flex',
                       alignItems: 'baseline',
                       justifyContent: 'space-between',
+                      gap: '0.5rem',
+                      marginBottom: '10px',
                     }}
                   >
                     <span
                       style={{
                         fontFamily: 'var(--font-sans)',
-                        fontSize: '12px',
-                        letterSpacing: '0.18em',
+                        fontSize: '11.5px',
+                        letterSpacing: '0.16em',
                         textTransform: 'uppercase',
                         color: 'var(--bronze)',
                         fontWeight: 600,
@@ -273,8 +327,8 @@ export const SelectedProperties: React.FC = () => {
                     <span
                       style={{
                         fontFamily: 'var(--font-sans)',
-                        fontSize: '20px',
-                        fontWeight: 600,
+                        fontSize: '22px',
+                        fontWeight: 700,
                         color: '#FFFFFF',
                         letterSpacing: '-0.01em',
                       }}
@@ -283,108 +337,82 @@ export const SelectedProperties: React.FC = () => {
                     </span>
                   </div>
 
-                  {/* Row 2: Property name in Cormorant Garamond serif ~30px, regular, elegant light tone */}
+                  {/* Row 2: Property title in serif font */}
                   <h3
                     style={{
                       fontFamily: 'var(--font-serif)',
-                      fontSize: '30px',
-                      lineHeight: 1.15,
+                      fontSize: 'clamp(1.35rem, 1.7vw, 1.6rem)',
+                      lineHeight: 1.22,
                       color: '#FAF8F4',
                       fontWeight: 400,
-                      margin: 0,
+                      margin: '0 0 10px 0',
                       letterSpacing: '-0.01em',
                     }}
                   >
                     {prop.name}
                   </h3>
 
-                  {/* Row 3: Small gold map-pin icon + location in muted grey 15px */}
+                  {/* Row 3: Location & ID with diamond indicator */}
                   <div
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '7px',
-                      color: 'rgba(237, 232, 223, 0.72)',
-                      fontSize: '15px',
+                      gap: '6px',
+                      color: 'rgba(237, 232, 223, 0.65)',
+                      fontSize: '13.5px',
                       fontFamily: 'var(--font-sans)',
+                      marginBottom: '20px',
                     }}
                   >
-                    <MapPin size={15} color="var(--bronze)" strokeWidth={1.8} style={{ flexShrink: 0 }} />
-                    <span>{prop.location}</span>
+                    <span style={{ color: 'var(--bronze)', fontSize: '11px', display: 'inline-block' }}>✦</span>
+                    <span>{prop.location} • ID: {prop.propertyId}</span>
                   </div>
-
-                  {/* Row 4: Short description, muted grey, truncated to a single line with ellipsis */}
-                  <p
-                    style={{
-                      margin: 0,
-                      fontFamily: 'var(--font-sans)',
-                      fontSize: '14.5px',
-                      lineHeight: 1.5,
-                      color: 'rgba(237, 232, 223, 0.55)',
-                      whiteSpace: 'nowrap',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                    }}
-                    title={prop.description}
-                  >
-                    {prop.description}
-                  </p>
                 </div>
 
-                {/* Bottom Section: Divider + Footer Row */}
-                <div style={{ marginTop: '16px' }}>
-                  {/* Thin divider (1px border) */}
-                  <div
+                {/* Row 4: Lease on left, Inquire on right */}
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    fontFamily: 'var(--font-sans)',
+                    paddingTop: '6px',
+                  }}
+                >
+                  <span
                     style={{
-                      height: '1px',
-                      backgroundColor: 'rgba(197, 168, 128, 0.18)',
-                      marginBottom: '16px',
-                    }}
-                  />
-
-                  {/* Footer Row: Specs on left ("12,400 sq.ft • 6 Beds", muted, 14px) and "Catalogue →" on right (gold, 14px, medium, letter-spacing 0.05em) */}
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      fontFamily: 'var(--font-sans)',
+                      color: 'rgba(237, 232, 223, 0.65)',
+                      fontSize: '13.5px',
+                      letterSpacing: '0.01em',
                     }}
                   >
-                    <span
-                      style={{
-                        color: 'rgba(237, 232, 223, 0.65)',
-                        fontSize: '14px',
-                        letterSpacing: '0.02em',
-                      }}
-                    >
-                      {prop.specs}
-                    </span>
+                    {prop.lease}
+                  </span>
 
+                  <span
+                    style={{
+                      color: '#FAF8F4',
+                      fontSize: '14px',
+                      fontWeight: 600,
+                      letterSpacing: '0.02em',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      transition: 'color 0.25s ease',
+                    }}
+                    className="inquire-cta"
+                  >
+                    <span>Inquire</span>
                     <span
                       style={{
-                        color: 'var(--bronze-hi)',
-                        fontSize: '14px',
-                        fontWeight: 600,
-                        letterSpacing: '0.05em',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '6px',
+                        display: 'inline-block',
+                        transition: 'transform 0.25s ease',
                       }}
-                      className="catalogue-cta"
+                      className="inquire-arrow"
                     >
-                      <span>Catalogue</span>
-                      <span
-                        style={{
-                          display: 'inline-block',
-                          transition: 'transform 0.25s ease',
-                        }}
-                        className="catalogue-arrow"
-                      >
-                        →
-                      </span>
+                      →
                     </span>
-                  </div>
+                  </span>
                 </div>
               </div>
             </motion.a>
@@ -405,7 +433,10 @@ export const SelectedProperties: React.FC = () => {
         .property-card-curated-dark:hover .property-card-image {
           transform: scale(1.04);
         }
-        .property-card-curated-dark:hover .catalogue-arrow {
+        .property-card-curated-dark:hover .inquire-cta {
+          color: var(--bronze-hi) !important;
+        }
+        .property-card-curated-dark:hover .inquire-arrow {
           transform: translateX(4px);
         }
         @media (max-width: 991px) {
@@ -420,7 +451,7 @@ export const SelectedProperties: React.FC = () => {
             gap: 20px !important;
           }
           .property-card-body {
-            padding: 22px 18px !important;
+            padding: 20px 18px !important;
           }
         }
       `}</style>
