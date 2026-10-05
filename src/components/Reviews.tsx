@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 interface TestimonialCard {
@@ -149,10 +149,162 @@ const trustedRelationships = [
 ];
 
 export const Reviews: React.FC = () => {
-  const [isPaused, setIsPaused] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const firstGroupRef = useRef<HTMLDivElement>(null);
+  const isInteractingRef = useRef(false);
+  const resumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const animationFrameIdRef = useRef<number | null>(null);
+  const scrollPosRef = useRef(0);
+  const hasScrolledRef = useRef(false);
 
   // Multiply for seamless infinite horizontal loop
   const tickerItems = [...trustedRelationships, ...trustedRelationships, ...trustedRelationships];
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const firstGroup = firstGroupRef.current;
+    if (!container || !firstGroup) return;
+
+    const isMobile = () => window.innerWidth < 768;
+    const prefersReducedMotion = () =>
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Initialize scroll position from container
+    scrollPosRef.current = container.scrollLeft;
+
+    const startInteraction = () => {
+      isInteractingRef.current = true;
+      if (resumeTimeoutRef.current) {
+        clearTimeout(resumeTimeoutRef.current);
+        resumeTimeoutRef.current = null;
+      }
+      container.classList.add('is-user-swiping');
+      scrollPosRef.current = container.scrollLeft;
+    };
+
+    const scheduleResume = (delay = 2000) => {
+      scrollPosRef.current = container.scrollLeft;
+      if (resumeTimeoutRef.current) {
+        clearTimeout(resumeTimeoutRef.current);
+      }
+      resumeTimeoutRef.current = setTimeout(() => {
+        container.classList.remove('is-user-swiping');
+        scrollPosRef.current = container.scrollLeft;
+        isInteractingRef.current = false;
+      }, delay);
+    };
+
+    const handleTouchStart = () => {
+      startInteraction();
+    };
+
+    const handleTouchEnd = () => {
+      scheduleResume(2000);
+    };
+
+    const handleTouchCancel = () => {
+      scheduleResume(2000);
+    };
+
+    const handlePointerDown = (e: PointerEvent) => {
+      if (e.pointerType === 'touch' || e.pointerType === 'pen') {
+        startInteraction();
+      }
+    };
+
+    const handlePointerUp = (e: PointerEvent) => {
+      if (e.pointerType === 'touch' || e.pointerType === 'pen') {
+        scheduleResume(2000);
+      }
+    };
+
+    const handlePointerCancel = (e: PointerEvent) => {
+      if (e.pointerType === 'touch' || e.pointerType === 'pen') {
+        scheduleResume(2000);
+      }
+    };
+
+    const handleScroll = () => {
+      if (isInteractingRef.current) {
+        scrollPosRef.current = container.scrollLeft;
+        hasScrolledRef.current = true;
+        scheduleResume(2000);
+      }
+
+      const singleGroupWidth = firstGroup.scrollWidth;
+      if (singleGroupWidth > 0) {
+        if (container.scrollLeft >= singleGroupWidth * 1.8) {
+          container.scrollLeft -= singleGroupWidth;
+          scrollPosRef.current = container.scrollLeft;
+        } else if (container.scrollLeft <= 0 && hasScrolledRef.current) {
+          container.scrollLeft += singleGroupWidth;
+          scrollPosRef.current = container.scrollLeft;
+        }
+      }
+    };
+
+    container.addEventListener('touchstart', handleTouchStart, { passive: true });
+    container.addEventListener('touchend', handleTouchEnd, { passive: true });
+    container.addEventListener('touchcancel', handleTouchCancel, { passive: true });
+    container.addEventListener('pointerdown', handlePointerDown, { passive: true });
+    container.addEventListener('pointerup', handlePointerUp, { passive: true });
+    container.addEventListener('pointercancel', handlePointerCancel, { passive: true });
+    container.addEventListener('scroll', handleScroll, { passive: true });
+
+    let lastTimestamp = performance.now();
+    const SPEED_PX_PER_SEC = 36;
+
+    const step = (timestamp: number) => {
+      const dt = Math.min((timestamp - lastTimestamp) / 1000, 0.1);
+      lastTimestamp = timestamp;
+
+      if (isMobile() && !prefersReducedMotion() && !isInteractingRef.current) {
+        const singleGroupWidth = firstGroup.scrollWidth;
+        if (singleGroupWidth > 0) {
+          // If container.scrollLeft differed from scrollPosRef (due to user gesture or layout snap), re-sync
+          if (Math.abs(container.scrollLeft - scrollPosRef.current) > 2) {
+            scrollPosRef.current = container.scrollLeft;
+          }
+
+          scrollPosRef.current += SPEED_PX_PER_SEC * dt;
+          if (scrollPosRef.current >= singleGroupWidth) {
+            scrollPosRef.current -= singleGroupWidth;
+          }
+          container.scrollLeft = scrollPosRef.current;
+          hasScrolledRef.current = true;
+        }
+      }
+
+      animationFrameIdRef.current = requestAnimationFrame(step);
+    };
+
+    animationFrameIdRef.current = requestAnimationFrame(step);
+
+    const handleResize = () => {
+      if (!isMobile()) {
+        container.scrollLeft = 0;
+        scrollPosRef.current = 0;
+      }
+    };
+    window.addEventListener('resize', handleResize, { passive: true });
+
+    return () => {
+      if (animationFrameIdRef.current) {
+        cancelAnimationFrame(animationFrameIdRef.current);
+      }
+      if (resumeTimeoutRef.current) {
+        clearTimeout(resumeTimeoutRef.current);
+      }
+      container.removeEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchend', handleTouchEnd);
+      container.removeEventListener('touchcancel', handleTouchCancel);
+      container.removeEventListener('pointerdown', handlePointerDown);
+      container.removeEventListener('pointerup', handlePointerUp);
+      container.removeEventListener('pointercancel', handlePointerCancel);
+      container.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const renderCard = (t: TestimonialCard, keyPrefix: string, idx: number) => (
     <div key={`${keyPrefix}-${t.name}-${idx}`} className="review-card">
@@ -483,17 +635,16 @@ export const Reviews: React.FC = () => {
 
         {/* Continuous Horizontal Floating Reviews Marquee with Soft Edge Fade */}
         <motion.div
+          ref={containerRef}
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="reviews-marquee-container"
-          onTouchStart={() => setIsPaused(true)}
-          onTouchEnd={() => setIsPaused(false)}
         >
-          <div className={`reviews-marquee-track ${isPaused ? 'is-paused' : ''}`}>
+          <div className="reviews-marquee-track">
             {/* First Set of Cards */}
-            <div className="reviews-marquee-group">
+            <div className="reviews-marquee-group" ref={firstGroupRef}>
               {testimonials.map((t, idx) => renderCard(t, 'orig', idx))}
             </div>
 
@@ -649,14 +800,6 @@ export const Reviews: React.FC = () => {
           will-change: transform;
         }
 
-        .reviews-marquee-track.is-paused {
-          animation-play-state: paused !important;
-        }
-
-        .reviews-marquee-container:hover .reviews-marquee-track {
-          animation-play-state: paused;
-        }
-
         .reviews-marquee-group {
           display: flex;
           gap: 24px;
@@ -681,6 +824,9 @@ export const Reviews: React.FC = () => {
           box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45);
           transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
           box-sizing: border-box;
+          -webkit-tap-highlight-color: transparent;
+          user-select: none;
+          -webkit-user-select: none;
         }
 
         .reviews-marquee-container .review-card .review-quote {
@@ -694,10 +840,21 @@ export const Reviews: React.FC = () => {
           margin: 0 !important;
         }
 
-        .reviews-marquee-container .review-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65) !important;
-          border-color: rgba(197, 168, 128, 0.5) !important;
+        /* Desktop Hover: Only applies on devices with fine pointer (mouse), never on phones */
+        @media (hover: hover) and (pointer: fine) {
+          .reviews-marquee-container:hover .reviews-marquee-track {
+            animation-play-state: paused;
+          }
+
+          .reviews-marquee-container .review-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65) !important;
+            border-color: rgba(197, 168, 128, 0.5) !important;
+          }
+
+          .marquee-container:hover .marquee-track {
+            animation-play-state: paused;
+          }
         }
 
         @keyframes reviewsMarquee {
@@ -716,10 +873,6 @@ export const Reviews: React.FC = () => {
           100% {
             transform: translateX(calc(-100% / 3));
           }
-        }
-
-        .marquee-container:hover .marquee-track {
-          animation-play-state: paused;
         }
 
         /* Mobile Optimization (under 768px) */
@@ -776,8 +929,48 @@ export const Reviews: React.FC = () => {
             padding: 0 4px !important;
           }
 
+          /* PART 2 & 3: HORIZONTALLY SWIPEABLE TRACK & AUTO-SCROLL */
           .reviews-marquee-container {
+            overflow-x: auto !important;
+            scroll-snap-type: none;
+            -webkit-overflow-scrolling: touch !important;
+            touch-action: pan-x pan-y !important;
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+            cursor: default !important;
             padding: 0 0 20px 0 !important;
+            mask-image: linear-gradient(
+              to right,
+              transparent 0%,
+              black 16px,
+              black calc(100% - 16px),
+              transparent 100%
+            ) !important;
+            -webkit-mask-image: linear-gradient(
+              to right,
+              transparent 0%,
+              black 16px,
+              black calc(100% - 16px),
+              transparent 100%
+            ) !important;
+          }
+
+          .reviews-marquee-container.is-user-swiping {
+            scroll-snap-type: x proximity !important;
+          }
+
+          .reviews-marquee-container::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+          }
+
+          .reviews-marquee-track {
+            display: flex !important;
+            width: max-content !important;
+            animation: none !important;
+            transform: none !important;
+            will-change: auto !important;
           }
 
           /* PART 2: SMALLER CARDS */
@@ -800,6 +993,22 @@ export const Reviews: React.FC = () => {
             flex-direction: column !important;
             justify-content: space-between !important;
             box-sizing: border-box !important;
+            scroll-snap-align: center !important;
+            scroll-snap-stop: normal !important;
+            -webkit-tap-highlight-color: transparent !important;
+            user-select: none !important;
+            -webkit-user-select: none !important;
+          }
+
+          /* PREVENT STICKY HOVER ON MOBILE */
+          .reviews-marquee-container .review-card,
+          .reviews-marquee-container .review-card:hover,
+          .reviews-marquee-container .review-card:focus,
+          .reviews-marquee-container .review-card:active {
+            transform: none !important;
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45) !important;
+            border-color: rgba(197, 168, 128, 0.22) !important;
+            outline: none !important;
           }
 
           .review-card-top {
