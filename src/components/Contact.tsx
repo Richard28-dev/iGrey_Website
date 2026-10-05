@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, CheckCircle2, Loader2 } from 'lucide-react';
+import { MapPin, CheckCircle2, Loader2, Send } from 'lucide-react';
 import { siteImages } from '../data/images';
 
 interface ContactFormState {
@@ -66,22 +66,52 @@ export const Contact: React.FC = () => {
     <section
       id="contact"
       style={{
-        backgroundColor: '#F3F5F7',
-        padding: 'clamp(4.5rem, 7vw, 7.5rem) 0',
+        backgroundColor: '#090D0B',
+        color: '#FFFFFF',
+        padding: 'clamp(5rem, 8vw, 8rem) 0',
         position: 'relative',
-        borderTop: '1px solid #E5E7EB',
-        borderBottom: '1px solid #E2E8F0',
+        borderTop: '1px solid rgba(197, 168, 128, 0.15)',
+        borderBottom: '1px solid rgba(197, 168, 128, 0.15)',
+        overflow: 'hidden',
       }}
     >
-      <div className="container" style={{ maxWidth: '1220px' }}>
-        {/* Floating White Card Container matching reference screenshot */}
+      {/* Ambient Lighting Accents */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '15%',
+          right: '0%',
+          width: '550px',
+          height: '550px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(197, 168, 128, 0.05) 0%, rgba(9, 13, 11, 0) 70%)',
+          pointerEvents: 'none',
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '5%',
+          left: '0%',
+          width: '500px',
+          height: '500px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(22, 35, 28, 0.45) 0%, rgba(9, 13, 11, 0) 70%)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      <div className="container" style={{ maxWidth: '1220px', position: 'relative', zIndex: 2 }}>
+        {/* Floating Dark Glassmorphism Card Container */}
         <div
           style={{
-            backgroundColor: '#FFFFFF',
-            borderRadius: '20px',
-            border: '1px solid #E2E8F0',
-            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02)',
-            padding: 'clamp(2.5rem, 5vw, 4rem)',
+            background: 'linear-gradient(155deg, rgba(14, 22, 18, 0.88) 0%, rgba(7, 12, 10, 0.96) 100%)',
+            backdropFilter: 'blur(24px)',
+            WebkitBackdropFilter: 'blur(24px)',
+            borderRadius: '24px',
+            border: '1.5px solid rgba(197, 168, 128, 0.28)',
+            boxShadow: '0 24px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+            padding: 'clamp(2.25rem, 5vw, 4rem)',
             display: 'grid',
             gridTemplateColumns: 'minmax(0, 1.05fr) minmax(0, 1.25fr)',
             gap: 'clamp(2.5rem, 5vw, 5rem)',
@@ -91,18 +121,42 @@ export const Contact: React.FC = () => {
         >
           {/* Left Column: Heading, Description, Image, Location line */}
           <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {/* Eyebrow Badge */}
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.35rem 1rem',
+                backgroundColor: 'rgba(197, 168, 128, 0.08)',
+                border: '1px solid rgba(197, 168, 128, 0.3)',
+                borderRadius: '9999px',
+                fontFamily: 'var(--font-sans)',
+                fontSize: '0.72rem',
+                letterSpacing: '0.18em',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                color: 'var(--bronze-hi)',
+                marginBottom: '1.25rem',
+                width: 'fit-content',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
+              }}
+            >
+              DIRECT ADVISORY
+            </div>
+
             <h2
               style={{
                 fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(2.1rem, 3.4vw, 2.85rem)',
+                fontSize: 'clamp(2.2rem, 3.6vw, 3rem)',
                 lineHeight: 1.15,
-                color: '#0F172A',
-                fontWeight: 500,
+                color: '#FAF8F4',
+                fontWeight: 400,
                 letterSpacing: '-0.015em',
                 margin: '0 0 1rem 0',
               }}
             >
-              Contact iGH
+              Contact <span style={{ fontStyle: 'italic', color: 'var(--bronze-hi)' }}>iGH</span>
             </h2>
 
             <p
@@ -110,26 +164,26 @@ export const Contact: React.FC = () => {
                 fontFamily: 'var(--font-sans)',
                 fontSize: '1rem',
                 lineHeight: 1.65,
-                color: '#475569',
+                color: 'rgba(237, 232, 223, 0.72)',
                 margin: '0 0 1.75rem 0',
                 maxWidth: '460px',
-                fontWeight: 400,
+                fontWeight: 300,
               }}
             >
               Have questions or want to partner with us? Leave your message and our team at iGH will get back to you shortly.
             </p>
 
-            {/* High-End Architectural Property Image replacing blurry traffic image */}
+            {/* Architectural Property Image with Luxury Framing */}
             <div
               style={{
                 width: '100%',
                 aspectRatio: '16/10',
-                borderRadius: '14px',
+                borderRadius: '16px',
                 overflow: 'hidden',
-                backgroundColor: '#E2E8F0',
-                marginBottom: '1.25rem',
-                border: '1px solid #E5E7EB',
-                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.06)',
+                backgroundColor: 'rgba(10, 16, 13, 0.85)',
+                marginBottom: '1.5rem',
+                border: '1px solid rgba(197, 168, 128, 0.28)',
+                boxShadow: '0 12px 35px rgba(0, 0, 0, 0.45)',
               }}
             >
               <img
@@ -142,24 +196,26 @@ export const Contact: React.FC = () => {
                   height: '100%',
                   objectFit: 'cover',
                   display: 'block',
+                  filter: 'brightness(0.92) contrast(1.05)',
+                  transition: 'transform 0.5s ease',
                 }}
               />
             </div>
 
-            {/* Location Cities Footer matching reference */}
+            {/* Location Cities Footer */}
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.5rem',
-                color: '#334155',
+                gap: '0.65rem',
+                color: 'rgba(237, 232, 223, 0.78)',
                 fontFamily: 'var(--font-sans)',
-                fontSize: '0.9rem',
-                fontWeight: 500,
-                letterSpacing: '0.01em',
+                fontSize: '0.88rem',
+                fontWeight: 400,
+                letterSpacing: '0.02em',
               }}
             >
-              <MapPin size={17} color="#0F172A" style={{ flexShrink: 0 }} />
+              <MapPin size={17} color="var(--bronze-hi)" style={{ flexShrink: 0 }} />
               <span>Bangalore • Mysuru • Hyderabad • Chennai</span>
             </div>
           </div>
@@ -173,20 +229,21 @@ export const Contact: React.FC = () => {
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   style={{
-                    padding: '3rem 1.5rem',
+                    padding: '3.5rem 2rem',
                     textAlign: 'center',
-                    backgroundColor: '#F8FAFC',
-                    borderRadius: '14px',
-                    border: '1px solid #E2E8F0',
+                    backgroundColor: 'rgba(10, 17, 13, 0.85)',
+                    borderRadius: '18px',
+                    border: '1.5px solid rgba(197, 168, 128, 0.35)',
+                    boxShadow: '0 20px 45px rgba(0, 0, 0, 0.5)',
                   }}
                 >
-                  <CheckCircle2 size={52} color="#0D9488" style={{ margin: '0 auto 1.25rem auto' }} />
+                  <CheckCircle2 size={54} color="var(--bronze-hi)" style={{ margin: '0 auto 1.25rem auto' }} />
                   <h3
                     style={{
                       fontFamily: 'var(--font-serif)',
                       fontSize: '1.9rem',
-                      color: '#0F172A',
-                      fontWeight: 500,
+                      color: '#FAF8F4',
+                      fontWeight: 400,
                       marginBottom: '0.75rem',
                     }}
                   >
@@ -197,26 +254,24 @@ export const Contact: React.FC = () => {
                       fontFamily: 'var(--font-sans)',
                       fontSize: '0.95rem',
                       lineHeight: 1.6,
-                      color: '#475569',
+                      color: 'rgba(237, 232, 223, 0.75)',
                       maxWidth: '400px',
                       margin: '0 auto 2rem auto',
+                      fontWeight: 300,
                     }}
                   >
                     Thank you for reaching out to iGH. Our advisory team has received your inquiry and will contact you shortly.
                   </p>
                   <button
                     onClick={() => setIsSuccess(false)}
+                    className="btn-bronze"
                     style={{
-                      backgroundColor: '#0F172A',
-                      color: '#FFFFFF',
-                      border: 'none',
-                      borderRadius: '8px',
-                      padding: '0.85rem 1.75rem',
-                      fontFamily: 'var(--font-sans)',
-                      fontSize: '0.88rem',
+                      padding: '0.88rem 2rem',
+                      fontSize: '0.92rem',
                       fontWeight: 600,
+                      borderRadius: '8px',
                       cursor: 'pointer',
-                      transition: 'background-color 0.2s ease',
+                      border: 'none',
                     }}
                   >
                     Send Another Message
@@ -233,8 +288,9 @@ export const Contact: React.FC = () => {
                           fontFamily: 'var(--font-sans)',
                           fontSize: '0.85rem',
                           fontWeight: 500,
-                          color: '#0F172A',
+                          color: 'rgba(237, 232, 223, 0.9)',
                           marginBottom: '0.45rem',
+                          letterSpacing: '0.01em',
                         }}
                       >
                         Your Name
@@ -244,22 +300,23 @@ export const Contact: React.FC = () => {
                         placeholder="e.g. Rahul Sharma"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="reference-input"
+                        className="contact-dark-input"
                         style={{
                           width: '100%',
-                          padding: '0.8rem 1rem',
+                          padding: '0.85rem 1.15rem',
                           fontFamily: 'var(--font-sans)',
                           fontSize: '0.92rem',
-                          color: '#0F172A',
-                          backgroundColor: '#FFFFFF',
-                          border: errors.name ? '1px solid #EF4444' : '1px solid #E2E8F0',
-                          borderRadius: '8px',
+                          color: '#FAF8F4',
+                          backgroundColor: 'rgba(10, 17, 13, 0.85)',
+                          border: errors.name ? '1px solid #EF4444' : '1px solid rgba(197, 168, 128, 0.28)',
+                          borderRadius: '10px',
                           outline: 'none',
-                          transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
+                          boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.4)',
+                          transition: 'all 0.25s ease',
                         }}
                       />
                       {errors.name && (
-                        <span style={{ fontSize: '0.75rem', color: '#EF4444', marginTop: '0.3rem', display: 'block' }}>
+                        <span style={{ fontSize: '0.75rem', color: '#F87171', marginTop: '0.35rem', display: 'block' }}>
                           {errors.name}
                         </span>
                       )}
@@ -282,8 +339,9 @@ export const Contact: React.FC = () => {
                             fontFamily: 'var(--font-sans)',
                             fontSize: '0.85rem',
                             fontWeight: 500,
-                            color: '#0F172A',
+                            color: 'rgba(237, 232, 223, 0.9)',
                             marginBottom: '0.45rem',
+                            letterSpacing: '0.01em',
                           }}
                         >
                           Phone Number
@@ -293,22 +351,23 @@ export const Contact: React.FC = () => {
                           placeholder="+91 98765 00000"
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          className="reference-input"
+                          className="contact-dark-input"
                           style={{
                             width: '100%',
-                            padding: '0.8rem 1rem',
+                            padding: '0.85rem 1.15rem',
                             fontFamily: 'var(--font-sans)',
                             fontSize: '0.92rem',
-                            color: '#0F172A',
-                            backgroundColor: '#FFFFFF',
-                            border: errors.phone ? '1px solid #EF4444' : '1px solid #E2E8F0',
-                            borderRadius: '8px',
+                            color: '#FAF8F4',
+                            backgroundColor: 'rgba(10, 17, 13, 0.85)',
+                            border: errors.phone ? '1px solid #EF4444' : '1px solid rgba(197, 168, 128, 0.28)',
+                            borderRadius: '10px',
                             outline: 'none',
-                            transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
+                            boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.4)',
+                            transition: 'all 0.25s ease',
                           }}
                         />
                         {errors.phone && (
-                          <span style={{ fontSize: '0.75rem', color: '#EF4444', marginTop: '0.3rem', display: 'block' }}>
+                          <span style={{ fontSize: '0.75rem', color: '#F87171', marginTop: '0.35rem', display: 'block' }}>
                             {errors.phone}
                           </span>
                         )}
@@ -322,8 +381,9 @@ export const Contact: React.FC = () => {
                             fontFamily: 'var(--font-sans)',
                             fontSize: '0.85rem',
                             fontWeight: 500,
-                            color: '#0F172A',
+                            color: 'rgba(237, 232, 223, 0.9)',
                             marginBottom: '0.45rem',
+                            letterSpacing: '0.01em',
                           }}
                         >
                           Email Address
@@ -333,22 +393,23 @@ export const Contact: React.FC = () => {
                           placeholder="rahul@example.com"
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          className="reference-input"
+                          className="contact-dark-input"
                           style={{
                             width: '100%',
-                            padding: '0.8rem 1rem',
+                            padding: '0.85rem 1.15rem',
                             fontFamily: 'var(--font-sans)',
                             fontSize: '0.92rem',
-                            color: '#0F172A',
-                            backgroundColor: '#FFFFFF',
-                            border: errors.email ? '1px solid #EF4444' : '1px solid #E2E8F0',
-                            borderRadius: '8px',
+                            color: '#FAF8F4',
+                            backgroundColor: 'rgba(10, 17, 13, 0.85)',
+                            border: errors.email ? '1px solid #EF4444' : '1px solid rgba(197, 168, 128, 0.28)',
+                            borderRadius: '10px',
                             outline: 'none',
-                            transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
+                            boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.4)',
+                            transition: 'all 0.25s ease',
                           }}
                         />
                         {errors.email && (
-                          <span style={{ fontSize: '0.75rem', color: '#EF4444', marginTop: '0.3rem', display: 'block' }}>
+                          <span style={{ fontSize: '0.75rem', color: '#F87171', marginTop: '0.35rem', display: 'block' }}>
                             {errors.email}
                           </span>
                         )}
@@ -363,8 +424,9 @@ export const Contact: React.FC = () => {
                           fontFamily: 'var(--font-sans)',
                           fontSize: '0.85rem',
                           fontWeight: 500,
-                          color: '#0F172A',
+                          color: 'rgba(237, 232, 223, 0.9)',
                           marginBottom: '0.45rem',
+                          letterSpacing: '0.01em',
                         }}
                       >
                         I am a
@@ -372,19 +434,20 @@ export const Contact: React.FC = () => {
                       <select
                         value={formData.role}
                         onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                        className="reference-input"
+                        className="contact-dark-input"
                         style={{
                           width: '100%',
-                          padding: '0.8rem 1rem',
+                          padding: '0.85rem 1.15rem',
                           fontFamily: 'var(--font-sans)',
                           fontSize: '0.92rem',
-                          color: '#0F172A',
-                          backgroundColor: '#FFFFFF',
-                          border: '1px solid #E2E8F0',
-                          borderRadius: '8px',
+                          color: '#FAF8F4',
+                          backgroundColor: '#0A110D',
+                          border: '1px solid rgba(197, 168, 128, 0.28)',
+                          borderRadius: '10px',
                           outline: 'none',
                           cursor: 'pointer',
-                          transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
+                          boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.4)',
+                          transition: 'all 0.25s ease',
                         }}
                       >
                         <option value="Property Owner / Landlord">Property Owner / Landlord</option>
@@ -403,8 +466,9 @@ export const Contact: React.FC = () => {
                           fontFamily: 'var(--font-sans)',
                           fontSize: '0.85rem',
                           fontWeight: 500,
-                          color: '#0F172A',
+                          color: 'rgba(237, 232, 223, 0.9)',
                           marginBottom: '0.45rem',
+                          letterSpacing: '0.01em',
                         }}
                       >
                         Location / City
@@ -414,22 +478,23 @@ export const Contact: React.FC = () => {
                         placeholder="e.g. Mysuru, Bangalore, Chennai, M G Road"
                         value={formData.city}
                         onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                        className="reference-input"
+                        className="contact-dark-input"
                         style={{
                           width: '100%',
-                          padding: '0.8rem 1rem',
+                          padding: '0.85rem 1.15rem',
                           fontFamily: 'var(--font-sans)',
                           fontSize: '0.92rem',
-                          color: '#0F172A',
-                          backgroundColor: '#FFFFFF',
-                          border: errors.city ? '1px solid #EF4444' : '1px solid #E2E8F0',
-                          borderRadius: '8px',
+                          color: '#FAF8F4',
+                          backgroundColor: 'rgba(10, 17, 13, 0.85)',
+                          border: errors.city ? '1px solid #EF4444' : '1px solid rgba(197, 168, 128, 0.28)',
+                          borderRadius: '10px',
                           outline: 'none',
-                          transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
+                          boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.4)',
+                          transition: 'all 0.25s ease',
                         }}
                       />
                       {errors.city && (
-                        <span style={{ fontSize: '0.75rem', color: '#EF4444', marginTop: '0.3rem', display: 'block' }}>
+                        <span style={{ fontSize: '0.75rem', color: '#F87171', marginTop: '0.35rem', display: 'block' }}>
                           {errors.city}
                         </span>
                       )}
@@ -443,8 +508,9 @@ export const Contact: React.FC = () => {
                           fontFamily: 'var(--font-sans)',
                           fontSize: '0.85rem',
                           fontWeight: 500,
-                          color: '#0F172A',
+                          color: 'rgba(237, 232, 223, 0.9)',
                           marginBottom: '0.45rem',
+                          letterSpacing: '0.01em',
                         }}
                       >
                         Message / Property Details
@@ -454,70 +520,62 @@ export const Contact: React.FC = () => {
                         placeholder="Tell us a little about your property or stay requirements..."
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        className="reference-input"
+                        className="contact-dark-input"
                         style={{
                           width: '100%',
-                          padding: '0.85rem 1rem',
+                          padding: '0.85rem 1.15rem',
                           fontFamily: 'var(--font-sans)',
                           fontSize: '0.92rem',
-                          color: '#0F172A',
-                          backgroundColor: '#FFFFFF',
-                          border: errors.message ? '1px solid #EF4444' : '1px solid #E2E8F0',
-                          borderRadius: '8px',
+                          color: '#FAF8F4',
+                          backgroundColor: 'rgba(10, 17, 13, 0.85)',
+                          border: errors.message ? '1px solid #EF4444' : '1px solid rgba(197, 168, 128, 0.28)',
+                          borderRadius: '10px',
                           outline: 'none',
                           resize: 'vertical',
-                          transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
+                          boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.4)',
+                          transition: 'all 0.25s ease',
                         }}
                       />
                       {errors.message && (
-                        <span style={{ fontSize: '0.75rem', color: '#EF4444', marginTop: '0.3rem', display: 'block' }}>
+                        <span style={{ fontSize: '0.75rem', color: '#F87171', marginTop: '0.35rem', display: 'block' }}>
                           {errors.message}
                         </span>
                       )}
                     </div>
 
-                    {/* Send Message Button matching reference */}
+                    {/* Send Message Button matching luxury bronze CTA */}
                     <button
                       type="submit"
                       disabled={isSubmitting}
+                      className="btn-bronze"
                       style={{
                         width: '100%',
-                        padding: '0.95rem 1.5rem',
+                        padding: '1rem 1.75rem',
                         marginTop: '0.5rem',
-                        backgroundColor: '#0F172A',
-                        color: '#FFFFFF',
-                        border: 'none',
-                        borderRadius: '8px',
+                        fontSize: '0.96rem',
+                        fontWeight: 600,
+                        letterSpacing: '0.03em',
+                        borderRadius: '10px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        gap: '0.5rem',
-                        fontFamily: 'var(--font-sans)',
-                        fontSize: '0.95rem',
-                        fontWeight: 600,
-                        letterSpacing: '0.01em',
+                        gap: '0.65rem',
                         cursor: isSubmitting ? 'not-allowed' : 'pointer',
-                        boxShadow: '0 4px 14px rgba(15, 23, 42, 0.15)',
-                        transition: 'background-color 0.2s ease, transform 0.2s ease',
-                      }}
-                      onMouseEnter={(e) => {
-                        if (!isSubmitting) {
-                          e.currentTarget.style.backgroundColor = '#1E293B';
-                          e.currentTarget.style.transform = 'translateY(-1px)';
-                        }
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = '#0F172A';
-                        e.currentTarget.style.transform = 'translateY(0)';
+                        border: 'none',
+                        boxShadow: '0 10px 25px rgba(0, 0, 0, 0.4), 0 0 20px rgba(197, 168, 128, 0.15)',
+                        transition: 'all 0.3s ease',
                       }}
                     >
                       {isSubmitting ? (
                         <>
-                          <Loader2 size={16} className="animate-spin" />
+                          <Loader2 size={18} className="animate-spin" />
                           <span>Sending Message...</span>
                         </>
                       ) : (
-                        <span>Send Message</span>
+                        <>
+                          <span>Send Message</span>
+                          <Send size={16} />
+                        </>
                       )}
                     </button>
                   </div>
@@ -529,12 +587,17 @@ export const Contact: React.FC = () => {
       </div>
 
       <style>{`
-        .reference-input:focus {
-          border-color: #0F172A !important;
-          box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08) !important;
+        .contact-dark-input:focus {
+          border-color: var(--bronze-hi) !important;
+          background-color: rgba(14, 23, 18, 0.95) !important;
+          box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.2), 0 4px 12px rgba(0, 0, 0, 0.4) !important;
         }
-        .reference-input::placeholder {
-          color: #94A3B8;
+        .contact-dark-input::placeholder {
+          color: rgba(237, 232, 223, 0.38) !important;
+        }
+        .contact-dark-input option {
+          background-color: #0A110D;
+          color: #FAF8F4;
         }
         @media (max-width: 960px) {
           .contact-card-split {

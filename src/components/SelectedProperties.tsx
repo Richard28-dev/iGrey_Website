@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Heart } from 'lucide-react';
+import { ArrowRight, Heart, ChevronLeft, ChevronRight } from 'lucide-react';
 import { siteImages } from '../data/images';
 import { scrollToTarget } from '../utils/scroll';
 
-interface PropertyCardData {
+export interface PropertyCardData {
   id: string;
   status: string;
   category: string;
@@ -13,7 +13,8 @@ interface PropertyCardData {
   location: string;
   propertyId: string;
   lease: string;
-  image: { src: string; alt: string; width: number; height: number };
+  images: string[];
+  image?: { src: string; alt: string; width: number; height: number };
 }
 
 const propertiesData: PropertyCardData[] = [
@@ -26,7 +27,12 @@ const propertiesData: PropertyCardData[] = [
     location: 'Gokulam, Mysuru',
     propertyId: 'SS-MYS-02',
     lease: 'Lease: ₹22L (2-3 Yrs)',
-    image: siteImages.propSolarium,
+    images: [
+      siteImages.propSolarium.src,
+      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85',
+      'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85',
+      'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=85',
+    ],
   },
   {
     id: 'villa-obscura',
@@ -37,7 +43,12 @@ const propertiesData: PropertyCardData[] = [
     location: 'Gokulam, Mysuru',
     propertyId: 'SS-MYS-02',
     lease: 'Lease: ₹22L (2-3 Yrs)',
-    image: siteImages.propObscura,
+    images: [
+      siteImages.propObscura.src,
+      'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=85',
+      'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85',
+      'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=85',
+    ],
   },
   {
     id: 'apex-penthouse',
@@ -48,9 +59,369 @@ const propertiesData: PropertyCardData[] = [
     location: 'Gokulam, Mysuru',
     propertyId: 'SS-MYS-02',
     lease: 'Lease: ₹22L (2-3 Yrs)',
-    image: siteImages.propApex,
+    images: [
+      siteImages.propApex.src,
+      'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=85',
+      'https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&w=1200&q=85',
+      'https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=1200&q=85',
+    ],
   },
 ];
+
+interface PropertyImageCarouselProps {
+  images: string[];
+  name: string;
+  status: string;
+  isFavorite: boolean;
+  onToggleFavorite: (e: React.MouseEvent) => void;
+}
+
+export const PropertyImageCarousel: React.FC<PropertyImageCarouselProps> = ({
+  images,
+  name,
+  status,
+  isFavorite,
+  onToggleFavorite,
+}) => {
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+
+  const total = images && images.length > 0 ? images.length : 1;
+  const safeIdx = ((currentIdx % total) + total) % total;
+
+  const handlePrev = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setCurrentIdx((prev) => (prev - 1 + total) % total);
+  };
+
+  const handleNext = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setCurrentIdx((prev) => (prev + 1) % total);
+  };
+
+  const handleDotClick = (e: React.MouseEvent | React.TouchEvent, idx: number) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setCurrentIdx(idx);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartX.current;
+    const deltaY = e.changedTouches[0].clientY - (touchStartY.current ?? 0);
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 35) {
+      if (deltaX < 0) {
+        setCurrentIdx((prev) => (prev + 1) % total);
+      } else {
+        setCurrentIdx((prev) => (prev - 1 + total) % total);
+      }
+    }
+    touchStartX.current = null;
+    touchStartY.current = null;
+  };
+
+  return (
+    <div
+      style={{
+        position: 'relative',
+        width: '100%',
+        aspectRatio: '16 / 11',
+        overflow: 'hidden',
+        backgroundColor: '#070B09',
+        userSelect: 'none',
+      }}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      className="property-carousel-container"
+    >
+      {/* Preloaded Image Slides with 300ms Smooth Crossfade */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          overflow: 'hidden',
+          pointerEvents: 'none',
+          zIndex: 1,
+        }}
+      >
+        {images.map((src, i) => {
+          const isActive = i === safeIdx;
+          return (
+            <img
+              key={src + i}
+              src={src}
+              alt={`${name} - Photo ${i + 1}`}
+              loading={i === 0 ? 'eager' : 'lazy'}
+              decoding="async"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                opacity: isActive ? 1 : 0,
+                transition: 'opacity 300ms ease-in-out, transform 600ms ease',
+                pointerEvents: 'none',
+                zIndex: isActive ? 2 : 1,
+              }}
+              className="property-card-image"
+            />
+          );
+        })}
+      </div>
+
+      {/* Subtle bottom gradient for dot readability */}
+      <div
+        style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: '45px',
+          background: 'linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.45) 100%)',
+          pointerEvents: 'none',
+          zIndex: 3,
+        }}
+      />
+
+      {/* Status Badge: Top-left offset 16px (higher z-index: 30) */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '16px',
+          left: '16px',
+          backgroundColor: '#FFFFFF',
+          padding: '6px 14px',
+          fontFamily: 'var(--font-sans)',
+          fontSize: '11px',
+          letterSpacing: '0.15em',
+          fontWeight: 700,
+          textTransform: 'uppercase',
+          color: '#9a7432',
+          boxShadow: '0 2px 10px rgba(0, 0, 0, 0.18)',
+          borderRadius: '2px',
+          lineHeight: 1.2,
+          zIndex: 30,
+          pointerEvents: 'none',
+        }}
+      >
+        {status}
+      </div>
+
+      {/* Favorite Heart Button: Top-right offset 16px (higher z-index: 30) */}
+      <button
+        type="button"
+        onClick={onToggleFavorite}
+        aria-label={isFavorite ? `Remove ${name} from wishlist` : `Save ${name} to wishlist`}
+        style={{
+          position: 'absolute',
+          top: '16px',
+          right: '16px',
+          width: '38px',
+          height: '38px',
+          borderRadius: '50%',
+          backgroundColor: 'rgba(23, 31, 28, 0.65)',
+          backdropFilter: 'blur(6px)',
+          WebkitBackdropFilter: 'blur(6px)',
+          border: '1px solid rgba(255, 255, 255, 0.18)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          zIndex: 30,
+          transition: 'all 0.25s ease',
+          boxShadow: '0 2px 10px rgba(0, 0, 0, 0.25)',
+          color: isFavorite ? '#E11D48' : '#FFFFFF',
+          outline: 'none',
+        }}
+        className="property-favorite-btn"
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = 'rgba(23, 31, 28, 0.88)';
+          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.35)';
+          e.currentTarget.style.transform = 'scale(1.08)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = 'rgba(23, 31, 28, 0.65)';
+          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.18)';
+          e.currentTarget.style.transform = 'scale(1)';
+        }}
+      >
+        <Heart
+          size={17}
+          color={isFavorite ? '#E11D48' : '#FFFFFF'}
+          fill={isFavorite ? '#E11D48' : 'none'}
+          strokeWidth={1.9}
+        />
+      </button>
+
+      {/* Always Visible Left & Right Navigation Arrows */}
+      {total > 1 && (
+        <>
+          {/* Previous Arrow Button (36px circular, rgba(0,0,0,0.55)) */}
+          <button
+            type="button"
+            onClick={handlePrev}
+            onMouseDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+            onTouchEnd={handlePrev}
+            aria-label="Previous photo"
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '10px',
+              transform: 'translateY(-50%)',
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              backgroundColor: 'rgba(0, 0, 0, 0.55)',
+              backdropFilter: 'blur(6px)',
+              WebkitBackdropFilter: 'blur(6px)',
+              border: '1px solid rgba(255, 255, 255, 0.28)',
+              color: '#FFFFFF',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              zIndex: 25,
+              pointerEvents: 'auto',
+              boxShadow: '0 2px 10px rgba(0, 0, 0, 0.4)',
+              outline: 'none',
+              padding: 0,
+              transition: 'background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease',
+            }}
+            className="property-carousel-arrow property-carousel-arrow-prev"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
+              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.55)';
+              e.currentTarget.style.transform = 'translateY(-50%) scale(1.06)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.55)';
+              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.28)';
+              e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+            }}
+          >
+            <ChevronLeft size={20} color="#FFFFFF" strokeWidth={2.4} />
+          </button>
+
+          {/* Next Arrow Button (36px circular, rgba(0,0,0,0.55)) */}
+          <button
+            type="button"
+            onClick={handleNext}
+            onMouseDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+            onTouchEnd={handleNext}
+            aria-label="Next photo"
+            style={{
+              position: 'absolute',
+              top: '50%',
+              right: '10px',
+              transform: 'translateY(-50%)',
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              backgroundColor: 'rgba(0, 0, 0, 0.55)',
+              backdropFilter: 'blur(6px)',
+              WebkitBackdropFilter: 'blur(6px)',
+              border: '1px solid rgba(255, 255, 255, 0.28)',
+              color: '#FFFFFF',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              zIndex: 25,
+              pointerEvents: 'auto',
+              boxShadow: '0 2px 10px rgba(0, 0, 0, 0.4)',
+              outline: 'none',
+              padding: 0,
+              transition: 'background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease',
+            }}
+            className="property-carousel-arrow property-carousel-arrow-next"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
+              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.55)';
+              e.currentTarget.style.transform = 'translateY(-50%) scale(1.06)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.55)';
+              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.28)';
+              e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+            }}
+          >
+            <ChevronRight size={20} color="#FFFFFF" strokeWidth={2.4} />
+          </button>
+
+          {/* Dot Indicators */}
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '12px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              backgroundColor: 'rgba(10, 16, 13, 0.65)',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
+              padding: '4px 8px',
+              borderRadius: '999px',
+              zIndex: 25,
+              pointerEvents: 'auto',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.35)',
+            }}
+            className="property-carousel-dots"
+          >
+            {images.map((_, dotIdx) => {
+              const isActive = dotIdx === safeIdx;
+              return (
+                <button
+                  key={dotIdx}
+                  type="button"
+                  onClick={(e) => handleDotClick(e, dotIdx)}
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                  }}
+                  onTouchEnd={(e) => handleDotClick(e, dotIdx)}
+                  aria-label={`Jump to photo ${dotIdx + 1}`}
+                  style={{
+                    width: isActive ? '16px' : '5px',
+                    height: '5px',
+                    borderRadius: '3px',
+                    backgroundColor: isActive ? 'var(--bronze-hi, #C5A880)' : 'rgba(255, 255, 255, 0.45)',
+                    boxShadow: isActive ? '0 0 8px rgba(197, 168, 128, 0.75)' : 'none',
+                    border: 'none',
+                    padding: 0,
+                    cursor: 'pointer',
+                    transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                    outline: 'none',
+                  }}
+                  className={`property-carousel-dot ${isActive ? 'is-active' : ''}`}
+                />
+              );
+            })}
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
 
 export const SelectedProperties: React.FC = () => {
   const [favorites, setFavorites] = useState<Record<string, boolean>>({});
@@ -168,255 +539,175 @@ export const SelectedProperties: React.FC = () => {
           }}
           className="properties-three-grid"
         >
-          {propertiesData.map((prop, idx) => (
-            <motion.a
-              key={prop.id}
-              href="#contact"
-              onClick={handleNavToContact}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              style={{
-                backgroundColor: '#0F1613',
-                border: '1px solid rgba(197, 168, 128, 0.18)',
-                borderRadius: '2px',
-                display: 'flex',
-                flexDirection: 'column',
-                textDecoration: 'none',
-                color: 'inherit',
-                cursor: 'pointer',
-                overflow: 'hidden',
-                transition: 'transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease',
-              }}
-              className="property-card-curated-dark"
-              aria-label={`Inquire about ${prop.name} - ${prop.price}`}
-            >
-              {/* Image Container with Top-Left Badge */}
-              <div
+          {propertiesData.map((prop, idx) => {
+            const cardImages = prop.images && prop.images.length > 0
+              ? prop.images
+              : prop.image
+              ? [prop.image.src]
+              : [];
+
+            return (
+              <motion.a
+                key={prop.id}
+                href="#contact"
+                onClick={handleNavToContact}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
                 style={{
-                  position: 'relative',
-                  width: '100%',
-                  aspectRatio: '16 / 11',
-                  overflow: 'hidden',
-                  backgroundColor: '#070B09',
-                }}
-              >
-                <img
-                  src={prop.image.src}
-                  alt={prop.image.alt}
-                  width={prop.image.width}
-                  height={prop.image.height}
-                  loading="lazy"
-                  decoding="async"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    transition: 'transform 600ms ease',
-                    display: 'block',
-                  }}
-                  className="property-card-image"
-                />
-
-                {/* Status Badge: Top-left offset 16px, white background, uppercase, gold text */}
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: '16px',
-                    left: '16px',
-                    backgroundColor: '#FFFFFF',
-                    padding: '6px 14px',
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: '11px',
-                    letterSpacing: '0.15em',
-                    fontWeight: 700,
-                    textTransform: 'uppercase',
-                    color: '#9a7432',
-                    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.18)',
-                    borderRadius: '2px',
-                    lineHeight: 1.2,
-                    zIndex: 2,
-                  }}
-                >
-                  {prop.status}
-                </div>
-
-                {/* Favorite Heart Button: Top-right offset 16px, circular translucent button */}
-                <button
-                  type="button"
-                  onClick={(e) => toggleFavorite(e, prop.id)}
-                  aria-label={favorites[prop.id] ? `Remove ${prop.name} from wishlist` : `Save ${prop.name} to wishlist`}
-                  style={{
-                    position: 'absolute',
-                    top: '16px',
-                    right: '16px',
-                    width: '38px',
-                    height: '38px',
-                    borderRadius: '50%',
-                    backgroundColor: 'rgba(23, 31, 28, 0.65)',
-                    backdropFilter: 'blur(6px)',
-                    WebkitBackdropFilter: 'blur(6px)',
-                    border: '1px solid rgba(255, 255, 255, 0.18)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                    zIndex: 3,
-                    transition: 'all 0.25s ease',
-                    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.25)',
-                    color: favorites[prop.id] ? '#E11D48' : '#FFFFFF',
-                    outline: 'none',
-                  }}
-                  className="property-favorite-btn"
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = 'rgba(23, 31, 28, 0.88)';
-                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.35)';
-                    e.currentTarget.style.transform = 'scale(1.08)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'rgba(23, 31, 28, 0.65)';
-                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.18)';
-                    e.currentTarget.style.transform = 'scale(1)';
-                  }}
-                >
-                  <Heart
-                    size={17}
-                    color={favorites[prop.id] ? '#E11D48' : '#FFFFFF'}
-                    fill={favorites[prop.id] ? '#E11D48' : 'none'}
-                    strokeWidth={1.9}
-                  />
-                </button>
-              </div>
-
-              {/* Card Body */}
-              <div
-                className="property-card-body"
-                style={{
-                  padding: '24px 26px 22px 26px',
+                  backgroundColor: '#0F1613',
+                  border: '1px solid rgba(197, 168, 128, 0.18)',
+                  borderRadius: '2px',
                   display: 'flex',
                   flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  flexGrow: 1,
-                  backgroundColor: '#0F1613',
+                  textDecoration: 'none',
+                  color: 'inherit',
+                  cursor: 'pointer',
+                  overflow: 'hidden',
+                  transition: 'transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease',
                 }}
+                className="property-card-curated-dark"
+                aria-label={`Inquire about ${prop.name} - ${prop.price}`}
               >
-                <div>
-                  {/* Row 1: Category on left, Price on right */}
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'baseline',
-                      justifyContent: 'space-between',
-                      gap: '0.5rem',
-                      marginBottom: '10px',
-                    }}
-                  >
-                    <span
+                {/* Image Area with Integrated Carousel */}
+                <PropertyImageCarousel
+                  images={cardImages}
+                  name={prop.name}
+                  status={prop.status}
+                  isFavorite={!!favorites[prop.id]}
+                  onToggleFavorite={(e) => toggleFavorite(e, prop.id)}
+                />
+
+                {/* Card Body */}
+                <div
+                  className="property-card-body"
+                  style={{
+                    padding: '24px 26px 22px 26px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    flexGrow: 1,
+                    backgroundColor: '#0F1613',
+                  }}
+                >
+                  <div>
+                    {/* Row 1: Category on left, Price on right */}
+                    <div
                       style={{
-                        fontFamily: 'var(--font-sans)',
-                        fontSize: '11.5px',
-                        letterSpacing: '0.16em',
-                        textTransform: 'uppercase',
-                        color: 'var(--bronze)',
-                        fontWeight: 600,
+                        display: 'flex',
+                        alignItems: 'baseline',
+                        justifyContent: 'space-between',
+                        gap: '0.5rem',
+                        marginBottom: '10px',
                       }}
                     >
-                      {prop.category}
-                    </span>
-                    <span
+                      <span
+                        style={{
+                          fontFamily: 'var(--font-sans)',
+                          fontSize: '11.5px',
+                          letterSpacing: '0.16em',
+                          textTransform: 'uppercase',
+                          color: 'var(--bronze)',
+                          fontWeight: 600,
+                        }}
+                      >
+                        {prop.category}
+                      </span>
+                      <span
+                        style={{
+                          fontFamily: 'var(--font-sans)',
+                          fontSize: '22px',
+                          fontWeight: 700,
+                          color: '#FFFFFF',
+                          letterSpacing: '-0.01em',
+                        }}
+                      >
+                        {prop.price}
+                      </span>
+                    </div>
+
+                    {/* Row 2: Property title in serif font */}
+                    <h3
                       style={{
-                        fontFamily: 'var(--font-sans)',
-                        fontSize: '22px',
-                        fontWeight: 700,
-                        color: '#FFFFFF',
+                        fontFamily: 'var(--font-serif)',
+                        fontSize: 'clamp(1.35rem, 1.7vw, 1.6rem)',
+                        lineHeight: 1.22,
+                        color: '#FAF8F4',
+                        fontWeight: 400,
+                        margin: '0 0 10px 0',
                         letterSpacing: '-0.01em',
                       }}
                     >
-                      {prop.price}
-                    </span>
+                      {prop.name}
+                    </h3>
+
+                    {/* Row 3: Location & ID with diamond indicator */}
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        color: 'rgba(237, 232, 223, 0.65)',
+                        fontSize: '13.5px',
+                        fontFamily: 'var(--font-sans)',
+                        marginBottom: '20px',
+                      }}
+                    >
+                      <span style={{ color: 'var(--bronze)', fontSize: '11px', display: 'inline-block' }}>✦</span>
+                      <span>{prop.location} • ID: {prop.propertyId}</span>
+                    </div>
                   </div>
 
-                  {/* Row 2: Property title in serif font */}
-                  <h3
-                    style={{
-                      fontFamily: 'var(--font-serif)',
-                      fontSize: 'clamp(1.35rem, 1.7vw, 1.6rem)',
-                      lineHeight: 1.22,
-                      color: '#FAF8F4',
-                      fontWeight: 400,
-                      margin: '0 0 10px 0',
-                      letterSpacing: '-0.01em',
-                    }}
-                  >
-                    {prop.name}
-                  </h3>
-
-                  {/* Row 3: Location & ID with diamond indicator */}
+                  {/* Row 4: Lease on left, Inquire on right */}
                   <div
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '6px',
-                      color: 'rgba(237, 232, 223, 0.65)',
-                      fontSize: '13.5px',
+                      justifyContent: 'space-between',
                       fontFamily: 'var(--font-sans)',
-                      marginBottom: '20px',
+                      paddingTop: '6px',
                     }}
                   >
-                    <span style={{ color: 'var(--bronze)', fontSize: '11px', display: 'inline-block' }}>✦</span>
-                    <span>{prop.location} • ID: {prop.propertyId}</span>
-                  </div>
-                </div>
-
-                {/* Row 4: Lease on left, Inquire on right */}
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    fontFamily: 'var(--font-sans)',
-                    paddingTop: '6px',
-                  }}
-                >
-                  <span
-                    style={{
-                      color: 'rgba(237, 232, 223, 0.65)',
-                      fontSize: '13.5px',
-                      letterSpacing: '0.01em',
-                    }}
-                  >
-                    {prop.lease}
-                  </span>
-
-                  <span
-                    style={{
-                      color: '#FAF8F4',
-                      fontSize: '14px',
-                      fontWeight: 600,
-                      letterSpacing: '0.02em',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      transition: 'color 0.25s ease',
-                    }}
-                    className="inquire-cta"
-                  >
-                    <span>Inquire</span>
                     <span
                       style={{
-                        display: 'inline-block',
-                        transition: 'transform 0.25s ease',
+                        color: 'rgba(237, 232, 223, 0.65)',
+                        fontSize: '13.5px',
+                        letterSpacing: '0.01em',
                       }}
-                      className="inquire-arrow"
                     >
-                      →
+                      {prop.lease}
                     </span>
-                  </span>
+
+                    <span
+                      style={{
+                        color: '#FAF8F4',
+                        fontSize: '14px',
+                        fontWeight: 600,
+                        letterSpacing: '0.02em',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        transition: 'color 0.25s ease',
+                      }}
+                      className="inquire-cta"
+                    >
+                      <span>Inquire</span>
+                      <span
+                        style={{
+                          display: 'inline-block',
+                          transition: 'transform 0.25s ease',
+                        }}
+                        className="inquire-arrow"
+                      >
+                        →
+                      </span>
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </motion.a>
-          ))}
+              </motion.a>
+            );
+          })}
         </div>
       </div>
 
@@ -439,6 +730,14 @@ export const SelectedProperties: React.FC = () => {
         .property-card-curated-dark:hover .inquire-arrow {
           transform: translateX(4px);
         }
+
+        /* Carousel Navigation Controls: ALWAYS visible on desktop and mobile */
+        .property-carousel-arrow {
+          opacity: 1 !important;
+          pointer-events: auto !important;
+          display: flex !important;
+        }
+
         @media (max-width: 991px) {
           .properties-three-grid {
             grid-template-columns: repeat(2, 1fr) !important;
