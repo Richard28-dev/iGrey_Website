@@ -127,7 +127,7 @@ export const siteImages = {
   // Contact Desk
   contactVilla: {
     src: getImg('contact_villa.jpg'),
-    alt: 'Architectural villa at twilight framed by reflection waters',
+    alt: 'Ultra-luxury modern architectural residence with infinity pool at dusk',
     width: 1600,
     height: 900,
   },

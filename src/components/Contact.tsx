@@ -14,6 +14,7 @@ import {
   X,
 } from 'lucide-react';
 import { siteImages } from '../data/images';
+import { sanitizeIndianPhone, getPhoneValidationError } from '../utils/phoneValidation';
 
 interface ContactFormState {
   name: string;
@@ -50,6 +51,7 @@ export const Contact: React.FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const phoneInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -111,10 +113,49 @@ export const Contact: React.FC = () => {
     }
   };
 
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const cleaned = sanitizeIndianPhone(e.target.value);
+    setFormData((prev) => ({ ...prev, phone: cleaned }));
+
+    // Clear error as soon as value becomes valid
+    const err = getPhoneValidationError(cleaned);
+    if (err === null) {
+      setErrors((prev) => ({ ...prev, phone: '' }));
+    } else if (errors.phone) {
+      // If error already showing, dynamically update error message
+      setErrors((prev) => ({ ...prev, phone: err }));
+    }
+  };
+
+  const handlePhonePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const pastedText = e.clipboardData.getData('text');
+    const cleaned = sanitizeIndianPhone(pastedText);
+    setFormData((prev) => ({ ...prev, phone: cleaned }));
+    const err = getPhoneValidationError(cleaned);
+    if (err === null) {
+      setErrors((prev) => ({ ...prev, phone: '' }));
+    } else if (errors.phone) {
+      setErrors((prev) => ({ ...prev, phone: err }));
+    }
+  };
+
+  const handlePhoneBlur = () => {
+    const err = getPhoneValidationError(formData.phone);
+    if (err) {
+      setErrors((prev) => ({ ...prev, phone: err }));
+    }
+  };
+
   const validate = () => {
     const errs: Record<string, string> = {};
     if (!formData.name.trim()) errs.name = 'Please enter your name.';
-    if (!formData.phone.trim()) errs.phone = 'Please enter your phone number.';
+
+    const phoneErr = getPhoneValidationError(formData.phone);
+    if (phoneErr) {
+      errs.phone = phoneErr;
+    }
+
     if (!formData.email.trim()) {
       errs.email = 'Please enter your email.';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
@@ -124,6 +165,12 @@ export const Contact: React.FC = () => {
     if (!formData.message.trim()) errs.message = 'Please enter a short message or details.';
 
     setErrors(errs);
+
+    // If phone is invalid, focus the field
+    if (phoneErr && phoneInputRef.current) {
+      phoneInputRef.current.focus();
+    }
+
     return Object.keys(errs).length === 0;
   };
 
@@ -352,21 +399,58 @@ export const Contact: React.FC = () => {
                     <div className="contact-phone-email-grid">
                       {/* Phone Number */}
                       <div>
-                        <label className="contact-field-label">Phone number</label>
+                        <label className="contact-field-label" htmlFor="contact-phone">
+                          Phone number
+                        </label>
                         <div style={{ position: 'relative' }}>
                           <Phone size={16} color="#c9a77c" className="contact-field-icon" />
                           <input
+                            ref={phoneInputRef}
+                            id="contact-phone"
+                            name="phone"
                             type="tel"
-                            placeholder="+91 98765 00000"
+                            inputMode="numeric"
+                            autoComplete="tel-national"
+                            pattern="[6-9][0-9]{9}"
+                            maxLength={10}
+                            placeholder="98765 00000"
                             value={formData.phone}
-                            onChange={(e) => {
-                              setFormData({ ...formData, phone: e.target.value });
-                              if (errors.phone) setErrors({ ...errors, phone: '' });
-                            }}
+                            onChange={handlePhoneChange}
+                            onPaste={handlePhonePaste}
+                            onBlur={handlePhoneBlur}
+                            aria-invalid={Boolean(errors.phone)}
+                            aria-describedby={errors.phone ? 'contact-phone-error' : undefined}
                             className={`contact-lux-input ${errors.phone ? 'input-error' : ''}`}
+                            style={{ paddingRight: formData.phone ? '54px' : '14px' }}
                           />
+                          {formData.phone.length > 0 && (
+                            <span
+                              className="contact-phone-counter"
+                              style={{
+                                position: 'absolute',
+                                right: '12px',
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                fontFamily: "'Manrope', var(--font-sans)",
+                                fontSize: '11px',
+                                fontWeight: 600,
+                                letterSpacing: '0.04em',
+                                color: formData.phone.length === 10 ? '#c9a77c' : '#8f897b',
+                                pointerEvents: 'none',
+                                userSelect: 'none',
+                                transition: 'color 200ms ease',
+                              }}
+                              aria-hidden="true"
+                            >
+                              {formData.phone.length}/10
+                            </span>
+                          )}
                         </div>
-                        {errors.phone && <span className="contact-error-text">{errors.phone}</span>}
+                        {errors.phone && (
+                          <span id="contact-phone-error" className="contact-error-text" role="alert">
+                            {errors.phone}
+                          </span>
+                        )}
                       </div>
 
                       {/* Email Address */}
@@ -1103,6 +1187,11 @@ export const Contact: React.FC = () => {
 
         .input-error {
           border-color: #e07a6f !important;
+        }
+
+        .input-error:focus {
+          border-color: #e07a6f !important;
+          box-shadow: 0 0 0 3px rgba(224, 122, 111, 0.22) !important;
         }
 
         .contact-error-text {

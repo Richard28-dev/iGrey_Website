@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, CheckCircle2 } from 'lucide-react';
 import contactProperty from '../assets/contact-property.jpg';
+import { sanitizeIndianPhone, getPhoneValidationError } from '../utils/phoneValidation';
 
 interface ContactProps {
   prefilledProperty?: string;
@@ -18,8 +19,10 @@ export const Contact: React.FC<ContactProps> = ({ prefilledProperty, onSuccessNo
     message: prefilledProperty ? `Inquiry regarding: ${prefilledProperty}` : '',
   });
 
+  const [phoneError, setPhoneError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const phoneInputRef = useRef<HTMLInputElement>(null);
 
   // Sync if prefilledProperty changes
   React.useEffect(() => {
@@ -33,6 +36,13 @@ export const Contact: React.FC<ContactProps> = ({ prefilledProperty, onSuccessNo
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const err = getPhoneValidationError(formData.phone);
+    if (err) {
+      setPhoneError(err);
+      phoneInputRef.current?.focus();
+      return;
+    }
+
     setLoading(true);
 
     setTimeout(() => {
@@ -255,33 +265,80 @@ export const Contact: React.FC<ContactProps> = ({ prefilledProperty, onSuccessNo
                       >
                         Phone Number
                       </label>
-                      <input
-                        id="contact-phone"
-                        type="tel"
-                        placeholder="+44 20 7946 0912"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        style={{
-                          width: '100%',
-                          padding: '0.75rem 1rem',
-                          backgroundColor: '#FFFFFF',
-                          border: '1px solid #D1D5DB',
-                          borderRadius: '8px',
-                          color: '#111827',
-                          fontSize: '0.92rem',
-                          fontFamily: 'inherit',
-                          outline: 'none',
-                          transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
-                        }}
-                        onFocus={(e) => {
-                          e.currentTarget.style.borderColor = '#0C2340';
-                          e.currentTarget.style.boxShadow = '0 0 0 3px rgba(12, 35, 64, 0.08)';
-                        }}
-                        onBlur={(e) => {
-                          e.currentTarget.style.borderColor = '#D1D5DB';
-                          e.currentTarget.style.boxShadow = 'none';
-                        }}
-                      />
+                      <div style={{ position: 'relative' }}>
+                        <input
+                          ref={phoneInputRef}
+                          id="contact-phone"
+                          name="phone"
+                          type="tel"
+                          inputMode="numeric"
+                          autoComplete="tel-national"
+                          pattern="[6-9][0-9]{9}"
+                          maxLength={10}
+                          placeholder="98765 00000"
+                          value={formData.phone}
+                          onChange={(e) => {
+                            const cleaned = sanitizeIndianPhone(e.target.value);
+                            setFormData({ ...formData, phone: cleaned });
+                            const err = getPhoneValidationError(cleaned);
+                            if (err === null) {
+                              setPhoneError(null);
+                            } else if (phoneError) {
+                              setPhoneError(err);
+                            }
+                          }}
+                          onPaste={(e) => {
+                            e.preventDefault();
+                            const pasted = e.clipboardData.getData('text');
+                            const cleaned = sanitizeIndianPhone(pasted);
+                            setFormData({ ...formData, phone: cleaned });
+                            const err = getPhoneValidationError(cleaned);
+                            if (err === null) {
+                              setPhoneError(null);
+                            } else if (phoneError) {
+                              setPhoneError(err);
+                            }
+                          }}
+                          onBlur={() => {
+                            const err = getPhoneValidationError(formData.phone);
+                            if (err) setPhoneError(err);
+                          }}
+                          aria-invalid={Boolean(phoneError)}
+                          style={{
+                            width: '100%',
+                            padding: formData.phone ? '0.75rem 3.5rem 0.75rem 1rem' : '0.75rem 1rem',
+                            backgroundColor: '#FFFFFF',
+                            border: `1px solid ${phoneError ? '#e07a6f' : '#D1D5DB'}`,
+                            borderRadius: '8px',
+                            color: '#111827',
+                            fontSize: '0.92rem',
+                            fontFamily: 'inherit',
+                            outline: 'none',
+                            transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
+                          }}
+                        />
+                        {formData.phone.length > 0 && (
+                          <span
+                            style={{
+                              position: 'absolute',
+                              right: '12px',
+                              top: '50%',
+                              transform: 'translateY(-50%)',
+                              fontSize: '11px',
+                              fontWeight: 600,
+                              color: formData.phone.length === 10 ? '#0C2340' : '#9CA3AF',
+                              pointerEvents: 'none',
+                            }}
+                          >
+                            {formData.phone.length}/10
+                          </span>
+                        )}
+                      </div>
+                      {phoneError && (
+                        <span style={{ fontSize: '12px', color: '#e07a6f', marginTop: '2px' }}>
+                          {phoneError}
+                        </span>
+                      )}
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
