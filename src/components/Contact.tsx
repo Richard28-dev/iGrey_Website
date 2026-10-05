@@ -167,9 +167,6 @@ export const Contact: React.FC = () => {
           <div className="contact-left-col">
             {/* Header Area */}
             <div className="contact-left-header">
-              {/* DIRECT ADVISORY Pill */}
-              <div className="contact-pill">DIRECT ADVISORY</div>
-
               {/* Heading: Contact iGH */}
               <h2 className="contact-heading">
                 Contact <span className="contact-igh">iGH</span>
@@ -621,21 +618,6 @@ export const Contact: React.FC = () => {
         .contact-left-header {
           display: flex;
           flex-direction: column;
-        }
-
-        .contact-pill {
-          font-family: var(--font-sans);
-          font-size: 11px;
-          letter-spacing: 0.14em;
-          text-transform: uppercase;
-          color: #c9a77c;
-          border: 0.5px solid rgba(201, 167, 124, 0.4);
-          background-color: rgba(201, 167, 124, 0.06);
-          padding: 4px 14px;
-          border-radius: 9999px;
-          width: fit-content;
-          margin-bottom: 16px;
-          font-weight: 600;
         }
 
         .contact-heading {
