@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
-import { scrollToTarget } from '../utils/scroll';
 
 interface FAQItem {
   question: string;
@@ -46,11 +45,6 @@ export const FAQ: React.FC = () => {
 
   const toggle = (idx: number) => {
     setOpenIdx((prev) => (prev === idx ? null : idx));
-  };
-
-  const handleContactClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    scrollToTarget('#contact', { offset: -40, duration: 1.25 });
   };
 
   return (
@@ -233,34 +227,6 @@ export const FAQ: React.FC = () => {
               </motion.div>
             );
           })}
-        </div>
-
-        {/* Footer Question Line */}
-        <div
-          style={{
-            textAlign: 'center',
-            marginTop: 'clamp(2.5rem, 4vw, 3.5rem)',
-            fontFamily: 'var(--font-sans)',
-            fontSize: '0.95rem',
-            color: 'rgba(237, 232, 223, 0.65)',
-          }}
-        >
-          <span>Still have questions about listing or renting? </span>
-          <a
-            href="#contact"
-            onClick={handleContactClick}
-            style={{
-              color: 'var(--bronze)',
-              fontWeight: 600,
-              textDecoration: 'underline',
-              textUnderlineOffset: '3px',
-              transition: 'color 0.2s ease',
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = '#FFFFFF')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--bronze)')}
-          >
-            Speak with our advisory team →
-          </a>
         </div>
       </div>
 

@@ -359,6 +359,8 @@ export const Contact: React.FC<ContactProps> = ({ prefilledProperty, onSuccessNo
                         }}
                       >
                         <option value="Property Owner / Landlord">Property Owner / Landlord</option>
+                        <option value="Looking for Buy">Looking for Buy</option>
+                        <option value="Looking for Sell">Looking for Sell</option>
                         <option value="Property Buyer / Investor">Property Buyer / Investor</option>
                         <option value="Luxury Residential Representation">Luxury Residential Representation</option>
                         <option value="Off-Market Acquisition Sourcing">Off-Market Acquisition Sourcing</option>
