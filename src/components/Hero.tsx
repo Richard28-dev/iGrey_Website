@@ -88,6 +88,22 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             pointerEvents: 'none',
           }}
         />
+
+        {/* Dark gradient overlay behind text area for mobile view (transparent at the top to rgba(0,0,0,0.7) at the bottom) */}
+        <div
+          className="hero-mobile-scrim"
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: '75%',
+            background:
+              'linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.35) 40%, rgba(0, 0, 0, 0.7) 100%)',
+            pointerEvents: 'none',
+            display: 'none',
+          }}
+        />
       </div>
 
       {/* Main Content */}
@@ -577,48 +593,57 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           }
         }
         @media (max-width: 768px) {
+          .hero-mobile-scrim {
+            display: block !important;
+          }
           .hero-section {
-            padding-top: clamp(4.85rem, 11.5vw, 5.5rem) !important;
+            padding-top: clamp(4.5rem, 10vw, 5.25rem) !important;
             padding-bottom: 0.5rem !important;
             min-height: 100svh !important;
             justify-content: space-between !important;
           }
           .hero-main-content {
-            padding-top: 0.65rem !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
             flex-grow: 1 !important;
             display: flex !important;
             flex-direction: column !important;
+            justify-content: flex-end !important;
           }
           .hero-content-inner {
             display: flex !important;
             flex-direction: column !important;
-            flex-grow: 1 !important;
+            justify-content: flex-end !important;
+            flex-grow: 0 !important;
             width: 100% !important;
+            margin-top: auto !important;
           }
           .hero-headline {
-            font-size: clamp(2.35rem, 8vw, 2.75rem) !important;
-            margin-bottom: 0.75rem !important;
+            font-size: clamp(2.2rem, 7.8vw, 2.65rem) !important;
+            margin-bottom: 1.5rem !important; /* 24px spacing between headline and subtext */
             line-height: 1.12 !important;
+            text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8) !important;
           }
           .hero-subtitle {
-            font-size: 0.92rem !important;
+            font-size: 0.95rem !important;
             line-height: 1.55 !important;
-            margin-bottom: 1.35rem !important;
-            max-width: 345px !important;
-            color: rgba(255, 255, 255, 0.72) !important;
+            margin-bottom: 1.75rem !important; /* 28px spacing between subtext and button (within 24-32px) */
+            max-width: 380px !important;
+            color: rgba(255, 255, 255, 0.94) !important; /* Bright near-white >= 90% opacity */
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.75) !important;
           }
           .hero-cta-wrapper {
-            margin-top: auto !important;
-            margin-bottom: 1.25rem !important;
+            margin-top: 0 !important;
+            margin-bottom: 1.5rem !important; /* 24px spacing before stats container */
           }
           .hero-cta-btn {
-            padding: 0.82rem 1.85rem !important;
+            padding: 0.88rem 2rem !important;
             font-size: 0.92rem !important;
             border-radius: 8px !important;
             font-weight: 600 !important;
           }
           .hero-stats-container {
-            padding-top: 0.75rem !important;
+            padding-top: 0.25rem !important;
             padding-bottom: 0.25rem !important;
           }
           .hero-floating-stats-grid {
