@@ -156,9 +156,10 @@ export const Reviews: React.FC = () => {
 
   const renderCard = (t: TestimonialCard, keyPrefix: string, idx: number) => (
     <div key={`${keyPrefix}-${t.name}-${idx}`} className="review-card">
-      <div>
+      <div className="review-card-top">
         {/* Decorative Top Double-Quote */}
         <div
+          className="review-quote-mark"
           style={{
             fontFamily: "'Cormorant Garamond', Georgia, serif",
             fontSize: '44px',
@@ -174,6 +175,7 @@ export const Reviews: React.FC = () => {
 
         {/* 5-Star Rating Row: Solid Gold (#d9b36a) for filled, Dim Outline (#5b4b32) for remaining */}
         <div
+          className="review-stars-row"
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -187,6 +189,7 @@ export const Reviews: React.FC = () => {
             return isFilled ? (
               <svg
                 key={starIndex}
+                className="review-star-svg"
                 width="15"
                 height="15"
                 viewBox="0 0 24 24"
@@ -199,6 +202,7 @@ export const Reviews: React.FC = () => {
             ) : (
               <svg
                 key={starIndex}
+                className="review-star-svg"
                 width="15"
                 height="15"
                 viewBox="0 0 24 24"
@@ -215,6 +219,7 @@ export const Reviews: React.FC = () => {
             );
           })}
           <span
+            className="review-rating-num"
             style={{
               marginLeft: '6px',
               fontFamily: "'Manrope', var(--font-sans)",
@@ -233,9 +238,10 @@ export const Reviews: React.FC = () => {
         </p>
       </div>
 
-      <div>
+      <div className="review-card-bottom">
         {/* Subtle Hairline Divider */}
         <div
+          className="review-inner-divider"
           style={{
             height: '1px',
             backgroundColor: 'rgba(197, 168, 128, 0.18)',
@@ -245,6 +251,7 @@ export const Reviews: React.FC = () => {
 
         {/* Professional Author Section */}
         <div
+          className="review-author-section"
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -255,6 +262,7 @@ export const Reviews: React.FC = () => {
         >
           {/* Avatar: 46px circular, initials in Cormorant Garamond 19px, gold 0.5px border, dark background */}
           <div
+            className="review-author-avatar"
             style={{
               width: '46px',
               height: '46px',
@@ -271,6 +279,7 @@ export const Reviews: React.FC = () => {
             aria-hidden="true"
           >
             <span
+              className="review-avatar-initials"
               style={{
                 fontFamily: "'Cormorant Garamond', var(--font-serif)",
                 fontSize: '19px',
@@ -286,6 +295,7 @@ export const Reviews: React.FC = () => {
 
           {/* Text Block: Name + Verified Check, Role, Location line */}
           <div
+            className="review-author-text"
             style={{
               display: 'flex',
               flexDirection: 'column',
@@ -296,6 +306,7 @@ export const Reviews: React.FC = () => {
           >
             {/* Name: Manrope 16px, weight 600, color #f7f2e8, letter-spacing 0.01em + 17px gold verified icon */}
             <div
+              className="review-author-name-row"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -304,6 +315,7 @@ export const Reviews: React.FC = () => {
               }}
             >
               <span
+                className="review-author-name"
                 style={{
                   fontFamily: "'Manrope', var(--font-sans)",
                   fontSize: '16px',
@@ -319,6 +331,7 @@ export const Reviews: React.FC = () => {
                 {t.name}
               </span>
               <svg
+                className="review-verified-icon"
                 width="17"
                 height="17"
                 viewBox="0 0 24 24"
@@ -336,6 +349,7 @@ export const Reviews: React.FC = () => {
 
             {/* Role: Job title, Company in Manrope 12.5px, color #cfc7b6, 3px below name */}
             <div
+              className="review-author-role"
               style={{
                 fontFamily: "'Manrope', var(--font-sans)",
                 fontSize: '12.5px',
@@ -352,6 +366,7 @@ export const Reviews: React.FC = () => {
 
             {/* Location line: 11.5px gold #c9a77c with map-pin icon, city, dot separator, tag */}
             <div
+              className="review-author-location"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -367,6 +382,7 @@ export const Reviews: React.FC = () => {
               }}
             >
               <svg
+                className="review-location-pin"
                 width="11"
                 height="11"
                 viewBox="0 0 24 24"
@@ -381,7 +397,7 @@ export const Reviews: React.FC = () => {
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                 <circle cx="12" cy="10" r="3" />
               </svg>
-              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              <span className="review-location-text" style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {t.city} &middot; {t.tag}
               </span>
             </div>
@@ -395,6 +411,7 @@ export const Reviews: React.FC = () => {
     <section id="reviews" style={{ position: 'relative', backgroundColor: '#090D0B', overflow: 'hidden' }}>
       {/* Top Part: Institutional Accolades / Private Client Reflections */}
       <div
+        className="reviews-top-wrapper"
         style={{
           backgroundColor: '#090D0B',
           color: '#FFFFFF',
@@ -404,8 +421,9 @@ export const Reviews: React.FC = () => {
       >
         <div className="container" style={{ maxWidth: '1280px' }}>
           {/* Centered Section Header */}
-          <div style={{ textAlign: 'center', marginBottom: 'clamp(3rem, 5vw, 4rem)' }}>
+          <div className="reviews-header-block" style={{ textAlign: 'center', marginBottom: 'clamp(3rem, 5vw, 4rem)' }}>
             <span
+              className="reviews-eyebrow"
               style={{
                 fontFamily: 'var(--font-sans)',
                 fontSize: '0.78rem',
@@ -421,6 +439,7 @@ export const Reviews: React.FC = () => {
             </span>
 
             <h2
+              className="reviews-heading"
               style={{
                 fontFamily: 'var(--font-serif)',
                 fontSize: 'clamp(2.4rem, 4.2vw, 3.6rem)',
@@ -436,6 +455,7 @@ export const Reviews: React.FC = () => {
 
             {/* Small Gold Divider Bar */}
             <div
+              className="reviews-divider-bar"
               style={{
                 width: '36px',
                 height: '2px',
@@ -445,6 +465,7 @@ export const Reviews: React.FC = () => {
             />
 
             <p
+              className="reviews-subtitle"
               style={{
                 fontFamily: 'var(--font-sans)',
                 fontSize: 'clamp(0.95rem, 1.15vw, 1.05rem)',
@@ -701,23 +722,201 @@ export const Reviews: React.FC = () => {
           animation-play-state: paused;
         }
 
-        /* Mobile Optimization */
-        @media (max-width: 768px) {
-          .reviews-marquee-container .review-card {
-            flex: 0 0 290px !important;
-            width: 290px !important;
-            min-width: 290px !important;
-            max-width: 290px !important;
-            padding: 1.75rem 1.4rem !important;
-            border-radius: 14px !important;
+        /* Mobile Optimization (under 768px) */
+        @media (max-width: 767px) {
+          #reviews {
+            overflow-x: hidden !important;
           }
-          .reviews-marquee-container .review-card .review-quote {
-            font-size: 16px !important;
-            line-height: 1.6 !important;
+
+          .reviews-top-wrapper {
+            padding: 44px 0 32px 0 !important;
           }
+
+          .reviews-top-wrapper .container {
+            padding-left: 14px !important;
+            padding-right: 14px !important;
+            overflow: visible !important;
+          }
+
+          /* PART 1: HEADING ON ONE LINE & SECTION SPACING */
+          .reviews-header-block {
+            margin-bottom: 28px !important;
+            text-align: center !important;
+          }
+
+          .reviews-eyebrow {
+            font-size: 0.72rem !important;
+            letter-spacing: 0.2em !important;
+            margin-bottom: 12px !important;
+          }
+
+          .reviews-heading {
+            font-family: var(--font-serif) !important;
+            font-size: clamp(22px, 7vw, 30px) !important;
+            line-height: 1.15 !important;
+            white-space: nowrap !important;
+            text-align: center !important;
+            letter-spacing: -0.02em !important;
+            margin: 0 0 12px 0 !important;
+            width: 100% !important;
+          }
+
+          .reviews-divider-bar {
+            width: 32px !important;
+            height: 1.5px !important;
+            margin: 0 auto 12px auto !important;
+          }
+
+          .reviews-subtitle {
+            font-size: 14.5px !important;
+            line-height: 1.55 !important;
+            text-align: center !important;
+            max-width: 325px !important;
+            margin: 0 auto !important;
+            padding: 0 4px !important;
+          }
+
+          .reviews-marquee-container {
+            padding: 0 0 20px 0 !important;
+          }
+
+          /* PART 2: SMALLER CARDS */
           .reviews-marquee-group {
-            gap: 20px;
-            padding-right: 20px;
+            gap: 14px !important;
+            padding-right: 14px !important;
+            align-items: stretch !important;
+          }
+
+          .reviews-marquee-container .review-card {
+            flex: 0 0 clamp(250px, 78vw, 290px) !important;
+            width: clamp(250px, 78vw, 290px) !important;
+            min-width: 250px !important;
+            max-width: 290px !important;
+            height: auto !important;
+            min-height: 0 !important;
+            padding: 18px 18px 16px !important;
+            border-radius: 16px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+            box-sizing: border-box !important;
+          }
+
+          .review-card-top {
+            flex: 1 0 auto !important;
+            display: flex !important;
+            flex-direction: column !important;
+          }
+
+          .review-card-bottom {
+            margin-top: auto !important;
+            flex-shrink: 0 !important;
+          }
+
+          /* Inside the card: Opening quote mark */
+          .review-quote-mark {
+            font-size: 40px !important;
+            line-height: 0.6 !important;
+            margin-bottom: 4px !important;
+          }
+
+          /* Inside the card: Stars */
+          .review-stars-row {
+            margin-top: 6px !important;
+            margin-bottom: 12px !important;
+            gap: 3px !important;
+          }
+
+          .review-star-svg {
+            width: 13px !important;
+            height: 13px !important;
+          }
+
+          .review-rating-num {
+            font-size: 12px !important;
+            margin-left: 5px !important;
+          }
+
+          /* Inside the card: Quote text */
+          .reviews-marquee-container .review-card .review-quote {
+            font-family: 'Cormorant Garamond', Georgia, serif !important;
+            font-style: italic !important;
+            font-size: 16.5px !important;
+            line-height: 1.45 !important;
+            display: -webkit-box !important;
+            -webkit-line-clamp: 5 !important;
+            -webkit-box-orient: vertical !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            margin: 0 !important;
+          }
+
+          /* Inside the card: Divider */
+          .review-inner-divider {
+            margin: 14px 0 !important;
+          }
+
+          /* Inside the card: Author section */
+          .review-author-section {
+            gap: 10px !important;
+          }
+
+          /* Inside the card: Avatar */
+          .review-author-avatar {
+            width: 38px !important;
+            height: 38px !important;
+            min-width: 38px !important;
+            min-height: 38px !important;
+          }
+
+          .review-avatar-initials {
+            font-size: 15px !important;
+          }
+
+          /* Inside the card: Name */
+          .review-author-name {
+            font-family: 'Manrope', var(--font-sans) !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            line-height: 1.25 !important;
+          }
+
+          .review-verified-icon {
+            width: 15px !important;
+            height: 15px !important;
+          }
+
+          /* Inside the card: Role */
+          .review-author-role {
+            font-family: 'Manrope', var(--font-sans) !important;
+            font-size: 12px !important;
+            color: #cfc7b6 !important;
+            margin-top: 2px !important;
+            line-height: 1.35 !important;
+            white-space: normal !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            display: -webkit-box !important;
+            -webkit-line-clamp: 2 !important;
+            -webkit-box-orient: vertical !important;
+          }
+
+          /* Inside the card: Location line */
+          .review-author-location {
+            font-family: 'Manrope', var(--font-sans) !important;
+            font-size: 11px !important;
+            margin-top: 3px !important;
+            line-height: 1.3 !important;
+            gap: 3px !important;
+          }
+
+          .review-location-pin {
+            width: 10px !important;
+            height: 10px !important;
+          }
+
+          .review-location-text {
+            font-size: 11px !important;
           }
         }
 
