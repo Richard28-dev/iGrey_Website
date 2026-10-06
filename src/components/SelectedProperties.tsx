@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Heart, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight, Heart, ChevronLeft, ChevronRight, Tag } from 'lucide-react';
 import { siteImages } from '../data/images';
 import { scrollToTarget } from '../utils/scroll';
 
@@ -12,7 +12,7 @@ export interface PropertyCardData {
   name: string;
   location: string;
   propertyId: string;
-  lease: string;
+  listingLabel: string;
   images: string[];
   image?: { src: string; alt: string; width: number; height: number };
 }
@@ -26,7 +26,7 @@ const propertiesData: PropertyCardData[] = [
     name: 'Executive 2 BHK Residence',
     location: 'Gokulam, Mysuru',
     propertyId: 'SS-MYS-02',
-    lease: 'Lease: ₹22L (2-3 Yrs)',
+    listingLabel: 'Property for Sale',
     images: [
       siteImages.propSolarium.src,
       'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85',
@@ -42,7 +42,7 @@ const propertiesData: PropertyCardData[] = [
     name: 'Executive 2 BHK Residence',
     location: 'Gokulam, Mysuru',
     propertyId: 'SS-MYS-02',
-    lease: 'Lease: ₹22L (2-3 Yrs)',
+    listingLabel: 'Property for Sale',
     images: [
       siteImages.propObscura.src,
       'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=85',
@@ -58,7 +58,7 @@ const propertiesData: PropertyCardData[] = [
     name: 'Executive 2 BHK Residence',
     location: 'Gokulam, Mysuru',
     propertyId: 'SS-MYS-02',
-    lease: 'Lease: ₹22L (2-3 Yrs)',
+    listingLabel: 'Property for Sale',
     images: [
       siteImages.propApex.src,
       'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=85',
@@ -659,24 +659,31 @@ export const SelectedProperties: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Row 4: Lease on left, Inquire on right */}
+                  {/* Row 4: Listing Label with gold tag icon on left, Inquire on right */}
                   <div
                     style={{
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                      fontFamily: 'var(--font-sans)',
+                      fontFamily: "'Manrope', var(--font-sans)",
                       paddingTop: '6px',
+                      gap: '12px',
                     }}
                   >
                     <span
                       style={{
-                        color: 'rgba(237, 232, 223, 0.65)',
-                        fontSize: '13.5px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        color: '#b9b2a2',
+                        fontFamily: "'Manrope', var(--font-sans)",
+                        fontSize: '12.5px',
                         letterSpacing: '0.01em',
+                        whiteSpace: 'nowrap',
                       }}
                     >
-                      {prop.lease}
+                      <Tag size={14} color="#c9a77c" style={{ flexShrink: 0 }} />
+                      <span>{prop.listingLabel || 'Property for Sale'}</span>
                     </span>
 
                     <span
