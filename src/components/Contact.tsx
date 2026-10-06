@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { siteImages } from '../data/images';
 import { sanitizeIndianPhone, getPhoneValidationError } from '../utils/phoneValidation';
+import { enquiryService } from '../admin/services/enquiryService';
 
 interface ContactFormState {
   name: string;
@@ -60,6 +61,25 @@ export const Contact: React.FC = () => {
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Listen for property popup enquire pre-fill events
+  useEffect(() => {
+    const handlePrefill = (e: Event) => {
+      const custom = e as CustomEvent<{ message: string; role?: string }>;
+      if (custom.detail) {
+        setFormData((prev) => ({
+          ...prev,
+          message: custom.detail.message || prev.message,
+          role: custom.detail.role && ROLE_OPTIONS.includes(custom.detail.role)
+            ? custom.detail.role
+            : prev.role,
+        }));
+      }
+    };
+
+    window.addEventListener('igrey_prefill_contact', handlePrefill);
+    return () => window.removeEventListener('igrey_prefill_contact', handlePrefill);
   }, []);
 
   useEffect(() => {
@@ -179,6 +199,22 @@ export const Contact: React.FC = () => {
     if (!validate()) return;
 
     setIsSubmitting(true);
+    // Create enquiry in admin store
+    try {
+      enquiryService.createEnquiry({
+        customerName: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim(),
+        role: formData.role,
+        city: formData.city.trim() || undefined,
+        message: formData.message.trim(),
+        status: 'New',
+        internalNotes: ['Submitted via public website contact form.'],
+      });
+    } catch (err) {
+      console.error('Failed to save enquiry to store:', err);
+    }
+
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSuccess(true);

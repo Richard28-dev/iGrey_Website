@@ -1,8 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Heart, ChevronLeft, ChevronRight, Tag } from 'lucide-react';
 import { siteImages } from '../data/images';
 import { scrollToTarget } from '../utils/scroll';
+import { propertyService, PROPERTIES_UPDATED_EVENT } from '../admin/services/propertyService';
 
 export interface PropertyCardData {
   id: string;
@@ -22,7 +23,7 @@ const propertiesData: PropertyCardData[] = [
     id: 'solarium-pavilion',
     status: 'AVAILABLE',
     category: 'GATED SOCIETY • 2 BHK',
-    price: '₹38,000',
+    price: '₹85 L',
     name: 'Executive 2 BHK Residence',
     location: 'Gokulam, Mysuru',
     propertyId: 'SS-MYS-02',
@@ -32,16 +33,17 @@ const propertiesData: PropertyCardData[] = [
       'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85',
       'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85',
       'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=85',
+      'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=85',
     ],
   },
   {
     id: 'villa-obscura',
     status: 'AVAILABLE',
     category: 'GATED SOCIETY • 2 BHK',
-    price: '₹38,000',
+    price: '₹95 L',
     name: 'Executive 2 BHK Residence',
     location: 'Gokulam, Mysuru',
-    propertyId: 'SS-MYS-02',
+    propertyId: 'SS-MYS-03',
     listingLabel: 'Property for Sale',
     images: [
       siteImages.propObscura.src,
@@ -54,10 +56,10 @@ const propertiesData: PropertyCardData[] = [
     id: 'apex-penthouse',
     status: 'AVAILABLE',
     category: 'GATED SOCIETY • 2 BHK',
-    price: '₹38,000',
+    price: '₹1.2 Cr',
     name: 'Executive 2 BHK Residence',
     location: 'Gokulam, Mysuru',
-    propertyId: 'SS-MYS-02',
+    propertyId: 'SS-MYS-04',
     listingLabel: 'Property for Sale',
     images: [
       siteImages.propApex.src,
@@ -423,7 +425,11 @@ export const PropertyImageCarousel: React.FC<PropertyImageCarouselProps> = ({
   );
 };
 
-export const SelectedProperties: React.FC = () => {
+export interface SelectedPropertiesProps {
+  onSelectProperty?: (propertyId: string) => void;
+}
+
+export const SelectedProperties: React.FC<SelectedPropertiesProps> = ({ onSelectProperty }) => {
   const [favorites, setFavorites] = useState<Record<string, boolean>>({});
 
   const toggleFavorite = (e: React.MouseEvent, propId: string) => {
@@ -436,6 +442,55 @@ export const SelectedProperties: React.FC = () => {
     e.preventDefault();
     scrollToTarget('#contact', { offset: -40, duration: 1.25 });
   };
+
+  const handlePropertyCardClick = (e: React.MouseEvent, prop: PropertyCardData) => {
+    e.preventDefault();
+    const targetId = prop.propertyId || prop.id;
+    if (onSelectProperty) {
+      onSelectProperty(targetId);
+      return;
+    }
+    const basePath = import.meta.env.BASE_URL || '/';
+    const cleanBase = basePath.endsWith('/') ? basePath.slice(0, -1) : basePath;
+    try {
+      window.history.pushState({}, '', `${cleanBase}/properties/${targetId}`);
+    } catch {
+      // ignore
+    }
+    window.location.hash = `#/properties/${targetId}`;
+    window.dispatchEvent(new PopStateEvent('popstate'));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const [properties, setProperties] = useState<PropertyCardData[]>(propertiesData);
+
+  useEffect(() => {
+    const syncProperties = async () => {
+      try {
+        const publicProps = await propertyService.getPublicProperties();
+        if (publicProps && publicProps.length > 0) {
+          const mapped: PropertyCardData[] = publicProps.map((p) => ({
+            id: p.id,
+            status: p.status === 'Active' ? 'AVAILABLE' : p.status.toUpperCase(),
+            category: `${p.propertyType.toUpperCase()} • ${p.bedrooms} BHK`,
+            price: p.price,
+            name: p.title,
+            location: `${p.locality || p.city}, ${p.city}`,
+            propertyId: p.propertyId,
+            listingLabel: p.listingType === 'For Sale' ? 'Property for Sale' : 'Property for Rent',
+            images: p.galleryImages && p.galleryImages.length > 0 ? p.galleryImages : [p.coverImage],
+          }));
+          setProperties(mapped);
+        }
+      } catch (err) {
+        console.error('Failed to load public properties:', err);
+      }
+    };
+
+    syncProperties();
+    window.addEventListener(PROPERTIES_UPDATED_EVENT, syncProperties);
+    return () => window.removeEventListener(PROPERTIES_UPDATED_EVENT, syncProperties);
+  }, []);
 
   return (
     <section
@@ -539,7 +594,7 @@ export const SelectedProperties: React.FC = () => {
           }}
           className="properties-three-grid"
         >
-          {propertiesData.map((prop, idx) => {
+          {properties.map((prop, idx) => {
             const cardImages = prop.images && prop.images.length > 0
               ? prop.images
               : prop.image
@@ -549,8 +604,8 @@ export const SelectedProperties: React.FC = () => {
             return (
               <motion.a
                 key={prop.id}
-                href="#contact"
-                onClick={handleNavToContact}
+                href={`#${prop.propertyId || prop.id}`}
+                onClick={(e) => handlePropertyCardClick(e, prop)}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -568,7 +623,7 @@ export const SelectedProperties: React.FC = () => {
                   transition: 'transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease',
                 }}
                 className="property-card-curated-dark"
-                aria-label={`Inquire about ${prop.name} - ${prop.price}`}
+                aria-label={`View architectural details for ${prop.name} - ${prop.price}`}
               >
                 {/* Image Area with Integrated Carousel */}
                 <PropertyImageCarousel

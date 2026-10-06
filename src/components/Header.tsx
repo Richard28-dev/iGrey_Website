@@ -40,7 +40,24 @@ export const Header: React.FC<HeaderProps> = ({ onScheduleClick }) => {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setMobileMenuOpen(false);
-    scrollToTarget(href, { offset: -40, duration: 1.25 });
+    const targetEl = document.querySelector(href);
+    if (targetEl) {
+      scrollToTarget(href, { offset: -40, duration: 1.25 });
+    } else {
+      // Navigating from a sub-route like Property Details back to homepage section
+      const basePath = import.meta.env.BASE_URL || '/';
+      const cleanBase = basePath.endsWith('/') ? basePath.slice(0, -1) : basePath;
+      try {
+        window.history.pushState({}, '', `${cleanBase}/${href}`);
+      } catch {
+        // ignore
+      }
+      window.location.hash = href;
+      window.dispatchEvent(new PopStateEvent('popstate'));
+      setTimeout(() => {
+        scrollToTarget(href, { offset: -40, duration: 1.0 });
+      }, 100);
+    }
   };
 
   const handleCtaClick = () => {

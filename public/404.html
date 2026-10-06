@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>iGREY HOLDINGS — Premium Real Estate</title>
+    <script>
+      // GitHub Pages SPA router redirect
+      // Preserves deep links like /admin, /admin/login by redirecting to index.html with hash route
+      (function() {
+        var l = window.location;
+        var pathname = l.pathname;
+        var isRepo = pathname.indexOf('/iGrey_Website') === 0;
+        var base = isRepo ? '/iGrey_Website' : '';
+        var route = pathname.slice(base.length);
+        if (!route.startsWith('/')) {
+          route = '/' + route;
+        }
+        var target = l.protocol + '//' + l.host + base + '/#' + route + (l.search || '') + (l.hash || '');
+        l.replace(target);
+      })();
+    </script>
+  </head>
+  <body>
+  </body>
+</html>

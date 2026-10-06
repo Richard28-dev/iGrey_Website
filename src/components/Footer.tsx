@@ -207,7 +207,21 @@ export const Footer: React.FC = () => {
         {/* Section 5: Bottom Legal & Copyright Bar */}
         <div className="footer-bottom-bar">
           <div className="footer-copyright">
-            © 2026 iGrey Holdings. All rights reserved.
+            © 2026 iGrey Holdings. All rights reserved. •{' '}
+            <a
+              href="#/admin"
+              style={{
+                color: '#c9a77c',
+                textDecoration: 'none',
+                opacity: 0.85,
+                transition: 'opacity 200ms ease',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
+              onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.85')}
+              title="Staff & Management Access"
+            >
+              Admin Portal
+            </a>
           </div>
 
           <div className="footer-legal-links">

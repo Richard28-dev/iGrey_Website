@@ -15,8 +15,10 @@ export interface Property {
   description: string;
   architecturalHighlights: string[];
   amenities: string[];
+  highlights?: string[];
   status: 'Available' | 'Private Treaty' | 'Under Offer' | 'Sold';
   listingLabel?: string;
+  areaSqFt?: string;
 }
 
 export interface Service {
