@@ -475,7 +475,7 @@ export const Footer: React.FC = () => {
             display: flex !important;
             flex-direction: column !important;
             gap: 28px !important;
-            padding-bottom: 28px !important;
+            padding-bottom: 14px !important;
           }
 
           .footer-col-brand {
@@ -543,27 +543,41 @@ export const Footer: React.FC = () => {
             height: 1.5px !important;
             background-color: #c9a77c !important;
             margin-top: 6px !important;
-            margin-bottom: 14px !important;
+            margin-bottom: 8px !important;
           }
 
           .footer-links-list {
-            gap: 12px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+          }
+
+          .footer-link-item {
+            display: block !important;
+            margin: 0 !important;
+            padding: 0 !important;
           }
 
           .footer-nav-link {
+            font-family: 'Manrope', var(--font-sans) !important;
             font-size: 13px !important;
-            color: #cfc7b6 !important;
-            min-height: 40px !important;
-            display: flex !important;
-            align-items: center !important;
             line-height: 1.35 !important;
+            color: #cfc7b6 !important;
+            padding: 7px 0 !important;
+            margin: 0 !important;
+            min-height: unset !important;
+            display: block !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
             word-break: normal !important;
             overflow-wrap: break-word !important;
           }
 
           .footer-bottom-bar {
             border-top: 0.5px solid #3a3225 !important;
-            padding-top: 24px !important;
+            padding-top: 12px !important;
             justify-content: center !important;
           }
 
