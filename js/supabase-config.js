@@ -12,10 +12,10 @@
 
 window.SUPABASE_CONFIG = {
   // Replace with your project URL, for example: 'https://xyzcompany.supabase.co'
-  url: 'https://placeholder-project.supabase.co',
+  url: 'https://xygaqwwflbdrtgjqughu.supabase.co/rest/v1/',
 
   // Replace with your project public anon key (starts with 'eyJ...')
-  anonKey: 'placeholder-anon-key-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+  anonKey: 'sb_publishable_BQipYDeSzJzFnRzgUzlz9Q_W8lVWQQq',
 };
 
 /**
@@ -40,7 +40,8 @@ window.getSupabaseClient = function () {
 
     if (window.supabase && typeof window.supabase.createClient === 'function') {
       if (!window.__igreySupabaseClient) {
-        window.__igreySupabaseClient = window.supabase.createClient(config.url, config.anonKey, {
+        const cleanUrl = config.url.replace(/\/rest\/v1\/?$/, '').replace(/\/+$/, '');
+        window.__igreySupabaseClient = window.supabase.createClient(cleanUrl, config.anonKey, {
           auth: {
             persistSession: true,
             autoRefreshToken: true,
