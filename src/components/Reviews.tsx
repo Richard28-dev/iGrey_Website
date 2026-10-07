@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 
 interface TestimonialCard {
   quote: string;
@@ -151,8 +151,261 @@ export const Reviews: React.FC = () => {
   // Multiply for seamless infinite horizontal loop
   const tickerItems = [...trustedRelationships, ...trustedRelationships, ...trustedRelationships];
 
-  const renderCard = (t: TestimonialCard, keyPrefix: string, idx: number) => (
-    <div key={`${keyPrefix}-${t.name}-${idx}`} className="review-card">
+  const [activeReview, setActiveReview] = useState<TestimonialCard | null>(null);
+  const activeReviewRef = useRef<TestimonialCard | null>(null);
+  const [pressedIndex, setPressedIndex] = useState<number | null>(null);
+  const [isModalAnimating, setIsModalAnimating] = useState(false);
+
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const firstGroupRef = useRef<HTMLDivElement | null>(null);
+
+  const isInteractingRef = useRef(false);
+  const isPausedRef = useRef(false);
+  const isTabHiddenRef = useRef(false);
+  const isVisibleRef = useRef(false);
+  const isReducedMotionRef = useRef(false);
+
+  const touchStartRef = useRef<{ x: number; y: number; time: number } | null>(null);
+  const lastTouchEndTimeRef = useRef<number>(0);
+  const resumeTimerRef = useRef<number | null>(null);
+  const pressTimerRef = useRef<number | null>(null);
+  const rafIdRef = useRef<number | null>(null);
+  const lastTimestampRef = useRef<number | null>(null);
+  const firstGroupWidthRef = useRef<number>(0);
+  const scrollPosRef = useRef<number>(0);
+
+  const scheduleResume = useCallback(() => {
+    if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+    resumeTimerRef.current = window.setTimeout(() => {
+      isInteractingRef.current = false;
+      if (containerRef.current && window.innerWidth < 768) {
+        containerRef.current.style.scrollSnapType = 'none';
+      }
+    }, 2500);
+  }, []);
+
+  const openReviewModal = useCallback((card: TestimonialCard) => {
+    activeReviewRef.current = card;
+    setActiveReview(card);
+    setIsModalAnimating(true);
+    isPausedRef.current = true;
+    document.body.style.overflow = 'hidden';
+  }, []);
+
+  const closeReviewModal = useCallback(() => {
+    activeReviewRef.current = null;
+    setActiveReview(null);
+    document.body.style.overflow = '';
+    isPausedRef.current = false;
+    scheduleResume();
+  }, [scheduleResume]);
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && activeReview) {
+        closeReviewModal();
+      }
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [activeReview, closeReviewModal]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const firstGroup = firstGroupRef.current;
+    if (!container || !firstGroup) return;
+
+    // Cache first group width
+    const updateGroupWidth = () => {
+      if (firstGroup) {
+        firstGroupWidthRef.current = firstGroup.offsetWidth;
+      }
+    };
+    updateGroupWidth();
+    window.addEventListener('resize', updateGroupWidth);
+
+    if (window.innerWidth < 768) {
+      container.style.scrollSnapType = 'none';
+    }
+
+    // Check prefers-reduced-motion
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    isReducedMotionRef.current = mediaQuery.matches;
+    const handleMotionChange = (e: MediaQueryListEvent) => {
+      isReducedMotionRef.current = e.matches;
+    };
+    mediaQuery.addEventListener('change', handleMotionChange);
+
+    // IntersectionObserver to pause when offscreen
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isVisibleRef.current = entry.isIntersecting;
+        });
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(container);
+
+    // Tab visibility (visibilitychange)
+    const handleVisibilityChange = () => {
+      isTabHiddenRef.current = document.hidden;
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    // Manual scroll wrap handler
+    const handleScroll = () => {
+      if (window.innerWidth >= 768) return;
+      const fgWidth = firstGroupWidthRef.current || firstGroup.offsetWidth;
+      if (fgWidth > 0) {
+        if (container.scrollLeft >= fgWidth * 1.95) {
+          container.scrollLeft -= fgWidth;
+        }
+      }
+      scrollPosRef.current = container.scrollLeft;
+    };
+    container.addEventListener('scroll', handleScroll, { passive: true });
+
+    // Auto-scroll loop
+    const SPEED_PX_PER_SEC = 24; // ~0.4px per frame at 60fps
+
+    const step = (timestamp: number) => {
+      if (!lastTimestampRef.current) {
+        lastTimestampRef.current = timestamp;
+      }
+      const deltaMs = timestamp - lastTimestampRef.current;
+      lastTimestampRef.current = timestamp;
+
+      const isMobile = window.innerWidth < 768;
+
+      if (
+        isMobile &&
+        !isReducedMotionRef.current &&
+        isVisibleRef.current &&
+        !isTabHiddenRef.current &&
+        !isInteractingRef.current &&
+        !isPausedRef.current &&
+        !activeReviewRef.current
+      ) {
+        const fgWidth = firstGroupWidthRef.current || firstGroup.offsetWidth;
+        if (fgWidth > 0) {
+          const deltaSec = Math.min(deltaMs / 1000, 0.1);
+          const move = SPEED_PX_PER_SEC * deltaSec;
+
+          scrollPosRef.current += move;
+          if (scrollPosRef.current >= fgWidth) {
+            scrollPosRef.current -= fgWidth;
+          }
+          container.scrollLeft = scrollPosRef.current;
+        }
+      }
+
+      rafIdRef.current = requestAnimationFrame(step);
+    };
+
+    rafIdRef.current = requestAnimationFrame(step);
+
+    return () => {
+      if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
+      if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+      if (pressTimerRef.current) clearTimeout(pressTimerRef.current);
+      observer.disconnect();
+      window.removeEventListener('resize', updateGroupWidth);
+      container.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      mediaQuery.removeEventListener('change', handleMotionChange);
+    };
+  }, []);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    touchStartRef.current = {
+      x: touch.clientX,
+      y: touch.clientY,
+      time: Date.now(),
+    };
+    isInteractingRef.current = true;
+    if (containerRef.current && window.innerWidth < 768) {
+      containerRef.current.style.scrollSnapType = 'x proximity';
+    }
+    if (resumeTimerRef.current) {
+      clearTimeout(resumeTimerRef.current);
+      resumeTimerRef.current = null;
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent, card: TestimonialCard, cardIdx: number) => {
+    lastTouchEndTimeRef.current = Date.now();
+    if (touchStartRef.current) {
+      const touch = e.changedTouches[0];
+      const dx = touch.clientX - touchStartRef.current.x;
+      const dy = touch.clientY - touchStartRef.current.y;
+      const dt = Date.now() - touchStartRef.current.time;
+      const dist = Math.hypot(dx, dy);
+
+      // Tap threshold: moved < 8px and lasted < 300ms
+      if (dist < 8 && dt < 300) {
+        setPressedIndex(cardIdx);
+        if (pressTimerRef.current) clearTimeout(pressTimerRef.current);
+        pressTimerRef.current = window.setTimeout(() => {
+          setPressedIndex(null);
+        }, 120);
+
+        openReviewModal(card);
+      }
+    }
+    touchStartRef.current = null;
+    scheduleResume();
+  };
+
+  const handleTouchCancel = () => {
+    touchStartRef.current = null;
+    scheduleResume();
+  };
+
+  const handleCardClick = (card: TestimonialCard) => {
+    if (Date.now() - lastTouchEndTimeRef.current < 500) {
+      return;
+    }
+    openReviewModal(card);
+  };
+
+  const handleCardKeyDown = (e: React.KeyboardEvent, card: TestimonialCard) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openReviewModal(card);
+    }
+  };
+
+  const handleContainerTouchStart = () => {
+    isInteractingRef.current = true;
+    if (containerRef.current && window.innerWidth < 768) {
+      containerRef.current.style.scrollSnapType = 'x proximity';
+    }
+    if (resumeTimerRef.current) {
+      clearTimeout(resumeTimerRef.current);
+      resumeTimerRef.current = null;
+    }
+  };
+
+  const renderCard = (t: TestimonialCard, keyPrefix: string, idx: number) => {
+    const globalCardIdx = keyPrefix === 'orig' ? idx : idx + testimonials.length;
+    const isPressed = pressedIndex === globalCardIdx;
+
+    return (
+      <div
+        key={`${keyPrefix}-${t.name}-${idx}`}
+        data-index={globalCardIdx}
+        className={`review-card ${isPressed ? 'is-pressed' : ''}`}
+        tabIndex={0}
+        role="button"
+        aria-label={`Read full review from ${t.name}`}
+        onClick={() => handleCardClick(t)}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={(e) => handleTouchEnd(e, t, globalCardIdx)}
+        onTouchCancel={handleTouchCancel}
+        onKeyDown={(e) => handleCardKeyDown(e, t)}
+      >
       <div className="review-card-top">
         {/* Decorative Top Double-Quote */}
         <div
@@ -403,6 +656,7 @@ export const Reviews: React.FC = () => {
       </div>
     </div>
   );
+};
 
   return (
     <section id="reviews" style={{ position: 'relative', backgroundColor: '#090D0B', overflow: 'hidden' }}>
@@ -464,10 +718,16 @@ export const Reviews: React.FC = () => {
         </div>
 
         {/* Continuous Horizontal Floating Reviews Stream with Soft Edge Fade */}
-        <div className="reviews-marquee-container">
+        <div
+          className="reviews-marquee-container"
+          ref={containerRef}
+          onTouchStart={handleContainerTouchStart}
+          onTouchEnd={scheduleResume}
+          onTouchCancel={scheduleResume}
+        >
           <div className="reviews-marquee-track">
             {/* First Set of Cards */}
-            <div className="reviews-marquee-group">
+            <div className="reviews-marquee-group" ref={firstGroupRef}>
               {testimonials.map((t, idx) => renderCard(t, 'orig', idx))}
             </div>
 
@@ -477,6 +737,249 @@ export const Reviews: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Review Details Modal Popup (Full Review without line-clamp) */}
+        {activeReview && (
+          <div
+            className={`review-modal-backdrop ${isModalAnimating ? 'is-animating' : ''}`}
+            onClick={closeReviewModal}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="review-modal-title"
+          >
+            <div
+              className={`review-modal-content ${isModalAnimating ? 'is-animating' : ''}`}
+              onClick={(e) => e.stopPropagation()}
+              onAnimationEnd={() => setIsModalAnimating(false)}
+            >
+              {/* Close Button (X) */}
+              <button
+                type="button"
+                onClick={closeReviewModal}
+                aria-label="Close review"
+                autoFocus
+                className="review-modal-close-btn"
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+
+              {/* Decorative Top Quote Mark */}
+              <div
+                style={{
+                  fontFamily: "'Cormorant Garamond', Georgia, serif",
+                  fontSize: '48px',
+                  lineHeight: '0.85',
+                  color: '#c9a77c',
+                  marginBottom: '1rem',
+                  userSelect: 'none',
+                }}
+                aria-hidden="true"
+              >
+                “
+              </div>
+
+              {/* 5-Star Row */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  marginBottom: '1.25rem',
+                }}
+                aria-label={`Rated ${activeReview.rating} out of 5`}
+              >
+                {[1, 2, 3, 4, 5].map((starIndex) => (
+                  <svg
+                    key={starIndex}
+                    width="17"
+                    height="17"
+                    viewBox="0 0 24 24"
+                    fill="#d9b36a"
+                    aria-hidden="true"
+                    style={{ display: 'block' }}
+                  >
+                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                  </svg>
+                ))}
+                <span
+                  style={{
+                    marginLeft: '8px',
+                    fontFamily: "'Manrope', var(--font-sans)",
+                    fontSize: '14px',
+                    color: '#c9a77c',
+                    fontWeight: 600,
+                  }}
+                >
+                  {activeReview.rating.toFixed(1)}
+                </span>
+              </div>
+
+              {/* Full Quote without Line Clamp */}
+              <p
+                style={{
+                  fontFamily: "'Cormorant Garamond', Georgia, serif",
+                  fontStyle: 'italic',
+                  fontSize: 'clamp(18px, 4.2vw, 22px)',
+                  lineHeight: 1.6,
+                  color: '#FAF8F4',
+                  fontWeight: 400,
+                  margin: 0,
+                  whiteSpace: 'normal',
+                  wordBreak: 'break-word',
+                }}
+              >
+                {activeReview.quote}
+              </p>
+
+              {/* Hairline Divider */}
+              <div
+                style={{
+                  height: '1px',
+                  backgroundColor: 'rgba(197, 168, 128, 0.22)',
+                  margin: '1.75rem 0 1.25rem 0',
+                }}
+              />
+
+              {/* Author Section */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '14px',
+                  width: '100%',
+                }}
+              >
+                <div
+                  style={{
+                    width: '48px',
+                    height: '48px',
+                    minWidth: '48px',
+                    minHeight: '48px',
+                    borderRadius: '50%',
+                    border: '0.5px solid #c9a77c',
+                    backgroundColor: '#0c110e',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                  }}
+                  aria-hidden="true"
+                >
+                  <span
+                    style={{
+                      fontFamily: "'Cormorant Garamond', var(--font-serif)",
+                      fontSize: '20px',
+                      fontWeight: 500,
+                      color: '#c9a77c',
+                      lineHeight: 1,
+                    }}
+                  >
+                    {activeReview.initials}
+                  </span>
+                </div>
+
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    minWidth: 0,
+                    flex: 1,
+                  }}
+                >
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                    }}
+                  >
+                    <span
+                      id="review-modal-title"
+                      style={{
+                        fontFamily: "'Manrope', var(--font-sans)",
+                        fontSize: '16.5px',
+                        fontWeight: 600,
+                        color: '#f7f2e8',
+                        letterSpacing: '0.01em',
+                      }}
+                    >
+                      {activeReview.name}
+                    </span>
+                    <svg
+                      width="17"
+                      height="17"
+                      viewBox="0 0 24 24"
+                      fill="#c9a77c"
+                      style={{ flexShrink: 0 }}
+                      aria-label="Verified"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M10.2 2.7a2.5 2.5 0 0 1 3.6 0l.7.7a2.5 2.5 0 0 0 2.2.8l1-.1a2.5 2.5 0 0 1 2.7 2.7l-.1 1a2.5 2.5 0 0 0 .8 2.2l.7.7a2.5 2.5 0 0 1 0 3.6l-.7.7a2.5 2.5 0 0 0-.8 2.2l.1 1a2.5 2.5 0 0 1-2.7 2.7l-1-.1a2.5 2.5 0 0 0-2.2.8l-.7.7a2.5 2.5 0 0 1-3.6 0l-.7-.7a2.5 2.5 0 0 0-2.2-.8l-1 .1a2.5 2.5 0 0 1-2.7-2.7l.1-1a2.5 2.5 0 0 0-.8-2.2l-.7-.7a2.5 2.5 0 0 1 0-3.6l.7-.7a2.5 2.5 0 0 0 .8-2.2l-.1-1a2.5 2.5 0 0 1 2.7-2.7l1 .1a2.5 2.5 0 0 0 2.2-.8l.7-.7zm6.1 7.6a1 1 0 0 0-1.4-1.4L11 12.8 9.1 10.9a1 1 0 0 0-1.4 1.4l2.6 2.6a1 1 0 0 0 1.4 0l4.6-4.6z"
+                      />
+                    </svg>
+                  </div>
+
+                  <div
+                    style={{
+                      fontFamily: "'Manrope', var(--font-sans)",
+                      fontSize: '13px',
+                      color: '#cfc7b6',
+                      marginTop: '3px',
+                      lineHeight: 1.35,
+                    }}
+                  >
+                    {activeReview.jobTitle}, {activeReview.company}
+                  </div>
+
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      fontFamily: "'Manrope', var(--font-sans)",
+                      fontSize: '12px',
+                      color: '#c9a77c',
+                      marginTop: '4px',
+                    }}
+                  >
+                    <svg
+                      width="11"
+                      height="11"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#c9a77c"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      style={{ flexShrink: 0 }}
+                      aria-hidden="true"
+                    >
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                      <circle cx="12" cy="10" r="3" />
+                    </svg>
+                    <span>
+                      {activeReview.city} &middot; {activeReview.tag}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Bottom Part: Dark Banner "— TRUSTED RELATIONSHIPS" with Horizontal Floating Marquee Animation */}
@@ -767,19 +1270,28 @@ export const Reviews: React.FC = () => {
             margin: 0 auto !important;
           }
 
-          /* Continuous Mobile Floating Animation - Immune to Sticking & Gestures */
+          /* Mobile Touch-Friendly Smooth Scrolling (under 768px) */
           .reviews-marquee-container {
-            overflow: hidden !important;
+            overflow-x: auto !important;
+            scroll-snap-type: x proximity;
+            -webkit-overflow-scrolling: touch !important;
+            overscroll-behavior-x: contain;
+            touch-action: pan-x pan-y !important;
             scrollbar-width: none !important;
             -ms-overflow-style: none !important;
             padding: 0 0 20px 0 !important;
-            touch-action: pan-y !important;
-            pointer-events: none !important; /* Prevents touch from freezing the cards or trapping gestures */
+            pointer-events: auto !important;
+            cursor: grab;
+          }
+
+          .reviews-marquee-container:active {
+            cursor: grabbing;
           }
 
           .reviews-marquee-container::before,
           .reviews-marquee-container::after {
-            width: 22px !important;
+            width: 20px !important;
+            pointer-events: none !important;
           }
 
           .reviews-marquee-container::-webkit-scrollbar {
@@ -788,16 +1300,16 @@ export const Reviews: React.FC = () => {
             height: 0 !important;
           }
 
+          /* Disable CSS animation on mobile: gentle RAF delta-time auto-scroll controls scrolling */
           .reviews-marquee-track {
             display: flex !important;
             width: max-content !important;
-            animation: reviewFloat 36s linear infinite !important;
-            -webkit-animation: reviewFloat 36s linear infinite !important;
-            animation-play-state: running !important; /* Force continuous running on mobile under all conditions */
-            will-change: transform !important;
-            backface-visibility: hidden !important;
-            -webkit-backface-visibility: hidden !important;
-            pointer-events: none !important;
+            animation: none !important;
+            -webkit-animation: none !important;
+            transform: none !important;
+            -webkit-transform: none !important;
+            will-change: auto !important;
+            pointer-events: auto !important;
           }
 
           .reviews-marquee-group {
@@ -821,28 +1333,31 @@ export const Reviews: React.FC = () => {
             flex-direction: column !important;
             justify-content: space-between !important;
             box-sizing: border-box !important;
+            scroll-snap-align: center !important;
             -webkit-tap-highlight-color: transparent !important;
             user-select: none !important;
             -webkit-user-select: none !important;
-            pointer-events: none !important;
-            transition: none !important; /* No transitions on mobile to prevent animation hitching */
-            transform: translate3d(0, 0, 0) !important;
-            -webkit-transform: translate3d(0, 0, 0) !important;
-            backface-visibility: hidden !important;
-            -webkit-backface-visibility: hidden !important;
-            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45) !important;
+            pointer-events: auto !important;
+            cursor: pointer !important;
+            transition: transform 0.12s ease, box-shadow 0.12s ease !important;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.42) !important;
+            outline: none !important;
           }
 
-          /* PREVENT STICKY HOVER ON MOBILE */
-          .reviews-marquee-container .review-card,
-          .reviews-marquee-container .review-card:hover,
-          .reviews-marquee-container .review-card:focus,
+          /* Tapped Card Press Effect: Scale 0.98 for 120ms */
+          .reviews-marquee-container .review-card.is-pressed,
           .reviews-marquee-container .review-card:active {
-            transform: translate3d(0, 0, 0) !important;
-            -webkit-transform: translate3d(0, 0, 0) !important;
-            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45) !important;
-            border-color: rgba(197, 168, 128, 0.22) !important;
-            outline: none !important;
+            transform: scale(0.98) !important;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5) !important;
+          }
+
+          /* Prevent sticky hover on mobile touch devices */
+          @media (hover: none) {
+            .reviews-marquee-container .review-card:hover {
+              transform: none !important;
+              box-shadow: 0 8px 22px rgba(0, 0, 0, 0.42) !important;
+              border-color: rgba(197, 168, 128, 0.22) !important;
+            }
           }
 
           .review-card-top {
@@ -963,6 +1478,98 @@ export const Reviews: React.FC = () => {
           }
         }
 
+        /* Review Details Modal Popup Styles & Animations */
+        @keyframes reviewModalFadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+
+        @keyframes reviewModalScaleIn {
+          from {
+            opacity: 0;
+            transform: scale(0.94) translateY(14px);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
+        }
+
+        .review-modal-backdrop {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          width: 100vw;
+          height: 100vh;
+          background-color: rgba(5, 8, 7, 0.84);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          z-index: 99999;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+          box-sizing: border-box;
+          animation: reviewModalFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .review-modal-backdrop.is-animating {
+          will-change: opacity;
+        }
+
+        .review-modal-content {
+          position: relative;
+          background-color: #0F1613;
+          border: 1px solid rgba(197, 168, 128, 0.35);
+          border-radius: 20px;
+          box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75), 0 0 1px 1px rgba(197, 168, 128, 0.15);
+          width: 100%;
+          max-width: 520px;
+          max-height: 90vh;
+          overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
+          padding: clamp(24px, 5vw, 36px);
+          box-sizing: border-box;
+          animation: reviewModalScaleIn 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .review-modal-content.is-animating {
+          will-change: transform, opacity;
+        }
+
+        .review-modal-close-btn {
+          position: absolute;
+          top: 18px;
+          right: 18px;
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          background: rgba(197, 168, 128, 0.08);
+          border: 1px solid rgba(197, 168, 128, 0.25);
+          color: #c9a77c;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          -webkit-tap-highlight-color: transparent;
+          z-index: 2;
+        }
+
+        .review-modal-close-btn:hover,
+        .review-modal-close-btn:focus-visible {
+          background-color: rgba(197, 168, 128, 0.15) !important;
+          color: #FAF8F4 !important;
+          border-color: rgba(197, 168, 128, 0.5) !important;
+          outline: none !important;
+        }
+
         /* Accessibility: Prefers Reduced Motion */
         @media (prefers-reduced-motion: reduce) {
           .reviews-marquee-track {
@@ -970,14 +1577,11 @@ export const Reviews: React.FC = () => {
           }
           .reviews-marquee-container {
             overflow-x: auto !important;
-            mask-image: none !important;
-            -webkit-mask-image: none !important;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(197, 168, 128, 0.3) transparent;
+            scroll-snap-type: x proximity;
           }
-          .reviews-marquee-group[aria-hidden="true"] {
-            display: none !important;
+          .review-modal-backdrop,
+          .review-modal-content {
+            animation: none !important;
           }
         }
       `}</style>
