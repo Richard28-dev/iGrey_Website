@@ -151,6 +151,34 @@ export const Reviews: React.FC = () => {
   // Multiply for seamless infinite horizontal loop
   const tickerItems = [...trustedRelationships, ...trustedRelationships, ...trustedRelationships];
 
+  const [cards, setCards] = useState<TestimonialCard[]>(testimonials);
+
+  useEffect(() => {
+    const syncReviews = async () => {
+      if (typeof window !== 'undefined' && (window as any).iGreyReviews) {
+        try {
+          const liveReviews = await (window as any).iGreyReviews.fetchPublishedReviews();
+          if (liveReviews && liveReviews.length > 0) {
+            const mapped: TestimonialCard[] = liveReviews.map((r: any) => ({
+              quote: r.quote,
+              name: r.name,
+              jobTitle: r.job_title || 'Client',
+              company: r.company || '',
+              city: r.city || '',
+              tag: r.tag || 'Verified investor',
+              initials: r.initials || (r.name ? r.name.slice(0, 2).toUpperCase() : 'IG'),
+              rating: Number(r.rating) || 5,
+            }));
+            setCards(mapped);
+          }
+        } catch (e) {
+          console.warn('Live reviews query failed, keeping fallback:', e);
+        }
+      }
+    };
+    syncReviews();
+  }, []);
+
   const [activeReview, setActiveReview] = useState<TestimonialCard | null>(null);
   const activeReviewRef = useRef<TestimonialCard | null>(null);
   const [pressedIndex, setPressedIndex] = useState<number | null>(null);
@@ -389,7 +417,7 @@ export const Reviews: React.FC = () => {
   };
 
   const renderCard = (t: TestimonialCard, keyPrefix: string, idx: number) => {
-    const globalCardIdx = keyPrefix === 'orig' ? idx : idx + testimonials.length;
+    const globalCardIdx = keyPrefix === 'orig' ? idx : idx + cards.length;
     const isPressed = pressedIndex === globalCardIdx;
 
     return (
@@ -728,12 +756,12 @@ export const Reviews: React.FC = () => {
           <div className="reviews-marquee-track">
             {/* First Set of Cards */}
             <div className="reviews-marquee-group" ref={firstGroupRef}>
-              {testimonials.map((t, idx) => renderCard(t, 'orig', idx))}
+              {cards.map((t, idx) => renderCard(t, 'orig', idx))}
             </div>
 
             {/* Duplicated Set for Seamless Infinite Loop */}
             <div className="reviews-marquee-group" aria-hidden="true">
-              {testimonials.map((t, idx) => renderCard(t, 'dup', idx))}
+              {cards.map((t, idx) => renderCard(t, 'dup', idx))}
             </div>
           </div>
         </div>

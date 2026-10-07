@@ -51,8 +51,15 @@ export const Contact: React.FC = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [honeypot, setHoneypot] = useState('');
+  const [propertyCode, setPropertyCode] = useState<string | null>(null);
+  const formMountTimeRef = useRef<number>(Date.now());
   const dropdownRef = useRef<HTMLDivElement>(null);
   const phoneInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    formMountTimeRef.current = Date.now();
+  }, []);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -66,8 +73,15 @@ export const Contact: React.FC = () => {
   // Listen for property popup enquire pre-fill events
   useEffect(() => {
     const handlePrefill = (e: Event) => {
-      const custom = e as CustomEvent<{ message: string; role?: string }>;
+      const custom = e as CustomEvent<{ message: string; role?: string; propertyCode?: string; propertyId?: string }>;
       if (custom.detail) {
+        const propCode = custom.detail.propertyCode || custom.detail.propertyId;
+        if (propCode) {
+          setPropertyCode(propCode);
+        } else if (custom.detail.message) {
+          const match = custom.detail.message.match(/\(([A-Za-z0-9_-]+)\)/i) || custom.detail.message.match(/ID:\s*([A-Za-z0-9_-]+)/i);
+          if (match && match[1]) setPropertyCode(match[1]);
+        }
         setFormData((prev) => ({
           ...prev,
           message: custom.detail.message || prev.message,
@@ -194,12 +208,48 @@ export const Contact: React.FC = () => {
     return Object.keys(errs).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
 
+    // Spam protection: honeypot test
+    if (honeypot && honeypot.trim().length > 0) {
+      setIsSuccess(true);
+      return;
+    }
+
+    // Spam protection: minimum time before submission (1.5 seconds)
+    const elapsed = Date.now() - formMountTimeRef.current;
+    if (elapsed < 1500) {
+      await new Promise((res) => setTimeout(res, 1000));
+    }
+
     setIsSubmitting(true);
-    // Create enquiry in admin store
+
+    // 1. Submit to Supabase Database
+    if (typeof window !== 'undefined' && (window as any).getSupabaseClient) {
+      try {
+        const client = (window as any).getSupabaseClient();
+        if (client) {
+          await client.from('enquiries').insert([
+            {
+              name: formData.name.trim(),
+              phone: formData.phone.trim(),
+              email: formData.email.trim(),
+              role: formData.role,
+              city: formData.city.trim() || 'Bangalore',
+              message: formData.message.trim(),
+              property_code: propertyCode || null,
+              status: 'new',
+            },
+          ]);
+        }
+      } catch (err) {
+        console.warn('Supabase enquiry submit notice:', err);
+      }
+    }
+
+    // 2. Also record in local enquiryService
     try {
       enquiryService.createEnquiry({
         customerName: formData.name.trim(),
@@ -226,8 +276,9 @@ export const Contact: React.FC = () => {
         city: '',
         message: '',
       });
+      setPropertyCode(null);
       setErrors({});
-    }, 850);
+    }, 600);
   };
 
   return (
@@ -408,6 +459,18 @@ export const Contact: React.FC = () => {
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} noValidate>
+                  {/* Anti-spam honeypot (hidden from human visitors) */}
+                  <div style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', height: 0, width: 0, zIndex: -1 }} aria-hidden="true">
+                    <input
+                      type="text"
+                      name="preferred_broker_reference"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={honeypot}
+                      onChange={(e) => setHoneypot(e.target.value)}
+                    />
+                  </div>
+
                   {/* Form Panel Heading */}
                   <h3 className="contact-form-title">Tell us what you need</h3>
 

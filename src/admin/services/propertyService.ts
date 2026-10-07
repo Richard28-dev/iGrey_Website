@@ -321,6 +321,84 @@ class PropertyService {
   }
 
   async getPublicProperties(): Promise<AdminProperty[]> {
+    if (typeof window !== 'undefined' && (window as any).getSupabaseClient) {
+      try {
+        const client = (window as any).getSupabaseClient();
+        if (client) {
+          const { data, error } = await client
+            .from('properties')
+            .select('*')
+            .eq('is_published', true)
+            .order('created_at', { ascending: false });
+
+          if (!error && data && data.length > 0) {
+            return data.map((row: any) => {
+              const priceNum = Number(row.price) || 0;
+              let formattedPrice = 'Price on Request';
+              if (priceNum >= 10000000) {
+                const cr = priceNum / 10000000;
+                formattedPrice = `₹${cr % 1 === 0 ? cr.toFixed(0) : cr.toFixed(2).replace(/\.?0+$/, '')} Cr`;
+              } else if (priceNum >= 100000) {
+                const lk = priceNum / 100000;
+                formattedPrice = `₹${lk % 1 === 0 ? lk.toFixed(0) : lk.toFixed(2).replace(/\.?0+$/, '')} L`;
+              } else if (priceNum > 0) {
+                formattedPrice = `₹${priceNum.toLocaleString('en-IN')}`;
+              }
+
+              const statusMap: Record<string, PropertyStatus> = {
+                available: 'Active',
+                under_offer: 'Under Offer',
+                sold: 'Sold',
+                draft: 'Draft',
+              };
+
+              return {
+                id: row.property_code ? row.property_code.toLowerCase().replace(/[^a-z0-9]/g, '-') : String(row.id),
+                propertyId: row.property_code || 'SS-MYS-01',
+                title: row.title,
+                shortDescription: row.description || '',
+                fullDescription: row.description || '',
+                propertyType: row.property_type || 'Villa',
+                listingType: 'For Sale',
+                price: formattedPrice,
+                priceNumeric: priceNum,
+                currency: 'INR',
+                status: statusMap[row.status] || 'Active',
+                bedrooms: Number(row.bedrooms) || 3,
+                bathrooms: 2,
+                balconies: 1,
+                builtUpArea: `${row.area_sqft || '1,200'} sq ft`,
+                carpetArea: `${row.area_sqft || '1,000'} sq ft`,
+                furnishing: 'Furnished',
+                propertyAge: 'Brand New',
+                floorNumber: 1,
+                totalFloors: 3,
+                parking: 2,
+                possession: 'Ready to Move',
+                address: `${row.locality || ''}, ${row.city || ''}`,
+                locality: row.locality || '',
+                city: row.city || 'Mysuru',
+                state: 'Karnataka',
+                country: 'India',
+                postalCode: '570002',
+                coverImage: (row.images && row.images.length > 0) ? row.images[0] : siteImages.propSolarium.src,
+                galleryImages: (row.images && row.images.length > 0) ? row.images : [siteImages.propSolarium.src],
+                highlights: row.highlights || ['Ready to move in', 'Gated society'],
+                amenities: row.amenities || ['Swimming pool', 'Gym', '24/7 security'],
+                slug: (row.title || '').toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+                isFeatured: !!row.is_featured,
+                homepageVisible: true,
+                createdAt: row.created_at,
+                updatedAt: row.updated_at,
+              };
+            });
+          }
+        }
+      } catch (e) {
+        console.warn('[propertyService] Supabase query failed, falling back:', e);
+      }
+    }
+
     const list = this.loadRaw();
     return list.filter((p) => p.status === 'Active' && p.homepageVisible !== false);
   }
@@ -328,6 +406,22 @@ class PropertyService {
   async getPropertyById(id: string): Promise<AdminProperty | null> {
     if (!id) return null;
     const clean = id.toLowerCase().trim();
+
+    // Check public properties (which checks Supabase first)
+    try {
+      const publicList = await this.getPublicProperties();
+      const match = publicList.find(
+        (p) =>
+          p.propertyId.toLowerCase() === clean ||
+          p.id.toLowerCase() === clean ||
+          (p.slug && p.slug.toLowerCase() === clean) ||
+          clean.includes(p.propertyId.toLowerCase())
+      );
+      if (match) return match;
+    } catch {
+      // fallback
+    }
+
     const list = this.loadRaw();
 
     // 1. Exact match by propertyId, id, or slug

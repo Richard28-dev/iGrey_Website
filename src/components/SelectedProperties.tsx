@@ -463,30 +463,48 @@ export const SelectedProperties: React.FC<SelectedPropertiesProps> = ({ onSelect
   };
 
   const [properties, setProperties] = useState<PropertyCardData[]>(propertiesData);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const syncProperties = async () => {
-      try {
-        const publicProps = await propertyService.getPublicProperties();
-        if (publicProps && publicProps.length > 0) {
-          const mapped: PropertyCardData[] = publicProps.map((p) => ({
+  const syncProperties = async () => {
+    setIsLoading(true);
+    setLoadError(null);
+    try {
+      const publicProps = await propertyService.getPublicProperties();
+      if (publicProps && publicProps.length > 0) {
+        const mapped: PropertyCardData[] = publicProps.map((p) => {
+          let statusLabel = 'AVAILABLE';
+          if (p.status === 'Under Offer') statusLabel = 'UNDER OFFER';
+          else if (p.status === 'Sold') statusLabel = 'SOLD';
+
+          return {
             id: p.id,
-            status: p.status === 'Active' ? 'AVAILABLE' : p.status.toUpperCase(),
+            status: statusLabel,
             category: `${p.propertyType.toUpperCase()} • ${p.bedrooms} BHK`,
             price: p.price,
             name: p.title,
             location: `${p.locality || p.city}, ${p.city}`,
             propertyId: p.propertyId,
-            listingLabel: p.listingType === 'For Sale' ? 'Property for Sale' : 'Property for Rent',
+            listingLabel: 'Property for Sale',
             images: p.galleryImages && p.galleryImages.length > 0 ? p.galleryImages : [p.coverImage],
-          }));
-          setProperties(mapped);
-        }
-      } catch (err) {
-        console.error('Failed to load public properties:', err);
+          };
+        });
+        setProperties(mapped);
+      } else {
+        // Keep existing static properties as fallback
+        setProperties(propertiesData);
       }
-    };
+    } catch (err: any) {
+      console.warn('Failed to load public properties from database:', err);
+      setLoadError(err?.message || 'Network request failed');
+      // Keep static content as fallback
+      setProperties(propertiesData);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     syncProperties();
     window.addEventListener(PROPERTIES_UPDATED_EVENT, syncProperties);
     return () => window.removeEventListener(PROPERTIES_UPDATED_EVENT, syncProperties);
@@ -584,6 +602,14 @@ export const SelectedProperties: React.FC<SelectedPropertiesProps> = ({ onSelect
           </div>
         </div>
 
+        {/* Optional Retry Alert if network failed */}
+        {loadError && (
+          <div style={{ padding: '14px 20px', borderRadius: '4px', backgroundColor: 'rgba(224, 122, 111, 0.08)', border: '1px solid rgba(224, 122, 111, 0.25)', marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
+            <span style={{ color: '#e07a6f', fontSize: '13px' }}>Could not sync live database. Displaying offline portfolio.</span>
+            <button type="button" onClick={syncProperties} style={{ background: 'transparent', border: '1px solid #c9a77c', color: '#c9a77c', padding: '4px 12px', borderRadius: '4px', fontSize: '12px', cursor: 'pointer' }}>Retry</button>
+          </div>
+        )}
+
         {/* 3-Column Equal-Height Cards Grid */}
         <div
           style={{
@@ -594,7 +620,44 @@ export const SelectedProperties: React.FC<SelectedPropertiesProps> = ({ onSelect
           }}
           className="properties-three-grid"
         >
-          {properties.map((prop, idx) => {
+          {isLoading ? (
+            [1, 2, 3].map((n) => (
+              <div
+                key={`prop-skel-${n}`}
+                style={{
+                  backgroundColor: '#0F1613',
+                  border: '1px solid rgba(197, 168, 128, 0.12)',
+                  borderRadius: '2px',
+                  minHeight: '440px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  overflow: 'hidden',
+                }}
+              >
+                <div style={{ height: '240px', backgroundColor: 'rgba(255, 255, 255, 0.03)' }} />
+                <div style={{ padding: '24px', flex: 1, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <div style={{ height: '14px', width: '60%', backgroundColor: 'rgba(255, 255, 255, 0.05)', borderRadius: '3px' }} />
+                  <div style={{ height: '24px', width: '85%', backgroundColor: 'rgba(255, 255, 255, 0.05)', borderRadius: '3px' }} />
+                  <div style={{ height: '14px', width: '40%', backgroundColor: 'rgba(255, 255, 255, 0.05)', borderRadius: '3px' }} />
+                </div>
+              </div>
+            ))
+          ) : properties.length === 0 ? (
+            <div
+              style={{
+                gridColumn: '1 / -1',
+                padding: '64px 20px',
+                textAlign: 'center',
+                backgroundColor: '#0F1613',
+                border: '1px solid rgba(197, 168, 128, 0.15)',
+                borderRadius: '4px',
+              }}
+            >
+              <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '28px', color: '#FAF8F4', margin: '0 0 10px', fontWeight: 400 }}>New listings are coming soon</h3>
+              <p style={{ fontFamily: 'var(--font-sans)', fontSize: '13.5px', color: 'rgba(237, 232, 223, 0.65)', maxWidth: '420px', margin: '0 auto' }}>Our acquisition advisory team is currently curating prime architectural residences. Check back shortly.</p>
+            </div>
+          ) : (
+            properties.map((prop, idx) => {
             const cardImages = prop.images && prop.images.length > 0
               ? prop.images
               : prop.image
@@ -769,7 +832,7 @@ export const SelectedProperties: React.FC<SelectedPropertiesProps> = ({ onSelect
                 </div>
               </motion.a>
             );
-          })}
+          }))}
         </div>
       </div>
 

@@ -2,7 +2,7 @@
  * iGREY HOLDINGS — Admin Dashboard Types & Interfaces
  */
 
-export type PropertyStatus = 'Draft' | 'Active' | 'Sold' | 'Rented' | 'Archived';
+export type PropertyStatus = 'Draft' | 'Active' | 'Sold' | 'Rented' | 'Archived' | 'Under Offer';
 export type ListingType = 'For Sale' | 'For Rent';
 export type PropertyType =
   | 'Villa'

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Reviews & Testimonials | iGREY Holdings Admin</title>
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Admin Theme -->
+  <link rel="stylesheet" href="admin.css" />
+
+  <!-- Supabase CDN Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabase-config.js"></script>
+  <script src="admin.js"></script>
+</head>
+<body>
+
+  <!-- Injected Sidebar & Drawer -->
+  <div id="admin-sidebar-container"></div>
+
+  <!-- Main Content Wrap -->
+  <div class="admin-main">
+    <!-- Injected Topbar -->
+    <div id="admin-topbar-container"></div>
+
+    <main class="admin-content">
+      <!-- Page Header -->
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Client Reviews &amp; Testimonials</h1>
+          <p class="page-subtitle">Curate the verified testimonials displayed on the homepage marquee.</p>
+        </div>
+        <div class="page-actions">
+          <button type="button" class="btn btn-primary" id="open-add-review-btn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            + Add Review
+          </button>
+        </div>
+      </div>
+
+      <!-- Reviews Table Container -->
+      <div class="panel" style="padding: 0; overflow: hidden;">
+        <div id="reviews-table-container">
+          <div style="padding: 32px 24px;">
+            <div class="skeleton-line" style="height: 48px; margin-bottom: 12px;"></div>
+            <div class="skeleton-line" style="height: 48px; margin-bottom: 12px;"></div>
+            <div class="skeleton-line" style="height: 48px;"></div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Review Form Modal -->
+  <div class="modal-backdrop" id="review-modal">
+    <div class="modal-card" style="max-width: 580px;" role="dialog" aria-modal="true" aria-labelledby="review-modal-title">
+      <button type="button" class="modal-close-btn" id="review-modal-close" aria-label="Close modal">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+
+      <h3 id="review-modal-title" style="font-family: var(--font-serif); font-size: 22px; color: #FAF8F4; margin-bottom: 6px;">Add Client Testimonial</h3>
+      <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Provide verified reviewer details and testimonial quote.</p>
+
+      <form id="review-form" novalidate>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <!-- Name -->
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="rev-name">Client Name <span style="color: var(--accent-red);">*</span></label>
+            <input type="text" id="rev-name" class="form-control" placeholder="e.g. Ramesh Kulkarni" required />
+          </div>
+
+          <!-- Job Title -->
+          <div class="form-group">
+            <label class="form-label" for="rev-title">Job Title</label>
+            <input type="text" id="rev-title" class="form-control" placeholder="e.g. Senior VP of Tech" />
+          </div>
+
+          <!-- Company -->
+          <div class="form-group">
+            <label class="form-label" for="rev-company">Company / Organization</label>
+            <input type="text" id="rev-company" class="form-control" placeholder="e.g. Infosys" />
+          </div>
+
+          <!-- City -->
+          <div class="form-group">
+            <label class="form-label" for="rev-city">City</label>
+            <input type="text" id="rev-city" class="form-control" placeholder="e.g. Bangalore, Mysuru" />
+          </div>
+
+          <!-- Tag -->
+          <div class="form-group">
+            <label class="form-label" for="rev-tag">Badge / Tag</label>
+            <input type="text" id="rev-tag" class="form-control" placeholder="e.g. Verified investor, Luxury Estate Buyer" />
+          </div>
+
+          <!-- Rating -->
+          <div class="form-group">
+            <label class="form-label" for="rev-rating">Star Rating (1 to 5)</label>
+            <select id="rev-rating" class="form-control">
+              <option value="5" selected>5 Stars (★★★★★)</option>
+              <option value="4">4 Stars (★★★★☆)</option>
+              <option value="3">3 Stars (★★★☆☆)</option>
+              <option value="2">2 Stars (★★☆☆☆)</option>
+              <option value="1">1 Star (★☆☆☆☆)</option>
+            </select>
+          </div>
+
+          <!-- Visible on website -->
+          <div class="form-group" style="display: flex; align-items: flex-end; padding-bottom: 8px;">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13.5px; color: #FAF8F4;">
+              <input type="checkbox" id="rev-visible" checked style="width: 16px; height: 16px; accent-color: var(--gold-primary);" />
+              <span>Show on website marquee</span>
+            </label>
+          </div>
+
+          <!-- Quote -->
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label class="form-label" for="rev-quote">Testimonial Quote <span style="color: var(--accent-red);">*</span></label>
+            <textarea id="rev-quote" class="form-control" rows="4" placeholder="Enter the client's verified statement..." required></textarea>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+          <button type="button" class="btn btn-secondary" id="review-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="review-submit-btn">
+            <span id="rev-save-text">Save Review</span>
+            <span id="rev-save-spinner" class="spinner" style="display: none; width: 14px; height: 14px; border-width: 2px;"></span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    (async function () {
+      'use strict';
+      const {
+        renderLayout,
+        checkAuth,
+        getClient,
+        escapeHtml,
+        showToast,
+        showConfirmModal
+      } = window.iGreyAdmin;
+
+      renderLayout({ activeTab: 'reviews', title: 'Client Reviews' });
+
+      const session = await checkAuth(true);
+      if (!session) return;
+
+      const client = getClient();
+      if (!client) return;
+
+      let allReviews = [];
+      let editingReviewId = null;
+
+      const modal = document.getElementById('review-modal');
+      const modalTitle = document.getElementById('review-modal-title');
+      const form = document.getElementById('review-form');
+
+      function openModal(review = null) {
+        editingReviewId = review ? review.id : null;
+        modalTitle.textContent = review ? 'Edit Client Review' : 'Add Client Testimonial';
+
+        document.getElementById('rev-name').value = review ? (review.name || '') : '';
+        document.getElementById('rev-title').value = review ? (review.job_title || '') : '';
+        document.getElementById('rev-company').value = review ? (review.company || '') : '';
+        document.getElementById('rev-city').value = review ? (review.city || '') : '';
+        document.getElementById('rev-tag').value = review ? (review.tag || 'Verified investor') : 'Verified investor';
+        document.getElementById('rev-rating').value = review ? String(review.rating || 5) : '5';
+        document.getElementById('rev-quote').value = review ? (review.quote || '') : '';
+        document.getElementById('rev-visible').checked = review ? (review.is_visible !== false) : true;
+
+        modal.classList.add('active');
+      }
+
+      function closeModal() {
+        modal.classList.remove('active');
+        editingReviewId = null;
+      }
+
+      document.getElementById('open-add-review-btn').onclick = () => openModal(null);
+      document.getElementById('review-modal-close').onclick = closeModal;
+      document.getElementById('review-cancel-btn').onclick = closeModal;
+      modal.onclick = (e) => {
+        if (e.target === modal) closeModal();
+      };
+
+      async function fetchReviews() {
+        try {
+          const { data, error } = await client
+            .from('reviews')
+            .select('*')
+            .order('sort_order', { ascending: true })
+            .order('created_at', { ascending: false });
+
+          if (error) throw error;
+          allReviews = data || [];
+          renderReviewsList();
+        } catch (err) {
+          document.getElementById('reviews-table-container').innerHTML = `
+            <div style="padding: 32px; color: var(--accent-red); font-size: 13.5px;">
+              Failed to load reviews: ${escapeHtml(err.message)}
+            </div>
+          `;
+        }
+      }
+
+      function renderReviewsList() {
+        const container = document.getElementById('reviews-table-container');
+
+        if (allReviews.length === 0) {
+          container.innerHTML = `
+            <div class="empty-state">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <div class="empty-title">No reviews found</div>
+              <div class="empty-desc">Add customer testimonials to show in the marquee on the public website.</div>
+            </div>
+          `;
+          return;
+        }
+
+        const rowsHtml = allReviews.map(item => {
+          const stars = '★'.repeat(item.rating || 5);
+          const initials = (item.name || 'C').split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+
+          return `
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <div class="user-avatar" style="width: 38px; height: 38px; font-size: 13px; flex-shrink: 0;">${escapeHtml(initials)}</div>
+                  <div>
+                    <div style="font-weight: 600; color: #FAF8F4; font-size: 13.5px;">${escapeHtml(item.name)}</div>
+                    <div style="color: var(--text-muted); font-size: 11.5px;">
+                      ${escapeHtml(item.job_title || '')}${item.company ? `, ${escapeHtml(item.company)}` : ''}
+                      ${item.city ? ` &bull; ${escapeHtml(item.city)}` : ''}
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span style="font-size: 11px; background: rgba(201, 167, 124, 0.12); color: var(--gold-primary); padding: 3px 8px; border-radius: 12px; border: 0.5px solid rgba(201, 167, 124, 0.3); font-weight: 600;">
+                  ${escapeHtml(item.tag || 'Verified')}
+                </span>
+              </td>
+              <td>
+                <span style="color: var(--gold-primary); font-size: 14px; letter-spacing: 2px;">${stars}</span>
+              </td>
+              <td style="max-width: 320px; font-size: 12.5px; color: var(--text-secondary); line-height: 1.4;">
+                "${escapeHtml(item.quote ? (item.quote.length > 80 ? item.quote.slice(0, 80) + '...' : item.quote) : '')}"
+              </td>
+              <td>
+                <label style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer; font-size: 12px; color: ${item.is_visible ? '#52b788' : 'var(--text-muted)'};">
+                  <input type="checkbox" class="visibility-toggle" data-id="${item.id}" ${item.is_visible ? 'checked' : ''} style="accent-color: var(--gold-primary);" />
+                  ${item.is_visible ? 'Visible' : 'Hidden'}
+                </label>
+              </td>
+              <td>
+                <div class="table-actions">
+                  <button type="button" class="btn-action edit-review-btn" data-id="${item.id}" title="Edit Testimonial">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                  </button>
+                  <button type="button" class="btn-action delete-review-btn" data-id="${item.id}" style="color: var(--accent-red);" title="Delete Testimonial">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+
+        container.innerHTML = `
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Client / Reviewer</th>
+                  <th>Tag</th>
+                  <th>Rating</th>
+                  <th>Quote</th>
+                  <th>Marquee Status</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rowsHtml}
+              </tbody>
+            </table>
+          </div>
+        `;
+
+        // Attach action handlers
+        container.querySelectorAll('.edit-review-btn').forEach(btn => {
+          btn.onclick = () => {
+            const id = btn.getAttribute('data-id');
+            const rev = allReviews.find(r => String(r.id) === String(id));
+            if (rev) openModal(rev);
+          };
+        });
+
+        // Visibility toggles
+        container.querySelectorAll('.visibility-toggle').forEach(chk => {
+          chk.onchange = async () => {
+            const id = chk.getAttribute('data-id');
+            const isVis = chk.checked;
+            try {
+              const { error } = await client
+                .from('reviews')
+                .update({ is_visible: isVis })
+                .eq('id', id);
+
+              if (error) throw error;
+              const rev = allReviews.find(r => String(r.id) === String(id));
+              if (rev) rev.is_visible = isVis;
+              showToast('success', 'Status Updated', isVis ? 'Review is now visible on site marquee.' : 'Review hidden.');
+              renderReviewsList();
+            } catch (err) {
+              showToast('error', 'Update Failed', err.message);
+              chk.checked = !isVis;
+            }
+          };
+        });
+
+        // Delete review
+        container.querySelectorAll('.delete-review-btn').forEach(btn => {
+          btn.onclick = () => {
+            const id = btn.getAttribute('data-id');
+            const rev = allReviews.find(r => String(r.id) === String(id));
+            if (!rev) return;
+
+            showConfirmModal({
+              title: `Delete testimonial from ${rev.name}?`,
+              message: 'This will remove this review from the database and marquee.',
+              confirmText: 'Delete Review',
+              confirmClass: 'btn-danger',
+              onConfirm: async () => {
+                try {
+                  const { error } = await client
+                    .from('reviews')
+                    .delete()
+                    .eq('id', id);
+
+                  if (error) throw error;
+                  allReviews = allReviews.filter(r => String(r.id) !== String(id));
+                  showToast('success', 'Review Deleted', 'Testimonial removed.');
+                  renderReviewsList();
+                } catch (err) {
+                  showToast('error', 'Delete Failed', err.message);
+                }
+              }
+            });
+          };
+        });
+      }
+
+      // Form submission (Add / Edit)
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('rev-name').value.trim();
+        const quote = document.getElementById('rev-quote').value.trim();
+
+        if (!name || !quote) {
+          showToast('error', 'Missing Fields', 'Client name and testimonial quote are required.');
+          return;
+        }
+
+        const payload = {
+          name,
+          job_title: document.getElementById('rev-title').value.trim() || null,
+          company: document.getElementById('rev-company').value.trim() || null,
+          city: document.getElementById('rev-city').value.trim() || null,
+          tag: document.getElementById('rev-tag').value.trim() || 'Verified investor',
+          rating: parseInt(document.getElementById('rev-rating').value, 10) || 5,
+          quote,
+          is_visible: document.getElementById('rev-visible').checked,
+        };
+
+        const saveText = document.getElementById('rev-save-text');
+        const saveSpinner = document.getElementById('rev-save-spinner');
+        saveText.style.display = 'none';
+        saveSpinner.style.display = 'inline-block';
+
+        try {
+          if (editingReviewId) {
+            const { error } = await client
+              .from('reviews')
+              .update(payload)
+              .eq('id', editingReviewId);
+
+            if (error) throw error;
+            showToast('success', 'Review Updated', 'Testimonial has been updated.');
+          } else {
+            const { error } = await client
+              .from('reviews')
+              .insert([payload]);
+
+            if (error) throw error;
+            showToast('success', 'Review Added', 'Testimonial added to marquee.');
+          }
+
+          closeModal();
+          await fetchReviews();
+        } catch (err) {
+          showToast('error', 'Save Failed', err.message);
+        } finally {
+          saveText.style.display = 'inline';
+          saveSpinner.style.display = 'none';
+        }
+      });
+
+      // Initial Fetch
+      await fetchReviews();
+
+    })();
+  </script>
+</body>
+</html>
