@@ -1,5 +1,4 @@
-import React, { useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React from 'react';
 
 interface TestimonialCard {
   quote: string;
@@ -33,7 +32,7 @@ const testimonials: TestimonialCard[] = [
     city: 'Bengaluru',
     tag: 'Verified investor',
     initials: 'HS',
-    rating: 4,
+    rating: 5,
   },
   {
     quote:
@@ -55,7 +54,7 @@ const testimonials: TestimonialCard[] = [
     city: 'Bengaluru',
     tag: 'Verified investor',
     initials: 'AV',
-    rating: 3,
+    rating: 5,
   },
   {
     quote:
@@ -66,7 +65,7 @@ const testimonials: TestimonialCard[] = [
     city: 'Hyderabad',
     tag: 'Verified homeowner',
     initials: 'PR',
-    rating: 4,
+    rating: 5,
   },
   {
     quote:
@@ -88,7 +87,7 @@ const testimonials: TestimonialCard[] = [
     city: 'Mysuru',
     tag: 'Verified homeowner',
     initials: 'RR',
-    rating: 4,
+    rating: 5,
   },
   {
     quote:
@@ -110,7 +109,7 @@ const testimonials: TestimonialCard[] = [
     city: 'Hyderabad',
     tag: 'Verified investor',
     initials: 'VJ',
-    rating: 3,
+    rating: 5,
   },
   {
     quote:
@@ -121,7 +120,7 @@ const testimonials: TestimonialCard[] = [
     city: 'Chennai',
     tag: 'Verified homeowner',
     initials: 'SN',
-    rating: 4,
+    rating: 5,
   },
 ];
 
@@ -149,162 +148,8 @@ const trustedRelationships = [
 ];
 
 export const Reviews: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const firstGroupRef = useRef<HTMLDivElement>(null);
-  const isInteractingRef = useRef(false);
-  const resumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const animationFrameIdRef = useRef<number | null>(null);
-  const scrollPosRef = useRef(0);
-  const hasScrolledRef = useRef(false);
-
   // Multiply for seamless infinite horizontal loop
   const tickerItems = [...trustedRelationships, ...trustedRelationships, ...trustedRelationships];
-
-  useEffect(() => {
-    const container = containerRef.current;
-    const firstGroup = firstGroupRef.current;
-    if (!container || !firstGroup) return;
-
-    const isMobile = () => window.innerWidth < 768;
-    const prefersReducedMotion = () =>
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    // Initialize scroll position from container
-    scrollPosRef.current = container.scrollLeft;
-
-    const startInteraction = () => {
-      isInteractingRef.current = true;
-      if (resumeTimeoutRef.current) {
-        clearTimeout(resumeTimeoutRef.current);
-        resumeTimeoutRef.current = null;
-      }
-      container.classList.add('is-user-swiping');
-      scrollPosRef.current = container.scrollLeft;
-    };
-
-    const scheduleResume = (delay = 2000) => {
-      scrollPosRef.current = container.scrollLeft;
-      if (resumeTimeoutRef.current) {
-        clearTimeout(resumeTimeoutRef.current);
-      }
-      resumeTimeoutRef.current = setTimeout(() => {
-        container.classList.remove('is-user-swiping');
-        scrollPosRef.current = container.scrollLeft;
-        isInteractingRef.current = false;
-      }, delay);
-    };
-
-    const handleTouchStart = () => {
-      startInteraction();
-    };
-
-    const handleTouchEnd = () => {
-      scheduleResume(2000);
-    };
-
-    const handleTouchCancel = () => {
-      scheduleResume(2000);
-    };
-
-    const handlePointerDown = (e: PointerEvent) => {
-      if (e.pointerType === 'touch' || e.pointerType === 'pen') {
-        startInteraction();
-      }
-    };
-
-    const handlePointerUp = (e: PointerEvent) => {
-      if (e.pointerType === 'touch' || e.pointerType === 'pen') {
-        scheduleResume(2000);
-      }
-    };
-
-    const handlePointerCancel = (e: PointerEvent) => {
-      if (e.pointerType === 'touch' || e.pointerType === 'pen') {
-        scheduleResume(2000);
-      }
-    };
-
-    const handleScroll = () => {
-      if (isInteractingRef.current) {
-        scrollPosRef.current = container.scrollLeft;
-        hasScrolledRef.current = true;
-        scheduleResume(2000);
-      }
-
-      const singleGroupWidth = firstGroup.scrollWidth;
-      if (singleGroupWidth > 0) {
-        if (container.scrollLeft >= singleGroupWidth * 1.8) {
-          container.scrollLeft -= singleGroupWidth;
-          scrollPosRef.current = container.scrollLeft;
-        } else if (container.scrollLeft <= 0 && hasScrolledRef.current) {
-          container.scrollLeft += singleGroupWidth;
-          scrollPosRef.current = container.scrollLeft;
-        }
-      }
-    };
-
-    container.addEventListener('touchstart', handleTouchStart, { passive: true });
-    container.addEventListener('touchend', handleTouchEnd, { passive: true });
-    container.addEventListener('touchcancel', handleTouchCancel, { passive: true });
-    container.addEventListener('pointerdown', handlePointerDown, { passive: true });
-    container.addEventListener('pointerup', handlePointerUp, { passive: true });
-    container.addEventListener('pointercancel', handlePointerCancel, { passive: true });
-    container.addEventListener('scroll', handleScroll, { passive: true });
-
-    let lastTimestamp = performance.now();
-    const SPEED_PX_PER_SEC = 36;
-
-    const step = (timestamp: number) => {
-      const dt = Math.min((timestamp - lastTimestamp) / 1000, 0.1);
-      lastTimestamp = timestamp;
-
-      if (isMobile() && !prefersReducedMotion() && !isInteractingRef.current) {
-        const singleGroupWidth = firstGroup.scrollWidth;
-        if (singleGroupWidth > 0) {
-          // If container.scrollLeft differed from scrollPosRef (due to user gesture or layout snap), re-sync
-          if (Math.abs(container.scrollLeft - scrollPosRef.current) > 2) {
-            scrollPosRef.current = container.scrollLeft;
-          }
-
-          scrollPosRef.current += SPEED_PX_PER_SEC * dt;
-          if (scrollPosRef.current >= singleGroupWidth) {
-            scrollPosRef.current -= singleGroupWidth;
-          }
-          container.scrollLeft = scrollPosRef.current;
-          hasScrolledRef.current = true;
-        }
-      }
-
-      animationFrameIdRef.current = requestAnimationFrame(step);
-    };
-
-    animationFrameIdRef.current = requestAnimationFrame(step);
-
-    const handleResize = () => {
-      if (!isMobile()) {
-        container.scrollLeft = 0;
-        scrollPosRef.current = 0;
-      }
-    };
-    window.addEventListener('resize', handleResize, { passive: true });
-
-    return () => {
-      if (animationFrameIdRef.current) {
-        cancelAnimationFrame(animationFrameIdRef.current);
-      }
-      if (resumeTimeoutRef.current) {
-        clearTimeout(resumeTimeoutRef.current);
-      }
-      container.removeEventListener('touchstart', handleTouchStart);
-      container.removeEventListener('touchend', handleTouchEnd);
-      container.removeEventListener('touchcancel', handleTouchCancel);
-      container.removeEventListener('pointerdown', handlePointerDown);
-      container.removeEventListener('pointerup', handlePointerUp);
-      container.removeEventListener('pointercancel', handlePointerCancel);
-      container.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
 
   const renderCard = (t: TestimonialCard, keyPrefix: string, idx: number) => (
     <div key={`${keyPrefix}-${t.name}-${idx}`} className="review-card">
@@ -573,7 +418,7 @@ export const Reviews: React.FC = () => {
       >
         <div className="container" style={{ maxWidth: '1280px' }}>
           {/* Centered Section Header */}
-          <div className="reviews-header-block" style={{ textAlign: 'center', marginBottom: 'clamp(3rem, 5vw, 4rem)' }}>
+          <div className="reviews-header-block" style={{ textAlign: 'center', marginBottom: 'clamp(2.25rem, 3.5vw, 3rem)' }}>
             <span
               className="reviews-eyebrow"
               style={{
@@ -612,39 +457,17 @@ export const Reviews: React.FC = () => {
                 width: '36px',
                 height: '2px',
                 backgroundColor: 'var(--bronze)',
-                margin: '0 auto 1.15rem auto',
+                margin: '0 auto',
               }}
             />
-
-            <p
-              className="reviews-subtitle"
-              style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: 'clamp(0.95rem, 1.15vw, 1.05rem)',
-                lineHeight: 1.6,
-                color: 'rgba(237, 232, 223, 0.75)',
-                maxWidth: '640px',
-                margin: '0 auto',
-                fontWeight: 400,
-              }}
-            >
-              Rated 5/5 by 100+ happy customers across Bangalore, Mysuru, Hyderabad &amp; Chennai.
-            </p>
           </div>
         </div>
 
-        {/* Continuous Horizontal Floating Reviews Marquee with Soft Edge Fade */}
-        <motion.div
-          ref={containerRef}
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="reviews-marquee-container"
-        >
+        {/* Continuous Horizontal Floating Reviews Stream with Soft Edge Fade */}
+        <div className="reviews-marquee-container">
           <div className="reviews-marquee-track">
             {/* First Set of Cards */}
-            <div className="reviews-marquee-group" ref={firstGroupRef}>
+            <div className="reviews-marquee-group">
               {testimonials.map((t, idx) => renderCard(t, 'orig', idx))}
             </div>
 
@@ -653,7 +476,7 @@ export const Reviews: React.FC = () => {
               {testimonials.map((t, idx) => renderCard(t, 'dup', idx))}
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* Bottom Part: Dark Banner "— TRUSTED RELATIONSHIPS" with Horizontal Floating Marquee Animation */}
@@ -771,33 +594,39 @@ export const Reviews: React.FC = () => {
           position: relative;
           width: 100%;
           overflow: hidden;
-          mask-image: linear-gradient(
-            to right,
-            transparent 0%,
-            black clamp(28px, 6vw, 90px),
-            black calc(100% - clamp(28px, 6vw, 90px)),
-            transparent 100%
-          );
-          -webkit-mask-image: linear-gradient(
-            to right,
-            transparent 0%,
-            black clamp(28px, 6vw, 90px),
-            black calc(100% - clamp(28px, 6vw, 90px)),
-            transparent 100%
-          );
           padding: 14px 0 26px 0;
-          cursor: grab;
+          -webkit-user-select: none;
+          user-select: none;
         }
 
-        .reviews-marquee-container:active {
-          cursor: grabbing;
+        /* Edge fades via pseudo-elements: hardware accelerated, 0 CPU re-rasterization on mobile */
+        .reviews-marquee-container::before,
+        .reviews-marquee-container::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: clamp(24px, 5vw, 80px);
+          z-index: 2;
+          pointer-events: none;
+        }
+        .reviews-marquee-container::before {
+          left: 0;
+          background: linear-gradient(to right, #090D0B, transparent);
+        }
+        .reviews-marquee-container::after {
+          right: 0;
+          background: linear-gradient(to left, #090D0B, transparent);
         }
 
         .reviews-marquee-track {
           display: flex;
           width: max-content;
-          animation: reviewsMarquee 50s linear infinite;
+          animation: reviewFloat 38s linear infinite;
+          -webkit-animation: reviewFloat 38s linear infinite;
           will-change: transform;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
         }
 
         .reviews-marquee-group {
@@ -827,6 +656,10 @@ export const Reviews: React.FC = () => {
           -webkit-tap-highlight-color: transparent;
           user-select: none;
           -webkit-user-select: none;
+          transform: translate3d(0, 0, 0);
+          -webkit-transform: translate3d(0, 0, 0);
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
         }
 
         .reviews-marquee-container .review-card .review-quote {
@@ -840,8 +673,8 @@ export const Reviews: React.FC = () => {
           margin: 0 !important;
         }
 
-        /* Desktop Hover: Only applies on devices with fine pointer (mouse), never on phones */
-        @media (hover: hover) and (pointer: fine) {
+        /* Desktop Hover: Only applies on large screens (>=768px) with fine pointer (mouse), NEVER on phones */
+        @media (min-width: 768px) and (hover: hover) and (pointer: fine) {
           .reviews-marquee-container:hover .reviews-marquee-track {
             animation-play-state: paused;
           }
@@ -857,12 +690,25 @@ export const Reviews: React.FC = () => {
           }
         }
 
-        @keyframes reviewsMarquee {
+        @keyframes reviewFloat {
           0% {
-            transform: translateX(0);
+            transform: translate3d(0, 0, 0);
+            -webkit-transform: translate3d(0, 0, 0);
           }
           100% {
-            transform: translateX(-50%);
+            transform: translate3d(-50%, 0, 0);
+            -webkit-transform: translate3d(-50%, 0, 0);
+          }
+        }
+
+        @-webkit-keyframes reviewFloat {
+          0% {
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+          }
+          100% {
+            -webkit-transform: translate3d(-50%, 0, 0);
+            transform: translate3d(-50%, 0, 0);
           }
         }
 
@@ -875,14 +721,15 @@ export const Reviews: React.FC = () => {
           }
         }
 
-        /* Mobile Optimization (under 768px) */
+        /* Mobile Optimization (under 768px) - Non-Sticking, 60fps/120fps Smooth Floating */
         @media (max-width: 767px) {
           #reviews {
-            overflow-x: hidden !important;
+            overflow: hidden !important;
           }
 
           .reviews-top-wrapper {
             padding: 44px 0 32px 0 !important;
+            overflow: hidden !important;
           }
 
           .reviews-top-wrapper .container {
@@ -891,16 +738,16 @@ export const Reviews: React.FC = () => {
             overflow: visible !important;
           }
 
-          /* PART 1: HEADING ON ONE LINE & SECTION SPACING */
+          /* Section Header & Spacing */
           .reviews-header-block {
-            margin-bottom: 28px !important;
+            margin-bottom: 24px !important;
             text-align: center !important;
           }
 
           .reviews-eyebrow {
             font-size: 0.72rem !important;
             letter-spacing: 0.2em !important;
-            margin-bottom: 12px !important;
+            margin-bottom: 10px !important;
           }
 
           .reviews-heading {
@@ -910,53 +757,29 @@ export const Reviews: React.FC = () => {
             white-space: nowrap !important;
             text-align: center !important;
             letter-spacing: -0.02em !important;
-            margin: 0 0 12px 0 !important;
+            margin: 0 0 10px 0 !important;
             width: 100% !important;
           }
 
           .reviews-divider-bar {
             width: 32px !important;
             height: 1.5px !important;
-            margin: 0 auto 12px auto !important;
-          }
-
-          .reviews-subtitle {
-            font-size: 14.5px !important;
-            line-height: 1.55 !important;
-            text-align: center !important;
-            max-width: 325px !important;
             margin: 0 auto !important;
-            padding: 0 4px !important;
           }
 
-          /* PART 2 & 3: HORIZONTALLY SWIPEABLE TRACK & AUTO-SCROLL */
+          /* Continuous Mobile Floating Animation - Immune to Sticking & Gestures */
           .reviews-marquee-container {
-            overflow-x: auto !important;
-            scroll-snap-type: none;
-            -webkit-overflow-scrolling: touch !important;
-            touch-action: pan-x pan-y !important;
+            overflow: hidden !important;
             scrollbar-width: none !important;
             -ms-overflow-style: none !important;
-            cursor: default !important;
             padding: 0 0 20px 0 !important;
-            mask-image: linear-gradient(
-              to right,
-              transparent 0%,
-              black 16px,
-              black calc(100% - 16px),
-              transparent 100%
-            ) !important;
-            -webkit-mask-image: linear-gradient(
-              to right,
-              transparent 0%,
-              black 16px,
-              black calc(100% - 16px),
-              transparent 100%
-            ) !important;
+            touch-action: pan-y !important;
+            pointer-events: none !important; /* Prevents touch from freezing the cards or trapping gestures */
           }
 
-          .reviews-marquee-container.is-user-swiping {
-            scroll-snap-type: x proximity !important;
+          .reviews-marquee-container::before,
+          .reviews-marquee-container::after {
+            width: 22px !important;
           }
 
           .reviews-marquee-container::-webkit-scrollbar {
@@ -968,16 +791,21 @@ export const Reviews: React.FC = () => {
           .reviews-marquee-track {
             display: flex !important;
             width: max-content !important;
-            animation: none !important;
-            transform: none !important;
-            will-change: auto !important;
+            animation: reviewFloat 36s linear infinite !important;
+            -webkit-animation: reviewFloat 36s linear infinite !important;
+            animation-play-state: running !important; /* Force continuous running on mobile under all conditions */
+            will-change: transform !important;
+            backface-visibility: hidden !important;
+            -webkit-backface-visibility: hidden !important;
+            pointer-events: none !important;
           }
 
-          /* PART 2: SMALLER CARDS */
           .reviews-marquee-group {
-            gap: 14px !important;
-            padding-right: 14px !important;
+            display: flex !important;
+            gap: 16px !important;
+            padding-right: 16px !important;
             align-items: stretch !important;
+            flex-shrink: 0 !important;
           }
 
           .reviews-marquee-container .review-card {
@@ -993,11 +821,16 @@ export const Reviews: React.FC = () => {
             flex-direction: column !important;
             justify-content: space-between !important;
             box-sizing: border-box !important;
-            scroll-snap-align: center !important;
-            scroll-snap-stop: normal !important;
             -webkit-tap-highlight-color: transparent !important;
             user-select: none !important;
             -webkit-user-select: none !important;
+            pointer-events: none !important;
+            transition: none !important; /* No transitions on mobile to prevent animation hitching */
+            transform: translate3d(0, 0, 0) !important;
+            -webkit-transform: translate3d(0, 0, 0) !important;
+            backface-visibility: hidden !important;
+            -webkit-backface-visibility: hidden !important;
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45) !important;
           }
 
           /* PREVENT STICKY HOVER ON MOBILE */
@@ -1005,8 +838,9 @@ export const Reviews: React.FC = () => {
           .reviews-marquee-container .review-card:hover,
           .reviews-marquee-container .review-card:focus,
           .reviews-marquee-container .review-card:active {
-            transform: none !important;
-            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45) !important;
+            transform: translate3d(0, 0, 0) !important;
+            -webkit-transform: translate3d(0, 0, 0) !important;
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45) !important;
             border-color: rgba(197, 168, 128, 0.22) !important;
             outline: none !important;
           }
