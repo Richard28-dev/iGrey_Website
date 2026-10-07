@@ -554,7 +554,7 @@ Error generating stack: `+e.message+`
             transition: none !important;
           }
         }
-      `})]})},ah=[{quote:`Their curation filtered out ninety percent of the noise. We found a trophy waterfront asset within three weeks that never even touched the open market.`,name:`Elena Rostova`,jobTitle:`Founder`,company:`Global Tech Ventures`,city:`Bengaluru`,tag:`Verified investor`,initials:`ER`,rating:5},{quote:`Outstanding portfolio structuring and exceptional legal diligence. The onboarding had several compliance stages, but their discreet private banking execution was well worth it.`,name:`Harshvardhan Singhania`,jobTitle:`Principal Partner`,company:`Singhania Family Office`,city:`Bengaluru`,tag:`Verified investor`,initials:`HS`,rating:5},{quote:`A true masterclass in architectural provenance and investment discipline. They treat luxury real estate as living sculpture and disciplined capital protection.`,name:`Madhavan Sridhar`,jobTitle:`Managing Director`,company:`Apex Capital Partners`,city:`Chennai`,tag:`Verified homeowner`,initials:`MS`,rating:5},{quote:`Managing our duplex from Singapore involved a longer initial KYC cycle than anticipated, yet their property management and net 7.2% rental yield have been totally reliable.`,name:`Arun Venkatesh`,jobTitle:`Director of Cloud Engg.`,company:`Oracle Global`,city:`Bengaluru`,tag:`Verified investor`,initials:`AV`,rating:5},{quote:`Their tenant verification and background checks are remarkably thorough. Disbursements are punctual on the 1st of every month, though monthly digital statements could arrive faster.`,name:`Dr. Priya Reddy`,jobTitle:`Consultant Cardiologist`,company:`Apollo Health City`,city:`Hyderabad`,tag:`Verified homeowner`,initials:`PR`,rating:5},{quote:`Entrusting our luxury beachside villa on ECR to iGrey was our best financial decision. Complete transparency in maintenance audits, zero vacancy downtime, and exemplary professionalism.`,name:`K. S. Ramachandran`,jobTitle:`Managing Director`,company:`Southern Alloys Group`,city:`Chennai`,tag:`Verified investor`,initials:`KR`,rating:5},{quote:`They handle our ancestral bungalow with genuine reverence. The initial tenant matching took slightly longer to meet their strict standards, but the peace of mind is priceless.`,name:`Col. Rajeshwar Rao (Retd.)`,jobTitle:`Trustee & Veteran`,company:`Heritage Preservation Trust`,city:`Mysuru`,tag:`Verified homeowner`,initials:`RR`,rating:5},{quote:`Their data-backed yield modeling for prime Whitefield properties proved spot on. Professional lease agreements, regular quarterly inspections, and total peace of mind.`,name:`Sneha Kulkarni`,jobTitle:`VP of Engineering`,company:`Finovate Systems`,city:`Bengaluru`,tag:`Verified investor`,initials:`SK`,rating:5},{quote:`The acquisition closing took extra time due to rigorous title deeds validation, but their post-purchase asset governance in Jubilee Hills has been transparent and dependable.`,name:`Vikramaditya Joshi`,jobTitle:`Founder & CEO`,company:`Altum Capital Ventures`,city:`Hyderabad`,tag:`Verified investor`,initials:`VJ`,rating:5},{quote:`Living in Dubai, digital documentation and clear oversight were paramount. Payouts arrive like clockwork every quarter, backed by detailed photo maintenance audits.`,name:`Sundar & Meera Narayan`,jobTitle:`Managing Partners`,company:`Gulf Capital Advisory`,city:`Chennai`,tag:`Verified homeowner`,initials:`SN`,rating:5}],oh=[{title:`RIBA CHARTERED`,subtitle:`ARCHITECTURE & DESIGN`},{title:`GLOBAL ALLIANCE`,subtitle:`PRIVATE SYNDICATION`},{title:`RICS ACCREDITED`,subtitle:`VALUATION STANDARDS`},{title:`CHAMBERS GLOBAL`,subtitle:`PRIVATE WEALTH COUNSEL`},{title:`SUSTAINABILITY GUILD`,subtitle:`NET-ZERO STANDARDS`}],sh=()=>{let e=[...oh,...oh,...oh],t=(e,t,n)=>(0,V.jsxs)(`div`,{className:`review-card`,children:[(0,V.jsxs)(`div`,{className:`review-card-top`,children:[(0,V.jsx)(`div`,{className:`review-quote-mark`,style:{fontFamily:`'Cormorant Garamond', Georgia, serif`,fontSize:`44px`,lineHeight:`0.85`,color:`#c9a77c`,marginBottom:`0.85rem`,userSelect:`none`},"aria-hidden":`true`,children:`“`}),(0,V.jsxs)(`div`,{className:`review-stars-row`,style:{display:`flex`,alignItems:`center`,gap:`4px`,marginBottom:`1.25rem`},"aria-label":`Rated ${e.rating} out of 5`,children:[[1,2,3,4,5].map(t=>t<=e.rating?(0,V.jsx)(`svg`,{className:`review-star-svg`,width:`15`,height:`15`,viewBox:`0 0 24 24`,fill:`#d9b36a`,"aria-hidden":`true`,style:{display:`block`},children:(0,V.jsx)(`path`,{d:`M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z`})},t):(0,V.jsx)(`svg`,{className:`review-star-svg`,width:`15`,height:`15`,viewBox:`0 0 24 24`,fill:`none`,stroke:`#5b4b32`,strokeWidth:`1.8`,strokeLinecap:`round`,strokeLinejoin:`round`,"aria-hidden":`true`,style:{display:`block`},children:(0,V.jsx)(`polygon`,{points:`12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2`})},t)),(0,V.jsx)(`span`,{className:`review-rating-num`,style:{marginLeft:`6px`,fontFamily:`'Manrope', var(--font-sans)`,fontSize:`13px`,color:`#8e8677`,fontWeight:500},children:e.rating.toFixed(1)})]}),(0,V.jsx)(`p`,{className:`review-quote`,children:e.quote})]}),(0,V.jsxs)(`div`,{className:`review-card-bottom`,children:[(0,V.jsx)(`div`,{className:`review-inner-divider`,style:{height:`1px`,backgroundColor:`rgba(197, 168, 128, 0.18)`,margin:`2rem 0 1.25rem 0`}}),(0,V.jsxs)(`div`,{className:`review-author-section`,style:{display:`flex`,alignItems:`center`,gap:`14px`,minWidth:0,width:`100%`},children:[(0,V.jsx)(`div`,{className:`review-author-avatar`,style:{width:`46px`,height:`46px`,minWidth:`46px`,minHeight:`46px`,borderRadius:`50%`,border:`0.5px solid #c9a77c`,backgroundColor:`#0c110e`,display:`flex`,alignItems:`center`,justifyContent:`center`,flexShrink:0},"aria-hidden":`true`,children:(0,V.jsx)(`span`,{className:`review-avatar-initials`,style:{fontFamily:`'Cormorant Garamond', var(--font-serif)`,fontSize:`19px`,fontWeight:500,color:`#c9a77c`,lineHeight:1,letterSpacing:`0.02em`},children:e.initials})}),(0,V.jsxs)(`div`,{className:`review-author-text`,style:{display:`flex`,flexDirection:`column`,minWidth:0,flex:1,overflow:`hidden`},children:[(0,V.jsxs)(`div`,{className:`review-author-name-row`,style:{display:`flex`,alignItems:`center`,gap:`6px`,minWidth:0},children:[(0,V.jsx)(`span`,{className:`review-author-name`,style:{fontFamily:`'Manrope', var(--font-sans)`,fontSize:`16px`,fontWeight:600,color:`#f7f2e8`,letterSpacing:`0.01em`,lineHeight:1.25,whiteSpace:`nowrap`,overflow:`hidden`,textOverflow:`ellipsis`},children:e.name}),(0,V.jsx)(`svg`,{className:`review-verified-icon`,width:`17`,height:`17`,viewBox:`0 0 24 24`,fill:`#c9a77c`,style:{flexShrink:0},"aria-label":`Verified`,children:(0,V.jsx)(`path`,{fillRule:`evenodd`,clipRule:`evenodd`,d:`M10.2 2.7a2.5 2.5 0 0 1 3.6 0l.7.7a2.5 2.5 0 0 0 2.2.8l1-.1a2.5 2.5 0 0 1 2.7 2.7l-.1 1a2.5 2.5 0 0 0 .8 2.2l.7.7a2.5 2.5 0 0 1 0 3.6l-.7.7a2.5 2.5 0 0 0-.8 2.2l.1 1a2.5 2.5 0 0 1-2.7 2.7l-1-.1a2.5 2.5 0 0 0-2.2.8l-.7.7a2.5 2.5 0 0 1-3.6 0l-.7-.7a2.5 2.5 0 0 0-2.2-.8l-1 .1a2.5 2.5 0 0 1-2.7-2.7l.1-1a2.5 2.5 0 0 0-.8-2.2l-.7-.7a2.5 2.5 0 0 1 0-3.6l.7-.7a2.5 2.5 0 0 0 .8-2.2l-.1-1a2.5 2.5 0 0 1 2.7-2.7l1 .1a2.5 2.5 0 0 0 2.2-.8l.7-.7zm6.1 7.6a1 1 0 0 0-1.4-1.4L11 12.8 9.1 10.9a1 1 0 0 0-1.4 1.4l2.6 2.6a1 1 0 0 0 1.4 0l4.6-4.6z`})})]}),(0,V.jsxs)(`div`,{className:`review-author-role`,style:{fontFamily:`'Manrope', var(--font-sans)`,fontSize:`12.5px`,color:`#cfc7b6`,marginTop:`3px`,lineHeight:1.35,whiteSpace:`nowrap`,overflow:`hidden`,textOverflow:`ellipsis`},children:[e.jobTitle,`, `,e.company]}),(0,V.jsxs)(`div`,{className:`review-author-location`,style:{display:`flex`,alignItems:`center`,gap:`4px`,fontFamily:`'Manrope', var(--font-sans)`,fontSize:`11.5px`,color:`#c9a77c`,marginTop:`4px`,lineHeight:1.3,whiteSpace:`nowrap`,overflow:`hidden`,textOverflow:`ellipsis`},children:[(0,V.jsxs)(`svg`,{className:`review-location-pin`,width:`11`,height:`11`,viewBox:`0 0 24 24`,fill:`none`,stroke:`#c9a77c`,strokeWidth:`2.2`,strokeLinecap:`round`,strokeLinejoin:`round`,style:{flexShrink:0},"aria-hidden":`true`,children:[(0,V.jsx)(`path`,{d:`M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z`}),(0,V.jsx)(`circle`,{cx:`12`,cy:`10`,r:`3`})]}),(0,V.jsxs)(`span`,{className:`review-location-text`,style:{overflow:`hidden`,textOverflow:`ellipsis`},children:[e.city,` · `,e.tag]})]})]})]})]})]},`${t}-${e.name}-${n}`);return(0,V.jsxs)(`section`,{id:`reviews`,style:{position:`relative`,backgroundColor:`#090D0B`,overflow:`hidden`},children:[(0,V.jsxs)(`div`,{className:`reviews-top-wrapper`,style:{backgroundColor:`#090D0B`,color:`#FFFFFF`,padding:`clamp(5.5rem, 8vw, 7.5rem) 0 clamp(4.5rem, 6vw, 6rem) 0`,borderBottom:`1px solid rgba(197, 168, 128, 0.15)`},children:[(0,V.jsx)(`div`,{className:`container`,style:{maxWidth:`1280px`},children:(0,V.jsxs)(`div`,{className:`reviews-header-block`,style:{textAlign:`center`,marginBottom:`clamp(2.25rem, 3.5vw, 3rem)`},children:[(0,V.jsx)(`span`,{className:`reviews-eyebrow`,style:{fontFamily:`var(--font-sans)`,fontSize:`0.78rem`,letterSpacing:`0.22em`,textTransform:`uppercase`,color:`var(--bronze)`,fontWeight:600,display:`block`,marginBottom:`0.85rem`},children:`VERIFIED REVIEWS`}),(0,V.jsx)(`h2`,{className:`reviews-heading`,style:{fontFamily:`var(--font-serif)`,fontSize:`clamp(2.4rem, 4.2vw, 3.6rem)`,lineHeight:1.15,color:`#FAF8F4`,fontWeight:400,letterSpacing:`-0.015em`,margin:`0 0 1rem 0`},children:`Loved by Proud Customers`}),(0,V.jsx)(`div`,{className:`reviews-divider-bar`,style:{width:`36px`,height:`2px`,backgroundColor:`var(--bronze)`,margin:`0 auto`}})]})}),(0,V.jsx)(`div`,{className:`reviews-marquee-container`,children:(0,V.jsxs)(`div`,{className:`reviews-marquee-track`,children:[(0,V.jsx)(`div`,{className:`reviews-marquee-group`,children:ah.map((e,n)=>t(e,`orig`,n))}),(0,V.jsx)(`div`,{className:`reviews-marquee-group`,"aria-hidden":`true`,children:ah.map((e,n)=>t(e,`dup`,n))})]})})]}),(0,V.jsxs)(`div`,{style:{backgroundColor:`#070B09`,padding:`clamp(2.75rem, 4.5vw, 4rem) 0`,borderBottom:`1px solid rgba(197, 168, 128, 0.15)`,position:`relative`,overflow:`hidden`},children:[(0,V.jsx)(`div`,{className:`container`,style:{maxWidth:`1440px`},children:(0,V.jsx)(`div`,{style:{textAlign:`center`,fontFamily:`var(--font-sans)`,fontSize:`0.72rem`,letterSpacing:`0.24em`,textTransform:`uppercase`,color:`var(--bronze)`,fontWeight:600,marginBottom:`2.5rem`},children:`— TRUSTED RELATIONSHIPS —`})}),(0,V.jsx)(`div`,{style:{position:`relative`,width:`100%`,overflow:`hidden`,maskImage:`linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)`,WebkitMaskImage:`linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)`},className:`marquee-container`,children:(0,V.jsx)(`div`,{style:{display:`flex`,width:`max-content`,animation:`floatMarquee 32s linear infinite`},className:`marquee-track`,children:e.map((e,t)=>(0,V.jsxs)(`div`,{style:{display:`flex`,alignItems:`center`},children:[(0,V.jsxs)(`div`,{style:{textAlign:`center`,padding:`0.75rem clamp(2.5rem, 4vw, 4.5rem)`,minWidth:`240px`},className:`trusted-rel-item`,children:[(0,V.jsx)(`div`,{style:{fontFamily:`var(--font-serif)`,fontSize:`clamp(0.95rem, 1.1vw, 1.08rem)`,fontWeight:500,letterSpacing:`0.12em`,textTransform:`uppercase`,color:`#FFFFFF`,lineHeight:1.25,marginBottom:`0.45rem`,whiteSpace:`nowrap`},children:e.title}),(0,V.jsx)(`div`,{style:{fontFamily:`var(--font-sans)`,fontSize:`0.68rem`,fontWeight:600,letterSpacing:`0.14em`,textTransform:`uppercase`,color:`var(--bronze)`,whiteSpace:`nowrap`},children:e.subtitle})]}),(0,V.jsx)(`div`,{style:{width:`1px`,height:`32px`,backgroundColor:`rgba(197, 168, 128, 0.2)`}})]},`${e.title}-${t}`))})})]}),(0,V.jsx)(`style`,{children:`
+      `})]})},ah=[{quote:`Their curation filtered out ninety percent of the noise. We found a trophy waterfront asset within three weeks that never even touched the open market.`,name:`Elena Rostova`,jobTitle:`Founder`,company:`Global Tech Ventures`,city:`Bengaluru`,tag:`Verified investor`,initials:`ER`,rating:5},{quote:`Outstanding portfolio structuring and exceptional legal diligence. The onboarding had several compliance stages, but their discreet private banking execution was well worth it.`,name:`Harshvardhan Singhania`,jobTitle:`Principal Partner`,company:`Singhania Family Office`,city:`Bengaluru`,tag:`Verified investor`,initials:`HS`,rating:5},{quote:`A true masterclass in architectural provenance and investment discipline. They treat luxury real estate as living sculpture and disciplined capital protection.`,name:`Madhavan Sridhar`,jobTitle:`Managing Director`,company:`Apex Capital Partners`,city:`Chennai`,tag:`Verified homeowner`,initials:`MS`,rating:5},{quote:`Managing our duplex from Singapore involved a longer initial KYC cycle than anticipated, yet their property management and net 7.2% rental yield have been totally reliable.`,name:`Arun Venkatesh`,jobTitle:`Director of Cloud Engg.`,company:`Oracle Global`,city:`Bengaluru`,tag:`Verified investor`,initials:`AV`,rating:5},{quote:`Their tenant verification and background checks are remarkably thorough. Disbursements are punctual on the 1st of every month, though monthly digital statements could arrive faster.`,name:`Dr. Priya Reddy`,jobTitle:`Consultant Cardiologist`,company:`Apollo Health City`,city:`Hyderabad`,tag:`Verified homeowner`,initials:`PR`,rating:5},{quote:`Entrusting our luxury beachside villa on ECR to iGrey was our best financial decision. Complete transparency in maintenance audits, zero vacancy downtime, and exemplary professionalism.`,name:`K. S. Ramachandran`,jobTitle:`Managing Director`,company:`Southern Alloys Group`,city:`Chennai`,tag:`Verified investor`,initials:`KR`,rating:5},{quote:`They handle our ancestral bungalow with genuine reverence. The initial tenant matching took slightly longer to meet their strict standards, but the peace of mind is priceless.`,name:`Col. Rajeshwar Rao (Retd.)`,jobTitle:`Trustee & Veteran`,company:`Heritage Preservation Trust`,city:`Mysuru`,tag:`Verified homeowner`,initials:`RR`,rating:5},{quote:`Their data-backed yield modeling for prime Whitefield properties proved spot on. Professional lease agreements, regular quarterly inspections, and total peace of mind.`,name:`Sneha Kulkarni`,jobTitle:`VP of Engineering`,company:`Finovate Systems`,city:`Bengaluru`,tag:`Verified investor`,initials:`SK`,rating:5},{quote:`The acquisition closing took extra time due to rigorous title deeds validation, but their post-purchase asset governance in Jubilee Hills has been transparent and dependable.`,name:`Vikramaditya Joshi`,jobTitle:`Founder & CEO`,company:`Altum Capital Ventures`,city:`Hyderabad`,tag:`Verified investor`,initials:`VJ`,rating:5},{quote:`Living in Dubai, digital documentation and clear oversight were paramount. Payouts arrive like clockwork every quarter, backed by detailed photo maintenance audits.`,name:`Sundar & Meera Narayan`,jobTitle:`Managing Partners`,company:`Gulf Capital Advisory`,city:`Chennai`,tag:`Verified homeowner`,initials:`SN`,rating:5}],oh=[{title:`RIBA CHARTERED`,subtitle:`ARCHITECTURE & DESIGN`},{title:`GLOBAL ALLIANCE`,subtitle:`PRIVATE SYNDICATION`},{title:`RICS ACCREDITED`,subtitle:`VALUATION STANDARDS`},{title:`CHAMBERS GLOBAL`,subtitle:`PRIVATE WEALTH COUNSEL`},{title:`SUSTAINABILITY GUILD`,subtitle:`NET-ZERO STANDARDS`}],sh=()=>{let e=[...oh,...oh,...oh],[t,n]=(0,_.useState)(null),r=(0,_.useRef)(null),[i,a]=(0,_.useState)(null),[o,s]=(0,_.useState)(!1),c=(0,_.useRef)(null),l=(0,_.useRef)(null),u=(0,_.useRef)(!1),d=(0,_.useRef)(!1),f=(0,_.useRef)(!1),p=(0,_.useRef)(!1),m=(0,_.useRef)(!1),h=(0,_.useRef)(null),g=(0,_.useRef)(0),v=(0,_.useRef)(null),y=(0,_.useRef)(null),b=(0,_.useRef)(null),x=(0,_.useRef)(null),S=(0,_.useRef)(0),C=(0,_.useRef)(0),w=(0,_.useCallback)(()=>{v.current&&clearTimeout(v.current),v.current=window.setTimeout(()=>{u.current=!1,c.current&&window.innerWidth<768&&(c.current.style.scrollSnapType=`none`)},2500)},[]),T=(0,_.useCallback)(e=>{r.current=e,n(e),s(!0),d.current=!0,document.body.style.overflow=`hidden`},[]),E=(0,_.useCallback)(()=>{r.current=null,n(null),document.body.style.overflow=``,d.current=!1,w()},[w]);(0,_.useEffect)(()=>{let e=e=>{e.key===`Escape`&&t&&E()};return window.addEventListener(`keydown`,e),()=>window.removeEventListener(`keydown`,e)},[t,E]),(0,_.useEffect)(()=>{let e=c.current,t=l.current;if(!e||!t)return;let n=()=>{t&&(S.current=t.offsetWidth)};n(),window.addEventListener(`resize`,n),window.innerWidth<768&&(e.style.scrollSnapType=`none`);let i=window.matchMedia(`(prefers-reduced-motion: reduce)`);m.current=i.matches;let a=e=>{m.current=e.matches};i.addEventListener(`change`,a);let o=new IntersectionObserver(e=>{e.forEach(e=>{p.current=e.isIntersecting})},{threshold:.05});o.observe(e);let s=()=>{f.current=document.hidden};document.addEventListener(`visibilitychange`,s);let h=()=>{if(window.innerWidth>=768)return;let n=S.current||t.offsetWidth;n>0&&e.scrollLeft>=n*1.95&&(e.scrollLeft-=n),C.current=e.scrollLeft};e.addEventListener(`scroll`,h,{passive:!0});let g=n=>{x.current||=n;let i=n-x.current;if(x.current=n,window.innerWidth<768&&!m.current&&p.current&&!f.current&&!u.current&&!d.current&&!r.current){let n=S.current||t.offsetWidth;if(n>0){let t=24*Math.min(i/1e3,.1);C.current+=t,C.current>=n&&(C.current-=n),e.scrollLeft=C.current}}b.current=requestAnimationFrame(g)};return b.current=requestAnimationFrame(g),()=>{b.current&&cancelAnimationFrame(b.current),v.current&&clearTimeout(v.current),y.current&&clearTimeout(y.current),o.disconnect(),window.removeEventListener(`resize`,n),e.removeEventListener(`scroll`,h),document.removeEventListener(`visibilitychange`,s),i.removeEventListener(`change`,a)}},[]);let D=e=>{let t=e.touches[0];h.current={x:t.clientX,y:t.clientY,time:Date.now()},u.current=!0,c.current&&window.innerWidth<768&&(c.current.style.scrollSnapType=`x proximity`),v.current&&=(clearTimeout(v.current),null)},ee=(e,t,n)=>{if(g.current=Date.now(),h.current){let r=e.changedTouches[0],i=r.clientX-h.current.x,o=r.clientY-h.current.y,s=Date.now()-h.current.time;Math.hypot(i,o)<8&&s<300&&(a(n),y.current&&clearTimeout(y.current),y.current=window.setTimeout(()=>{a(null)},120),T(t))}h.current=null,w()},te=()=>{h.current=null,w()},ne=e=>{Date.now()-g.current<500||T(e)},re=(e,t)=>{(e.key===`Enter`||e.key===` `)&&(e.preventDefault(),T(t))},ie=()=>{u.current=!0,c.current&&window.innerWidth<768&&(c.current.style.scrollSnapType=`x proximity`),v.current&&=(clearTimeout(v.current),null)},ae=(e,t,n)=>{let r=t===`orig`?n:n+ah.length;return(0,V.jsxs)(`div`,{"data-index":r,className:`review-card ${i===r?`is-pressed`:``}`,tabIndex:0,role:`button`,"aria-label":`Read full review from ${e.name}`,onClick:()=>ne(e),onTouchStart:D,onTouchEnd:t=>ee(t,e,r),onTouchCancel:te,onKeyDown:t=>re(t,e),children:[(0,V.jsxs)(`div`,{className:`review-card-top`,children:[(0,V.jsx)(`div`,{className:`review-quote-mark`,style:{fontFamily:`'Cormorant Garamond', Georgia, serif`,fontSize:`44px`,lineHeight:`0.85`,color:`#c9a77c`,marginBottom:`0.85rem`,userSelect:`none`},"aria-hidden":`true`,children:`“`}),(0,V.jsxs)(`div`,{className:`review-stars-row`,style:{display:`flex`,alignItems:`center`,gap:`4px`,marginBottom:`1.25rem`},"aria-label":`Rated ${e.rating} out of 5`,children:[[1,2,3,4,5].map(t=>t<=e.rating?(0,V.jsx)(`svg`,{className:`review-star-svg`,width:`15`,height:`15`,viewBox:`0 0 24 24`,fill:`#d9b36a`,"aria-hidden":`true`,style:{display:`block`},children:(0,V.jsx)(`path`,{d:`M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z`})},t):(0,V.jsx)(`svg`,{className:`review-star-svg`,width:`15`,height:`15`,viewBox:`0 0 24 24`,fill:`none`,stroke:`#5b4b32`,strokeWidth:`1.8`,strokeLinecap:`round`,strokeLinejoin:`round`,"aria-hidden":`true`,style:{display:`block`},children:(0,V.jsx)(`polygon`,{points:`12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2`})},t)),(0,V.jsx)(`span`,{className:`review-rating-num`,style:{marginLeft:`6px`,fontFamily:`'Manrope', var(--font-sans)`,fontSize:`13px`,color:`#8e8677`,fontWeight:500},children:e.rating.toFixed(1)})]}),(0,V.jsx)(`p`,{className:`review-quote`,children:e.quote})]}),(0,V.jsxs)(`div`,{className:`review-card-bottom`,children:[(0,V.jsx)(`div`,{className:`review-inner-divider`,style:{height:`1px`,backgroundColor:`rgba(197, 168, 128, 0.18)`,margin:`2rem 0 1.25rem 0`}}),(0,V.jsxs)(`div`,{className:`review-author-section`,style:{display:`flex`,alignItems:`center`,gap:`14px`,minWidth:0,width:`100%`},children:[(0,V.jsx)(`div`,{className:`review-author-avatar`,style:{width:`46px`,height:`46px`,minWidth:`46px`,minHeight:`46px`,borderRadius:`50%`,border:`0.5px solid #c9a77c`,backgroundColor:`#0c110e`,display:`flex`,alignItems:`center`,justifyContent:`center`,flexShrink:0},"aria-hidden":`true`,children:(0,V.jsx)(`span`,{className:`review-avatar-initials`,style:{fontFamily:`'Cormorant Garamond', var(--font-serif)`,fontSize:`19px`,fontWeight:500,color:`#c9a77c`,lineHeight:1,letterSpacing:`0.02em`},children:e.initials})}),(0,V.jsxs)(`div`,{className:`review-author-text`,style:{display:`flex`,flexDirection:`column`,minWidth:0,flex:1,overflow:`hidden`},children:[(0,V.jsxs)(`div`,{className:`review-author-name-row`,style:{display:`flex`,alignItems:`center`,gap:`6px`,minWidth:0},children:[(0,V.jsx)(`span`,{className:`review-author-name`,style:{fontFamily:`'Manrope', var(--font-sans)`,fontSize:`16px`,fontWeight:600,color:`#f7f2e8`,letterSpacing:`0.01em`,lineHeight:1.25,whiteSpace:`nowrap`,overflow:`hidden`,textOverflow:`ellipsis`},children:e.name}),(0,V.jsx)(`svg`,{className:`review-verified-icon`,width:`17`,height:`17`,viewBox:`0 0 24 24`,fill:`#c9a77c`,style:{flexShrink:0},"aria-label":`Verified`,children:(0,V.jsx)(`path`,{fillRule:`evenodd`,clipRule:`evenodd`,d:`M10.2 2.7a2.5 2.5 0 0 1 3.6 0l.7.7a2.5 2.5 0 0 0 2.2.8l1-.1a2.5 2.5 0 0 1 2.7 2.7l-.1 1a2.5 2.5 0 0 0 .8 2.2l.7.7a2.5 2.5 0 0 1 0 3.6l-.7.7a2.5 2.5 0 0 0-.8 2.2l.1 1a2.5 2.5 0 0 1-2.7 2.7l-1-.1a2.5 2.5 0 0 0-2.2.8l-.7.7a2.5 2.5 0 0 1-3.6 0l-.7-.7a2.5 2.5 0 0 0-2.2-.8l-1 .1a2.5 2.5 0 0 1-2.7-2.7l.1-1a2.5 2.5 0 0 0-.8-2.2l-.7-.7a2.5 2.5 0 0 1 0-3.6l.7-.7a2.5 2.5 0 0 0 .8-2.2l-.1-1a2.5 2.5 0 0 1 2.7-2.7l1 .1a2.5 2.5 0 0 0 2.2-.8l.7-.7zm6.1 7.6a1 1 0 0 0-1.4-1.4L11 12.8 9.1 10.9a1 1 0 0 0-1.4 1.4l2.6 2.6a1 1 0 0 0 1.4 0l4.6-4.6z`})})]}),(0,V.jsxs)(`div`,{className:`review-author-role`,style:{fontFamily:`'Manrope', var(--font-sans)`,fontSize:`12.5px`,color:`#cfc7b6`,marginTop:`3px`,lineHeight:1.35,whiteSpace:`nowrap`,overflow:`hidden`,textOverflow:`ellipsis`},children:[e.jobTitle,`, `,e.company]}),(0,V.jsxs)(`div`,{className:`review-author-location`,style:{display:`flex`,alignItems:`center`,gap:`4px`,fontFamily:`'Manrope', var(--font-sans)`,fontSize:`11.5px`,color:`#c9a77c`,marginTop:`4px`,lineHeight:1.3,whiteSpace:`nowrap`,overflow:`hidden`,textOverflow:`ellipsis`},children:[(0,V.jsxs)(`svg`,{className:`review-location-pin`,width:`11`,height:`11`,viewBox:`0 0 24 24`,fill:`none`,stroke:`#c9a77c`,strokeWidth:`2.2`,strokeLinecap:`round`,strokeLinejoin:`round`,style:{flexShrink:0},"aria-hidden":`true`,children:[(0,V.jsx)(`path`,{d:`M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z`}),(0,V.jsx)(`circle`,{cx:`12`,cy:`10`,r:`3`})]}),(0,V.jsxs)(`span`,{className:`review-location-text`,style:{overflow:`hidden`,textOverflow:`ellipsis`},children:[e.city,` · `,e.tag]})]})]})]})]})]},`${t}-${e.name}-${n}`)};return(0,V.jsxs)(`section`,{id:`reviews`,style:{position:`relative`,backgroundColor:`#090D0B`,overflow:`hidden`},children:[(0,V.jsxs)(`div`,{className:`reviews-top-wrapper`,style:{backgroundColor:`#090D0B`,color:`#FFFFFF`,padding:`clamp(5.5rem, 8vw, 7.5rem) 0 clamp(4.5rem, 6vw, 6rem) 0`,borderBottom:`1px solid rgba(197, 168, 128, 0.15)`},children:[(0,V.jsx)(`div`,{className:`container`,style:{maxWidth:`1280px`},children:(0,V.jsxs)(`div`,{className:`reviews-header-block`,style:{textAlign:`center`,marginBottom:`clamp(2.25rem, 3.5vw, 3rem)`},children:[(0,V.jsx)(`span`,{className:`reviews-eyebrow`,style:{fontFamily:`var(--font-sans)`,fontSize:`0.78rem`,letterSpacing:`0.22em`,textTransform:`uppercase`,color:`var(--bronze)`,fontWeight:600,display:`block`,marginBottom:`0.85rem`},children:`VERIFIED REVIEWS`}),(0,V.jsx)(`h2`,{className:`reviews-heading`,style:{fontFamily:`var(--font-serif)`,fontSize:`clamp(2.4rem, 4.2vw, 3.6rem)`,lineHeight:1.15,color:`#FAF8F4`,fontWeight:400,letterSpacing:`-0.015em`,margin:`0 0 1rem 0`},children:`Loved by Proud Customers`}),(0,V.jsx)(`div`,{className:`reviews-divider-bar`,style:{width:`36px`,height:`2px`,backgroundColor:`var(--bronze)`,margin:`0 auto`}})]})}),(0,V.jsx)(`div`,{className:`reviews-marquee-container`,ref:c,onTouchStart:ie,onTouchEnd:w,onTouchCancel:w,children:(0,V.jsxs)(`div`,{className:`reviews-marquee-track`,children:[(0,V.jsx)(`div`,{className:`reviews-marquee-group`,ref:l,children:ah.map((e,t)=>ae(e,`orig`,t))}),(0,V.jsx)(`div`,{className:`reviews-marquee-group`,"aria-hidden":`true`,children:ah.map((e,t)=>ae(e,`dup`,t))})]})}),t&&(0,V.jsx)(`div`,{className:`review-modal-backdrop ${o?`is-animating`:``}`,onClick:E,role:`dialog`,"aria-modal":`true`,"aria-labelledby":`review-modal-title`,children:(0,V.jsxs)(`div`,{className:`review-modal-content ${o?`is-animating`:``}`,onClick:e=>e.stopPropagation(),onAnimationEnd:()=>s(!1),children:[(0,V.jsx)(`button`,{type:`button`,onClick:E,"aria-label":`Close review`,autoFocus:!0,className:`review-modal-close-btn`,children:(0,V.jsxs)(`svg`,{width:`18`,height:`18`,viewBox:`0 0 24 24`,fill:`none`,stroke:`currentColor`,strokeWidth:`2`,strokeLinecap:`round`,strokeLinejoin:`round`,children:[(0,V.jsx)(`line`,{x1:`18`,y1:`6`,x2:`6`,y2:`18`}),(0,V.jsx)(`line`,{x1:`6`,y1:`6`,x2:`18`,y2:`18`})]})}),(0,V.jsx)(`div`,{style:{fontFamily:`'Cormorant Garamond', Georgia, serif`,fontSize:`48px`,lineHeight:`0.85`,color:`#c9a77c`,marginBottom:`1rem`,userSelect:`none`},"aria-hidden":`true`,children:`“`}),(0,V.jsxs)(`div`,{style:{display:`flex`,alignItems:`center`,gap:`4px`,marginBottom:`1.25rem`},"aria-label":`Rated ${t.rating} out of 5`,children:[[1,2,3,4,5].map(e=>(0,V.jsx)(`svg`,{width:`17`,height:`17`,viewBox:`0 0 24 24`,fill:`#d9b36a`,"aria-hidden":`true`,style:{display:`block`},children:(0,V.jsx)(`path`,{d:`M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z`})},e)),(0,V.jsx)(`span`,{style:{marginLeft:`8px`,fontFamily:`'Manrope', var(--font-sans)`,fontSize:`14px`,color:`#c9a77c`,fontWeight:600},children:t.rating.toFixed(1)})]}),(0,V.jsx)(`p`,{style:{fontFamily:`'Cormorant Garamond', Georgia, serif`,fontStyle:`italic`,fontSize:`clamp(18px, 4.2vw, 22px)`,lineHeight:1.6,color:`#FAF8F4`,fontWeight:400,margin:0,whiteSpace:`normal`,wordBreak:`break-word`},children:t.quote}),(0,V.jsx)(`div`,{style:{height:`1px`,backgroundColor:`rgba(197, 168, 128, 0.22)`,margin:`1.75rem 0 1.25rem 0`}}),(0,V.jsxs)(`div`,{style:{display:`flex`,alignItems:`center`,gap:`14px`,width:`100%`},children:[(0,V.jsx)(`div`,{style:{width:`48px`,height:`48px`,minWidth:`48px`,minHeight:`48px`,borderRadius:`50%`,border:`0.5px solid #c9a77c`,backgroundColor:`#0c110e`,display:`flex`,alignItems:`center`,justifyContent:`center`,flexShrink:0},"aria-hidden":`true`,children:(0,V.jsx)(`span`,{style:{fontFamily:`'Cormorant Garamond', var(--font-serif)`,fontSize:`20px`,fontWeight:500,color:`#c9a77c`,lineHeight:1},children:t.initials})}),(0,V.jsxs)(`div`,{style:{display:`flex`,flexDirection:`column`,minWidth:0,flex:1},children:[(0,V.jsxs)(`div`,{style:{display:`flex`,alignItems:`center`,gap:`6px`},children:[(0,V.jsx)(`span`,{id:`review-modal-title`,style:{fontFamily:`'Manrope', var(--font-sans)`,fontSize:`16.5px`,fontWeight:600,color:`#f7f2e8`,letterSpacing:`0.01em`},children:t.name}),(0,V.jsx)(`svg`,{width:`17`,height:`17`,viewBox:`0 0 24 24`,fill:`#c9a77c`,style:{flexShrink:0},"aria-label":`Verified`,children:(0,V.jsx)(`path`,{fillRule:`evenodd`,clipRule:`evenodd`,d:`M10.2 2.7a2.5 2.5 0 0 1 3.6 0l.7.7a2.5 2.5 0 0 0 2.2.8l1-.1a2.5 2.5 0 0 1 2.7 2.7l-.1 1a2.5 2.5 0 0 0 .8 2.2l.7.7a2.5 2.5 0 0 1 0 3.6l-.7.7a2.5 2.5 0 0 0-.8 2.2l.1 1a2.5 2.5 0 0 1-2.7 2.7l-1-.1a2.5 2.5 0 0 0-2.2.8l-.7.7a2.5 2.5 0 0 1-3.6 0l-.7-.7a2.5 2.5 0 0 0-2.2-.8l-1 .1a2.5 2.5 0 0 1-2.7-2.7l.1-1a2.5 2.5 0 0 0-.8-2.2l-.7-.7a2.5 2.5 0 0 1 0-3.6l.7-.7a2.5 2.5 0 0 0 .8-2.2l-.1-1a2.5 2.5 0 0 1 2.7-2.7l1 .1a2.5 2.5 0 0 0 2.2-.8l.7-.7zm6.1 7.6a1 1 0 0 0-1.4-1.4L11 12.8 9.1 10.9a1 1 0 0 0-1.4 1.4l2.6 2.6a1 1 0 0 0 1.4 0l4.6-4.6z`})})]}),(0,V.jsxs)(`div`,{style:{fontFamily:`'Manrope', var(--font-sans)`,fontSize:`13px`,color:`#cfc7b6`,marginTop:`3px`,lineHeight:1.35},children:[t.jobTitle,`, `,t.company]}),(0,V.jsxs)(`div`,{style:{display:`flex`,alignItems:`center`,gap:`4px`,fontFamily:`'Manrope', var(--font-sans)`,fontSize:`12px`,color:`#c9a77c`,marginTop:`4px`},children:[(0,V.jsxs)(`svg`,{width:`11`,height:`11`,viewBox:`0 0 24 24`,fill:`none`,stroke:`#c9a77c`,strokeWidth:`2.2`,strokeLinecap:`round`,strokeLinejoin:`round`,style:{flexShrink:0},"aria-hidden":`true`,children:[(0,V.jsx)(`path`,{d:`M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z`}),(0,V.jsx)(`circle`,{cx:`12`,cy:`10`,r:`3`})]}),(0,V.jsxs)(`span`,{children:[t.city,` · `,t.tag]})]})]})]})]})})]}),(0,V.jsxs)(`div`,{style:{backgroundColor:`#070B09`,padding:`clamp(2.75rem, 4.5vw, 4rem) 0`,borderBottom:`1px solid rgba(197, 168, 128, 0.15)`,position:`relative`,overflow:`hidden`},children:[(0,V.jsx)(`div`,{className:`container`,style:{maxWidth:`1440px`},children:(0,V.jsx)(`div`,{style:{textAlign:`center`,fontFamily:`var(--font-sans)`,fontSize:`0.72rem`,letterSpacing:`0.24em`,textTransform:`uppercase`,color:`var(--bronze)`,fontWeight:600,marginBottom:`2.5rem`},children:`— TRUSTED RELATIONSHIPS —`})}),(0,V.jsx)(`div`,{style:{position:`relative`,width:`100%`,overflow:`hidden`,maskImage:`linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)`,WebkitMaskImage:`linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)`},className:`marquee-container`,children:(0,V.jsx)(`div`,{style:{display:`flex`,width:`max-content`,animation:`floatMarquee 32s linear infinite`},className:`marquee-track`,children:e.map((e,t)=>(0,V.jsxs)(`div`,{style:{display:`flex`,alignItems:`center`},children:[(0,V.jsxs)(`div`,{style:{textAlign:`center`,padding:`0.75rem clamp(2.5rem, 4vw, 4.5rem)`,minWidth:`240px`},className:`trusted-rel-item`,children:[(0,V.jsx)(`div`,{style:{fontFamily:`var(--font-serif)`,fontSize:`clamp(0.95rem, 1.1vw, 1.08rem)`,fontWeight:500,letterSpacing:`0.12em`,textTransform:`uppercase`,color:`#FFFFFF`,lineHeight:1.25,marginBottom:`0.45rem`,whiteSpace:`nowrap`},children:e.title}),(0,V.jsx)(`div`,{style:{fontFamily:`var(--font-sans)`,fontSize:`0.68rem`,fontWeight:600,letterSpacing:`0.14em`,textTransform:`uppercase`,color:`var(--bronze)`,whiteSpace:`nowrap`},children:e.subtitle})]}),(0,V.jsx)(`div`,{style:{width:`1px`,height:`32px`,backgroundColor:`rgba(197, 168, 128, 0.2)`}})]},`${e.title}-${t}`))})})]}),(0,V.jsx)(`style`,{children:`
         /* Reviews Marquee Container */
         .reviews-marquee-container {
           position: relative;
@@ -733,19 +733,28 @@ Error generating stack: `+e.message+`
             margin: 0 auto !important;
           }
 
-          /* Continuous Mobile Floating Animation - Immune to Sticking & Gestures */
+          /* Mobile Touch-Friendly Smooth Scrolling (under 768px) */
           .reviews-marquee-container {
-            overflow: hidden !important;
+            overflow-x: auto !important;
+            scroll-snap-type: x proximity;
+            -webkit-overflow-scrolling: touch !important;
+            overscroll-behavior-x: contain;
+            touch-action: pan-x pan-y !important;
             scrollbar-width: none !important;
             -ms-overflow-style: none !important;
             padding: 0 0 20px 0 !important;
-            touch-action: pan-y !important;
-            pointer-events: none !important; /* Prevents touch from freezing the cards or trapping gestures */
+            pointer-events: auto !important;
+            cursor: grab;
+          }
+
+          .reviews-marquee-container:active {
+            cursor: grabbing;
           }
 
           .reviews-marquee-container::before,
           .reviews-marquee-container::after {
-            width: 22px !important;
+            width: 20px !important;
+            pointer-events: none !important;
           }
 
           .reviews-marquee-container::-webkit-scrollbar {
@@ -754,16 +763,16 @@ Error generating stack: `+e.message+`
             height: 0 !important;
           }
 
+          /* Disable CSS animation on mobile: gentle RAF delta-time auto-scroll controls scrolling */
           .reviews-marquee-track {
             display: flex !important;
             width: max-content !important;
-            animation: reviewFloat 36s linear infinite !important;
-            -webkit-animation: reviewFloat 36s linear infinite !important;
-            animation-play-state: running !important; /* Force continuous running on mobile under all conditions */
-            will-change: transform !important;
-            backface-visibility: hidden !important;
-            -webkit-backface-visibility: hidden !important;
-            pointer-events: none !important;
+            animation: none !important;
+            -webkit-animation: none !important;
+            transform: none !important;
+            -webkit-transform: none !important;
+            will-change: auto !important;
+            pointer-events: auto !important;
           }
 
           .reviews-marquee-group {
@@ -787,28 +796,31 @@ Error generating stack: `+e.message+`
             flex-direction: column !important;
             justify-content: space-between !important;
             box-sizing: border-box !important;
+            scroll-snap-align: center !important;
             -webkit-tap-highlight-color: transparent !important;
             user-select: none !important;
             -webkit-user-select: none !important;
-            pointer-events: none !important;
-            transition: none !important; /* No transitions on mobile to prevent animation hitching */
-            transform: translate3d(0, 0, 0) !important;
-            -webkit-transform: translate3d(0, 0, 0) !important;
-            backface-visibility: hidden !important;
-            -webkit-backface-visibility: hidden !important;
-            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45) !important;
+            pointer-events: auto !important;
+            cursor: pointer !important;
+            transition: transform 0.12s ease, box-shadow 0.12s ease !important;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.42) !important;
+            outline: none !important;
           }
 
-          /* PREVENT STICKY HOVER ON MOBILE */
-          .reviews-marquee-container .review-card,
-          .reviews-marquee-container .review-card:hover,
-          .reviews-marquee-container .review-card:focus,
+          /* Tapped Card Press Effect: Scale 0.98 for 120ms */
+          .reviews-marquee-container .review-card.is-pressed,
           .reviews-marquee-container .review-card:active {
-            transform: translate3d(0, 0, 0) !important;
-            -webkit-transform: translate3d(0, 0, 0) !important;
-            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45) !important;
-            border-color: rgba(197, 168, 128, 0.22) !important;
-            outline: none !important;
+            transform: scale(0.98) !important;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5) !important;
+          }
+
+          /* Prevent sticky hover on mobile touch devices */
+          @media (hover: none) {
+            .reviews-marquee-container .review-card:hover {
+              transform: none !important;
+              box-shadow: 0 8px 22px rgba(0, 0, 0, 0.42) !important;
+              border-color: rgba(197, 168, 128, 0.22) !important;
+            }
           }
 
           .review-card-top {
@@ -929,6 +941,98 @@ Error generating stack: `+e.message+`
           }
         }
 
+        /* Review Details Modal Popup Styles & Animations */
+        @keyframes reviewModalFadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+
+        @keyframes reviewModalScaleIn {
+          from {
+            opacity: 0;
+            transform: scale(0.94) translateY(14px);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
+        }
+
+        .review-modal-backdrop {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          width: 100vw;
+          height: 100vh;
+          background-color: rgba(5, 8, 7, 0.84);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          z-index: 99999;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+          box-sizing: border-box;
+          animation: reviewModalFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .review-modal-backdrop.is-animating {
+          will-change: opacity;
+        }
+
+        .review-modal-content {
+          position: relative;
+          background-color: #0F1613;
+          border: 1px solid rgba(197, 168, 128, 0.35);
+          border-radius: 20px;
+          box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75), 0 0 1px 1px rgba(197, 168, 128, 0.15);
+          width: 100%;
+          max-width: 520px;
+          max-height: 90vh;
+          overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
+          padding: clamp(24px, 5vw, 36px);
+          box-sizing: border-box;
+          animation: reviewModalScaleIn 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .review-modal-content.is-animating {
+          will-change: transform, opacity;
+        }
+
+        .review-modal-close-btn {
+          position: absolute;
+          top: 18px;
+          right: 18px;
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          background: rgba(197, 168, 128, 0.08);
+          border: 1px solid rgba(197, 168, 128, 0.25);
+          color: #c9a77c;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          -webkit-tap-highlight-color: transparent;
+          z-index: 2;
+        }
+
+        .review-modal-close-btn:hover,
+        .review-modal-close-btn:focus-visible {
+          background-color: rgba(197, 168, 128, 0.15) !important;
+          color: #FAF8F4 !important;
+          border-color: rgba(197, 168, 128, 0.5) !important;
+          outline: none !important;
+        }
+
         /* Accessibility: Prefers Reduced Motion */
         @media (prefers-reduced-motion: reduce) {
           .reviews-marquee-track {
@@ -936,14 +1040,11 @@ Error generating stack: `+e.message+`
           }
           .reviews-marquee-container {
             overflow-x: auto !important;
-            mask-image: none !important;
-            -webkit-mask-image: none !important;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(197, 168, 128, 0.3) transparent;
+            scroll-snap-type: x proximity;
           }
-          .reviews-marquee-group[aria-hidden="true"] {
-            display: none !important;
+          .review-modal-backdrop,
+          .review-modal-content {
+            animation: none !important;
           }
         }
       `})]})},ch=[{question:`How does iGH guarantee on-time rent payouts?`,answer:`iGH utilizes an institutional-grade automated rental payout mechanism. Homeowners receive guaranteed monthly rental deposits directly into their designated bank accounts on or before the 5th of every month, regardless of tenant collection cycles.`},{question:`What background verification is performed on tenants?`,answer:`Every prospective tenant undergoes comprehensive institutional due diligence, including government ID validation, professional employment verification, KYC compliance, and prior tenancy history checks to ensure total safety and property preservation.`},{question:`How are property maintenance, painting, and repairs handled?`,answer:`Our dedicated in-house property maintenance team coordinates scheduled inspections, rapid electrical and plumbing repairs, HVAC upkeep, and turnkey restoration or repainting between tenancies with pre-approved certified vendors.`},{question:`I am an NRI landlord living abroad. Can I manage my property remotely?`,answer:`Yes, absolutely. We specialize in 100% remote hands-free property management for NRI and overseas asset owners. From digital lease agreements and biometric check-ins to real-time financial reporting and foreign currency payouts, your asset is fully managed.`},{question:`Are there any hidden brokerages or commission fees for tenants?`,answer:`No. iGH adheres to complete pricing transparency with zero brokerage on curated residential stays. All terms, utility allocations, and security deposits are clearly documented upfront with zero surprise fees.`},{question:`What is the difference between Monthly Rent and Long-Term Lease?`,answer:`Monthly Rent offers flexible executive stays with monthly billing cycles, whereas a Long-Term Lease guarantees continuous multi-year institutional tenancies with structured annual rental escalations and uninterrupted cash flows.`}],lh=()=>{let[e,t]=(0,_.useState)(null),n=e=>{t(t=>t===e?null:e)};return(0,V.jsxs)(`section`,{id:`faq`,style:{backgroundColor:`#090D0B`,color:`#FFFFFF`,padding:`clamp(5.5rem, 8.5vw, 8.5rem) 0`,position:`relative`,borderTop:`1px solid rgba(197, 168, 128, 0.15)`,borderBottom:`1px solid rgba(197, 168, 128, 0.15)`},children:[(0,V.jsxs)(`div`,{className:`container`,style:{maxWidth:`920px`},children:[(0,V.jsxs)(`div`,{style:{textAlign:`center`,marginBottom:`clamp(3rem, 5vw, 4.25rem)`},children:[(0,V.jsx)(`div`,{style:{display:`inline-flex`,alignItems:`center`,justifyContent:`center`,padding:`0.35rem 1.15rem`,backgroundColor:`rgba(197, 168, 128, 0.08)`,border:`1px solid rgba(197, 168, 128, 0.3)`,borderRadius:`9999px`,fontFamily:`var(--font-sans)`,fontSize:`0.72rem`,letterSpacing:`0.18em`,fontWeight:700,textTransform:`uppercase`,color:`var(--bronze-hi)`,marginBottom:`1.25rem`,boxShadow:`0 2px 8px rgba(0, 0, 0, 0.25)`},children:`HELP & CLARITY`}),(0,V.jsx)(`h2`,{style:{fontFamily:`var(--font-serif)`,fontSize:`clamp(2.4rem, 4.2vw, 3.6rem)`,lineHeight:1.15,color:`#FAF8F4`,letterSpacing:`-0.02em`,fontWeight:400,margin:`0 0 1rem 0`},children:`Frequently Asked Questions`}),(0,V.jsx)(`p`,{style:{fontFamily:`var(--font-sans)`,fontSize:`clamp(0.95rem, 1.15vw, 1.05rem)`,lineHeight:1.65,color:`rgba(237, 232, 223, 0.72)`,maxWidth:`620px`,margin:`0 auto`,fontWeight:400},children:`Everything you need to know about property onboarding, rent guarantees, and stay agreements.`})]}),(0,V.jsx)(`div`,{style:{display:`flex`,flexDirection:`column`,gap:`14px`},children:ch.map((t,r)=>{let i=e===r;return(0,V.jsxs)(G.div,{initial:{opacity:0,y:15},whileInView:{opacity:1,y:0},viewport:{once:!0},transition:{duration:.45,delay:r*.05},style:{backgroundColor:`#0F1613`,borderRadius:`8px`,border:i?`1px solid rgba(197, 168, 128, 0.45)`:`1px solid rgba(197, 168, 128, 0.18)`,boxShadow:i?`0 12px 30px rgba(0, 0, 0, 0.45)`:`0 2px 10px rgba(0, 0, 0, 0.2)`,overflow:`hidden`,transition:`all 0.25s ease`},className:`faq-dark-item`,children:[(0,V.jsxs)(`button`,{onClick:()=>n(r),"aria-expanded":i,style:{width:`100%`,padding:`1.35rem clamp(1.25rem, 2.5vw, 1.85rem)`,display:`flex`,alignItems:`center`,justifyContent:`space-between`,gap:`1rem`,background:`none`,border:`none`,textAlign:`left`,cursor:`pointer`},children:[(0,V.jsx)(`span`,{style:{fontFamily:`var(--font-sans)`,fontSize:`clamp(0.98rem, 1.15vw, 1.08rem)`,fontWeight:600,color:i?`var(--bronze-hi)`:`#FAF8F4`,letterSpacing:`-0.01em`,lineHeight:1.45,transition:`color 0.2s ease`},children:t.question}),(0,V.jsx)(`div`,{style:{width:`32px`,height:`32px`,borderRadius:`50%`,backgroundColor:i?`rgba(197, 168, 128, 0.2)`:`rgba(255, 255, 255, 0.04)`,border:`1px solid rgba(197, 168, 128, 0.25)`,display:`flex`,alignItems:`center`,justifyContent:`center`,color:i?`var(--bronze-hi)`:`rgba(237, 232, 223, 0.75)`,flexShrink:0,transform:i?`rotate(180deg)`:`rotate(0deg)`,transition:`transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease`},children:(0,V.jsx)(Mf,{size:17,strokeWidth:2.2})})]}),(0,V.jsx)(fl,{initial:!1,children:i&&(0,V.jsx)(G.div,{initial:{height:0,opacity:0},animate:{height:`auto`,opacity:1},exit:{height:0,opacity:0},transition:{duration:.35,ease:[.16,1,.3,1]},style:{overflow:`hidden`},children:(0,V.jsx)(`div`,{style:{padding:`0 clamp(1.25rem, 2.5vw, 1.85rem) 1.5rem clamp(1.25rem, 2.5vw, 1.85rem)`,borderTop:`1px solid rgba(197, 168, 128, 0.15)`,marginTop:`0.25rem`,paddingTop:`1rem`},children:(0,V.jsx)(`p`,{style:{fontFamily:`var(--font-sans)`,fontSize:`0.96rem`,lineHeight:1.75,color:`rgba(237, 232, 223, 0.78)`,margin:0,fontWeight:400},children:t.answer})})},`content`)})]},r)})})]}),(0,V.jsx)(`style`,{children:`
