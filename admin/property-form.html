@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Property Editor | iGREY Holdings Admin</title>
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Admin Theme -->
+  <link rel="stylesheet" href="admin.css" />
+
+  <!-- Supabase CDN Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabase-config.js"></script>
+  <script src="admin.js"></script>
+
+  <style>
+    .form-cards-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      max-width: 920px;
+    }
+    .field-error {
+      color: var(--accent-red);
+      font-size: 11.5px;
+      margin-top: 4px;
+      display: none;
+    }
+    .has-error .form-control {
+      border-color: var(--accent-red) !important;
+    }
+    .has-error .field-error {
+      display: block;
+    }
+    .segmented-control {
+      display: inline-flex;
+      background: var(--bg-card);
+      border: 0.5px solid var(--border-color);
+      border-radius: 8px;
+      padding: 4px;
+      gap: 4px;
+    }
+    .segmented-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: var(--transition-fast);
+      font-family: inherit;
+    }
+    .segmented-btn.active {
+      background: var(--gold-primary);
+      color: #0a0f0e;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+    .live-price-tag {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--gold-primary);
+      margin-top: 4px;
+    }
+    .uploader-zone {
+      border: 1.5px dashed var(--border-color);
+      border-radius: 10px;
+      padding: 28px 20px;
+      text-align: center;
+      background: rgba(16, 22, 20, 0.4);
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+    .uploader-zone.dragover {
+      border-color: var(--gold-primary);
+      background: rgba(201, 167, 124, 0.08);
+    }
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .photo-card {
+      position: relative;
+      aspect-ratio: 4/3;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 0.5px solid var(--border-color);
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .photo-cover-tag {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      background: var(--gold-primary);
+      color: #0a0f0e;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+    }
+    .photo-actions {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      display: flex;
+      gap: 4px;
+    }
+    .photo-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.7);
+      border: 0.5px solid rgba(255, 255, 255, 0.3);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 11px;
+    }
+    .photo-btn:hover {
+      background: var(--accent-red);
+      border-color: var(--accent-red);
+    }
+    .chip-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .chip-item {
+      background: var(--bg-card);
+      border: 0.5px solid var(--border-color);
+      color: var(--text-secondary);
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      user-select: none;
+      transition: var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .chip-item:hover {
+      border-color: rgba(201, 167, 124, 0.4);
+      color: var(--text-primary);
+    }
+    .chip-item.active {
+      background: rgba(201, 167, 124, 0.15);
+      border-color: var(--gold-primary);
+      color: var(--gold-primary);
+      font-weight: 600;
+    }
+    .chip-item .remove-icon {
+      font-size: 14px;
+      margin-left: 2px;
+      cursor: pointer;
+    }
+    .bottom-bar {
+      position: sticky;
+      bottom: 0;
+      background: rgba(13, 19, 17, 0.95);
+      backdrop-filter: blur(10px);
+      border-top: 0.5px solid var(--border-color);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 50;
+      margin: 32px -28px -28px;
+      border-radius: 0 0 var(--radius-panel) var(--radius-panel);
+    }
+    @media (max-width: 768px) {
+      .bottom-bar {
+        margin: 24px -16px -16px;
+        flex-direction: column-reverse;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Injected Sidebar & Drawer -->
+  <div id="admin-sidebar-container"></div>
+
+  <!-- Main Content Wrap -->
+  <div class="admin-main">
+    <!-- Injected Topbar -->
+    <div id="admin-topbar-container"></div>
+
+    <main class="admin-content">
+      <!-- Breadcrumb & Title -->
+      <div class="page-header">
+        <div>
+          <a href="properties.html" style="font-size: 12px; color: var(--gold-primary); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; margin-bottom: 6px;">
+            &larr; Back to Properties
+          </a>
+          <h1 class="page-title" id="form-page-title">Add New Property</h1>
+          <p class="page-subtitle">Publish a verified real estate asset directly to the live website.</p>
+        </div>
+        <div class="page-actions">
+          <button type="button" class="btn btn-secondary" id="top-preview-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            Preview Popup
+          </button>
+        </div>
+      </div>
+
+      <form id="property-form" class="form-cards-layout" novalidate>
+
+        <!-- CARD 1: Basic Information -->
+        <section class="panel">
+          <div class="panel-header">
+            <div class="panel-title">1. Basic Details</div>
+            <span style="font-size: 11px; color: var(--text-muted); background: var(--bg-card); padding: 3px 8px; border-radius: 4px; border: 0.5px solid var(--border-color);">
+              Listing Type: <strong>For Sale</strong>
+            </span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+            <!-- Title -->
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label class="form-label" for="prop-title">Property Title <span style="color: var(--accent-red);">*</span></label>
+              <input type="text" id="prop-title" class="form-control" placeholder="e.g. The Presidential Villa at Jayalakshmipuram" required />
+              <div class="field-error" id="err-title">Please provide a property title.</div>
+            </div>
+
+            <!-- Property Type -->
+            <div class="form-group">
+              <label class="form-label" for="prop-type">Property Type <span style="color: var(--accent-red);">*</span></label>
+              <select id="prop-type" class="form-control" required>
+                <option value="Villa">Villa</option>
+                <option value="Gated society">Gated society</option>
+                <option value="Independent house">Independent house</option>
+                <option value="Plot">Plot</option>
+              </select>
+            </div>
+
+            <!-- Bedrooms -->
+            <div class="form-group">
+              <label class="form-label" for="prop-bedrooms">Bedrooms <span style="color: var(--accent-red);">*</span></label>
+              <select id="prop-bedrooms" class="form-control" required>
+                <option value="1">1 BHK</option>
+                <option value="2">2 BHK</option>
+                <option value="3" selected>3 BHK</option>
+                <option value="4">4 BHK</option>
+                <option value="5">5+ BHK</option>
+                <option value="Plot">Plot / Land</option>
+              </select>
+            </div>
+
+            <!-- Sale Price -->
+            <div class="form-group">
+              <label class="form-label" for="prop-price">Sale Price (in ₹ Rupees) <span style="color: var(--accent-red);">*</span></label>
+              <input type="text" id="prop-price" class="form-control" placeholder="e.g. 8500000 or 12000000" inputmode="numeric" required />
+              <div class="live-price-tag" id="price-preview-tag">Preview: Price on Request</div>
+              <div class="field-error" id="err-price">Please enter a valid price in rupees (digits only).</div>
+            </div>
+
+            <!-- Area in sq ft -->
+            <div class="form-group">
+              <label class="form-label" for="prop-area">Built-up / Plot Area (sq ft) <span style="color: var(--accent-red);">*</span></label>
+              <input type="text" id="prop-area" class="form-control" placeholder="e.g. 2,400" required />
+              <div class="field-error" id="err-area">Please specify the area in sq ft.</div>
+            </div>
+
+            <!-- Property Code (ID) -->
+            <div class="form-group">
+              <label class="form-label" for="prop-code">Property ID (Auto-generated or custom)</label>
+              <input type="text" id="prop-code" class="form-control" placeholder="e.g. SS-MYS-03" />
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Code format: SS-{CITY}-{NUMBER}</div>
+            </div>
+
+            <!-- Status Segmented Control -->
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label class="form-label">Acquisition Status</label>
+              <div class="segmented-control" id="status-segmented">
+                <button type="button" class="segmented-btn active" data-val="available">Available</button>
+                <button type="button" class="segmented-btn" data-val="under_offer">Under offer</button>
+                <button type="button" class="segmented-btn" data-val="sold">Sold</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CARD 2: Location -->
+        <section class="panel">
+          <div class="panel-header">
+            <div class="panel-title">2. Location Details</div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+            <!-- City -->
+            <div class="form-group">
+              <label class="form-label" for="prop-city">City <span style="color: var(--accent-red);">*</span></label>
+              <select id="prop-city" class="form-control" required>
+                <option value="Mysuru">Mysuru</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Hyderabad">Hyderabad</option>
+                <option value="Chennai">Chennai</option>
+              </select>
+            </div>
+
+            <!-- Locality -->
+            <div class="form-group">
+              <label class="form-label" for="prop-locality">Locality / Neighborhood <span style="color: var(--accent-red);">*</span></label>
+              <input type="text" id="prop-locality" class="form-control" placeholder="e.g. Jayalakshmipuram, Vijayanagar, Indiranagar" required />
+              <div class="field-error" id="err-locality">Please provide the locality.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CARD 3: Photos Uploader (1 to 8 photos) -->
+        <section class="panel">
+          <div class="panel-header">
+            <div class="panel-title">3. Visual Assets (1 to 8 Photos) <span style="color: var(--accent-red);">*</span></div>
+            <span style="font-size: 12px; color: var(--text-muted);" id="photo-count-label">0 of 8 uploaded</span>
+          </div>
+
+          <div class="uploader-zone" id="uploader-dropzone">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--gold-primary); margin-bottom: 8px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <div style="font-size: 13.5px; font-weight: 600; color: #FAF8F4; margin-bottom: 4px;">Drag & drop property images here</div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">JPG, PNG, or WebP up to 5 MB each. Compressed automatically on upload.</div>
+            <label class="btn btn-secondary" style="display: inline-block; cursor: pointer; font-size: 12px; padding: 6px 14px;">
+              Browse Files
+              <input type="file" id="photo-file-input" multiple accept="image/jpeg,image/png,image/webp" style="display: none;" />
+            </label>
+          </div>
+
+          <!-- Progress bar -->
+          <div id="upload-progress-wrap" style="display: none; margin-top: 12px;">
+            <div style="display: flex; justify-content: space-between; font-size: 11.5px; color: var(--text-muted); margin-bottom: 4px;">
+              <span id="upload-progress-text">Compressing & uploading...</span>
+              <span id="upload-progress-pct">0%</span>
+            </div>
+            <div style="height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden;">
+              <div id="upload-progress-bar" style="height: 100%; width: 0%; background: var(--gold-primary); transition: width 0.2s ease;"></div>
+            </div>
+          </div>
+
+          <div class="field-error" id="err-photos" style="margin-top: 8px;">Please provide at least 1 property photograph.</div>
+
+          <!-- Uploaded Photos Grid -->
+          <div class="photo-grid" id="photo-preview-grid"></div>
+        </section>
+
+        <!-- CARD 4: Curated Highlights -->
+        <section class="panel">
+          <div class="panel-header">
+            <div class="panel-title">4. Key Highlights (Max 6)</div>
+            <span style="font-size: 12px; color: var(--text-muted);" id="highlight-count-label">0 / 6 selected</span>
+          </div>
+
+          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">Select presets or add custom tags:</div>
+          <div class="chip-cloud" id="preset-highlights-cloud">
+            <!-- Presets: Ready to move in, Gated society, Verified documents, Corner plot, Vastu compliant, Near metro or bus stop, Newly renovated -->
+            <span class="chip-item" data-text="Ready to move in">Ready to move in</span>
+            <span class="chip-item" data-text="Gated society">Gated society</span>
+            <span class="chip-item" data-text="Verified documents">Verified documents</span>
+            <span class="chip-item" data-text="Corner plot">Corner plot</span>
+            <span class="chip-item" data-text="Vastu compliant">Vastu compliant</span>
+            <span class="chip-item" data-text="Near metro or bus stop">Near metro or bus stop</span>
+            <span class="chip-item" data-text="Newly renovated">Newly renovated</span>
+          </div>
+
+          <div style="display: flex; gap: 8px; max-width: 420px;">
+            <input type="text" id="custom-highlight-input" class="form-control" placeholder="Type custom highlight and press Enter..." />
+            <button type="button" class="btn btn-secondary" id="add-custom-highlight-btn" style="white-space: nowrap;">Add</button>
+          </div>
+        </section>
+
+        <!-- CARD 5: Amenities -->
+        <section class="panel">
+          <div class="panel-header">
+            <div class="panel-title">5. Specifications & Amenities</div>
+          </div>
+
+          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">Select available amenities:</div>
+          <div class="chip-cloud" id="preset-amenities-cloud">
+            <!-- Swimming pool, Gym, Clubhouse, 24x7 security, Power backup, Covered parking, Garden, Lift -->
+            <span class="chip-item" data-text="Swimming pool">Swimming pool</span>
+            <span class="chip-item" data-text="Gym">Gym</span>
+            <span class="chip-item" data-text="Clubhouse">Clubhouse</span>
+            <span class="chip-item" data-text="24x7 security">24x7 security</span>
+            <span class="chip-item" data-text="Power backup">Power backup</span>
+            <span class="chip-item" data-text="Covered parking">Covered parking</span>
+            <span class="chip-item" data-text="Garden">Garden</span>
+            <span class="chip-item" data-text="Lift">Lift</span>
+          </div>
+
+          <div style="display: flex; gap: 8px; max-width: 420px;">
+            <input type="text" id="custom-amenity-input" class="form-control" placeholder="Type custom amenity and press Enter..." />
+            <button type="button" class="btn btn-secondary" id="add-custom-amenity-btn" style="white-space: nowrap;">Add</button>
+          </div>
+        </section>
+
+        <!-- CARD 6: Description & Visibility -->
+        <section class="panel">
+          <div class="panel-header">
+            <div class="panel-title">6. Description & Visibility</div>
+            <span style="font-size: 12px; color: var(--text-muted);" id="desc-char-counter">0 / 600</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="prop-description">Architectural Overview & Description</label>
+            <textarea id="prop-description" class="form-control" rows="5" maxlength="600" placeholder="Describe the aesthetic, layout, ventilation, construction quality, and neighborhood surroundings..."></textarea>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 16px;">
+            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13.5px; color: #FAF8F4;">
+              <input type="checkbox" id="prop-is-published" checked style="width: 16px; height: 16px; accent-color: var(--gold-primary);" />
+              <span><strong>Show on website</strong> (Unchecking marks this listing as private draft)</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13.5px; color: #FAF8F4;">
+              <input type="checkbox" id="prop-is-featured" style="width: 16px; height: 16px; accent-color: var(--gold-primary);" />
+              <span><strong>Show in Featured Properties</strong> section on the homepage</span>
+            </label>
+          </div>
+        </section>
+
+        <!-- Sticky Bottom Bar -->
+        <div class="bottom-bar">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <button type="button" class="btn btn-secondary" id="preview-popup-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              Preview Popup
+            </button>
+            <span style="font-size: 12px; color: var(--text-muted);" id="unsaved-hint">All changes pending save</span>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <button type="button" class="btn btn-secondary" id="save-draft-btn">Save as Draft</button>
+            <button type="button" class="btn btn-primary" id="publish-btn">
+              <span id="publish-btn-text">Publish Property</span>
+              <span id="publish-btn-spinner" class="spinner" style="display: none; width: 14px; height: 14px; border-width: 2px;"></span>
+            </button>
+          </div>
+        </div>
+
+      </form>
+
+    </main>
+  </div>
+
+  <script>
+    (async function () {
+      'use strict';
+      const {
+        renderLayout,
+        checkAuth,
+        getClient,
+        formatIndianPrice,
+        escapeHtml,
+        showToast,
+        compressPhoto,
+        showPropertyPreviewModal
+      } = window.iGreyAdmin;
+
+      renderLayout({ activeTab: 'properties', title: 'Property Editor' });
+
+      const session = await checkAuth(true);
+      if (!session) return;
+
+      const client = getClient();
+      if (!client) return;
+
+      // URL param check for Edit mode
+      const urlParams = new URLSearchParams(window.location.search);
+      const editingId = urlParams.get('id');
+
+      // State
+      let isDirty = false;
+      let currentPhotos = []; // strings (URLs)
+      let selectedHighlights = [];
+      let selectedAmenities = [];
+      let currentStatus = 'available';
+
+      // Unsaved changes alert
+      window.addEventListener('beforeunload', (e) => {
+        if (isDirty) {
+          e.preventDefault();
+          e.returnValue = '';
+        }
+      });
+
+      function markDirty() {
+        isDirty = true;
+        document.getElementById('unsaved-hint').textContent = 'Unsaved changes';
+      }
+
+      // Live price preview
+      const priceInput = document.getElementById('prop-price');
+      const pricePreviewTag = document.getElementById('price-preview-tag');
+      priceInput.addEventListener('input', () => {
+        markDirty();
+        const raw = priceInput.value.replace(/[^0-9]/g, '');
+        priceInput.value = raw;
+        if (raw) {
+          pricePreviewTag.textContent = `Preview: ${formatIndianPrice(raw)}`;
+        } else {
+          pricePreviewTag.textContent = 'Preview: Price on Request';
+        }
+      });
+
+      // Description Counter
+      const descInput = document.getElementById('prop-description');
+      const descCounter = document.getElementById('desc-char-counter');
+      descInput.addEventListener('input', () => {
+        markDirty();
+        descCounter.textContent = `${descInput.value.length} / 600`;
+      });
+
+      // Status Segmented Control
+      const statusButtons = document.querySelectorAll('#status-segmented .segmented-btn');
+      statusButtons.forEach(btn => {
+        btn.onclick = () => {
+          markDirty();
+          statusButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentStatus = btn.getAttribute('data-val');
+        };
+      });
+
+      // Auto-generate code when city changes (if new property)
+      const citySelect = document.getElementById('prop-city');
+      const codeInput = document.getElementById('prop-code');
+      citySelect.addEventListener('change', () => {
+        markDirty();
+        if (!editingId && !codeInput.value) {
+          generateNextCode(citySelect.value);
+        }
+      });
+
+      async function generateNextCode(cityName) {
+        const cityCodeMap = {
+          'Mysuru': 'MYS',
+          'Bangalore': 'BLR',
+          'Hyderabad': 'HYD',
+          'Chennai': 'MAA',
+        };
+        const codePrefix = `SS-${cityCodeMap[cityName] || 'MYS'}`;
+        try {
+          const { count } = await client
+            .from('properties')
+            .select('*', { count: 'exact', head: true })
+            .ilike('property_code', `${codePrefix}%`);
+
+          const nextNum = String((count || 0) + 1).padStart(2, '0');
+          codeInput.value = `${codePrefix}-${nextNum}`;
+        } catch (e) {
+          codeInput.value = `${codePrefix}-01`;
+        }
+      }
+
+      // Photos management
+      const photoGrid = document.getElementById('photo-preview-grid');
+      const photoCountLabel = document.getElementById('photo-count-label');
+      const fileInput = document.getElementById('photo-file-input');
+      const dropzone = document.getElementById('uploader-dropzone');
+      const progressWrap = document.getElementById('upload-progress-wrap');
+      const progressBar = document.getElementById('upload-progress-bar');
+      const progressText = document.getElementById('upload-progress-text');
+      const progressPct = document.getElementById('upload-progress-pct');
+
+      function renderPhotos() {
+        photoCountLabel.textContent = `${currentPhotos.length} of 8 uploaded`;
+        photoGrid.innerHTML = currentPhotos.map((url, idx) => `
+          <div class="photo-card" data-idx="${idx}">
+            <img src="${url}" alt="Property Photo ${idx + 1}" />
+            ${idx === 0 ? '<span class="photo-cover-tag">COVER</span>' : ''}
+            <div class="photo-actions">
+              ${idx > 0 ? `<button type="button" class="photo-btn move-left-btn" data-idx="${idx}" title="Move left">&larr;</button>` : ''}
+              ${idx < currentPhotos.length - 1 ? `<button type="button" class="photo-btn move-right-btn" data-idx="${idx}" title="Move right">&rarr;</button>` : ''}
+              <button type="button" class="photo-btn remove-photo-btn" data-idx="${idx}" title="Remove photo">&times;</button>
+            </div>
+          </div>
+        `).join('');
+
+        // Attach action events
+        photoGrid.querySelectorAll('.remove-photo-btn').forEach(btn => {
+          btn.onclick = () => {
+            markDirty();
+            const idx = parseInt(btn.getAttribute('data-idx'), 10);
+            currentPhotos.splice(idx, 1);
+            renderPhotos();
+          };
+        });
+
+        photoGrid.querySelectorAll('.move-left-btn').forEach(btn => {
+          btn.onclick = () => {
+            markDirty();
+            const idx = parseInt(btn.getAttribute('data-idx'), 10);
+            const temp = currentPhotos[idx - 1];
+            currentPhotos[idx - 1] = currentPhotos[idx];
+            currentPhotos[idx] = temp;
+            renderPhotos();
+          };
+        });
+
+        photoGrid.querySelectorAll('.move-right-btn').forEach(btn => {
+          btn.onclick = () => {
+            markDirty();
+            const idx = parseInt(btn.getAttribute('data-idx'), 10);
+            const temp = currentPhotos[idx + 1];
+            currentPhotos[idx + 1] = currentPhotos[idx];
+            currentPhotos[idx] = temp;
+            renderPhotos();
+          };
+        });
+      }
+
+      async function handleFilesUpload(filesList) {
+        const files = Array.from(filesList);
+        if (!files.length) return;
+
+        if (currentPhotos.length + files.length > 8) {
+          showToast('error', 'Limit Exceeded', 'A maximum of 8 photographs can be uploaded per property.');
+          return;
+        }
+
+        progressWrap.style.display = 'block';
+        let done = 0;
+
+        for (const file of files) {
+          if (file.size > 5 * 1024 * 1024) {
+            showToast('error', 'File Too Large', `${file.name} exceeds 5 MB.`);
+            continue;
+          }
+
+          try {
+            progressText.textContent = `Optimizing ${file.name}...`;
+            const compressed = await compressPhoto(file, 1600, 0.8);
+
+            const fileExt = compressed.name.split('.').pop();
+            const fileName = `prop_${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${fileExt}`;
+
+            progressText.textContent = `Uploading ${fileName}...`;
+            const { data, error } = await client.storage
+              .from('property-images')
+              .upload(fileName, compressed, {
+                cacheControl: '3600',
+                upsert: false,
+              });
+
+            if (error) throw error;
+
+            const { data: publicUrlData } = client.storage
+              .from('property-images')
+              .getPublicUrl(fileName);
+
+            currentPhotos.push(publicUrlData.publicUrl);
+            markDirty();
+          } catch (err) {
+            showToast('error', 'Upload Failed', err.message);
+          }
+
+          done++;
+          const pct = Math.round((done / files.length) * 100);
+          progressBar.style.width = `${pct}%`;
+          progressPct.textContent = `${pct}%`;
+        }
+
+        setTimeout(() => {
+          progressWrap.style.display = 'none';
+          progressBar.style.width = '0%';
+        }, 1000);
+
+        renderPhotos();
+      }
+
+      // Drag and drop listeners
+      dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dragover');
+      });
+      dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+      dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dragover');
+        if (e.dataTransfer && e.dataTransfer.files) {
+          handleFilesUpload(e.dataTransfer.files);
+        }
+      });
+      fileInput.addEventListener('change', () => {
+        if (fileInput.files) handleFilesUpload(fileInput.files);
+      });
+
+      // Highlights logic
+      const highlightCountLabel = document.getElementById('highlight-count-label');
+      function renderHighlights() {
+        highlightCountLabel.textContent = `${selectedHighlights.length} / 6 selected`;
+        document.querySelectorAll('#preset-highlights-cloud .chip-item').forEach(chip => {
+          const text = chip.getAttribute('data-text');
+          if (selectedHighlights.includes(text)) {
+            chip.classList.add('active');
+          } else {
+            chip.classList.remove('active');
+          }
+        });
+      }
+
+      document.querySelectorAll('#preset-highlights-cloud .chip-item').forEach(chip => {
+        chip.onclick = () => {
+          markDirty();
+          const text = chip.getAttribute('data-text');
+          if (selectedHighlights.includes(text)) {
+            selectedHighlights = selectedHighlights.filter(t => t !== text);
+          } else {
+            if (selectedHighlights.length >= 6) {
+              showToast('error', 'Limit Reached', 'You can select up to 6 highlights.');
+              return;
+            }
+            selectedHighlights.push(text);
+          }
+          renderHighlights();
+        };
+      });
+
+      function addCustomHighlight() {
+        const input = document.getElementById('custom-highlight-input');
+        const val = input.value.trim();
+        if (!val) return;
+        if (selectedHighlights.length >= 6) {
+          showToast('error', 'Limit Reached', 'You can select up to 6 highlights.');
+          return;
+        }
+        if (!selectedHighlights.includes(val)) {
+          markDirty();
+          selectedHighlights.push(val);
+          // Append new chip to preset container
+          const cloud = document.getElementById('preset-highlights-cloud');
+          const chip = document.createElement('span');
+          chip.className = 'chip-item active';
+          chip.setAttribute('data-text', val);
+          chip.innerHTML = `${escapeHtml(val)} <span class="remove-icon">&times;</span>`;
+          chip.onclick = () => {
+            markDirty();
+            selectedHighlights = selectedHighlights.filter(t => t !== val);
+            chip.remove();
+            renderHighlights();
+          };
+          cloud.appendChild(chip);
+        }
+        input.value = '';
+        renderHighlights();
+      }
+
+      document.getElementById('add-custom-highlight-btn').onclick = addCustomHighlight;
+      document.getElementById('custom-highlight-input').onkeydown = (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          addCustomHighlight();
+        }
+      };
+
+      // Amenities logic
+      function renderAmenities() {
+        document.querySelectorAll('#preset-amenities-cloud .chip-item').forEach(chip => {
+          const text = chip.getAttribute('data-text');
+          if (selectedAmenities.includes(text)) {
+            chip.classList.add('active');
+          } else {
+            chip.classList.remove('active');
+          }
+        });
+      }
+
+      document.querySelectorAll('#preset-amenities-cloud .chip-item').forEach(chip => {
+        chip.onclick = () => {
+          markDirty();
+          const text = chip.getAttribute('data-text');
+          if (selectedAmenities.includes(text)) {
+            selectedAmenities = selectedAmenities.filter(t => t !== text);
+          } else {
+            selectedAmenities.push(text);
+          }
+          renderAmenities();
+        };
+      });
+
+      function addCustomAmenity() {
+        const input = document.getElementById('custom-amenity-input');
+        const val = input.value.trim();
+        if (!val) return;
+        if (!selectedAmenities.includes(val)) {
+          markDirty();
+          selectedAmenities.push(val);
+          const cloud = document.getElementById('preset-amenities-cloud');
+          const chip = document.createElement('span');
+          chip.className = 'chip-item active';
+          chip.setAttribute('data-text', val);
+          chip.innerHTML = `${escapeHtml(val)} <span class="remove-icon">&times;</span>`;
+          chip.onclick = () => {
+            markDirty();
+            selectedAmenities = selectedAmenities.filter(t => t !== val);
+            chip.remove();
+            renderAmenities();
+          };
+          cloud.appendChild(chip);
+        }
+        input.value = '';
+        renderAmenities();
+      }
+
+      document.getElementById('add-custom-amenity-btn').onclick = addCustomAmenity;
+      document.getElementById('custom-amenity-input').onkeydown = (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          addCustomAmenity();
+        }
+      };
+
+      // Construct current property object from form
+      function buildPropertyObject() {
+        return {
+          title: document.getElementById('prop-title').value.trim(),
+          property_type: document.getElementById('prop-type').value,
+          bedrooms: document.getElementById('prop-bedrooms').value,
+          price: parseInt(document.getElementById('prop-price').value.replace(/[^0-9]/g, ''), 10) || 0,
+          area_sqft: document.getElementById('prop-area').value.trim(),
+          property_code: document.getElementById('prop-code').value.trim(),
+          status: currentStatus,
+          listing_type: 'sale',
+          city: document.getElementById('prop-city').value,
+          locality: document.getElementById('prop-locality').value.trim(),
+          images: currentPhotos,
+          highlights: selectedHighlights,
+          amenities: selectedAmenities,
+          description: document.getElementById('prop-description').value.trim(),
+          is_published: document.getElementById('prop-is-published').checked,
+          is_featured: document.getElementById('prop-is-featured').checked,
+        };
+      }
+
+      // Live Preview Popup Trigger
+      function triggerPreview() {
+        const prop = buildPropertyObject();
+        showPropertyPreviewModal(prop);
+      }
+      document.getElementById('preview-popup-btn').onclick = triggerPreview;
+      document.getElementById('top-preview-btn').onclick = triggerPreview;
+
+      // Validation
+      function validateForm() {
+        let valid = true;
+
+        const clearError = (id) => {
+          const el = document.getElementById(id);
+          if (el) el.style.display = 'none';
+        };
+        const showError = (id) => {
+          const el = document.getElementById(id);
+          if (el) el.style.display = 'block';
+          valid = false;
+        };
+
+        clearError('err-title');
+        clearError('err-price');
+        clearError('err-area');
+        clearError('err-locality');
+        clearError('err-photos');
+
+        const title = document.getElementById('prop-title').value.trim();
+        const price = document.getElementById('prop-price').value.replace(/[^0-9]/g, '');
+        const area = document.getElementById('prop-area').value.trim();
+        const locality = document.getElementById('prop-locality').value.trim();
+
+        if (!title) showError('err-title');
+        if (!price || Number(price) <= 0) showError('err-price');
+        if (!area) showError('err-area');
+        if (!locality) showError('err-locality');
+        if (currentPhotos.length === 0) showError('err-photos');
+
+        return valid;
+      }
+
+      // Save / Publish
+      async function saveProperty(asDraft = false) {
+        if (!validateForm() && !asDraft) {
+          showToast('error', 'Validation Error', 'Please complete all required fields.');
+          return;
+        }
+
+        const propData = buildPropertyObject();
+        if (asDraft) {
+          propData.status = 'draft';
+          propData.is_published = false;
+        }
+
+        const publishBtn = document.getElementById('publish-btn');
+        const publishText = document.getElementById('publish-btn-text');
+        const publishSpinner = document.getElementById('publish-btn-spinner');
+
+        publishBtn.disabled = true;
+        publishText.style.display = 'none';
+        publishSpinner.style.display = 'inline-block';
+
+        try {
+          if (editingId) {
+            propData.updated_at = new Date().toISOString();
+            const { error } = await client
+              .from('properties')
+              .update(propData)
+              .eq('id', editingId);
+
+            if (error) throw error;
+            showToast('success', 'Property Updated', 'All changes successfully synchronized.');
+          } else {
+            const { error } = await client
+              .from('properties')
+              .insert([propData]);
+
+            if (error) throw error;
+            showToast('success', 'Property Created', 'New listing has been successfully published.');
+          }
+
+          isDirty = false;
+          setTimeout(() => {
+            window.location.href = 'properties.html';
+          }, 800);
+        } catch (err) {
+          showToast('error', 'Save Failed', err.message);
+          publishBtn.disabled = false;
+          publishText.style.display = 'inline';
+          publishSpinner.style.display = 'none';
+        }
+      }
+
+      document.getElementById('publish-btn').onclick = () => saveProperty(false);
+      document.getElementById('save-draft-btn').onclick = () => saveProperty(true);
+
+      // Load existing property if in Edit mode
+      if (editingId) {
+        document.getElementById('form-page-title').textContent = 'Edit Estate Listing';
+        try {
+          const { data, error } = await client
+            .from('properties')
+            .select('*')
+            .eq('id', editingId)
+            .single();
+
+          if (error) throw error;
+
+          if (data) {
+            document.getElementById('prop-title').value = data.title || '';
+            document.getElementById('prop-type').value = data.property_type || 'Villa';
+            document.getElementById('prop-bedrooms').value = String(data.bedrooms || '3');
+            document.getElementById('prop-price').value = data.price || '';
+            pricePreviewTag.textContent = `Preview: ${formatIndianPrice(data.price)}`;
+            document.getElementById('prop-area').value = data.area_sqft || '';
+            document.getElementById('prop-code').value = data.property_code || '';
+            document.getElementById('prop-city').value = data.city || 'Mysuru';
+            document.getElementById('prop-locality').value = data.locality || '';
+            document.getElementById('prop-description').value = data.description || '';
+            descCounter.textContent = `${(data.description || '').length} / 600`;
+            document.getElementById('prop-is-published').checked = !!data.is_published;
+            document.getElementById('prop-is-featured').checked = !!data.is_featured;
+
+            currentStatus = data.status || 'available';
+            statusButtons.forEach(btn => {
+              if (btn.getAttribute('data-val') === currentStatus) btn.classList.add('active');
+              else btn.classList.remove('active');
+            });
+
+            currentPhotos = Array.isArray(data.images) ? [...data.images] : [];
+            renderPhotos();
+
+            selectedHighlights = Array.isArray(data.highlights) ? [...data.highlights] : [];
+            renderHighlights();
+
+            selectedAmenities = Array.isArray(data.amenities) ? [...data.amenities] : [];
+            renderAmenities();
+          }
+        } catch (err) {
+          showToast('error', 'Error Loading Property', err.message);
+        }
+      } else {
+        // New property default
+        generateNextCode(citySelect.value);
+        renderPhotos();
+        renderHighlights();
+        renderAmenities();
+      }
+
+    })();
+  </script>
+</body>
+</html>

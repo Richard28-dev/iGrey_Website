@@ -1,170 +1,96 @@
-# iGREY HOLDINGS — Supabase Admin Dashboard Setup Guide
+# iGREY HOLDINGS — Supabase & Admin Dashboard Setup Guide
 
-This guide explains how to connect your free **Supabase** backend to the **iGREY Holdings** Admin Dashboard and Public Website.
-
----
-
-## Architecture Overview
-- **Frontend / Hosting**: GitHub Pages (Static hosting under `/iGrey_Website/`).
-- **Tech Stack**: Vanilla HTML5, CSS3, JavaScript (ES6+), Supabase JS SDK via CDN (`@supabase/supabase-js@2`). Zero build step required for admin tools.
-- **Backend**: Supabase (Free Tier) — PostgreSQL database, Row Level Security (RLS) policies, Authentication, and Storage for property photos.
+This guide walks you through connecting your free **Supabase** backend to the **iGREY Holdings** Admin Dashboard and Public Website in 6 simple steps.
 
 ---
 
-## Setup Steps
-
-### 1. Create a Free Supabase Project
-1. Go to [supabase.com](https://supabase.com) and log in or create a free account.
+## 1. Create a Free Supabase Project
+1. Visit [supabase.com](https://supabase.com) and sign in (or create a free account).
 2. Click **New project**.
-3. Choose an organization, enter a name (e.g. `igrey-holdings`), set a secure database password, and pick a region close to your clients (e.g. `ap-south-1` Mumbai / Singapore).
-4. Wait approximately 1–2 minutes for the database to provision.
+3. Choose an organization, choose a project name (such as `igrey-holdings`), enter a secure database password, and pick a region close to your clients (e.g. `ap-south-1` Mumbai / Singapore).
+4. Wait about 1–2 minutes for Supabase to provision your database.
 
 ---
 
-### 2. Run `/admin/setup.sql` in the SQL Editor
+## 2. Run `/admin/setup.sql` in the SQL Editor
 1. In your Supabase Dashboard, click on **SQL Editor** in the left sidebar.
 2. Click **New query**.
-3. Open [`/admin/setup.sql`](./setup.sql) from this repository, copy its entire contents, paste it into the SQL Editor, and click **Run**.
+3. Open [`/admin/setup.sql`](./setup.sql) from this repository, copy the entire SQL text, paste it into the query editor, and click **Run**.
 4. This script automatically:
-   - Creates the `properties` table with all fields (`property_code`, `title`, `property_type`, `bedrooms`, `price`, `area_sqft`, `status`, `city`, `locality`, `amenities`, `images`, `is_published`, `is_featured`, etc.).
-   - Sets up the `admins` whitelist table.
-   - Configures **Row Level Security (RLS)**:
-     - **Public (anonymous visitors)**: Can only `SELECT` listings where `is_published = true`.
-     - **Verified Admins**: Can `INSERT`, `UPDATE`, and `DELETE` listings.
-   - Configures the public `property-images` storage bucket and its upload/delete policies.
-   - Adds 3 initial seed properties (`SS-MYS-01`, `SS-MYS-02`, `SS-MYS-03`).
+   - Creates the `properties`, `enquiries`, `reviews`, and `admins` tables with complete constraints.
+   - Sets up **Row Level Security (RLS)**: anonymous public visitors can only read published listings and reviews, and can only submit enquiries; only authenticated admins can manage records.
+   - Creates the public storage bucket `property-images` with upload/delete security policies.
+   - Populates initial verified seed listings and reviews.
 
 ---
 
-### 3. Confirm the "property-images" Storage Bucket
-1. In the Supabase Dashboard, click on **Storage** in the left sidebar.
-2. Verify that the bucket named `property-images` exists and is marked as **Public Bucket**.
-3. If it was not created by the script:
-   - Click **New bucket**.
-   - Name it exactly: `property-images`.
+## 3. Confirm the "property-images" Storage Bucket
+1. In the Supabase Dashboard, click on **Storage** in the left menu.
+2. Verify that the bucket named `property-images` exists and has the **Public** badge.
+3. If you ever need to create it manually:
+   - Click **New bucket** -> Name: `property-images`.
    - Toggle **Public bucket** to **ON**.
-   - Set Allowed MIME types to: `image/jpeg, image/png, image/webp`.
-   - Set Maximum file size to: `5 MB`.
-   - Click **Save**.
-4. Under **Storage Policies**, ensure the policies from `setup.sql` are active (Public Read, Admin Insert, Admin Update, Admin Delete).
+   - Allowed MIME types: `image/jpeg, image/png, image/webp, image/gif`.
+   - Max file size: `5 MB`.
+   - Save.
 
 ---
 
-### 4. Create Your Admin User & Whitelist Your Email
-1. In the Supabase Dashboard, click on **Authentication** -> **Users**.
+## 4. Create Your Admin User & Add to Admins Table
+1. In the Supabase Dashboard, click **Authentication** -> **Users**.
 2. Click **Add user** -> **Create user**.
-3. Enter your email (e.g., `admin@igreyholdings.com` or your personal email) and a strong password.
+3. Enter your email (e.g., `admin@igreyholdings.com` or your personal email) and a secure password.
 4. Toggle **Auto Confirm User?** to **ON** (so no email confirmation link is needed), then click **Create user**.
 5. Whitelist your email in the database:
-   - Go back to **SQL Editor** -> **New query**.
+   - Go to **SQL Editor** -> **New query**.
    - Run:
      ```sql
-     INSERT INTO public.admins (email) 
-     VALUES ('your-email@example.com') 
+     INSERT INTO public.admins (email, role)
+     VALUES ('your-email@example.com', 'admin')
      ON CONFLICT (email) DO NOTHING;
      ```
-   *(Replace `'your-email@example.com'` with the exact email you just registered).*
+   *(Replace `'your-email@example.com'` with the exact email you just created).*
 
 ---
 
-### 5. Paste Project URL and Anon Key into `/js/supabase-config.js`
-1. In your Supabase Dashboard, click **Project Settings** (gear icon) -> **API**.
-2. Locate:
-   - **Project URL** (e.g., `https://abcdefghijklm.supabase.co`)
-   - **Project API Keys** -> `anon` / `public` (starts with `ey...`)
-   > ⚠️ **SECURITY WARNING**: Never use the `service_role` secret key. Only the `anon` public key belongs in front-end client code. Row Level Security enforces all protections.
-3. Open [`/js/supabase-config.js`](../js/supabase-config.js) in your codebase and update the placeholders:
+## 5. Paste Your Project URL & Anon Key into `/js/supabase-config.js`
+1. In your Supabase Dashboard, click **Settings** (gear icon) -> **API**.
+2. Copy:
+   - **Project URL** (e.g. `https://yourprojectid.supabase.co`)
+   - **Project API Keys** -> `anon` / `public` key (starts with `eyJ...`)
+   *(⚠️ NEVER copy or expose the `service_role` key).*
+3. Open [`/js/supabase-config.js`](../js/supabase-config.js) in your codebase and update:
    ```javascript
-   const SUPABASE_CONFIG = {
-     url: 'https://YOUR_ACTUAL_PROJECT_REF.supabase.co',
+   window.SUPABASE_CONFIG = {
+     url: 'https://your-actual-id.supabase.co',
      anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
    };
    ```
-4. Save the file. Also ensure [`/public/js/supabase-config.js`](../public/js/supabase-config.js) contains the exact same credentials so that production Vite builds include them automatically.
 
 ---
 
-### 6. Commit and Push to GitHub
-1. Stage and commit your changes:
+## 6. Commit, Push & Open `/admin/login.html`
+1. Commit your changes and push to GitHub:
    ```bash
    git add .
-   git commit -m "Configure Supabase credentials and admin dashboard"
+   git commit -m "feat(admin): connect Supabase backend and admin dashboard"
    git push origin main
    ```
-2. Once deployed to GitHub Pages, open the admin sign-in page:
-   ```text
-   https://richard28-dev.github.io/iGrey_Website/admin/login.html
-   ```
-   *(For local development, navigate to `http://localhost:5173/admin/login.html`)*.
+2. Open your live admin page at:
+   `https://richard28-dev.github.io/iGrey_Website/admin/login.html`
+   *(or locally at `http://localhost:5173/admin/login.html`)*
+3. Sign in with the admin email and password you created in Step 4.
 
 ---
 
-## 7. Operational Test Checklist
-
-Verify each of the following flows to ensure full functionality:
-
-- [ ] **Admin Authentication**:
-  - Open `/admin/login.html`.
-  - Enter invalid credentials: confirm "Wrong email or password" error banner displays without crashing.
-  - Enter your valid admin email and password: confirm smooth redirect to `/admin/index.html`.
-  - Check the sidebar footer: confirms your signed-in email address.
-- [ ] **Summary KPIs**:
-  - Confirm the four top cards (Total, Available, Under offer, Sold) display real counts matching the database.
-- [ ] **Add a New Property**:
-  - Fill in the form:
-    - Title: *Penthouse Meridian*
-    - Type: *Villa*
-    - Bedrooms: *4 BHK*
-    - Sale price: *15000000* (verify live Indian preview displays `₹1.5 Cr`)
-    - Area: *3400 sq ft*
-    - City: *Mysuru*
-    - Locality: *Yadavagiri*
-    - Drag & drop 2+ photos (verify WebP client-side compression and cover badge)
-    - Amenities: toggle *Swimming pool*, *Gym*, *Clubhouse*
-    - Description: *Panoramic terrace penthouse overlooking Chamundi Hills.*
-    - Check *Show on website* and *Show in Featured*.
-  - Click **Publish**.
-  - Verify gold toast: *"Property published successfully"*.
-  - Confirm property appears at the top of the **Recent Listings** table.
-- [ ] **Public Site Verification**:
-  - Open the public website homepage.
-  - Scroll to the **Selected Residences / Featured** section.
-  - Confirm *Penthouse Meridian* appears immediately with:
-    - Status badge: `AVAILABLE`
-    - Price: `₹1.5 Cr`
-    - Category: `VILLA • 4 BHK`
-    - Subtitle: `Yadavagiri, Mysuru • ID: SS-MYS-XX`
-    - Tag: `Property for Sale`
-    - Working photo carousel with arrows, dots, and touch swipe.
-  - Click the card: confirm it opens the dedicated Property Details view.
-- [ ] **Edit Property**:
-  - In `/admin/index.html`, find the property in the table and click **Edit**.
-  - Form scrolls into view populated with its data.
-  - Change status to **Under offer**.
-  - Click **Publish**.
-  - Toast: *"Property updated successfully"*.
-  - Public card updates status badge to `UNDER OFFER`.
-- [ ] **Mark as Sold**:
-  - Click **Edit**, toggle status badge to **Sold**, click **Publish**.
-  - Verify status badge displays `SOLD`.
-- [ ] **Delete Property**:
-  - Click the **Delete** button next to the property in the table.
-  - Confirmation modal pops up.
-  - Confirm deletion: property is removed from table and Supabase Storage photos are purged.
-- [ ] **Log Out**:
-  - Click **Log out** in the sidebar.
-  - Confirm redirect back to `/admin/login.html`.
-  - Attempting to visit `/admin/index.html` redirects back to login.
-
----
-
-## File Reference
-| File | Purpose |
-|---|---|
-| [`/admin/login.html`](./login.html) | Secure admin login interface with rate-limiting and session verification |
-| [`/admin/index.html`](./index.html) | Admin dashboard containing KPI metrics, listing form, photo uploader & listings table |
-| [`/admin/admin.css`](./admin.css) | Dark luxury styling (`#0a0f0e`, `#101614`, `#c9a77c`, Cormorant Garamond & Manrope) |
-| [`/admin/admin.js`](./admin.js) | Dashboard controller: client-side photo WebP compression, drag reordering, and CRUD |
-| [`/admin/setup.sql`](./setup.sql) | Full PostgreSQL database schema, RLS policies, indexes, and Storage setup |
-| [`/js/supabase-config.js`](../js/supabase-config.js) | Central Supabase client initialization and API credentials config |
-| [`/js/properties.js`](../js/properties.js) | Public website dynamic loader: fetching, rendering, carousels, and error handling |
+## 7. Verification Checklist
+- [ ] **Login**: Sign in with admin credentials. Redirects to `/admin/index.html`.
+- [ ] **Add Property**: Navigate to **+ Add property**, enter details, upload photos (tested with client-side compression), tap highlight & amenity chips, click **Preview popup** to see live modal, and click **Publish**.
+- [ ] **Public Site Integration**: Open the public site (`/iGrey_Website/`). Verify the newly added property shows with correct price, badges, and cover photo.
+- [ ] **Property Modal**: Click the property card. Verify the details popup opens with full gallery, highlights, amenities, and price.
+- [ ] **Edit Property**: Return to Admin -> Properties. Edit the title or price and save. Verify the update on the public site.
+- [ ] **Quick Status Change**: Change status to `Under offer` or `Sold` from the property row. Verify the badge updates on the public site.
+- [ ] **Submit Enquiry**: On the public site, submit the contact form (or click "Enquire about this property" from a modal).
+- [ ] **Enquiries Dashboard**: In Admin -> Enquiries, verify the new enquiry appears with "New" badge, property reference, and quick Call/Email buttons.
+- [ ] **Manage Reviews**: In Admin -> Reviews, add a new testimonial with 5 stars. Verify it appears in the public scrolling marquee.
+- [ ] **Delete Property**: Delete a test property. Confirm the modal prompt, check that the row and its storage photos are removed.
