@@ -4,146 +4,549 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Admin Login | iGREY Holdings</title>
-  
+  <title>Admin Portal Login | iGREY Holdings</title>
+
   <!-- Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Admin Theme -->
-  <link rel="stylesheet" href="admin.css" />
+  <!-- Admin Theme & Favicon -->
+  <link rel="icon" type="image/png" href="../logo-mark.png" />
+  <link rel="stylesheet" href="admin.css?v=2" />
 
   <!-- Supabase CDN Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/supabase-config.js"></script>
-  <script src="admin.js"></script>
+  <script src="admin.js?v=2"></script>
 
   <style>
-    body {
+    html, body {
+      margin: 0;
+      padding: 0;
       min-height: 100vh;
+      background-color: #0a0f0e;
+      color: #f4efe4;
+      font-family: var(--font-sans);
+      overflow-x: hidden;
+    }
+
+    .login-split-layout {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    /* Left Brand Panel (approx 55%) */
+    .login-brand-panel {
+      flex: 0 0 55%;
+      width: 55%;
+      background-color: #0d1311;
+      background-image: 
+        linear-gradient(135deg, rgba(13, 19, 17, 0.92) 0%, rgba(10, 15, 14, 0.98) 100%),
+        radial-gradient(ellipse at 25% 45%, rgba(201, 167, 124, 0.08) 0%, transparent 60%),
+        url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80');
+      background-size: cover;
+      background-position: center;
+      border-right: 0.5px solid #2e2a22;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 56px 64px;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .login-brand-panel::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 10% 10%, rgba(201, 167, 124, 0.06), transparent 50%),
+                  linear-gradient(180deg, rgba(13, 19, 17, 0.4) 0%, rgba(10, 15, 14, 0.85) 100%);
+      pointer-events: none;
+    }
+
+    .brand-panel-inner {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: space-between;
+    }
+
+    .brand-header-logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-badge-square {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: var(--gold-gradient);
+      color: #0a0f0e;
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle at 50% 20%, #151f1a 0%, #0a0f0e 70%);
-      padding: 20px;
+      box-shadow: 0 4px 16px rgba(201, 167, 124, 0.3);
+      flex-shrink: 0;
     }
-    .login-container {
-      width: 100%;
-      max-width: 420px;
-      margin: 0 auto;
+
+    .brand-text-col {
+      display: flex;
+      flex-direction: column;
     }
-    .login-card {
-      background: var(--bg-panel);
-      border: 0.5px solid var(--border-color);
-      border-radius: var(--radius-panel);
-      padding: 36px 32px;
-      box-shadow: var(--shadow-lg), 0 0 50px rgba(0, 0, 0, 0.4);
+
+    .brand-main-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: #faf8f4;
+      line-height: 1.1;
     }
-    .brand-mark {
+
+    .brand-kicker {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 2px;
+    }
+
+    .brand-hero-content {
+      margin: 48px 0;
+      max-width: 520px;
+    }
+
+    .brand-headline {
+      font-family: var(--font-serif);
+      font-size: clamp(2.4rem, 3.6vw, 3.5rem);
+      font-weight: 500;
+      line-height: 1.15;
+      color: #FAF8F4;
+      letter-spacing: -0.015em;
+      margin-bottom: 14px;
+    }
+
+    .brand-tagline {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    .trust-points-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding-top: 24px;
+      border-top: 0.5px solid rgba(46, 42, 34, 0.6);
+    }
+
+    .trust-point-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-secondary);
+      font-size: 13.5px;
+      font-weight: 500;
+    }
+
+    .trust-icon-wrap {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: rgba(201, 167, 124, 0.12);
+      border: 0.5px solid rgba(201, 167, 124, 0.3);
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Right Form Panel (45%) */
+    .login-form-panel {
+      flex: 1;
+      background-color: #0a0f0e;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-bottom: 28px;
-      text-align: center;
+      justify-content: center;
+      padding: 32px 24px;
+      box-sizing: border-box;
+      min-height: 100vh;
     }
-    .brand-logo-badge {
-      width: 46px;
-      height: 46px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, #c9a77c, #917551);
-      color: #0a0f0e;
+
+    .mobile-brand-header {
+      display: none;
+      text-align: center;
+      margin-bottom: 24px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .mobile-brand-header .brand-badge-square {
+      margin: 0 auto 12px;
+    }
+
+    /* Sign-in Card: max-width 400px, background #101614, border 0.5px #2e2a22, radius 16px, padding 32px */
+    .sign-in-card {
+      width: 100%;
+      max-width: 400px;
+      background-color: #101614;
+      border: 0.5px solid #2e2a22;
+      border-radius: 16px;
+      padding: 32px;
+      box-sizing: border-box;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+      position: relative;
+    }
+
+    .card-kicker {
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .card-title {
       font-family: var(--font-serif);
-      font-weight: 700;
-      font-size: 22px;
+      font-size: 32px;
+      font-weight: 500;
+      color: #FAF8F4;
+      line-height: 1.2;
+      margin: 0 0 6px 0;
+    }
+
+    .card-subtitle {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      margin: 0 0 24px 0;
+      line-height: 1.4;
+    }
+
+    .input-wrap-with-icon {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-lead-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      width: 16px;
+      height: 16px;
+      pointer-events: none;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 14px;
-      box-shadow: 0 4px 14px rgba(201, 167, 124, 0.25);
     }
-    .brand-title {
-      font-family: var(--font-serif);
-      font-size: 28px;
-      font-weight: 600;
-      color: #FAF8F4;
-      letter-spacing: 0.04em;
-      margin: 0 0 4px;
+
+    input.sign-in-input {
+      width: 100% !important;
+      height: 44px !important;
+      background-color: var(--bg-input) !important;
+      border: 0.5px solid var(--border-color) !important;
+      border-radius: 8px !important;
+      padding: 0 16px 0 44px !important;
+      color: var(--text-primary) !important;
+      font-family: var(--font-sans) !important;
+      font-size: 14px !important;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+      box-sizing: border-box !important;
     }
-    .brand-subtitle {
-      font-size: 11px;
+
+    input.sign-in-input:focus {
+      outline: none !important;
+      border-color: var(--gold) !important;
+      background-color: #0e1513 !important;
+      box-shadow: 0 0 0 2px rgba(201, 167, 124, 0.25) !important;
+    }
+
+    input.sign-in-input.with-trailing {
+      padding: 0 44px 0 44px !important;
+    }
+
+    .btn-toggle-pw {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: color 0.15s ease;
+    }
+
+    .btn-toggle-pw:hover {
+      color: var(--gold);
+    }
+
+    .login-action-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: 8px;
+      margin-bottom: 20px;
+    }
+
+    .btn-forgot-pw {
+      background: transparent;
+      border: none;
+      color: var(--gold);
+      font-size: 12.5px;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.15s ease, text-decoration 0.15s ease;
+      text-decoration: none;
+    }
+
+    .btn-forgot-pw:hover {
+      color: var(--gold-hover);
+      text-decoration: underline;
+    }
+
+    .btn-submit-signin {
+      width: 100%;
+      height: 48px;
+      background: var(--gold-gradient);
+      color: #0a0f0e;
+      border: none;
+      border-radius: 8px;
+      font-family: var(--font-sans);
+      font-size: 14.5px;
       font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--gold-primary);
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 16px rgba(201, 167, 124, 0.25);
+      transition: all 0.2s ease;
     }
-    .login-error {
+
+    .btn-submit-signin:hover:not(:disabled) {
+      background: linear-gradient(135deg, #dfc098 0%, #c9a77c 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(201, 167, 124, 0.35);
+    }
+
+    .btn-submit-signin:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .login-inline-error {
       display: none;
       background: rgba(224, 122, 111, 0.12);
       border: 0.5px solid rgba(224, 122, 111, 0.35);
-      border-radius: 6px;
+      border-radius: 8px;
       padding: 10px 14px;
       color: var(--accent-red);
       font-size: 13px;
       line-height: 1.4;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
-    .login-footer-note {
+
+    .login-inline-info {
+      display: none;
+      background: rgba(201, 167, 124, 0.12);
+      border: 0.5px solid rgba(201, 167, 124, 0.4);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: var(--gold);
+      font-size: 13px;
+      line-height: 1.4;
+      margin-bottom: 18px;
+    }
+
+    .login-footer-auth {
       text-align: center;
       font-size: 12px;
       color: var(--text-muted);
       margin-top: 24px;
-      line-height: 1.5;
+      margin-bottom: 0;
+      letter-spacing: 0.03em;
+    }
+
+    /* Mobile (under 768px): Single column, no brand panel, 16px side margins, font-size 16px on inputs */
+    @media (max-width: 767.98px) {
+      .login-brand-panel {
+        display: none !important;
+      }
+
+      .login-split-layout {
+        flex-direction: column;
+      }
+
+      .login-form-panel {
+        padding: 40px 16px;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+
+      .mobile-brand-header {
+        display: block;
+      }
+
+      .sign-in-card {
+        max-width: 100%;
+        padding: 28px 20px;
+        margin: 0;
+      }
+
+      .sign-in-input {
+        font-size: 16px !important;
+        height: 46px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="login-container">
-    <div class="login-card">
-      <div class="brand-mark">
-        <div class="brand-logo-badge">iG</div>
-        <h1 class="brand-title">iGREY Holdings</h1>
-        <div class="brand-subtitle">Executive Admin Portal</div>
-      </div>
-
-      <div id="login-error" class="login-error" role="alert"></div>
-
-      <form id="admin-login-form" novalidate>
-        <div class="form-group">
-          <label class="form-label" for="login-email">Admin Email</label>
-          <input
-            type="email"
-            id="login-email"
-            class="form-control"
-            placeholder="admin@igreyholdings.com"
-            autocomplete="email"
-            required
-          />
+  <div class="login-split-layout">
+    <!-- Left Half: Executive Brand Panel (Desktop ~55%) -->
+    <aside class="login-brand-panel" aria-label="Brand Overview">
+      <div class="brand-panel-inner">
+        <!-- Top Logo -->
+        <div class="brand-header-logo">
+          <div class="brand-badge-square">iG</div>
+          <div class="brand-text-col">
+            <span class="brand-main-title">iGREY Holdings</span>
+            <span class="brand-kicker">Executive Admin Portal</span>
+          </div>
         </div>
 
-        <div class="form-group" style="margin-bottom: 24px;">
-          <label class="form-label" for="login-password">Password</label>
-          <input
-            type="password"
-            id="login-password"
-            class="form-control"
-            placeholder="••••••••••••"
-            autocomplete="current-password"
-            required
-          />
+        <!-- Middle Headline -->
+        <div class="brand-hero-content">
+          <h1 class="brand-headline">Manage every property, beautifully.</h1>
+          <p class="brand-tagline">Secure admin portal for iGrey Holdings</p>
         </div>
 
-        <button type="submit" id="login-submit-btn" class="btn btn-primary" style="width: 100%; padding: 12px; font-size: 14px;">
-          <span id="btn-text">Sign In to Dashboard</span>
-          <span id="btn-spinner" class="spinner" style="display: none; width: 16px; height: 16px; border-width: 2px;"></span>
-        </button>
-      </form>
-
-      <div class="login-footer-note">
-        Authorized personnel only. Public sign-up is disabled. All session events are cryptographically authenticated via Supabase Row-Level Security.
+        <!-- Bottom 3 Trust Points -->
+        <div class="trust-points-list">
+          <div class="trust-point-item">
+            <div class="trust-icon-wrap" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <span>Secure sign-in</span>
+          </div>
+          <div class="trust-point-item">
+            <div class="trust-icon-wrap" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <span>Private to your team</span>
+          </div>
+          <div class="trust-point-item">
+            <div class="trust-icon-wrap" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <span>Manage listings anywhere</span>
+          </div>
+        </div>
       </div>
-    </div>
+    </aside>
+
+    <!-- Right Half: Centered Sign-in Card -->
+    <main class="login-form-panel">
+      <!-- Mobile Only Top Brand Header -->
+      <div class="mobile-brand-header">
+        <div class="brand-badge-square">iG</div>
+        <h2 style="font-family: var(--font-serif); font-size: 24px; color: #FAF8F4; margin: 0 0 4px;">iGREY Holdings</h2>
+        <div style="font-size: 12px; color: var(--gold); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">Executive Admin Portal</div>
+      </div>
+
+      <div class="sign-in-card" id="sign-in-card">
+        <span class="card-kicker">ADMIN PORTAL</span>
+        <h1 class="card-title">Welcome back</h1>
+        <p class="card-subtitle">Sign in to manage your properties</p>
+
+        <!-- Inline Error Alert -->
+        <div id="login-error" class="login-inline-error" role="alert"></div>
+
+        <!-- Inline Info Alert (Password Reset) -->
+        <div id="login-info" class="login-inline-info" role="status"></div>
+
+        <form id="admin-login-form" novalidate>
+          <!-- Email Field -->
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label class="form-label" for="login-email">Email Address</label>
+            <div class="input-wrap-with-icon">
+              <span class="input-lead-icon" aria-hidden="true">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </span>
+              <input
+                type="email"
+                id="login-email"
+                class="sign-in-input"
+                placeholder="admin@igreyholdings.com"
+                autocomplete="email"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Password Field -->
+          <div class="form-group" style="margin-bottom: 6px;">
+            <label class="form-label" for="login-password">Password</label>
+            <div class="input-wrap-with-icon">
+              <span class="input-lead-icon" aria-hidden="true">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </span>
+              <input
+                type="password"
+                id="login-password"
+                class="sign-in-input with-trailing"
+                placeholder="••••••••••••"
+                autocomplete="current-password"
+                required
+              />
+              <button type="button" id="toggle-password-btn" class="btn-toggle-pw" aria-label="Show password" title="Toggle password visibility">
+                <svg id="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Forgot Password Link -->
+          <div class="login-action-row">
+            <button type="button" id="forgot-password-link" class="btn-forgot-pw">Forgot password?</button>
+          </div>
+
+          <!-- Full Width Sign-in Button (48px tall) -->
+          <button type="submit" id="login-submit-btn" class="btn-submit-signin">
+            <span id="btn-text">Sign In</span>
+            <span id="btn-spinner" class="spinner" style="display: none; width: 16px; height: 16px; border-width: 2px;"></span>
+          </button>
+        </form>
+
+        <!-- Footer Note: Authorized access only (No sign-up link) -->
+        <p class="login-footer-auth">Authorized access only.</p>
+      </div>
+    </main>
   </div>
 
   <script>
@@ -181,41 +584,111 @@
       }
 
       const form = document.getElementById('admin-login-form');
+      const card = document.getElementById('sign-in-card');
       const emailInput = document.getElementById('login-email');
       const passInput = document.getElementById('login-password');
       const errorEl = document.getElementById('login-error');
+      const infoEl = document.getElementById('login-info');
       const submitBtn = document.getElementById('login-submit-btn');
       const btnText = document.getElementById('btn-text');
       const btnSpinner = document.getElementById('btn-spinner');
+      const togglePwBtn = document.getElementById('toggle-password-btn');
+      const eyeIcon = document.getElementById('eye-icon');
+      const forgotPwBtn = document.getElementById('forgot-password-link');
 
-      function showError(msg) {
-        errorEl.textContent = msg;
-        errorEl.style.display = 'block';
+      function triggerShake() {
+        card.classList.remove('shake');
+        void card.offsetWidth; // Force reflow
+        card.classList.add('shake');
+        setTimeout(() => card.classList.remove('shake'), 450);
       }
 
-      function clearError() {
+      function showError(msg) {
+        infoEl.style.display = 'none';
+        errorEl.textContent = msg;
+        errorEl.style.display = 'block';
+        triggerShake();
+      }
+
+      function showInfo(msg) {
+        errorEl.style.display = 'none';
+        infoEl.textContent = msg;
+        infoEl.style.display = 'block';
+      }
+
+      function clearMessages() {
         errorEl.textContent = '';
         errorEl.style.display = 'none';
+        infoEl.textContent = '';
+        infoEl.style.display = 'none';
       }
 
       function setLoading(isLoading) {
         if (isLoading) {
           submitBtn.disabled = true;
-          btnText.style.display = 'none';
+          btnText.textContent = 'Signing in...';
           btnSpinner.style.display = 'inline-block';
         } else {
           submitBtn.disabled = false;
-          btnText.style.display = 'inline';
+          btnText.textContent = 'Sign In';
           btnSpinner.style.display = 'none';
         }
       }
 
-      // Check if already authenticated
+      // Password visibility toggle
+      let showPassword = false;
+      togglePwBtn.addEventListener('click', () => {
+        showPassword = !showPassword;
+        passInput.type = showPassword ? 'text' : 'password';
+        togglePwBtn.setAttribute('aria-label', showPassword ? 'Hide password' : 'Show password');
+        if (showPassword) {
+          eyeIcon.innerHTML = `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>`;
+        } else {
+          eyeIcon.innerHTML = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
+        }
+      });
+
+      // Forgot Password Handler
+      forgotPwBtn.addEventListener('click', async () => {
+        clearMessages();
+        const email = emailInput.value.trim();
+        if (!email) {
+          showError('Please enter your email address above to receive reset instructions.');
+          emailInput.focus();
+          return;
+        }
+
+        const client = getClient();
+        if (!client) {
+          showError('Supabase backend is not configured.');
+          return;
+        }
+
+        try {
+          submitBtn.disabled = true;
+          const { error } = await client.auth.resetPasswordForEmail(email, {
+            redirectTo: window.location.href
+          });
+          submitBtn.disabled = false;
+
+          if (error) {
+            showError(error.message);
+          } else {
+            showInfo('Password reset instructions have been sent to ' + email + '. Please check your inbox.');
+          }
+        } catch (err) {
+          submitBtn.disabled = false;
+          showError(err.message || 'Failed to send password reset email.');
+        }
+      });
+
+      // Check if user is already signed in -> redirect straight to dashboard
       await checkAuth(false);
 
+      // Form submission
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        clearError();
+        clearMessages();
 
         // Check rate limiter
         const rate = getRateState();
@@ -235,7 +708,7 @@
 
         const client = getClient();
         if (!client) {
-          showError('Supabase is not configured yet. Please enter your credentials into js/supabase-config.js.');
+          showError('Supabase is not configured yet. Please check your credentials.');
           return;
         }
 
@@ -263,7 +736,6 @@
               .maybeSingle();
 
             if (adminErr || !adminRow) {
-              // Sign out immediately if not in admins whitelist
               await client.auth.signOut();
               recordFailedAttempt();
               showError('Access denied. Your email is not registered in the admins authorized list.');
@@ -271,12 +743,12 @@
               return;
             }
 
-            // Successful login
+            // Success
             clearRateState();
             showToast('success', 'Welcome Back', 'Redirecting to executive dashboard...');
             setTimeout(() => {
               window.location.href = 'index.html';
-            }, 600);
+            }, 500);
           }
         } catch (err) {
           recordFailedAttempt();

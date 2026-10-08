@@ -6,8 +6,12 @@
 (function () {
   'use strict';
 
-  // --- GLOBAL NAMESPACE ---
+  // --- GLOBAL NAMESPACE & CONSTANTS ---
   window.iGreyAdmin = window.iGreyAdmin || {};
+
+  // Neutral placeholder SVG block (#1a211e with gold image icon)
+  const PROPERTY_PLACEHOLDER = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='112' height='88' viewBox='0 0 112 88' fill='none'%3E%3Crect width='112' height='88' rx='6' fill='%231a211e'/%3E%3Cpath d='M38 56l10-12 8 8 12-16 14 20H30z' fill='%23c9a77c' fill-opacity='0.75'/%3E%3Ccircle cx='44' cy='36' r='5' fill='%23c9a77c' fill-opacity='0.85'/%3E%3C/svg%3E";
+  window.iGreyAdmin.PROPERTY_PLACEHOLDER = PROPERTY_PLACEHOLDER;
 
   /**
    * Escape HTML to prevent XSS
@@ -209,8 +213,8 @@
       previewModal.innerHTML = `
         <div class="modal-card" style="max-width: 680px; padding: 0; overflow: hidden;" role="dialog" aria-modal="true">
           <!-- Modal Header -->
-          <div style="position: relative; height: 320px; background: #000; overflow: hidden;">
-            <img id="preview-main-img" src="${currentPhoto}" style="width: 100%; height: 100%; object-fit: cover;" alt="${escapeHtml(property.title)}" />
+          <div style="position: relative; max-height: 60vh; height: clamp(260px, 45vh, 420px); background: #1a211e; overflow: hidden;">
+            <img id="preview-main-img" src="${currentPhoto}" style="width: 100%; height: 100%; max-height: 60vh; object-fit: cover; display: block;" onerror="this.onerror=null; this.src=window.iGreyAdmin.PROPERTY_PLACEHOLDER;" alt="${escapeHtml(property.title)}" />
             <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(16, 22, 20, 0.95) 0%, transparent 50%); pointer-events: none;"></div>
             
             <button type="button" id="preview-close-btn" style="position: absolute; top: 16px; right: 16px; background: rgba(0,0,0,0.6); border: 0.5px solid rgba(255,255,255,0.25); border-radius: 50%; width: 34px; height: 34px; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10;">
@@ -634,6 +638,7 @@
 
   // Assign to namespace
   window.iGreyAdmin = {
+    PROPERTY_PLACEHOLDER,
     escapeHtml,
     formatIndianPrice,
     formatDate,

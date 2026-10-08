@@ -11,13 +11,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Admin Theme -->
-  <link rel="stylesheet" href="admin.css" />
+  <!-- Admin Theme & Favicon -->
+  <link rel="icon" type="image/png" href="../logo-mark.png" />
+  <link rel="stylesheet" href="admin.css?v=2" />
 
   <!-- Supabase CDN Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/supabase-config.js"></script>
-  <script src="admin.js"></script>
+  <script src="admin.js?v=2"></script>
 
   <style>
     .filter-tabs {
@@ -81,7 +82,7 @@
       color: var(--text-muted);
     }
     .search-input-wrap input {
-      padding-left: 36px;
+      padding-left: 40px !important;
       width: 100%;
     }
     .sort-select {
@@ -111,7 +112,7 @@
   <div id="admin-sidebar-container"></div>
 
   <!-- Main Content Wrap -->
-  <div class="admin-main">
+  <div class="admin-main admin-main-wrap">
     <!-- Injected Topbar -->
     <div id="admin-topbar-container"></div>
 
@@ -317,52 +318,59 @@
         document.getElementById('page-next-btn').disabled = (currentPage === totalPages);
 
         const rowsHtml = pageItems.map(item => {
-          const thumb = (item.images && item.images.length > 0)
+          const thumb = (item.images && item.images.length > 0 && item.images[0])
             ? item.images[0]
-            : 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=300&q=80';
+            : window.iGreyAdmin.PROPERTY_PLACEHOLDER;
           const status = item.status || 'available';
-          const statusLabel = status.toUpperCase().replace('_', ' ');
 
           return `
             <tr>
-              <td>
-                <div style="display: flex; align-items: center; gap: 12px;">
-                  <img src="${thumb}" alt="${escapeHtml(item.title)}" class="property-thumb" />
-                  <div>
-                    <div style="font-weight: 600; color: #FAF8F4; font-size: 13.5px; line-height: 1.3;">
+              <td data-label="Property" class="prop-main-td">
+                <div class="prop-cell">
+                  <img
+                    src="${thumb}"
+                    alt="${escapeHtml(item.title)}"
+                    class="property-thumb"
+                    width="56"
+                    height="44"
+                    loading="lazy"
+                    onerror="this.onerror=null; this.src=window.iGreyAdmin.PROPERTY_PLACEHOLDER;"
+                  />
+                  <div class="prop-cell-text">
+                    <div class="prop-cell-title">
                       ${escapeHtml(item.title)}
-                      ${item.is_featured ? `<span style="font-size: 10px; background: rgba(201,167,124,0.18); color: #c9a77c; padding: 2px 6px; border-radius: 4px; margin-left: 6px; font-weight: 700;">FEATURED</span>` : ''}
+                      ${item.is_featured ? `<span class="badge-featured">FEATURED</span>` : ''}
                     </div>
-                    <div style="color: var(--text-muted); font-size: 11.5px; margin-top: 2px;">
+                    <div class="prop-cell-sub">
                       ${escapeHtml(item.property_type || 'Villa')} &bull; ${escapeHtml(item.bedrooms || '3')} BHK &bull; ID: <code>${escapeHtml(item.property_code)}</code>
                     </div>
                   </div>
                 </div>
               </td>
-              <td style="color: var(--text-secondary); font-size: 13px;">
-                <div>${escapeHtml(item.locality || '—')}</div>
-                <div style="color: var(--text-muted); font-size: 11.5px;">${escapeHtml(item.city)}</div>
+              <td data-label="City" style="color: var(--text-secondary); font-size: 13px;">
+                <div style="font-weight: 500;">${escapeHtml(item.city || '—')}</div>
+                ${item.locality ? `<div style="color: var(--text-muted); font-size: 11.5px; margin-top: 2px;">${escapeHtml(item.locality)}</div>` : ''}
               </td>
-              <td style="font-weight: 600; color: #c9a77c; font-size: 13.5px;">
+              <td data-label="Price" class="price-text">
                 ${formatIndianPrice(item.price)}
               </td>
-              <td>
-                <select class="inline-status-select status-select-btn" data-id="${item.id}" aria-label="Change status">
+              <td data-label="Status">
+                <select class="inline-status-select status-select-btn" data-id="${item.id}" aria-label="Change status for ${escapeHtml(item.title)}">
                   <option value="available" ${status === 'available' ? 'selected' : ''}>Available</option>
                   <option value="under_offer" ${status === 'under_offer' ? 'selected' : ''}>Under Offer</option>
                   <option value="sold" ${status === 'sold' ? 'selected' : ''}>Sold</option>
                   <option value="draft" ${status === 'draft' ? 'selected' : ''}>Draft</option>
                 </select>
               </td>
-              <td>
+              <td data-label="Actions" class="actions-td">
                 <div class="table-actions">
-                  <button type="button" class="btn-action view-btn" data-id="${item.id}" title="Preview Details">
+                  <button type="button" class="btn-action view-btn" data-id="${item.id}" title="Preview Details" aria-label="Preview ${escapeHtml(item.title)}">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                   </button>
-                  <a href="property-form.html?id=${item.id}" class="btn-action" title="Edit Property">
+                  <a href="property-form.html?id=${item.id}" class="btn-action" title="Edit Property" aria-label="Edit ${escapeHtml(item.title)}">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
                   </a>
-                  <button type="button" class="btn-action delete-btn" data-id="${item.id}" style="color: var(--accent-red);" title="Delete Property">
+                  <button type="button" class="btn-action delete-btn" data-id="${item.id}" style="color: var(--accent-red);" title="Delete Property" aria-label="Delete ${escapeHtml(item.title)}">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
                   </button>
                 </div>
@@ -373,14 +381,21 @@
 
         container.innerHTML = `
           <div class="table-responsive">
-            <table class="admin-table">
+            <table class="admin-table prop-table">
+              <colgroup>
+                <col class="col-property" style="width: 38%;">
+                <col class="col-city" style="width: 14%;">
+                <col class="col-price" style="width: 14%;">
+                <col class="col-status" style="width: 16%;">
+                <col class="col-actions" style="width: 18%;">
+              </colgroup>
               <thead>
                 <tr>
-                  <th>Property Details</th>
-                  <th>Location</th>
-                  <th>Price</th>
-                  <th>Status</th>
-                  <th style="text-align: right;">Actions</th>
+                  <th style="width: 38%;">Property</th>
+                  <th style="width: 14%;">City</th>
+                  <th style="width: 14%;">Price</th>
+                  <th style="width: 16%;">Status</th>
+                  <th style="width: 18%; text-align: right;">Actions</th>
                 </tr>
               </thead>
               <tbody>

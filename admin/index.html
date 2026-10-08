@@ -11,13 +11,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Admin Theme -->
-  <link rel="stylesheet" href="admin.css" />
+  <!-- Admin Theme & Favicon -->
+  <link rel="icon" type="image/png" href="../logo-mark.png" />
+  <link rel="stylesheet" href="admin.css?v=2" />
 
   <!-- Supabase CDN Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/supabase-config.js"></script>
-  <script src="admin.js"></script>
+  <script src="admin.js?v=2"></script>
 </head>
 <body>
 
@@ -25,7 +26,7 @@
   <div id="admin-sidebar-container"></div>
 
   <!-- Main Content Wrap -->
-  <div class="admin-main">
+  <div class="admin-main admin-main-wrap">
     <!-- Injected Topbar -->
     <div id="admin-topbar-container"></div>
 
@@ -37,7 +38,7 @@
           <p class="page-subtitle">Real-time portfolio intelligence, active listings, and client inquiries.</p>
         </div>
         <div class="page-actions">
-          <a href="property-form.html" class="btn btn-primary">
+          <a href="property-form.html" class="btn btn-primary btn-add-gold">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             Add New Property
           </a>
@@ -96,7 +97,7 @@
       </section>
 
       <!-- Dashboard Two-Column Layout -->
-      <div style="display: grid; grid-template-columns: 2fr 1.2fr; gap: 24px; margin-top: 24px;">
+      <div class="dashboard-grid">
         <!-- Left: Recent Listings -->
         <div class="panel">
           <div class="panel-header">
@@ -196,32 +197,40 @@
           }
 
           let rowsHtml = listings.map(item => {
-            const thumb = (item.images && item.images.length > 0)
+            const thumb = (item.images && item.images.length > 0 && item.images[0])
               ? item.images[0]
-              : 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=300&q=80';
+              : window.iGreyAdmin.PROPERTY_PLACEHOLDER;
             const statusClass = item.status || 'available';
             const statusLabel = statusClass.toUpperCase().replace('_', ' ');
 
             return `
               <tr>
-                <td>
-                  <div style="display: flex; align-items: center; gap: 12px;">
-                    <img src="${thumb}" alt="${escapeHtml(item.title)}" class="property-thumb" />
-                    <div>
-                      <div style="font-weight: 600; color: #FAF8F4; font-size: 13.5px;">${escapeHtml(item.title)}</div>
-                      <div style="color: var(--text-muted); font-size: 11.5px;">${escapeHtml(item.property_type || 'Villa')} &bull; ID: ${escapeHtml(item.property_code)}</div>
+                <td data-label="Property" class="prop-main-td">
+                  <div class="prop-cell">
+                    <img
+                      src="${thumb}"
+                      alt="${escapeHtml(item.title)}"
+                      class="property-thumb"
+                      width="56"
+                      height="44"
+                      loading="lazy"
+                      onerror="this.onerror=null; this.src=window.iGreyAdmin.PROPERTY_PLACEHOLDER;"
+                    />
+                    <div class="prop-cell-text">
+                      <div class="prop-cell-title">${escapeHtml(item.title)}</div>
+                      <div class="prop-cell-sub">${escapeHtml(item.property_type || 'Villa')} &bull; ID: <code>${escapeHtml(item.property_code)}</code></div>
                     </div>
                   </div>
                 </td>
-                <td style="color: var(--text-secondary); font-size: 13px;">${escapeHtml(item.city)}</td>
-                <td style="font-weight: 600; color: #c9a77c; font-size: 13px;">${formatIndianPrice(item.price)}</td>
-                <td><span class="status-pill ${statusClass}">${statusLabel}</span></td>
-                <td>
+                <td data-label="City" style="color: var(--text-secondary); font-size: 13px;">${escapeHtml(item.city)}</td>
+                <td data-label="Price" class="price-text">${formatIndianPrice(item.price)}</td>
+                <td data-label="Status"><span class="status-pill ${statusClass}">${statusLabel}</span></td>
+                <td data-label="Actions" class="actions-td">
                   <div class="table-actions">
-                    <button type="button" class="btn-action preview-btn" data-id="${item.id}" title="Preview Details">
+                    <button type="button" class="btn-action preview-btn" data-id="${item.id}" title="Preview Details" aria-label="Preview ${escapeHtml(item.title)}">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                     </button>
-                    <a href="property-form.html?id=${item.id}" class="btn-action" title="Edit Property">
+                    <a href="property-form.html?id=${item.id}" class="btn-action" title="Edit Property" aria-label="Edit ${escapeHtml(item.title)}">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
                     </a>
                   </div>
@@ -232,14 +241,21 @@
 
           container.innerHTML = `
             <div class="table-responsive">
-              <table class="admin-table">
+              <table class="admin-table prop-table">
+                <colgroup>
+                  <col class="col-property" style="width: 38%;">
+                  <col class="col-city" style="width: 14%;">
+                  <col class="col-price" style="width: 14%;">
+                  <col class="col-status" style="width: 16%;">
+                  <col class="col-actions" style="width: 18%;">
+                </colgroup>
                 <thead>
                   <tr>
-                    <th>Estate</th>
-                    <th>City</th>
-                    <th>Price</th>
-                    <th>Status</th>
-                    <th style="text-align: right;">Actions</th>
+                    <th style="width: 38%;">Property</th>
+                    <th style="width: 14%;">City</th>
+                    <th style="width: 14%;">Price</th>
+                    <th style="width: 16%;">Status</th>
+                    <th style="width: 18%; text-align: right;">Actions</th>
                   </tr>
                 </thead>
                 <tbody>

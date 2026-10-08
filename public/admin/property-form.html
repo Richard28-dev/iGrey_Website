@@ -11,13 +11,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Admin Theme -->
-  <link rel="stylesheet" href="admin.css" />
+  <!-- Admin Theme & Favicon -->
+  <link rel="icon" type="image/png" href="../logo-mark.png" />
+  <link rel="stylesheet" href="admin.css?v=2" />
 
   <!-- Supabase CDN Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/supabase-config.js"></script>
-  <script src="admin.js"></script>
+  <script src="admin.js?v=2"></script>
 
   <style>
     .form-cards-layout {
@@ -84,8 +85,8 @@
     }
     .photo-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 8px;
       margin-top: 16px;
     }
     .photo-card {
@@ -94,7 +95,7 @@
       border-radius: 8px;
       overflow: hidden;
       border: 0.5px solid var(--border-color);
-      background: #000;
+      background: #1a211e;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -103,6 +104,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
     }
     .photo-cover-tag {
       position: absolute;
@@ -115,6 +117,7 @@
       padding: 2px 6px;
       border-radius: 4px;
       letter-spacing: 0.05em;
+      z-index: 2;
     }
     .photo-actions {
       position: absolute;
@@ -122,6 +125,7 @@
       right: 6px;
       display: flex;
       gap: 4px;
+      z-index: 2;
     }
     .photo-btn {
       width: 24px;
@@ -181,19 +185,21 @@
       bottom: 0;
       background: rgba(13, 19, 17, 0.95);
       backdrop-filter: blur(10px);
-      border-top: 0.5px solid var(--border-color);
+      border: 0.5px solid var(--border-color);
+      border-radius: var(--radius-panel);
       padding: 16px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
       z-index: 50;
-      margin: 32px -28px -28px;
-      border-radius: 0 0 var(--radius-panel) var(--radius-panel);
+      margin: 16px 0 0;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.35);
     }
-    @media (max-width: 768px) {
+    @media (max-width: 767.98px) {
       .bottom-bar {
-        margin: 24px -16px -16px;
+        margin: 16px 0 0;
+        padding: 16px;
         flex-direction: column-reverse;
         align-items: stretch;
       }
@@ -206,7 +212,7 @@
   <div id="admin-sidebar-container"></div>
 
   <!-- Main Content Wrap -->
-  <div class="admin-main">
+  <div class="admin-main admin-main-wrap">
     <!-- Injected Topbar -->
     <div id="admin-topbar-container"></div>
 
@@ -586,7 +592,7 @@
         photoCountLabel.textContent = `${currentPhotos.length} of 8 uploaded`;
         photoGrid.innerHTML = currentPhotos.map((url, idx) => `
           <div class="photo-card" data-idx="${idx}">
-            <img src="${url}" alt="Property Photo ${idx + 1}" />
+            <img src="${url}" alt="Property Photo ${idx + 1}" loading="lazy" onerror="this.onerror=null; this.src=window.iGreyAdmin.PROPERTY_PLACEHOLDER;" />
             ${idx === 0 ? '<span class="photo-cover-tag">COVER</span>' : ''}
             <div class="photo-actions">
               ${idx > 0 ? `<button type="button" class="photo-btn move-left-btn" data-idx="${idx}" title="Move left">&larr;</button>` : ''}
