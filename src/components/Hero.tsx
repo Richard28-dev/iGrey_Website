@@ -292,36 +292,9 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                 }}
                 className={`hero-stat-pillar hero-stat-cell-${idx} ${isActive ? 'hero-stat-active' : ''}`}
               >
-                {/* Centered Squircle Badge Icon matching reference */}
-                <div
-                  className="hero-stat-icon-wrapper"
-                  style={{
-                    width: '48px',
-                    height: '48px',
-                    borderRadius: '14px',
-                    background: isActive
-                      ? 'rgba(197, 168, 128, 0.25)'
-                      : 'rgba(10, 16, 13, 0.85)',
-                    border: isActive
-                      ? '1.5px solid #E8D5B7'
-                      : '1.5px solid rgba(197, 168, 128, 0.4)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '0.75rem',
-                    boxShadow: isActive
-                      ? '0 0 16px rgba(197, 168, 128, 0.75), 0 4px 10px rgba(0, 0, 0, 0.4)'
-                      : '0 4px 12px rgba(0, 0, 0, 0.35)',
-                    transition: 'all 0.3s ease',
-                    flexShrink: 0,
-                  }}
-                >
-                  {getStatIcon(st.icon)}
-                </div>
-
-                {/* Stat Text Stack */}
-                <div className="hero-stat-info">
-                  {/* Stat Value with Luminous Gold Text Shadow */}
+                {/* Top row: Value on left, Icon on right on mobile. On desktop: contents */}
+                <div className="hero-stat-top-row">
+                  {/* Stat Value */}
                   <div
                     className="hero-stat-val"
                     style={{
@@ -341,36 +314,81 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                     {st.value.includes('+') ? st.value.replace('+', ' +') : st.value}
                   </div>
 
-                  {/* Stat Label */}
+                  {/* Icon Box */}
                   <div
-                    className="hero-stat-lbl"
+                    className="hero-stat-icon-wrapper"
                     style={{
-                      fontFamily: 'var(--font-sans)',
-                      fontSize: '0.82rem',
-                      fontWeight: 600,
-                      color: isGoldLabel ? '#D4B280' : '#FFFFFF',
-                      lineHeight: 1.25,
-                      marginBottom: '0.15rem',
-                      transition: 'color 0.3s ease',
+                      width: '48px',
+                      height: '48px',
+                      borderRadius: '14px',
+                      background: isActive
+                        ? 'rgba(197, 168, 128, 0.25)'
+                        : 'rgba(10, 16, 13, 0.85)',
+                      border: isActive
+                        ? '1.5px solid #E8D5B7'
+                        : '1.5px solid rgba(197, 168, 128, 0.4)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginBottom: '0.75rem',
+                      boxShadow: isActive
+                        ? '0 0 16px rgba(197, 168, 128, 0.75), 0 4px 10px rgba(0, 0, 0, 0.4)'
+                        : '0 4px 12px rgba(0, 0, 0, 0.35)',
+                      transition: 'all 0.3s ease',
+                      flexShrink: 0,
                     }}
                   >
-                    {st.label}
+                    {getStatIcon(st.icon)}
                   </div>
+                </div>
 
-                  {/* Stat Sublabel */}
-                  <div
-                    className="hero-stat-sub"
-                    style={{
-                      fontFamily: 'var(--font-sans)',
-                      fontSize: '0.68rem',
-                      color: isActive ? '#E5CBA3' : 'rgba(237, 232, 223, 0.55)',
-                      fontWeight: 400,
-                      lineHeight: 1.25,
-                      transition: 'color 0.3s ease',
-                    }}
-                  >
-                    {st.sublabel}
-                  </div>
+                {/* Stat Label */}
+                <div
+                  className={`hero-stat-lbl hero-stat-lbl-${idx}`}
+                  style={{
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '0.82rem',
+                    fontWeight: 600,
+                    color: isGoldLabel ? '#D4B280' : '#FFFFFF',
+                    lineHeight: 1.25,
+                    marginBottom: '0.15rem',
+                    transition: 'color 0.3s ease',
+                  }}
+                >
+                  {idx === 0 ? (
+                    <span className="hero-lbl-happy">Happy Customers</span>
+                  ) : idx === 1 ? (
+                    <span className="hero-lbl-completed">Completed Projects</span>
+                  ) : idx === 2 ? (
+                    <>
+                      <span className="hero-lbl-line">On-Time</span>
+                      <span className="hero-lbl-desktop-space"> </span>
+                      <br className="hero-lbl-mobile-br" />
+                      <span className="hero-lbl-line">Rent Payouts</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="hero-lbl-line">Verified</span>
+                      <span className="hero-lbl-desktop-space"> </span>
+                      <br className="hero-lbl-mobile-br" />
+                      <span className="hero-lbl-line">Background KYC</span>
+                    </>
+                  )}
+                </div>
+
+                {/* Stat Sublabel */}
+                <div
+                  className="hero-stat-sub"
+                  style={{
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '0.68rem',
+                    color: isActive ? '#E5CBA3' : 'rgba(237, 232, 223, 0.55)',
+                    fontWeight: 400,
+                    lineHeight: 1.25,
+                    transition: 'color 0.3s ease',
+                  }}
+                >
+                  {st.sublabel}
                 </div>
 
                 {/* Bottom Luminous Accent Hairline when Active */}
@@ -466,6 +484,27 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             border-radius: 14px !important;
             position: relative !important;
             border-right: none !important;
+          }
+          .hero-stat-top-row {
+            display: contents !important;
+          }
+          .hero-stat-icon-wrapper {
+            order: 1 !important;
+          }
+          .hero-stat-val {
+            order: 2 !important;
+          }
+          .hero-stat-lbl {
+            order: 3 !important;
+          }
+          .hero-stat-sub {
+            order: 4 !important;
+          }
+          .hero-lbl-mobile-br {
+            display: none !important;
+          }
+          .hero-lbl-desktop-space {
+            display: inline !important;
           }
           .hero-stat-info {
             display: flex !important;
@@ -647,14 +686,18 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             padding-bottom: 0.25rem !important;
           }
           .hero-floating-stats-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            grid-template-rows: repeat(2, 1fr) !important;
+            grid-auto-rows: 1fr !important;
             border-radius: 20px !important;
             gap: 0 !important;
-            padding: 0.25rem !important;
+            padding: 0 !important;
             border: 1.5px solid rgba(197, 168, 128, 0.38) !important;
             background: linear-gradient(155deg, rgba(14, 22, 18, 0.88) 0%, rgba(7, 12, 10, 0.96) 100%) !important;
             position: relative !important;
             overflow: hidden !important;
+            align-items: stretch !important;
           }
           /* Crisp, straight vertical cross divider line */
           .hero-floating-stats-grid::before {
@@ -684,14 +727,21 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             pointer-events: none !important;
             z-index: 2 !important;
           }
+          /* Cell padding: 14px. The 2x2 grid keeps equal-height rows and existing divider lines */
           .hero-stat-pillar {
-            flex-direction: row !important;
-            align-items: center !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            justify-content: flex-start !important;
             text-align: left !important;
-            padding: 0.95rem 0.75rem !important;
-            gap: 0.7rem !important;
-            border-radius: 12px !important;
+            padding: 14px !important;
+            gap: 0 !important;
+            border-radius: 0 !important;
             position: relative !important;
+            box-sizing: border-box !important;
+            height: 100% !important;
+            min-width: 0 !important;
+            width: 100% !important;
           }
           .hero-stat-pillar:not(.hero-stat-active) {
             border: 1.5px solid transparent !important;
@@ -706,40 +756,109 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           .hero-stat-cell-3 {
             border: none !important;
           }
-          .hero-stat-icon-wrapper {
-            width: 42px !important;
-            height: 42px !important;
-            min-width: 42px !important;
-            border-radius: 12px !important;
-            border: 1.5px solid rgba(197, 168, 128, 0.42) !important;
-            margin-bottom: 0 !important;
-            flex-shrink: 0 !important;
-          }
-          .hero-stat-info {
+
+          /* Top row: number on left (24px, weight 500) and icon box on right (30px square, 0.5px #5b4b32 border, 8px radius, gold icon), aligned to top */
+          .hero-stat-top-row {
             display: flex !important;
-            flex-direction: column !important;
+            flex-direction: row !important;
             align-items: flex-start !important;
-            text-align: left !important;
+            justify-content: space-between !important;
+            width: 100% !important;
             min-width: 0 !important;
+            order: 1 !important;
           }
           .hero-stat-val {
-            font-size: clamp(1.3rem, 4vw, 1.45rem) !important;
-            font-weight: 700 !important;
-            margin-bottom: 0.15rem !important;
-            line-height: 1.1 !important;
+            font-size: 24px !important;
+            font-weight: 500 !important;
+            line-height: 1.15 !important;
+            color: #FFFFFF !important;
+            letter-spacing: -0.015em !important;
+            margin: 0 !important;
+            margin-bottom: 0 !important;
+            order: 1 !important;
+            text-shadow: none !important;
+            white-space: nowrap !important;
           }
+          .hero-stat-icon-wrapper {
+            width: 30px !important;
+            height: 30px !important;
+            min-width: 30px !important;
+            min-height: 30px !important;
+            border: 0.5px solid #5b4b32 !important;
+            border-radius: 8px !important;
+            background: rgba(10, 16, 13, 0.85) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin: 0 !important;
+            margin-bottom: 0 !important;
+            flex-shrink: 0 !important;
+            box-shadow: none !important;
+            order: 2 !important;
+          }
+          .hero-stat-icon-wrapper svg {
+            width: 15px !important;
+            height: 15px !important;
+            color: #c5a880 !important;
+            stroke: #c5a880 !important;
+          }
+
+          /* Below it: the label (13px, weight 500, 8px margin above) */
           .hero-stat-lbl {
-            font-size: 0.74rem !important;
-            line-height: 1.2 !important;
-            margin-bottom: 0.1rem !important;
-            font-weight: 600 !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            margin-top: 8px !important;
+            margin-bottom: 0 !important;
+            line-height: 1.25 !important;
+            text-align: left !important;
+            width: 100% !important;
+            min-width: 0 !important;
+            order: 2 !important;
             color: #FFFFFF !important;
           }
+
+          /* Muted sub-text (11.5px, 3px margin above) */
           .hero-stat-sub {
-            font-size: 0.62rem !important;
-            line-height: 1.2 !important;
+            font-size: 11.5px !important;
+            font-weight: 400 !important;
+            margin-top: 3px !important;
+            margin-bottom: 0 !important;
+            line-height: 1.25 !important;
+            text-align: left !important;
+            width: 100% !important;
+            min-width: 0 !important;
+            order: 3 !important;
             color: rgba(237, 232, 223, 0.55) !important;
+            white-space: normal !important;
           }
+
+          /* 1. "Completed Projects": must stay on ONE line (white-space: nowrap).
+             If it doesn't fit at 360px width, reduce its font-size slightly (for example clamp(12px, 3.4vw, 13px)), but never let it wrap. */
+          .hero-lbl-completed {
+            white-space: nowrap !important;
+            font-size: clamp(12px, 3.4vw, 13px) !important;
+            display: inline-block !important;
+          }
+
+          /* 2. "On-Time Rent Payouts": split into exactly two lines: "On-Time" on line 1, "Rent Payouts" on line 2 */
+          /* 3. "Verified Background KYC": two lines: "Verified" on line 1, "Background KYC" on line 2 */
+          .hero-lbl-mobile-br {
+            display: block !important;
+          }
+          .hero-lbl-desktop-space {
+            display: none !important;
+          }
+          .hero-lbl-line {
+            display: inline !important;
+            white-space: nowrap !important;
+          }
+
+          /* 4. "Happy Customers": one line */
+          .hero-lbl-happy {
+            white-space: nowrap !important;
+            display: inline-block !important;
+          }
+
           .hero-scroll-indicator {
             padding-top: 1rem !important;
             padding-bottom: 0.5rem !important;
