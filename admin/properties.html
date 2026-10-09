@@ -13,12 +13,12 @@
 
   <!-- Admin Theme & Favicon -->
   <link rel="icon" type="image/png" href="../logo-mark.png" />
-  <link rel="stylesheet" href="admin.css?v=3" />
+  <link rel="stylesheet" href="admin.css?v=4" />
 
   <!-- Supabase CDN Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/supabase-config.js"></script>
-  <script src="admin.js?v=3"></script>
+  <script src="admin.js?v=4"></script>
 
   <style>
     .filter-tabs {
@@ -96,13 +96,46 @@
     }
     .inline-status-select {
       background: var(--bg-card);
-      border: 0.5px solid var(--border-color);
-      border-radius: 4px;
-      padding: 2px 6px;
+      border: 1px solid var(--border-color);
+      border-radius: 999px;
+      padding: 3px 10px;
       font-size: 11px;
-      font-weight: 600;
-      color: var(--text-primary);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+    .inline-status-select.status-available {
+      background: rgba(34, 197, 94, 0.15) !important;
+      color: #22c55e !important;
+      border-color: rgba(34, 197, 94, 0.4) !important;
+    }
+    .inline-status-select.status-upcoming {
+      background: rgba(59, 130, 246, 0.15) !important;
+      color: #3b82f6 !important;
+      border-color: rgba(59, 130, 246, 0.4) !important;
+    }
+    .inline-status-select.status-under_construction,
+    .inline-status-select.status-underconstruction,
+    .inline-status-select.status-under_offer,
+    .inline-status-select.status-underoffer {
+      background: rgba(249, 115, 22, 0.15) !important;
+      color: #f97316 !important;
+      border-color: rgba(249, 115, 22, 0.4) !important;
+    }
+    .inline-status-select.status-sold {
+      background: rgba(239, 68, 68, 0.15) !important;
+      color: #ef4444 !important;
+      border-color: rgba(239, 68, 68, 0.4) !important;
+    }
+    .inline-status-select.status-draft {
+      background: rgba(156, 163, 175, 0.15) !important;
+      color: #9ca3af !important;
+      border-color: rgba(156, 163, 175, 0.35) !important;
     }
   </style>
 </head>
@@ -136,6 +169,7 @@
         <button type="button" class="filter-tab active" data-status="all" role="tab">All Listings <span class="badge" id="count-all">0</span></button>
         <button type="button" class="filter-tab" data-status="available" role="tab">Available <span class="badge" id="count-available">0</span></button>
         <button type="button" class="filter-tab" data-status="upcoming" role="tab">Upcoming <span class="badge" id="count-upcoming">0</span></button>
+        <button type="button" class="filter-tab" data-status="under_construction" role="tab">Under Construction <span class="badge" id="count-under_construction">0</span></button>
         <button type="button" class="filter-tab" data-status="under_offer" role="tab">Under Offer <span class="badge" id="count-under_offer">0</span></button>
         <button type="button" class="filter-tab" data-status="sold" role="tab">Sold <span class="badge" id="count-sold">0</span></button>
         <button type="button" class="filter-tab" data-status="draft" role="tab">Drafts <span class="badge" id="count-draft">0</span></button>
@@ -248,6 +282,7 @@
         document.getElementById('count-all').textContent = allItems.length;
         document.getElementById('count-available').textContent = allItems.filter(p => p.status === 'available').length;
         document.getElementById('count-upcoming').textContent = allItems.filter(p => p.status === 'upcoming').length;
+        document.getElementById('count-under_construction').textContent = allItems.filter(p => p.status === 'under_construction').length;
         document.getElementById('count-under_offer').textContent = allItems.filter(p => p.status === 'under_offer').length;
         document.getElementById('count-sold').textContent = allItems.filter(p => p.status === 'sold').length;
         document.getElementById('count-draft').textContent = allItems.filter(p => p.status === 'draft' || !p.is_published).length;
@@ -357,9 +392,10 @@
                 ${formatIndianPrice(item.price)}
               </td>
               <td data-label="Status">
-                <select class="inline-status-select status-select-btn" data-id="${item.id}" aria-label="Change status for ${escapeHtml(item.title)}">
+                <select class="inline-status-select status-select-btn status-${status}" data-id="${item.id}" aria-label="Change status for ${escapeHtml(item.title)}">
                   <option value="available" ${status === 'available' ? 'selected' : ''}>Available</option>
                   <option value="upcoming" ${status === 'upcoming' ? 'selected' : ''}>Upcoming</option>
+                  <option value="under_construction" ${status === 'under_construction' ? 'selected' : ''}>Under Construction</option>
                   <option value="under_offer" ${status === 'under_offer' ? 'selected' : ''}>Under Offer</option>
                   <option value="sold" ${status === 'sold' ? 'selected' : ''}>Sold</option>
                   <option value="draft" ${status === 'draft' ? 'selected' : ''}>Draft</option>
@@ -417,6 +453,8 @@
             const prop = allItems.find(p => String(p.id) === String(propId));
             if (!prop) return;
 
+            const oldStatus = prop.status;
+
             try {
               const { error } = await client
                 .from('properties')
@@ -426,11 +464,17 @@
               if (error) throw error;
               prop.status = newStatus;
               prop.is_published = (newStatus !== 'draft');
+              select.className = `inline-status-select status-select-btn status-${newStatus}`;
               showToast('success', 'Status Updated', `Property marked as ${newStatus.replace('_', ' ')}.`);
               updateCounts();
             } catch (err) {
-              showToast('error', 'Update Failed', err.message);
-              select.value = prop.status;
+              select.value = oldStatus;
+              select.className = `inline-status-select status-select-btn status-${oldStatus}`;
+              if (err.message && err.message.includes('properties_status_check')) {
+                showConstraintModal(newStatus);
+              } else {
+                showToast('error', 'Update Failed', err.message);
+              }
             }
           };
         });
@@ -535,6 +579,68 @@
         currentPage++;
         renderFilteredList();
       });
+
+      function showConstraintModal(attemptedStatus) {
+        const sqlCmd = `ALTER TABLE public.properties DROP CONSTRAINT IF EXISTS properties_status_check;\nALTER TABLE public.properties ADD CONSTRAINT properties_status_check CHECK (status IN ('available', 'upcoming', 'under_construction', 'under_offer', 'sold', 'draft'));`;
+        
+        const modal = document.createElement('div');
+        modal.className = 'modal-backdrop active';
+        modal.style.zIndex = '9999';
+        modal.innerHTML = `
+          <div class="modal-card" style="max-width: 580px; padding: 24px;">
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 16px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="width: 36px; height: 36px; border-radius: 50%; background: rgba(224, 122, 111, 0.15); color: var(--accent-red); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                </div>
+                <div>
+                  <h3 style="font-family: var(--font-serif); font-size: 20px; color: #FAF8F4; margin: 0;">Supabase Database Constraint Update</h3>
+                  <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">One-time SQL command required in Supabase</div>
+                </div>
+              </div>
+              <button type="button" class="btn-action close-modal-btn" style="border: none; background: transparent; cursor: pointer;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+            
+            <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
+              Your database currently has a PostgreSQL <code>CHECK</code> constraint that only accepts initial statuses. To save <strong>${escapeHtml(attemptedStatus.replace('_', ' '))}</strong> and new statuses, run this command in your Supabase SQL Editor:
+            </p>
+
+            <div style="position: relative; background: #070c0a; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 14px; margin-bottom: 16px;">
+              <pre style="margin: 0; font-family: monospace; font-size: 12px; color: #E8D5B7; white-space: pre-wrap; word-break: break-all;">${sqlCmd}</pre>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+              <button type="button" class="btn btn-primary" id="copy-sql-btn" style="padding: 8px 16px; font-size: 12.5px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Copy SQL to Clipboard
+              </button>
+              <div style="display: flex; gap: 8px;">
+                <a href="https://supabase.com/dashboard/project/xygaqwwflbdrtgjqughu/sql/new" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="padding: 8px 14px; font-size: 12.5px;">
+                  Open Supabase SQL Editor &rarr;
+                </a>
+                <button type="button" class="btn btn-secondary close-modal-btn" style="padding: 8px 14px; font-size: 12.5px;">Close</button>
+              </div>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(modal);
+
+        modal.querySelectorAll('.close-modal-btn').forEach(b => {
+          b.onclick = () => modal.remove();
+        });
+
+        const copyBtn = modal.querySelector('#copy-sql-btn');
+        copyBtn.onclick = () => {
+          navigator.clipboard.writeText(sqlCmd).then(() => {
+            copyBtn.innerHTML = `✓ Copied SQL to Clipboard!`;
+            setTimeout(() => {
+              copyBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy SQL to Clipboard`;
+            }, 3000);
+          });
+        };
+      }
 
       // Initial Fetch
       await fetchProperties();

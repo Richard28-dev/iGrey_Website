@@ -13,12 +13,12 @@
 
   <!-- Admin Theme & Favicon -->
   <link rel="icon" type="image/png" href="../logo-mark.png" />
-  <link rel="stylesheet" href="admin.css?v=3" />
+  <link rel="stylesheet" href="admin.css?v=4" />
 
   <!-- Supabase CDN Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/supabase-config.js"></script>
-  <script src="admin.js?v=3"></script>
+  <script src="admin.js?v=4"></script>
 
   <style>
     .form-cards-layout {
@@ -305,6 +305,7 @@
               <div class="segmented-control" id="status-segmented">
                 <button type="button" class="segmented-btn active" data-val="available">Available</button>
                 <button type="button" class="segmented-btn" data-val="upcoming">Upcoming</button>
+                <button type="button" class="segmented-btn" data-val="under_construction">Under Construction</button>
                 <button type="button" class="segmented-btn" data-val="under_offer">Under offer</button>
                 <button type="button" class="segmented-btn" data-val="sold">Sold</button>
               </div>
@@ -946,11 +947,77 @@
             window.location.href = 'properties.html';
           }, 800);
         } catch (err) {
-          showToast('error', 'Save Failed', err.message);
+          if (err.message && err.message.includes('properties_status_check')) {
+            showConstraintModal(currentStatus);
+          } else {
+            showToast('error', 'Save Failed', err.message);
+          }
           publishBtn.disabled = false;
           publishText.style.display = 'inline';
           publishSpinner.style.display = 'none';
         }
+      }
+
+      function showConstraintModal(attemptedStatus) {
+        const sqlCmd = `ALTER TABLE public.properties DROP CONSTRAINT IF EXISTS properties_status_check;\nALTER TABLE public.properties ADD CONSTRAINT properties_status_check CHECK (status IN ('available', 'upcoming', 'under_construction', 'under_offer', 'sold', 'draft'));`;
+        
+        const modal = document.createElement('div');
+        modal.className = 'modal-backdrop active';
+        modal.style.zIndex = '9999';
+        modal.innerHTML = `
+          <div class="modal-card" style="max-width: 580px; padding: 24px;">
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 16px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="width: 36px; height: 36px; border-radius: 50%; background: rgba(224, 122, 111, 0.15); color: var(--accent-red); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                </div>
+                <div>
+                  <h3 style="font-family: var(--font-serif); font-size: 20px; color: #FAF8F4; margin: 0;">Supabase Database Constraint Update</h3>
+                  <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">One-time SQL command required in Supabase</div>
+                </div>
+              </div>
+              <button type="button" class="btn-action close-modal-btn" style="border: none; background: transparent; cursor: pointer;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+            
+            <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
+              Your database currently has a PostgreSQL <code>CHECK</code> constraint that only accepts initial statuses. To save <strong>${escapeHtml(attemptedStatus.replace('_', ' '))}</strong> and new statuses, run this command in your Supabase SQL Editor:
+            </p>
+
+            <div style="position: relative; background: #070c0a; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 14px; margin-bottom: 16px;">
+              <pre style="margin: 0; font-family: monospace; font-size: 12px; color: #E8D5B7; white-space: pre-wrap; word-break: break-all;">${sqlCmd}</pre>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+              <button type="button" class="btn btn-primary" id="copy-sql-btn" style="padding: 8px 16px; font-size: 12.5px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Copy SQL to Clipboard
+              </button>
+              <div style="display: flex; gap: 8px;">
+                <a href="https://supabase.com/dashboard/project/xygaqwwflbdrtgjqughu/sql/new" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="padding: 8px 14px; font-size: 12.5px;">
+                  Open Supabase SQL Editor &rarr;
+                </a>
+                <button type="button" class="btn btn-secondary close-modal-btn" style="padding: 8px 14px; font-size: 12.5px;">Close</button>
+              </div>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(modal);
+
+        modal.querySelectorAll('.close-modal-btn').forEach(b => {
+          b.onclick = () => modal.remove();
+        });
+
+        const copyBtn = modal.querySelector('#copy-sql-btn');
+        copyBtn.onclick = () => {
+          navigator.clipboard.writeText(sqlCmd).then(() => {
+            copyBtn.innerHTML = `✓ Copied SQL to Clipboard!`;
+            setTimeout(() => {
+              copyBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy SQL to Clipboard`;
+            }, 3000);
+          });
+        };
       }
 
       document.getElementById('publish-btn').onclick = () => saveProperty(false);
