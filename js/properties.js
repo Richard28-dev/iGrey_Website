@@ -42,6 +42,8 @@
     let displayStatus = 'AVAILABLE';
     if (rawStatus === 'upcoming') {
       displayStatus = 'UPCOMING';
+    } else if (rawStatus === 'under_construction' || rawStatus === 'under construction') {
+      displayStatus = 'UNDER CONSTRUCTION';
     } else if (rawStatus === 'under_offer' || rawStatus === 'under offer') {
       displayStatus = 'UNDER OFFER';
     } else if (rawStatus === 'sold') {

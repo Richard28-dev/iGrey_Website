@@ -348,6 +348,7 @@ class PropertyService {
               const statusMap: Record<string, PropertyStatus> = {
                 available: 'Active',
                 upcoming: 'Upcoming',
+                under_construction: 'Under Construction',
                 under_offer: 'Under Offer',
                 sold: 'Sold',
                 draft: 'Draft',

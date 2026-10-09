@@ -16,7 +16,7 @@ export interface Property {
   architecturalHighlights: string[];
   amenities: string[];
   highlights?: string[];
-  status: 'Available' | 'Private Treaty' | 'Under Offer' | 'Sold' | 'Upcoming';
+  status: 'Available' | 'Private Treaty' | 'Under Offer' | 'Sold' | 'Upcoming' | 'Under Construction';
   listingLabel?: string;
   areaSqFt?: string;
 }
