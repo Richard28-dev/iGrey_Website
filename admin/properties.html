@@ -517,6 +517,28 @@
                     }
                   }
 
+                  // Delete storage videos and posters if in 'property-videos' bucket
+                  if (Array.isArray(prop.videos) && prop.videos.length > 0) {
+                    const videoPaths = [];
+                    prop.videos.forEach(v => {
+                      if (v && v.type === 'file') {
+                        if (v.path) videoPaths.push(v.path);
+                        else if (v.url && v.url.includes('/property-videos/')) {
+                          const parts = v.url.split('/property-videos/');
+                          if (parts[1]) videoPaths.push(decodeURIComponent(parts[1].split('?')[0]));
+                        }
+                        if (v.posterPath) videoPaths.push(v.posterPath);
+                        else if (v.poster && v.poster.includes('/property-videos/')) {
+                          const parts = v.poster.split('/property-videos/');
+                          if (parts[1]) videoPaths.push(decodeURIComponent(parts[1].split('?')[0]));
+                        }
+                      }
+                    });
+                    if (videoPaths.length > 0) {
+                      await client.storage.from('property-videos').remove(videoPaths);
+                    }
+                  }
+
                   // Delete from database
                   const { error } = await client
                     .from('properties')
