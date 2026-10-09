@@ -1,0 +1,472 @@
+/* ==========================================================================
+   iGrey Holdings — Unified Global Site Footer Styles
+   Dark & Gold Palette: #0a0f0e page, #c9a77c gold, Cormorant & Manrope
+   ========================================================================== */
+
+.igrey-site-footer {
+  background-color: #0a0f0e;
+  color: #f7f2e8;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+  border-top: 0.5px solid #2e2a22;
+}
+
+.igrey-site-footer *,
+.igrey-site-footer *::before,
+.igrey-site-footer *::after {
+  box-sizing: border-box;
+}
+
+.footer-top-line {
+  display: none; /* Already styled via border-top on container / footer */
+}
+
+.footer-container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 48px 28px 32px;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Main Columns Grid (Desktop >= 1024px)
+   ========================================================================== */
+.footer-main-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1.2fr 1.4fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* Column 1: Brand & Description */
+.footer-col-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.footer-brand-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footer-logo-link {
+  display: inline-block;
+  text-decoration: none;
+  margin-bottom: 14px;
+  transition: opacity 200ms ease;
+}
+
+.footer-logo-link:hover {
+  opacity: 0.9;
+}
+
+.footer-logo-img {
+  height: 42px;
+  width: auto;
+  max-width: 180px;
+  display: block;
+  object-fit: contain;
+}
+
+.footer-brand-desc {
+  font-family: 'Manrope', sans-serif;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #8f897b;
+  margin: 0;
+  max-width: 360px;
+  font-weight: 400;
+}
+
+/* Social Buttons */
+.footer-social-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-social-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #121816;
+  border: 0.5px solid #3a3225;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #c9a77c;
+  transition: border-color 200ms ease, background-color 200ms ease, transform 200ms ease;
+  flex-shrink: 0;
+}
+
+.footer-social-btn:hover,
+.footer-social-btn:focus-visible {
+  border-color: #c9a77c;
+  background-color: rgba(201, 167, 124, 0.08);
+  transform: translateY(-1px);
+}
+
+.footer-social-btn:focus-visible {
+  outline: 2px solid #c9a77c;
+  outline-offset: 3px;
+}
+
+/* ==========================================================================
+   Navigation Wrapper & Headings
+   ========================================================================== */
+.footer-nav-wrapper {
+  display: contents; /* Allows Quick Links & Services to be independent grid columns on desktop */
+}
+
+.footer-col-quicklinks,
+.footer-col-services,
+.footer-col-contact {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.footer-col-heading {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 18px;
+  line-height: 1.25;
+  color: #f7f2e8;
+  font-weight: 500;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.footer-heading-underline {
+  width: 22px;
+  height: 1.5px;
+  background-color: #c9a77c;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  border-radius: 1px;
+}
+
+/* Link Lists */
+.footer-links-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-link {
+  font-family: 'Manrope', sans-serif;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: #cfc7b6;
+  text-decoration: none;
+  transition: color 200ms ease;
+  display: inline-block;
+}
+
+.footer-link:hover {
+  color: #e3c79a;
+}
+
+.footer-link:focus-visible {
+  outline: 2px solid #c9a77c;
+  outline-offset: 3px;
+  border-radius: 2px;
+  color: #e3c79a;
+}
+
+/* ==========================================================================
+   Column 4: Get in Touch Rows
+   ========================================================================== */
+.footer-contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.footer-contact-icon {
+  width: 18px;
+  height: 18px;
+  color: #c9a77c;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.footer-contact-text {
+  font-family: 'Manrope', sans-serif;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #cfc7b6;
+  word-break: break-word;
+}
+
+.footer-contact-link {
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.footer-contact-link:hover {
+  color: #e3c79a;
+}
+
+.footer-contact-link:focus-visible {
+  outline: 2px solid #c9a77c;
+  outline-offset: 3px;
+  border-radius: 2px;
+  color: #e3c79a;
+}
+
+/* ==========================================================================
+   Bottom Legal & Copyright Bar
+   ========================================================================== */
+.footer-bottom-bar {
+  border-top: 0.5px solid #2e2a22;
+  margin-top: 40px;
+  padding-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-copyright {
+  font-family: 'Manrope', sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #8f897b;
+}
+
+.footer-legal-links {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.footer-legal-link {
+  font-family: 'Manrope', sans-serif;
+  font-size: 12.5px;
+  color: #8f897b;
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.footer-legal-link:hover {
+  color: #cfc7b6;
+}
+
+.footer-legal-link:focus-visible {
+  outline: 2px solid #c9a77c;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.footer-legal-dot {
+  color: rgba(201, 167, 124, 0.35);
+  font-size: 12px;
+  user-select: none;
+}
+
+/* ==========================================================================
+   TABLET VIEW (768px to 1023px)
+   Brand block spans full width on top, other three sections in a row below
+   ========================================================================== */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .footer-container {
+    padding: 42px 24px 28px;
+  }
+
+  .footer-main-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px;
+  }
+
+  .footer-col-brand {
+    grid-column: 1 / -1;
+    margin-bottom: 8px;
+  }
+
+  .footer-brand-desc {
+    max-width: 580px;
+  }
+
+  .footer-nav-wrapper {
+    display: contents;
+  }
+}
+
+/* ==========================================================================
+   MOBILE VIEW (under 768px)
+   Exact order:
+   1. Brand block
+   2. Contact rows
+   3. Social icons
+   4. Quick Links & Our Services side-by-side in 2 columns (18px gap)
+   5. Bottom bar: copyright centered, policy links below
+   ========================================================================== */
+@media (max-width: 767px) {
+  .footer-container {
+    padding: 36px 20px clamp(56px, 12vw, 76px); /* 24px extra bottom padding for back-to-top */
+  }
+
+  .footer-main-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    width: 100%;
+  }
+
+  /* 1. Brand block (logo + description) */
+  .footer-col-brand {
+    display: contents;
+  }
+
+  .footer-brand-info {
+    order: 1;
+    width: 100%;
+  }
+
+  .footer-logo-img {
+    height: 38px;
+  }
+
+  .footer-brand-desc {
+    max-width: 100%;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  /* 2. Contact rows */
+  .footer-col-contact {
+    order: 2;
+    width: 100%;
+  }
+
+  .footer-contact-list {
+    gap: 14px;
+  }
+
+  .footer-contact-item {
+    min-height: 40px;
+    align-items: center;
+  }
+
+  /* 3. Social icons */
+  .footer-social-row {
+    order: 3;
+    width: 100%;
+    gap: 12px;
+    padding: 2px 0;
+  }
+
+  .footer-social-btn {
+    width: 42px;
+    height: 42px;
+  }
+
+  /* 4. Quick Links and Our Services in 2 columns side-by-side (18px gap) */
+  .footer-nav-wrapper {
+    order: 4;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 4px;
+  }
+
+  .footer-col-quicklinks,
+  .footer-col-services {
+    min-width: 0;
+  }
+
+  .footer-col-heading {
+    font-size: 17px;
+  }
+
+  .footer-heading-underline {
+    margin-bottom: 10px;
+  }
+
+  .footer-links-list {
+    gap: 0;
+  }
+
+  /* Touch targets >= 40px */
+  .footer-link,
+  .footer-contact-link,
+  .footer-legal-link,
+  .footer-logo-link {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .footer-link {
+    width: 100%;
+    padding: 4px 0;
+    font-size: 13px;
+  }
+
+  .footer-social-btn {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    min-height: 42px;
+  }
+
+  /* 5. Bottom bar: copyright centered, policy links below */
+  .footer-bottom-bar {
+    order: 5;
+    margin-top: 18px;
+    padding-top: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .footer-copyright {
+    text-align: center;
+    font-size: 12.5px;
+    width: 100%;
+  }
+
+  .footer-legal-links {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .footer-legal-link {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 4px;
+  }
+}
+
+/* High Contrast & Reduced Motion Preferences */
+@media (prefers-reduced-motion: reduce) {
+  .footer-social-btn,
+  .footer-link,
+  .footer-contact-link,
+  .footer-legal-link {
+    transition: none !important;
+  }
+}

@@ -22,8 +22,9 @@
       rel="stylesheet"
     />
 
-    <!-- Dedicated Page Stylesheet -->
+    <!-- Dedicated Page Stylesheets -->
     <link rel="stylesheet" href="./css/properties.css" />
+    <link rel="stylesheet" href="./css/site-footer.css" />
   </head>
   <body>
     <!-- =====================================================================
@@ -39,9 +40,15 @@
             <span>Back to Home</span>
           </a>
 
-          <a href="./" class="header-brand-logo" aria-label="iGrey Holdings Home">
-            <span style="color: #c9a77c; font-family: serif; font-size: 24px; font-weight: 700; letter-spacing: -0.02em;">iG</span>
-            <span style="font-size: 14px; font-family: var(--font-sans); letter-spacing: 0.15em; font-weight: 600; color: #FAF8F4;">iGREY</span>
+          <a href="./index.html" class="properties-brand-logo-link" aria-label="iGrey Holdings, go to home page">
+            <img
+              src="./logo-white.png"
+              alt="iGrey Holdings"
+              class="properties-brand-logo-img"
+              width="120"
+              height="40"
+              onerror="if(this.src.indexOf('public/')===-1){this.src='./public/logo-white.png';}else{this.onerror=null;this.style.display='none';const s=document.createElement('span');s.className='logo-fallback-text';s.textContent='iGREY HOLDINGS';this.parentElement.appendChild(s);}"
+            />
           </a>
         </div>
 
@@ -270,27 +277,14 @@
       <!-- Modal card dynamically rendered by js/properties-page.js -->
     </div>
 
-    <!-- Page Footer -->
-    <footer style="background-color: #070B09; border-top: 0.5px solid rgba(74, 63, 43, 0.4); padding: 48px 0 36px; color: var(--text-muted); font-size: 13px;">
-      <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
-        <div>
-          <span style="font-family: var(--font-serif); font-size: 18px; color: #FAF8F4; letter-spacing: 0.05em;">iGREY HOLDINGS</span>
-          <p style="margin-top: 4px; font-size: 12px; color: var(--text-muted);">Redefining Luxury Real Estate Advisory & Residential Acquisitions</p>
-        </div>
-        <div style="display: flex; gap: 20px; align-items: center;">
-          <a href="./" style="color: var(--gold); text-decoration: none;">Home</a>
-          <a href="./#about" style="color: var(--gold); text-decoration: none;">About</a>
-          <a href="./#services" style="color: var(--gold); text-decoration: none;">Services</a>
-          <a href="./#contact" style="color: var(--gold); text-decoration: none;">Contact</a>
-          <a href="./admin/" style="color: var(--text-muted); text-decoration: none; font-size: 11px;">Admin Portal</a>
-        </div>
-      </div>
-    </footer>
+    <!-- Unified Global Site Footer -->
+    <div id="site-footer-container" data-igrey-footer></div>
 
     <!-- Supabase CDN Client & Data Loader Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="./js/supabase-config.js"></script>
     <script src="./js/properties.js"></script>
     <script src="./js/properties-page.js"></script>
+    <script src="./js/site-footer.js"></script>
   </body>
 </html>
