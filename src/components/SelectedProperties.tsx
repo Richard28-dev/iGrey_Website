@@ -474,7 +474,8 @@ export const SelectedProperties: React.FC<SelectedPropertiesProps> = ({ onSelect
       if (publicProps && publicProps.length > 0) {
         const mapped: PropertyCardData[] = publicProps.map((p) => {
           let statusLabel = 'AVAILABLE';
-          if (p.status === 'Under Offer') statusLabel = 'UNDER OFFER';
+          if (p.status === 'Upcoming') statusLabel = 'UPCOMING';
+          else if (p.status === 'Under Offer') statusLabel = 'UNDER OFFER';
           else if (p.status === 'Sold') statusLabel = 'SOLD';
 
           return {

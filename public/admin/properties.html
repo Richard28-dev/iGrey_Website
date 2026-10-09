@@ -13,12 +13,12 @@
 
   <!-- Admin Theme & Favicon -->
   <link rel="icon" type="image/png" href="../logo-mark.png" />
-  <link rel="stylesheet" href="admin.css?v=2" />
+  <link rel="stylesheet" href="admin.css?v=3" />
 
   <!-- Supabase CDN Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/supabase-config.js"></script>
-  <script src="admin.js?v=2"></script>
+  <script src="admin.js?v=3"></script>
 
   <style>
     .filter-tabs {
@@ -135,6 +135,7 @@
       <div class="filter-tabs" id="filter-tabs-wrap" role="tablist">
         <button type="button" class="filter-tab active" data-status="all" role="tab">All Listings <span class="badge" id="count-all">0</span></button>
         <button type="button" class="filter-tab" data-status="available" role="tab">Available <span class="badge" id="count-available">0</span></button>
+        <button type="button" class="filter-tab" data-status="upcoming" role="tab">Upcoming <span class="badge" id="count-upcoming">0</span></button>
         <button type="button" class="filter-tab" data-status="under_offer" role="tab">Under Offer <span class="badge" id="count-under_offer">0</span></button>
         <button type="button" class="filter-tab" data-status="sold" role="tab">Sold <span class="badge" id="count-sold">0</span></button>
         <button type="button" class="filter-tab" data-status="draft" role="tab">Drafts <span class="badge" id="count-draft">0</span></button>
@@ -246,6 +247,7 @@
       function updateCounts() {
         document.getElementById('count-all').textContent = allItems.length;
         document.getElementById('count-available').textContent = allItems.filter(p => p.status === 'available').length;
+        document.getElementById('count-upcoming').textContent = allItems.filter(p => p.status === 'upcoming').length;
         document.getElementById('count-under_offer').textContent = allItems.filter(p => p.status === 'under_offer').length;
         document.getElementById('count-sold').textContent = allItems.filter(p => p.status === 'sold').length;
         document.getElementById('count-draft').textContent = allItems.filter(p => p.status === 'draft' || !p.is_published).length;
@@ -357,6 +359,7 @@
               <td data-label="Status">
                 <select class="inline-status-select status-select-btn" data-id="${item.id}" aria-label="Change status for ${escapeHtml(item.title)}">
                   <option value="available" ${status === 'available' ? 'selected' : ''}>Available</option>
+                  <option value="upcoming" ${status === 'upcoming' ? 'selected' : ''}>Upcoming</option>
                   <option value="under_offer" ${status === 'under_offer' ? 'selected' : ''}>Under Offer</option>
                   <option value="sold" ${status === 'sold' ? 'selected' : ''}>Sold</option>
                   <option value="draft" ${status === 'draft' ? 'selected' : ''}>Draft</option>

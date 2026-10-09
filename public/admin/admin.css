@@ -722,6 +722,15 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #4ade80;
 }
 
+.status-pill.upcoming {
+  background-color: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border: 0.5px solid rgba(56, 189, 248, 0.35);
+}
+.status-pill.upcoming::before {
+  background-color: #38bdf8;
+}
+
 .status-pill.under_offer,
 .status-pill.underoffer {
   background-color: var(--warning-bg);
