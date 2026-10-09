@@ -55,7 +55,7 @@ export const siteContent = {
       { label: 'Home', href: '#hero' },
       { label: 'About', href: '#about' },
       { label: 'Services', href: '#services' },
-      { label: 'Properties', href: '#properties' },
+      { label: 'Properties', href: './properties.html' },
       { label: 'Contact', href: '#contact' },
     ],
     ctaButton: 'Schedule a Consultation',

@@ -38,6 +38,10 @@ export const Header: React.FC<HeaderProps> = ({ onScheduleClick }) => {
   }, []);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.endsWith('.html') || !href.startsWith('#')) {
+      setMobileMenuOpen(false);
+      return;
+    }
     e.preventDefault();
     setMobileMenuOpen(false);
     const targetEl = document.querySelector(href);

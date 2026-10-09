@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Heart, ChevronLeft, ChevronRight, Tag } from 'lucide-react';
 import { siteImages } from '../data/images';
-import { scrollToTarget } from '../utils/scroll';
 import { propertyService, PROPERTIES_UPDATED_EVENT } from '../admin/services/propertyService';
 
 export interface PropertyCardData {
@@ -455,11 +454,6 @@ export const SelectedProperties: React.FC<SelectedPropertiesProps> = ({ onSelect
     setFavorites((prev) => ({ ...prev, [propId]: !prev[propId] }));
   };
 
-  const handleNavToContact = (e: React.MouseEvent) => {
-    e.preventDefault();
-    scrollToTarget('#contact', { offset: -40, duration: 1.25 });
-  };
-
   const handlePropertyCardClick = (e: React.MouseEvent, prop: PropertyCardData) => {
     e.preventDefault();
     const targetId = prop.propertyId || prop.id;
@@ -588,8 +582,7 @@ export const SelectedProperties: React.FC<SelectedPropertiesProps> = ({ onSelect
 
           <div>
             <a
-              href="#contact"
-              onClick={handleNavToContact}
+              href="./properties.html"
               style={{
                 fontFamily: 'var(--font-sans)',
                 fontSize: '0.82rem',
