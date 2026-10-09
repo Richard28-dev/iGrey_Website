@@ -236,3 +236,72 @@ h1, h2, h3, h4 {
   background-color: var(--line-translucent-dark);
   border: none;
 }
+
+/* ==========================================================================
+   Property Status Badges (Property Cards)
+   ========================================================================== */
+.status-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px 5px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  font-family: 'Manrope', var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.status-badge__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background-color: currentColor;
+}
+
+.status-badge--sold {
+  background-color: #b3261e;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.28);
+}
+.status-badge--sold .status-badge__dot {
+  background-color: #ffffff;
+}
+
+.status-badge--upcoming {
+  background-color: #2457c5;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.28);
+}
+.status-badge--upcoming .status-badge__dot {
+  background-color: #ffffff;
+}
+
+.status-badge--available {
+  background-color: #167a46;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.28);
+}
+.status-badge--available .status-badge__dot {
+  background-color: #ffffff;
+}
+
+.status-badge--under-offer {
+  background-color: #f0b429;
+  color: #1a1408;
+  border-color: rgba(0, 0, 0, 0.25);
+}
+.status-badge--under-offer .status-badge__dot {
+  background-color: #1a1408;
+}

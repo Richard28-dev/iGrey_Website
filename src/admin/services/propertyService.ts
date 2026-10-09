@@ -402,7 +402,7 @@ class PropertyService {
     }
 
     const list = this.loadRaw();
-    return list.filter((p) => p.status === 'Active' && p.homepageVisible !== false);
+    return list.filter((p) => p.status !== 'Draft' && p.status !== 'Archived' && p.homepageVisible !== false);
   }
 
   async getPropertyById(id: string): Promise<AdminProperty | null> {

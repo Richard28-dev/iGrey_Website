@@ -196,56 +196,43 @@ export const PropertyImageCarousel: React.FC<PropertyImageCarouselProps> = ({
         }}
       />
 
-      {/* Status Badge: Available (Green), Upcoming (Blue), Under Construction (Orange), Sold (Red) */}
+      {/* Property Status Badge */}
       {(() => {
-        const s = (status || '').toUpperCase();
-        let badgeBg = 'rgba(20, 83, 45, 0.94)'; // Green default (Available)
-        let badgeColor = '#4ade80';
-        let badgeBorder = '1px solid rgba(74, 222, 128, 0.45)';
-        let badgeShadow = '0 2px 12px rgba(34, 197, 94, 0.35)';
+        if (!status || !status.trim()) return null;
+        const s = status.trim().toUpperCase();
 
-        if (s.includes('UPCOMING')) {
-          badgeBg = 'rgba(30, 58, 138, 0.94)'; // Blue
-          badgeColor = '#60a5fa';
-          badgeBorder = '1px solid rgba(96, 165, 250, 0.45)';
-          badgeShadow = '0 2px 12px rgba(59, 130, 246, 0.35)';
-        } else if (s.includes('UNDER') || s.includes('CONSTRUCTION') || s.includes('OFFER')) {
-          badgeBg = 'rgba(124, 45, 18, 0.94)'; // Orange
-          badgeColor = '#fb923c';
-          badgeBorder = '1px solid rgba(251, 146, 60, 0.45)';
-          badgeShadow = '0 2px 12px rgba(249, 115, 22, 0.35)';
-        } else if (s.includes('SOLD')) {
-          badgeBg = 'rgba(127, 29, 29, 0.94)'; // Red
-          badgeColor = '#f87171';
-          badgeBorder = '1px solid rgba(248, 113, 113, 0.45)';
-          badgeShadow = '0 2px 12px rgba(239, 68, 68, 0.35)';
+        let modifierClass = 'status-badge--available';
+        let displayLabel = 'AVAILABLE';
+        let ariaStatus = 'Available';
+
+        if (s.includes('SOLD')) {
+          modifierClass = 'status-badge--sold';
+          displayLabel = 'SOLD';
+          ariaStatus = 'Sold';
+        } else if (s.includes('UPCOMING')) {
+          modifierClass = 'status-badge--upcoming';
+          displayLabel = 'UPCOMING';
+          ariaStatus = 'Upcoming';
+        } else if (s.includes('OFFER') || s.includes('CONSTRUCTION')) {
+          modifierClass = 'status-badge--under-offer';
+          displayLabel = 'UNDER OFFER';
+          ariaStatus = 'Under Offer';
+        } else if (s.includes('AVAILABLE') || s.includes('ACTIVE')) {
+          modifierClass = 'status-badge--available';
+          displayLabel = 'AVAILABLE';
+          ariaStatus = 'Available';
+        } else {
+          displayLabel = s;
+          ariaStatus = status.trim();
         }
 
         return (
           <div
-            style={{
-              position: 'absolute',
-              top: '16px',
-              left: '16px',
-              backgroundColor: badgeBg,
-              color: badgeColor,
-              border: badgeBorder,
-              padding: '6px 14px',
-              fontFamily: 'var(--font-sans)',
-              fontSize: '11px',
-              letterSpacing: '0.15em',
-              fontWeight: 700,
-              textTransform: 'uppercase',
-              boxShadow: badgeShadow,
-              borderRadius: '4px',
-              lineHeight: 1.2,
-              zIndex: 30,
-              pointerEvents: 'none',
-              backdropFilter: 'blur(8px)',
-              WebkitBackdropFilter: 'blur(8px)',
-            }}
+            className={`status-badge ${modifierClass}`}
+            aria-label={`Status: ${ariaStatus}`}
           >
-            {status}
+            <span className="status-badge__dot" aria-hidden="true" />
+            <span>{displayLabel}</span>
           </div>
         );
       })()}
@@ -505,8 +492,7 @@ export const SelectedProperties: React.FC<SelectedPropertiesProps> = ({ onSelect
         const mapped: PropertyCardData[] = publicProps.map((p) => {
           let statusLabel = 'AVAILABLE';
           if (p.status === 'Upcoming') statusLabel = 'UPCOMING';
-          else if (p.status === 'Under Construction') statusLabel = 'UNDER CONSTRUCTION';
-          else if (p.status === 'Under Offer') statusLabel = 'UNDER OFFER';
+          else if (p.status === 'Under Construction' || p.status === 'Under Offer') statusLabel = 'UNDER OFFER';
           else if (p.status === 'Sold') statusLabel = 'SOLD';
 
           return {
