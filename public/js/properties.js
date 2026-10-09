@@ -91,6 +91,7 @@
       images: safeImages,
       coverImage: cover,
       galleryImages: safeImages,
+      videos: Array.isArray(row.videos) ? row.videos : [],
       is_featured: !!row.is_featured,
       is_published: !!row.is_published,
       created_at: row.created_at,

@@ -75,6 +75,7 @@ interface PropertyImageCarouselProps {
   status: string;
   isFavorite: boolean;
   onToggleFavorite: (e: React.MouseEvent) => void;
+  hasVideo?: boolean;
 }
 
 export const PropertyImageCarousel: React.FC<PropertyImageCarouselProps> = ({
@@ -83,6 +84,7 @@ export const PropertyImageCarousel: React.FC<PropertyImageCarouselProps> = ({
   status,
   isFavorite,
   onToggleFavorite,
+  hasVideo = false,
 }) => {
   const [currentIdx, setCurrentIdx] = useState(0);
   const touchStartX = useRef<number | null>(null);
@@ -235,6 +237,37 @@ export const PropertyImageCarousel: React.FC<PropertyImageCarouselProps> = ({
           </div>
         );
       })()}
+
+      {/* Video Indicator Pill (Bottom-Left) */}
+      {hasVideo && (
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '12px',
+            left: '12px',
+            zIndex: 25,
+            backgroundColor: 'rgba(10, 16, 13, 0.85)',
+            backdropFilter: 'blur(6px)',
+            WebkitBackdropFilter: 'blur(6px)',
+            border: '1px solid rgba(201, 167, 124, 0.45)',
+            color: '#c9a77c',
+            padding: '3px 8px',
+            borderRadius: '999px',
+            fontSize: '10.5px',
+            fontFamily: "'Manrope', var(--font-sans)",
+            fontWeight: 700,
+            letterSpacing: '0.06em',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '4px',
+            pointerEvents: 'none',
+          }}
+          aria-label="Property includes video"
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+          <span>VIDEO</span>
+        </div>
+      )}
 
       {/* Favorite Heart Button: Top-right offset 16px (higher z-index: 30) */}
       <button
@@ -706,6 +739,7 @@ export const SelectedProperties: React.FC<SelectedPropertiesProps> = ({ onSelect
                   status={prop.status}
                   isFavorite={!!favorites[prop.id]}
                   onToggleFavorite={(e) => toggleFavorite(e, prop.id)}
+                  hasVideo={Array.isArray((prop as any).videos) && (prop as any).videos.length > 0}
                 />
 
                 {/* Card Body */}

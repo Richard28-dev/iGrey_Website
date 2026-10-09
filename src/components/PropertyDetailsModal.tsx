@@ -7,6 +7,7 @@ import {
   CheckCircle2,
   Home,
   ArrowRight,
+  Play,
 } from 'lucide-react';
 import type { AdminProperty } from '../admin/types';
 
@@ -23,7 +24,8 @@ export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({
   onClose,
   onEnquire,
 }) => {
-  const [activePhotoIdx, setActivePhotoIdx] = useState(0);
+  const [activeItem, setActiveItem] = useState<{ type: 'photo' | 'video'; index: number }>({ type: 'photo', index: 0 });
+  const [isPlayingVideo, setIsPlayingVideo] = useState(false);
   const [photoLoaded, setPhotoLoaded] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const previouslyFocusedElement = useRef<HTMLElement | null>(null);
@@ -39,25 +41,33 @@ export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({
     return list.slice(0, 8).filter(Boolean);
   }, [property]);
 
-  const totalPhotos = photos.length;
-  const currentPhoto = photos[activePhotoIdx] || property?.coverImage || '';
+  const videos = React.useMemo(() => {
+    if (!property || !Array.isArray(property.videos)) return [];
+    return property.videos.slice(0, 2);
+  }, [property]);
 
-  // Reset photo index when property changes or opens
+  const totalPhotos = photos.length;
+  const currentPhoto = activeItem.type === 'photo' ? (photos[activeItem.index] || property?.coverImage || '') : '';
+
+  // Reset media when property changes or opens
   useEffect(() => {
     if (isOpen) {
-      setActivePhotoIdx(0);
+      setActiveItem({ type: 'photo', index: 0 });
+      setIsPlayingVideo(false);
       setPhotoLoaded(false);
+    } else {
+      setIsPlayingVideo(false);
     }
   }, [isOpen, property?.id]);
 
   // Preload next image
   useEffect(() => {
-    if (totalPhotos > 1) {
-      const nextIdx = (activePhotoIdx + 1) % totalPhotos;
+    if (totalPhotos > 1 && activeItem.type === 'photo') {
+      const nextIdx = (activeItem.index + 1) % totalPhotos;
       const img = new Image();
       img.src = photos[nextIdx];
     }
-  }, [activePhotoIdx, photos, totalPhotos]);
+  }, [activeItem, photos, totalPhotos]);
 
   // Handle scroll lock & focus trap
   useEffect(() => {
@@ -88,13 +98,21 @@ export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({
 
       if (e.key === 'ArrowLeft' && totalPhotos > 1) {
         e.preventDefault();
-        setActivePhotoIdx((prev) => (prev - 1 + totalPhotos) % totalPhotos);
+        setIsPlayingVideo(false);
+        setActiveItem((prev) => ({
+          type: 'photo',
+          index: (prev.index - 1 + totalPhotos) % totalPhotos,
+        }));
         return;
       }
 
       if (e.key === 'ArrowRight' && totalPhotos > 1) {
         e.preventDefault();
-        setActivePhotoIdx((prev) => (prev + 1) % totalPhotos);
+        setIsPlayingVideo(false);
+        setActiveItem((prev) => ({
+          type: 'photo',
+          index: (prev.index + 1) % totalPhotos,
+        }));
         return;
       }
 
@@ -151,10 +169,19 @@ export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({
 
     // Only swipe if horizontal motion is significantly larger than vertical motion
     if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
-      if (diffX > 0) {
-        setActivePhotoIdx((prev) => (prev + 1) % totalPhotos);
-      } else {
-        setActivePhotoIdx((prev) => (prev - 1 + totalPhotos) % totalPhotos);
+      if (activeItem.type === 'photo' && totalPhotos > 1) {
+        setIsPlayingVideo(false);
+        if (diffX > 0) {
+          setActiveItem((prev) => ({
+            type: 'photo',
+            index: (prev.index + 1) % totalPhotos,
+          }));
+        } else {
+          setActiveItem((prev) => ({
+            type: 'photo',
+            index: (prev.index - 1 + totalPhotos) % totalPhotos,
+          }));
+        }
       }
     }
     touchStartX.current = null;
@@ -274,7 +301,7 @@ export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({
             minWidth: 0,
           }}
         >
-          {/* Large Main Photo */}
+          {/* Main Media Box (16:10 aspect ratio) */}
           <div
             style={{
               position: 'relative',
@@ -287,137 +314,268 @@ export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
-            {/* Skeleton Loading State */}
-            {!photoLoaded && (
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  backgroundColor: '#141d1a',
-                  animation: 'igreySkeletonShimmer 1.5s infinite linear',
-                }}
-              />
-            )}
-
-            <img
-              src={currentPhoto}
-              alt={`${property.title} - Photo ${activePhotoIdx + 1}`}
-              onLoad={() => setPhotoLoaded(true)}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                display: 'block',
-                opacity: photoLoaded ? 1 : 0,
-                transition: 'opacity 200ms ease',
-              }}
-            />
-
-            {/* Left and Right Edge Navigation Arrows */}
-            {totalPhotos > 1 && (
+            {activeItem.type === 'photo' ? (
               <>
-                <button
-                  type="button"
-                  onClick={() =>
-                    setActivePhotoIdx((prev) => (prev - 1 + totalPhotos) % totalPhotos)
-                  }
-                  aria-label="Previous photo"
-                  style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '10px',
-                    transform: 'translateY(-50%)',
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '50%',
-                    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                    border: 'none',
-                    color: '#FFFFFF',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                    padding: 0,
-                    zIndex: 2,
-                    transition: 'background-color 150ms ease, transform 150ms ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
-                    e.currentTarget.style.transform = 'translateY(-50%) scale(1.06)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
-                    e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
-                  }}
-                >
-                  <ChevronLeft size={16} strokeWidth={2.4} />
-                </button>
+                {/* Skeleton Loading State */}
+                {!photoLoaded && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      backgroundColor: '#141d1a',
+                      animation: 'igreySkeletonShimmer 1.5s infinite linear',
+                    }}
+                  />
+                )}
 
-                <button
-                  type="button"
-                  onClick={() =>
-                    setActivePhotoIdx((prev) => (prev + 1) % totalPhotos)
-                  }
-                  aria-label="Next photo"
+                <img
+                  src={currentPhoto}
+                  alt={`${property.title} - Photo ${activeItem.index + 1}`}
+                  onLoad={() => setPhotoLoaded(true)}
                   style={{
-                    position: 'absolute',
-                    top: '50%',
-                    right: '10px',
-                    transform: 'translateY(-50%)',
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '50%',
-                    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                    border: 'none',
-                    color: '#FFFFFF',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                    padding: 0,
-                    zIndex: 2,
-                    transition: 'background-color 150ms ease, transform 150ms ease',
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block',
+                    opacity: photoLoaded ? 1 : 0,
+                    transition: 'opacity 200ms ease',
                   }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
-                    e.currentTarget.style.transform = 'translateY(-50%) scale(1.06)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
-                    e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
-                  }}
-                >
-                  <ChevronRight size={16} strokeWidth={2.4} />
-                </button>
+                />
+
+                {/* Left and Right Edge Navigation Arrows */}
+                {totalPhotos > 1 && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsPlayingVideo(false);
+                        setActiveItem((prev) => ({
+                          type: 'photo',
+                          index: (prev.index - 1 + totalPhotos) % totalPhotos,
+                        }));
+                      }}
+                      aria-label="Previous photo"
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '10px',
+                        transform: 'translateY(-50%)',
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '50%',
+                        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                        border: 'none',
+                        color: '#FFFFFF',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        padding: 0,
+                        zIndex: 2,
+                        transition: 'background-color 150ms ease, transform 150ms ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
+                        e.currentTarget.style.transform = 'translateY(-50%) scale(1.06)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
+                        e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+                      }}
+                    >
+                      <ChevronLeft size={16} strokeWidth={2.4} />
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsPlayingVideo(false);
+                        setActiveItem((prev) => ({
+                          type: 'photo',
+                          index: (prev.index + 1) % totalPhotos,
+                        }));
+                      }}
+                      aria-label="Next photo"
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        right: '10px',
+                        transform: 'translateY(-50%)',
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '50%',
+                        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                        border: 'none',
+                        color: '#FFFFFF',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        padding: 0,
+                        zIndex: 2,
+                        transition: 'background-color 150ms ease, transform 150ms ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
+                        e.currentTarget.style.transform = 'translateY(-50%) scale(1.06)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
+                        e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+                      }}
+                    >
+                      <ChevronRight size={16} strokeWidth={2.4} />
+                    </button>
+                  </>
+                )}
+
+                {/* Photo Counter Pill at Bottom Right */}
+                {totalPhotos > 0 && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: '10px',
+                      right: '10px',
+                      backgroundColor: 'rgba(0, 0, 0, 0.75)',
+                      padding: '3px 8px',
+                      borderRadius: '6px',
+                      fontSize: '11.5px',
+                      fontFamily: "'Manrope', var(--font-sans)",
+                      color: '#FAF8F4',
+                      fontWeight: 600,
+                      letterSpacing: '0.04em',
+                      zIndex: 2,
+                      pointerEvents: 'none',
+                    }}
+                  >
+                    {activeItem.index + 1} / {totalPhotos}
+                  </div>
+                )}
               </>
-            )}
+            ) : (
+              /* Active item is Video */
+              (() => {
+                const activeVid = videos[activeItem.index];
+                if (!activeVid) {
+                  return (
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#e07a6f', fontSize: '13px' }}>
+                      This video isn't available right now
+                    </div>
+                  );
+                }
 
-            {/* Photo Counter Pill at Bottom Right */}
-            {totalPhotos > 0 && (
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: '10px',
-                  right: '10px',
-                  backgroundColor: 'rgba(0, 0, 0, 0.75)',
-                  padding: '3px 8px',
-                  borderRadius: '6px',
-                  fontSize: '11.5px',
-                  fontFamily: "'Manrope', var(--font-sans)",
-                  color: '#FAF8F4',
-                  fontWeight: 600,
-                  letterSpacing: '0.04em',
-                  zIndex: 2,
-                  pointerEvents: 'none',
-                }}
-              >
-                {activePhotoIdx + 1} / {totalPhotos}
-              </div>
+                if (activeVid.type === 'file') {
+                  return (
+                    <video
+                      controls
+                      playsInline
+                      preload="none"
+                      poster={activeVid.poster || ''}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block',
+                        backgroundColor: '#000',
+                      }}
+                    >
+                      <source src={activeVid.url} type="video/mp4" />
+                      This video isn't available right now
+                    </video>
+                  );
+                }
+
+                // YouTube or Vimeo
+                const posterUrl = activeVid.poster || (activeVid.type === 'youtube' ? `https://img.youtube.com/vi/${activeVid.id}/hqdefault.jpg` : '');
+                const embedUrl = activeVid.type === 'youtube'
+                  ? `https://www.youtube-nocookie.com/embed/${activeVid.id}?autoplay=1&rel=0`
+                  : `https://player.vimeo.com/video/${activeVid.id}?autoplay=1`;
+
+                if (isPlayingVideo) {
+                  return (
+                    <iframe
+                      src={embedUrl}
+                      title={`${property.title} Video`}
+                      loading="lazy"
+                      allow="fullscreen; picture-in-picture; autoplay"
+                      allowFullScreen
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        border: 'none',
+                        display: 'block',
+                      }}
+                    />
+                  );
+                }
+
+                return (
+                  <div
+                    style={{
+                      position: 'relative',
+                      width: '100%',
+                      height: '100%',
+                      cursor: 'pointer',
+                      backgroundColor: '#000',
+                    }}
+                    onClick={() => setIsPlayingVideo(true)}
+                  >
+                    {posterUrl && (
+                      <img
+                        src={posterUrl}
+                        alt="Video preview"
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          display: 'block',
+                        }}
+                      />
+                    )}
+                    <button
+                      type="button"
+                      aria-label="Play video"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsPlayingVideo(true);
+                      }}
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: '56px',
+                        height: '56px',
+                        borderRadius: '50%',
+                        backgroundColor: '#c9a77c',
+                        border: 'none',
+                        color: '#0a0f0e',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.6)',
+                        cursor: 'pointer',
+                        transition: 'transform 150ms ease, background-color 150ms ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1.08)';
+                        e.currentTarget.style.backgroundColor = '#d8b991';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1)';
+                        e.currentTarget.style.backgroundColor = '#c9a77c';
+                      }}
+                    >
+                      <Play size={24} fill="#0a0f0e" style={{ marginLeft: '3px' }} />
+                    </button>
+                  </div>
+                );
+              })()
             )}
           </div>
 
-          {/* Row of Small Thumbnails (up to 8, 4:3 ratio, 6px gap) */}
-          {totalPhotos > 1 && (
+          {/* Row of Small Thumbnails: photos first, videos after (up to 4:3 ratio, 6px gap) */}
+          {(totalPhotos + videos.length) > 1 && (
             <div
               className="igrey-popup-thumbs-row"
               style={{
@@ -430,12 +588,15 @@ export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({
               }}
             >
               {photos.map((src, idx) => {
-                const isActive = idx === activePhotoIdx;
+                const isActive = activeItem.type === 'photo' && activeItem.index === idx;
                 return (
                   <button
-                    key={idx}
+                    key={`photo-${idx}`}
                     type="button"
-                    onClick={() => setActivePhotoIdx(idx)}
+                    onClick={() => {
+                      setIsPlayingVideo(false);
+                      setActiveItem({ type: 'photo', index: idx });
+                    }}
                     aria-label={`View photo ${idx + 1}`}
                     style={{
                       flex: '0 0 calc(20% - 5px)',
@@ -464,6 +625,67 @@ export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({
                         display: 'block',
                       }}
                     />
+                  </button>
+                );
+              })}
+
+              {videos.map((vid, vIdx) => {
+                const isActive = activeItem.type === 'video' && activeItem.index === vIdx;
+                const poster = vid.poster || (vid.type === 'youtube' ? `https://img.youtube.com/vi/${vid.id}/hqdefault.jpg` : '');
+                return (
+                  <button
+                    key={`video-${vIdx}`}
+                    type="button"
+                    onClick={() => {
+                      setIsPlayingVideo(false);
+                      setActiveItem({ type: 'video', index: vIdx });
+                    }}
+                    aria-label={`Play video ${vIdx + 1}`}
+                    style={{
+                      position: 'relative',
+                      flex: '0 0 calc(20% - 5px)',
+                      minWidth: '58px',
+                      maxWidth: '75px',
+                      aspectRatio: '4 / 3',
+                      padding: 0,
+                      borderRadius: '6px',
+                      overflow: 'hidden',
+                      border: isActive ? '1.5px solid #c9a77c' : '1px solid rgba(255, 255, 255, 0.1)',
+                      backgroundColor: '#121816',
+                      cursor: 'pointer',
+                      opacity: isActive ? 1 : 0.65,
+                      transition: 'opacity 150ms ease, border-color 150ms ease',
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
+                    onMouseLeave={(e) => !isActive && (e.currentTarget.style.opacity = '0.65')}
+                  >
+                    {poster ? (
+                      <img
+                        src={poster}
+                        alt=""
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          display: 'block',
+                        }}
+                      />
+                    ) : (
+                      <div style={{ width: '100%', height: '100%', backgroundColor: '#18221e' }} />
+                    )}
+                    <span
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                      }}
+                      aria-hidden="true"
+                    >
+                      <Play size={13} fill="#c9a77c" color="#c9a77c" />
+                    </span>
                   </button>
                 );
               })}

@@ -16,6 +16,15 @@ export type PropertyType =
 export type FurnishingStatus = 'Furnished' | 'Semi-Furnished' | 'Unfurnished';
 export type PossessionStatus = 'Ready to Move' | 'Under Construction' | 'Immediate';
 
+export interface PropertyVideoItem {
+  type: 'youtube' | 'vimeo' | 'file';
+  id?: string;
+  url: string;
+  poster: string;
+  path?: string;
+  posterPath?: string;
+}
+
 export interface AdminProperty {
   id: string;
   propertyId: string; // e.g. "IGH-MYS-01"
@@ -56,6 +65,7 @@ export interface AdminProperty {
   // Step 4: Media
   coverImage: string;
   galleryImages: string[];
+  videos?: PropertyVideoItem[];
   floorPlanImage?: string;
   videoUrl?: string;
   virtualTourUrl?: string;

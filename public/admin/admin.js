@@ -183,13 +183,26 @@
       ? property.images
       : ['https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85'];
 
+    const videos = Array.isArray(property.videos) ? property.videos : [];
+
     const formattedPrice = formatIndianPrice(property.price);
     const statusText = (property.status || 'available').toUpperCase().replace('_', ' ');
 
-    let activeIdx = 0;
+    let activeItem = { type: 'photo', index: 0 };
+
+    const unloadVideo = () => {
+      const vids = previewModal.querySelectorAll('video');
+      vids.forEach(v => {
+        try { v.pause(); v.removeAttribute('src'); v.load(); } catch (e) {}
+      });
+      const ifrs = previewModal.querySelectorAll('iframe');
+      ifrs.forEach(f => {
+        try { f.src = 'about:blank'; f.remove(); } catch (e) {}
+      });
+    };
 
     const render = () => {
-      const currentPhoto = photos[activeIdx];
+      unloadVideo();
       const highlightsHtml = (property.highlights || []).map(h => `
         <span style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 14px; background: rgba(201, 167, 124, 0.1); border: 0.5px solid rgba(201, 167, 124, 0.3); color: #c9a77c; font-size: 11.5px; font-weight: 600;">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -204,39 +217,42 @@
         </li>
       `).join('');
 
-      const thumbsHtml = photos.map((p, idx) => `
-        <button type="button" class="preview-thumb-btn ${idx === activeIdx ? 'active' : ''}" data-idx="${idx}" style="border: ${idx === activeIdx ? '1.5px solid #c9a77c' : '0.5px solid #2e2a22'}; border-radius: 6px; padding: 0; background: none; cursor: pointer; width: 50px; height: 38px; overflow: hidden; opacity: ${idx === activeIdx ? '1' : '0.6'};">
+      let thumbsHtml = photos.map((p, idx) => `
+        <button type="button" class="preview-thumb-btn ${activeItem.type === 'photo' && activeItem.index === idx ? 'active' : ''}" data-type="photo" data-idx="${idx}" style="border: ${activeItem.type === 'photo' && activeItem.index === idx ? '1.5px solid #c9a77c' : '0.5px solid #2e2a22'}; border-radius: 6px; padding: 0; background: none; cursor: pointer; width: 50px; height: 38px; overflow: hidden; opacity: ${activeItem.type === 'photo' && activeItem.index === idx ? '1' : '0.6'}; flex-shrink: 0;">
           <img src="${p}" style="width: 100%; height: 100%; object-fit: cover;" alt="Thumbnail ${idx + 1}" />
         </button>
       `).join('');
 
+      if (videos.length > 0) {
+        thumbsHtml += videos.map((v, vIdx) => {
+          const poster = v.poster || (v.type === 'youtube' ? `https://img.youtube.com/vi/${v.id}/hqdefault.jpg` : '');
+          return `
+            <button type="button" class="preview-thumb-btn ${activeItem.type === 'video' && activeItem.index === vIdx ? 'active' : ''}" data-type="video" data-idx="${vIdx}" style="position: relative; border: ${activeItem.type === 'video' && activeItem.index === vIdx ? '1.5px solid #c9a77c' : '0.5px solid #2e2a22'}; border-radius: 6px; padding: 0; background: none; cursor: pointer; width: 50px; height: 38px; overflow: hidden; opacity: ${activeItem.type === 'video' && activeItem.index === vIdx ? '1' : '0.6'}; flex-shrink: 0;" aria-label="Play video ${vIdx + 1}">
+              <img src="${poster}" style="width: 100%; height: 100%; object-fit: cover;" alt="Video thumbnail ${vIdx + 1}" />
+              <span style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.4); color: #c9a77c;"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg></span>
+            </button>
+          `;
+        }).join('');
+      }
+
       previewModal.innerHTML = `
         <div class="modal-card" style="max-width: 680px; padding: 0; overflow: hidden;" role="dialog" aria-modal="true">
-          <!-- Modal Header -->
-          <div style="position: relative; max-height: 60vh; height: clamp(260px, 45vh, 420px); background: #1a211e; overflow: hidden;">
-            <img id="preview-main-img" src="${currentPhoto}" style="width: 100%; height: 100%; max-height: 60vh; object-fit: cover; display: block;" onerror="this.onerror=null; this.src=window.iGreyAdmin.PROPERTY_PLACEHOLDER;" alt="${escapeHtml(property.title)}" />
-            <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(16, 22, 20, 0.95) 0%, transparent 50%); pointer-events: none;"></div>
+          <!-- Modal Header (16:10 aspect box) -->
+          <div id="admin-preview-main-box" style="position: relative; max-height: 60vh; height: clamp(260px, 45vh, 420px); background: #1a211e; overflow: hidden;">
+            <div id="admin-media-mount" style="position: absolute; inset: 0; width: 100%; height: 100%;">
+              <!-- Media mounted dynamically -->
+            </div>
             
             <button type="button" id="preview-close-btn" style="position: absolute; top: 16px; right: 16px; background: rgba(0,0,0,0.6); border: 0.5px solid rgba(255,255,255,0.25); border-radius: 50%; width: 34px; height: 34px; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
 
-            <!-- Arrows -->
-            ${photos.length > 1 ? `
-              <button type="button" id="preview-prev-btn" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); border: 0.5px solid rgba(255,255,255,0.2); border-radius: 50%; width: 36px; height: 36px; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-              </button>
-              <button type="button" id="preview-next-btn" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); border: 0.5px solid rgba(255,255,255,0.2); border-radius: 50%; width: 36px; height: 36px; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-              </button>
-            ` : ''}
-
             <!-- Bottom of Image Info -->
-            <div style="position: absolute; bottom: 14px; left: 20px; right: 20px; display: flex; align-items: flex-end; justify-content: space-between;">
+            <div style="position: absolute; bottom: 14px; left: 20px; right: 20px; display: flex; align-items: flex-end; justify-content: space-between; z-index: 5; pointer-events: none;">
               <div>
-                <span class="status-pill ${property.status || 'available'}" style="margin-bottom: 6px;">${statusText}</span>
+                <span class="status-pill ${property.status || 'available'}" style="margin-bottom: 6px; pointer-events: auto;">${statusText}</span>
                 <h2 style="font-family: var(--font-serif); font-size: 24px; color: #FAF8F4; margin: 4px 0 0;">${escapeHtml(property.title)}</h2>
-                <div style="color: #c9a77c; font-size: 12.5px; margin-top: 2px;">${escapeHtml(property.locality)}, ${escapeHtml(property.city)} &bull; ID: ${escapeHtml(property.property_code || 'SS-MYS-01')}</div>
+                <div style="color: #c9a77c; font-size: 12.5px; margin-top: 2px;">${escapeHtml(property.locality || '')}, ${escapeHtml(property.city || '')} &bull; ID: ${escapeHtml(property.property_code || 'SS-MYS-01')}</div>
               </div>
               <div style="text-align: right;">
                 <div style="font-family: var(--font-sans); font-size: 22px; font-weight: 700; color: #c9a77c;">${formattedPrice}</div>
@@ -246,7 +262,7 @@
           </div>
 
           <!-- Thumbnails Strip -->
-          ${photos.length > 1 ? `
+          ${(photos.length + videos.length) > 1 ? `
             <div style="padding: 10px 20px; background: #0c1210; border-bottom: 0.5px solid var(--border-color); display: flex; gap: 8px; overflow-x: auto;">
               ${thumbsHtml}
             </div>
@@ -285,26 +301,59 @@
         </div>
       `;
 
-      // Handlers
-      document.getElementById('preview-close-btn').onclick = () => previewModal.classList.remove('active');
-      document.getElementById('preview-done-btn').onclick = () => previewModal.classList.remove('active');
-
-      if (photos.length > 1) {
-        document.getElementById('preview-prev-btn').onclick = () => {
-          activeIdx = (activeIdx - 1 + photos.length) % photos.length;
-          render();
-        };
-        document.getElementById('preview-next-btn').onclick = () => {
-          activeIdx = (activeIdx + 1) % photos.length;
-          render();
-        };
-        previewModal.querySelectorAll('.preview-thumb-btn').forEach(btn => {
-          btn.onclick = () => {
-            activeIdx = parseInt(btn.getAttribute('data-idx'), 10) || 0;
-            render();
+      const mount = previewModal.querySelector('#admin-media-mount');
+      if (activeItem.type === 'photo') {
+        const photoUrl = photos[activeItem.index] || photos[0];
+        mount.innerHTML = `
+          <img src="${photoUrl}" style="width: 100%; height: 100%; object-fit: cover; display: block;" onerror="this.onerror=null; this.src=window.iGreyAdmin.PROPERTY_PLACEHOLDER;" alt="${escapeHtml(property.title)}" />
+          <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(16, 22, 20, 0.95) 0%, transparent 50%); pointer-events: none;"></div>
+        `;
+      } else if (activeItem.type === 'video') {
+        const v = videos[activeItem.index];
+        const posterUrl = v.poster || (v.type === 'youtube' ? `https://img.youtube.com/vi/${v.id}/hqdefault.jpg` : '');
+        if (v.type === 'youtube' || v.type === 'vimeo') {
+          mount.innerHTML = `
+            <div id="admin-video-placeholder" style="cursor: pointer; position: absolute; inset: 0; width: 100%; height: 100%;">
+              <img src="${posterUrl}" style="width: 100%; height: 100%; object-fit: cover; display: block;" alt="Video thumbnail" />
+              <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center;">
+                <div style="width: 56px; height: 56px; border-radius: 50%; background: #c9a77c; color: #0a0f0e; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(0,0,0,0.6);">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="margin-left: 2px;"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+                </div>
+              </div>
+            </div>
+          `;
+          mount.querySelector('#admin-video-placeholder').onclick = () => {
+            let embedUrl = '';
+            if (v.type === 'youtube') embedUrl = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}?autoplay=1`;
+            else if (v.type === 'vimeo') embedUrl = `https://player.vimeo.com/video/${encodeURIComponent(v.id)}?autoplay=1`;
+            mount.innerHTML = `<iframe src="${embedUrl}" title="${escapeHtml(property.title)} Video" loading="lazy" allow="fullscreen; picture-in-picture" allowfullscreen style="width: 100%; height: 100%; border: none; display: block;"></iframe>`;
           };
-        });
+        } else if (v.type === 'file') {
+          mount.innerHTML = `
+            <video controls playsinline preload="none" poster="${posterUrl}" style="width: 100%; height: 100%; object-fit: contain; display: block; background: #000;">
+              <source src="${v.url}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          `;
+        }
       }
+
+      // Handlers
+      const closeHandler = () => {
+        unloadVideo();
+        previewModal.classList.remove('active');
+      };
+      document.getElementById('preview-close-btn').onclick = closeHandler;
+      document.getElementById('preview-done-btn').onclick = closeHandler;
+
+      previewModal.querySelectorAll('.preview-thumb-btn').forEach(btn => {
+        btn.onclick = () => {
+          const t = btn.getAttribute('data-type');
+          const i = parseInt(btn.getAttribute('data-idx'), 10) || 0;
+          activeItem = { type: t, index: i };
+          render();
+        };
+      });
     };
 
     render();
@@ -381,8 +430,22 @@
           .map(fieldName => {
             let val = row[fieldName];
             if (val === null || val === undefined) val = '';
-            if (Array.isArray(val)) val = val.join('; ');
-            if (typeof val === 'object') val = JSON.stringify(val);
+            if (fieldName === 'videos') {
+              try {
+                const list = Array.isArray(val) ? val : (typeof val === 'string' ? JSON.parse(val) : [val]);
+                val = list.map(v => {
+                  if (!v) return '';
+                  if (typeof v === 'string') return v;
+                  return v.url || (v.type === 'youtube' ? `https://youtube.com/watch?v=${v.id}` : (v.type === 'vimeo' ? `https://vimeo.com/${v.id}` : ''));
+                }).filter(Boolean).join('; ');
+              } catch (e) {
+                val = '';
+              }
+            } else if (Array.isArray(val)) {
+              val = val.join('; ');
+            } else if (typeof val === 'object') {
+              val = JSON.stringify(val);
+            }
             val = String(val).replace(/"/g, '""');
             return `"${val}"`;
           })

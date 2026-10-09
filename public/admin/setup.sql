@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS public.properties (
   amenities text[] NOT NULL DEFAULT '{}'::text[],
   description text NOT NULL DEFAULT '',
   images text[] NOT NULL DEFAULT '{}'::text[],
+  videos jsonb NOT NULL DEFAULT '[]'::jsonb,
   is_published boolean NOT NULL DEFAULT true,
   is_featured boolean NOT NULL DEFAULT false,
   created_at timestamptz NOT NULL DEFAULT now(),
@@ -44,6 +45,7 @@ CREATE TABLE IF NOT EXISTS public.properties (
 -- Migration helper if table already exists in Supabase:
 ALTER TABLE public.properties DROP CONSTRAINT IF EXISTS properties_status_check;
 ALTER TABLE public.properties ADD CONSTRAINT properties_status_check CHECK (status IN ('available', 'upcoming', 'under_construction', 'under_offer', 'sold', 'draft'));
+ALTER TABLE public.properties ADD COLUMN IF NOT EXISTS videos jsonb NOT NULL DEFAULT '[]'::jsonb;
 
 -- C. ENQUIRIES TABLE
 CREATE TABLE IF NOT EXISTS public.enquiries (
@@ -265,6 +267,49 @@ CREATE POLICY "Admins can delete property images"
   ON storage.objects FOR DELETE
   TO authenticated
   USING (bucket_id = 'property-images' AND is_admin());
+
+-- ==============================================================================
+-- 5B. STORAGE BUCKET: property-videos (MP4/WebM Videos up to 50 MB)
+-- ==============================================================================
+
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES (
+  'property-videos',
+  'property-videos',
+  true,
+  52428800, -- 50 MB
+  ARRAY['video/mp4', 'video/webm', 'image/webp']
+)
+ON CONFLICT (id) DO UPDATE SET
+  public = true,
+  file_size_limit = 52428800,
+  allowed_mime_types = ARRAY['video/mp4', 'video/webm', 'image/webp'];
+
+-- Storage RLS Policies for property-videos bucket
+DROP POLICY IF EXISTS "Public can read property videos" ON storage.objects;
+CREATE POLICY "Public can read property videos"
+  ON storage.objects FOR SELECT
+  TO anon, authenticated
+  USING (bucket_id = 'property-videos');
+
+DROP POLICY IF EXISTS "Admins can upload property videos" ON storage.objects;
+CREATE POLICY "Admins can upload property videos"
+  ON storage.objects FOR INSERT
+  TO authenticated
+  WITH CHECK (bucket_id = 'property-videos' AND is_admin());
+
+DROP POLICY IF EXISTS "Admins can update property videos" ON storage.objects;
+CREATE POLICY "Admins can update property videos"
+  ON storage.objects FOR UPDATE
+  TO authenticated
+  USING (bucket_id = 'property-videos' AND is_admin())
+  WITH CHECK (bucket_id = 'property-videos' AND is_admin());
+
+DROP POLICY IF EXISTS "Admins can delete property videos" ON storage.objects;
+CREATE POLICY "Admins can delete property videos"
+  ON storage.objects FOR DELETE
+  TO authenticated
+  USING (bucket_id = 'property-videos' AND is_admin());
 
 -- ==============================================================================
 -- 6. SEED INITIAL DATA (Curated Luxury Properties & Reviews)

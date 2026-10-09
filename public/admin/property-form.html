@@ -89,7 +89,7 @@
       gap: 8px;
       margin-top: 16px;
     }
-    .photo-card {
+    .photo-card, .video-card {
       position: relative;
       aspect-ratio: 4/3;
       border-radius: 8px;
@@ -99,12 +99,27 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      user-select: none;
+      cursor: grab;
+      transition: transform 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
     }
-    .photo-card img {
+    .photo-card:active, .video-card:active {
+      cursor: grabbing;
+    }
+    .photo-card.dragging, .video-card.dragging {
+      opacity: 0.45;
+      border: 1px dashed var(--gold-primary);
+    }
+    .photo-card.drag-over, .video-card.drag-over {
+      border: 1.5px solid var(--gold-primary);
+      transform: scale(1.02);
+    }
+    .photo-card img, .video-card img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
+      pointer-events: none;
     }
     .photo-cover-tag {
       position: absolute;
@@ -118,6 +133,56 @@
       border-radius: 4px;
       letter-spacing: 0.05em;
       z-index: 2;
+      pointer-events: none;
+    }
+    .video-badge-tag {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      background: rgba(10, 16, 13, 0.88);
+      border: 0.5px solid var(--gold-primary);
+      color: var(--gold-primary);
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.06em;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .video-type-tag {
+      position: absolute;
+      bottom: 6px;
+      left: 6px;
+      background: rgba(0, 0, 0, 0.75);
+      color: #FAF8F4;
+      font-size: 9px;
+      font-weight: 600;
+      padding: 2px 5px;
+      border-radius: 3px;
+      letter-spacing: 0.04em;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .video-center-play {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .video-center-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.65);
+      border: 1px solid var(--gold-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-primary);
     }
     .photo-actions {
       position: absolute;
@@ -131,7 +196,7 @@
       width: 24px;
       height: 24px;
       border-radius: 50%;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.75);
       border: 0.5px solid rgba(255, 255, 255, 0.3);
       color: #fff;
       display: flex;
@@ -139,10 +204,16 @@
       justify-content: center;
       cursor: pointer;
       font-size: 11px;
+      transition: background 0.15s ease, border-color 0.15s ease;
     }
     .photo-btn:hover {
       background: var(--accent-red);
       border-color: var(--accent-red);
+    }
+    .photo-btn.move-btn:hover {
+      background: var(--gold-primary);
+      border-color: var(--gold-primary);
+      color: #0a0f0e;
     }
     .chip-cloud {
       display: flex;
@@ -339,28 +410,58 @@
           </div>
         </section>
 
-        <!-- CARD 3: Photos Uploader (1 to 8 photos) -->
+        <!-- CARD 3: Visual Assets (Photos & Videos) -->
         <section class="panel">
           <div class="panel-header">
-            <div class="panel-title">3. Visual Assets (1 to 8 Photos) <span style="color: var(--accent-red);">*</span></div>
-            <span style="font-size: 12px; color: var(--text-muted);" id="photo-count-label">0 of 8 uploaded</span>
+            <div class="panel-title">3. Visual Assets (Photos &amp; Videos) <span style="color: var(--accent-red);">*</span></div>
+            <span style="font-size: 12px; color: var(--text-muted);" id="assets-count-label">0 of 8 photos &middot; 0 of 2 videos</span>
           </div>
 
           <div class="uploader-zone" id="uploader-dropzone">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--gold-primary); margin-bottom: 8px;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            <div style="font-size: 13.5px; font-weight: 600; color: #FAF8F4; margin-bottom: 4px;">Drag & drop property images here</div>
-            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">JPG, PNG, or WebP up to 5 MB each. Compressed automatically on upload.</div>
-            <label class="btn btn-secondary" style="display: inline-block; cursor: pointer; font-size: 12px; padding: 6px 14px;">
-              Browse Files
-              <input type="file" id="photo-file-input" multiple accept="image/jpeg,image/png,image/webp" style="display: none;" />
-            </label>
+            <!-- Photo and Video Icons -->
+            <div style="display: flex; gap: 10px; align-items: center; justify-content: center; margin-bottom: 8px; color: var(--gold-primary);">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="4" width="15" height="16" rx="2"/><polygon points="23 7 17 12 23 17 23 7"/></svg>
+            </div>
+            <div style="font-size: 13.5px; font-weight: 600; color: #FAF8F4; margin-bottom: 4px;">Drag &amp; drop property photos or videos here</div>
+            <div style="font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-bottom: 2px;">Photos: JPG, PNG, or WebP up to 5 MB each. Compressed automatically.</div>
+            <div style="font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-bottom: 12px;">Videos: MP4 or WebM up to 50 MB (under 30 MB recommended).</div>
+            
+            <div style="display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap;">
+              <label class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer; font-size: 12px; padding: 6px 14px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Browse Files
+                <input type="file" id="media-file-input" multiple accept="image/jpeg,image/png,image/webp,video/mp4,video/webm" style="display: none;" />
+              </label>
+              <button type="button" class="btn btn-secondary" id="toggle-video-link-btn" style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 6px 14px; border-color: var(--gold-primary); color: var(--gold-primary);">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                Add video link
+              </button>
+            </div>
+            
+            <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 10px;">
+              Tip: YouTube links (Unlisted) are recommended for videos.
+            </div>
+
+            <!-- Inline video link box -->
+            <div id="video-link-box" style="display: none; margin-top: 14px; padding: 12px; background: rgba(10, 15, 14, 0.85); border: 0.5px solid rgba(201, 167, 124, 0.35); border-radius: 6px; text-align: left; max-width: 460px; margin-left: auto; margin-right: auto;">
+              <div style="display: flex; gap: 8px;">
+                <input type="url" id="video-url-input" class="form-control" placeholder="Paste a YouTube or Vimeo link" style="flex: 1; font-size: 12px; padding: 6px 10px;" />
+                <button type="button" class="btn btn-primary" id="add-video-url-btn" style="padding: 6px 14px; font-size: 12px; white-space: nowrap;">Add</button>
+                <button type="button" class="btn btn-secondary" id="cancel-video-url-btn" style="padding: 6px 10px; font-size: 12px;">Cancel</button>
+              </div>
+              <div id="video-url-error" style="display: none; font-size: 11.5px; color: #e07a6f; margin-top: 6px; font-weight: 500;">Please paste a valid YouTube or Vimeo link</div>
+            </div>
           </div>
 
-          <!-- Progress bar -->
-          <div id="upload-progress-wrap" style="display: none; margin-top: 12px;">
-            <div style="display: flex; justify-content: space-between; font-size: 11.5px; color: var(--text-muted); margin-bottom: 4px;">
-              <span id="upload-progress-text">Compressing & uploading...</span>
-              <span id="upload-progress-pct">0%</span>
+          <!-- Progress bar with cancel button -->
+          <div id="upload-progress-wrap" style="display: none; margin-top: 12px; padding: 10px 14px; background: rgba(10, 15, 14, 0.6); border-radius: 6px; border: 0.5px solid var(--border-color);">
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; color: var(--text-muted); margin-bottom: 6px;">
+              <span id="upload-progress-text">Compressing &amp; uploading...</span>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span id="upload-progress-pct" style="font-weight: 600; color: var(--gold-primary);">0%</span>
+                <button type="button" id="cancel-upload-btn" class="btn btn-secondary" style="font-size: 10.5px; padding: 2px 8px; height: auto;">Cancel</button>
+              </div>
             </div>
             <div style="height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden;">
               <div id="upload-progress-bar" style="height: 100%; width: 0%; background: var(--gold-primary); transition: width 0.2s ease;"></div>
@@ -369,8 +470,9 @@
 
           <div class="field-error" id="err-photos" style="margin-top: 8px;">Please provide at least 1 property photograph.</div>
 
-          <!-- Uploaded Photos Grid -->
-          <div class="photo-grid" id="photo-preview-grid"></div>
+          <!-- Combined Photos & Videos Grid -->
+          <div class="photo-grid" id="media-preview-grid"></div>
+          <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 8px;">Drag to reorder. The first photo is the cover. Videos appear after the photos on the website.</div>
         </section>
 
         <!-- CARD 4: Curated Highlights -->
@@ -499,6 +601,7 @@
       // State
       let isDirty = false;
       let currentPhotos = []; // strings (URLs)
+      let currentVideos = []; // objects { type: 'youtube' | 'vimeo' | 'file', id?, url, poster, path?, posterPath? }
       let selectedHighlights = [];
       let selectedAmenities = [];
       let currentStatus = 'available';
@@ -580,90 +683,453 @@
         }
       }
 
-      // Photos management
-      const photoGrid = document.getElementById('photo-preview-grid');
-      const photoCountLabel = document.getElementById('photo-count-label');
-      const fileInput = document.getElementById('photo-file-input');
+      // Visual Assets (Photos & Videos) Management
+      const mediaGrid = document.getElementById('media-preview-grid');
+      const assetsCountLabel = document.getElementById('assets-count-label');
+      const fileInput = document.getElementById('media-file-input');
       const dropzone = document.getElementById('uploader-dropzone');
       const progressWrap = document.getElementById('upload-progress-wrap');
       const progressBar = document.getElementById('upload-progress-bar');
       const progressText = document.getElementById('upload-progress-text');
       const progressPct = document.getElementById('upload-progress-pct');
+      const cancelUploadBtn = document.getElementById('cancel-upload-btn');
 
-      function renderPhotos() {
-        photoCountLabel.textContent = `${currentPhotos.length} of 8 uploaded`;
-        photoGrid.innerHTML = currentPhotos.map((url, idx) => `
-          <div class="photo-card" data-idx="${idx}">
-            <img src="${url}" alt="Property Photo ${idx + 1}" loading="lazy" onerror="this.onerror=null; this.src=window.iGreyAdmin.PROPERTY_PLACEHOLDER;" />
-            ${idx === 0 ? '<span class="photo-cover-tag">COVER</span>' : ''}
-            <div class="photo-actions">
-              ${idx > 0 ? `<button type="button" class="photo-btn move-left-btn" data-idx="${idx}" title="Move left">&larr;</button>` : ''}
-              ${idx < currentPhotos.length - 1 ? `<button type="button" class="photo-btn move-right-btn" data-idx="${idx}" title="Move right">&rarr;</button>` : ''}
-              <button type="button" class="photo-btn remove-photo-btn" data-idx="${idx}" title="Remove photo">&times;</button>
+      const toggleVideoLinkBtn = document.getElementById('toggle-video-link-btn');
+      const videoLinkBox = document.getElementById('video-link-box');
+      const videoUrlInput = document.getElementById('video-url-input');
+      const addVideoUrlBtn = document.getElementById('add-video-url-btn');
+      const cancelVideoUrlBtn = document.getElementById('cancel-video-url-btn');
+      const videoUrlError = document.getElementById('video-url-error');
+
+      function updateAssetsCounter() {
+        if (assetsCountLabel) {
+          assetsCountLabel.textContent = `${currentPhotos.length} of 8 photos · ${currentVideos.length} of 2 videos`;
+        }
+      }
+
+      function parseVideoLink(rawUrl) {
+        const url = (rawUrl || '').trim();
+        if (!url.startsWith('https://')) return null;
+
+        // YouTube regex: accept https links from youtube.com, youtu.be
+        const ytMatch = url.match(/^https:\/\/(?:(?:www|m)\.)?(?:youtube\.com\/(?:watch\?.*v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})(?:[?&].*)?$/);
+        if (ytMatch && ytMatch[1]) {
+          const id = ytMatch[1];
+          return {
+            type: 'youtube',
+            id: id,
+            url: `https://www.youtube.com/watch?v=${id}`,
+            poster: `https://img.youtube.com/vi/${id}/hqdefault.jpg`
+          };
+        }
+
+        // Vimeo regex: accept https links from vimeo.com, player.vimeo.com
+        const vimeoMatch = url.match(/^https:\/\/(?:(?:www\.)?vimeo\.com\/|player\.vimeo\.com\/video\/)([0-9]{6,12})(?:[?&].*)?$/);
+        if (vimeoMatch && vimeoMatch[1]) {
+          const id = vimeoMatch[1];
+          return {
+            type: 'vimeo',
+            id: id,
+            url: `https://vimeo.com/${id}`,
+            poster: `https://vumbnail.com/${id}.jpg`
+          };
+        }
+
+        return null;
+      }
+
+      function generateVideoPoster(videoFile) {
+        return new Promise((resolve) => {
+          const video = document.createElement('video');
+          video.preload = 'metadata';
+          video.playsInline = true;
+          video.muted = true;
+          const url = URL.createObjectURL(videoFile);
+          video.src = url;
+
+          let done = false;
+          const finish = (blob) => {
+            if (done) return;
+            done = true;
+            URL.revokeObjectURL(url);
+            video.remove();
+            resolve(blob);
+          };
+
+          video.onloadedmetadata = () => {
+            video.currentTime = Math.min(1.0, (video.duration || 1) / 2);
+          };
+
+          video.onseeked = () => {
+            try {
+              const canvas = document.createElement('canvas');
+              const maxW = 640;
+              const scale = Math.min(1, maxW / (video.videoWidth || 640));
+              canvas.width = Math.max(1, Math.round((video.videoWidth || 640) * scale));
+              canvas.height = Math.max(1, Math.round((video.videoHeight || 360) * scale));
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+              canvas.toBlob((blob) => {
+                finish(blob);
+              }, 'image/webp', 0.82);
+            } catch (err) {
+              finish(null);
+            }
+          };
+
+          video.onerror = () => finish(null);
+          setTimeout(() => finish(null), 8000);
+        });
+      }
+
+      let draggedPhotoIdx = null;
+      let draggedVideoIdx = null;
+
+      function renderMedia() {
+        updateAssetsCounter();
+        let html = '';
+
+        // Photos
+        currentPhotos.forEach((url, idx) => {
+          html += `
+            <div class="photo-card" draggable="true" data-type="photo" data-idx="${idx}">
+              <img src="${url}" alt="Property Photo ${idx + 1}" loading="lazy" onerror="this.onerror=null; this.src=window.iGreyAdmin.PROPERTY_PLACEHOLDER;" />
+              ${idx === 0 ? '<span class="photo-cover-tag">COVER</span>' : ''}
+              <div class="photo-actions">
+                ${idx > 0 ? `<button type="button" class="photo-btn move-btn move-photo-left" data-idx="${idx}" title="Move left">&larr;</button>` : ''}
+                ${idx < currentPhotos.length - 1 ? `<button type="button" class="photo-btn move-btn move-photo-right" data-idx="${idx}" title="Move right">&rarr;</button>` : ''}
+                <button type="button" class="photo-btn remove-photo-btn" data-idx="${idx}" title="Remove photo">&times;</button>
+              </div>
             </div>
-          </div>
-        `).join('');
+          `;
+        });
 
-        // Attach action events
-        photoGrid.querySelectorAll('.remove-photo-btn').forEach(btn => {
-          btn.onclick = () => {
+        // Videos (always rendered after photos!)
+        currentVideos.forEach((v, vIdx) => {
+          const posterUrl = v.poster || (v.type === 'youtube' ? `https://img.youtube.com/vi/${v.id}/hqdefault.jpg` : window.iGreyAdmin.PROPERTY_PLACEHOLDER);
+          html += `
+            <div class="video-card" draggable="true" data-type="video" data-vidx="${vIdx}">
+              <img src="${posterUrl}" alt="Video Thumbnail ${vIdx + 1}" loading="lazy" onerror="this.onerror=null; this.src=window.iGreyAdmin.PROPERTY_PLACEHOLDER;" />
+              <span class="video-badge-tag">VIDEO</span>
+              <span class="video-type-tag">${v.type === 'file' ? 'File' : 'Link'}</span>
+              <div class="video-center-play">
+                <div class="video-center-icon">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+                </div>
+              </div>
+              <div class="photo-actions">
+                ${vIdx > 0 ? `<button type="button" class="photo-btn move-btn move-video-left" data-vidx="${vIdx}" title="Move left">&larr;</button>` : ''}
+                ${vIdx < currentVideos.length - 1 ? `<button type="button" class="photo-btn move-btn move-video-right" data-vidx="${vIdx}" title="Move right">&rarr;</button>` : ''}
+                <button type="button" class="photo-btn remove-video-btn" data-vidx="${vIdx}" title="Remove video">&times;</button>
+              </div>
+            </div>
+          `;
+        });
+
+        mediaGrid.innerHTML = html;
+
+        // Photo remove
+        mediaGrid.querySelectorAll('.remove-photo-btn').forEach(btn => {
+          btn.onclick = (e) => {
+            e.stopPropagation();
             markDirty();
             const idx = parseInt(btn.getAttribute('data-idx'), 10);
             currentPhotos.splice(idx, 1);
-            renderPhotos();
+            renderMedia();
           };
         });
 
-        photoGrid.querySelectorAll('.move-left-btn').forEach(btn => {
-          btn.onclick = () => {
+        // Photo move left/right
+        mediaGrid.querySelectorAll('.move-photo-left').forEach(btn => {
+          btn.onclick = (e) => {
+            e.stopPropagation();
             markDirty();
             const idx = parseInt(btn.getAttribute('data-idx'), 10);
             const temp = currentPhotos[idx - 1];
             currentPhotos[idx - 1] = currentPhotos[idx];
             currentPhotos[idx] = temp;
-            renderPhotos();
+            renderMedia();
           };
         });
-
-        photoGrid.querySelectorAll('.move-right-btn').forEach(btn => {
-          btn.onclick = () => {
+        mediaGrid.querySelectorAll('.move-photo-right').forEach(btn => {
+          btn.onclick = (e) => {
+            e.stopPropagation();
             markDirty();
             const idx = parseInt(btn.getAttribute('data-idx'), 10);
             const temp = currentPhotos[idx + 1];
             currentPhotos[idx + 1] = currentPhotos[idx];
             currentPhotos[idx] = temp;
-            renderPhotos();
+            renderMedia();
           };
         });
+
+        // Video remove (with confirmation for videos!)
+        mediaGrid.querySelectorAll('.remove-video-btn').forEach(btn => {
+          btn.onclick = async (e) => {
+            e.stopPropagation();
+            const vIdx = parseInt(btn.getAttribute('data-vidx'), 10);
+            const video = currentVideos[vIdx];
+            if (!video) return;
+
+            if (!confirm('Are you sure you want to remove this video?')) {
+              return;
+            }
+
+            markDirty();
+            // If storage file, delete from bucket
+            if (video.type === 'file') {
+              const filesToRemove = [video.path, video.posterPath].filter(Boolean);
+              if (filesToRemove.length > 0) {
+                try {
+                  await client.storage.from('property-videos').remove(filesToRemove);
+                } catch (delErr) {
+                  console.warn('Storage cleanup failed on remove:', delErr);
+                }
+              }
+            }
+
+            currentVideos.splice(vIdx, 1);
+            renderMedia();
+          };
+        });
+
+        // Video move left/right
+        mediaGrid.querySelectorAll('.move-video-left').forEach(btn => {
+          btn.onclick = (e) => {
+            e.stopPropagation();
+            markDirty();
+            const vIdx = parseInt(btn.getAttribute('data-vidx'), 10);
+            const temp = currentVideos[vIdx - 1];
+            currentVideos[vIdx - 1] = currentVideos[vIdx];
+            currentVideos[vIdx] = temp;
+            renderMedia();
+          };
+        });
+        mediaGrid.querySelectorAll('.move-video-right').forEach(btn => {
+          btn.onclick = (e) => {
+            e.stopPropagation();
+            markDirty();
+            const vIdx = parseInt(btn.getAttribute('data-vidx'), 10);
+            const temp = currentVideos[vIdx + 1];
+            currentVideos[vIdx + 1] = currentVideos[vIdx];
+            currentVideos[vIdx] = temp;
+            renderMedia();
+          };
+        });
+
+        // Drag & drop listeners for photo cards (reordering among photos)
+        mediaGrid.querySelectorAll('.photo-card').forEach(card => {
+          card.addEventListener('dragstart', (e) => {
+            draggedPhotoIdx = parseInt(card.getAttribute('data-idx'), 10);
+            draggedVideoIdx = null;
+            card.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+          });
+          card.addEventListener('dragend', () => {
+            card.classList.remove('dragging');
+            mediaGrid.querySelectorAll('.drag-over').forEach(c => c.classList.remove('drag-over'));
+            draggedPhotoIdx = null;
+          });
+          card.addEventListener('dragover', (e) => {
+            if (draggedPhotoIdx !== null) {
+              e.preventDefault();
+              e.dataTransfer.dropEffect = 'move';
+              card.classList.add('drag-over');
+            }
+          });
+          card.addEventListener('dragleave', () => {
+            card.classList.remove('drag-over');
+          });
+          card.addEventListener('drop', (e) => {
+            if (draggedPhotoIdx !== null) {
+              e.preventDefault();
+              card.classList.remove('drag-over');
+              const targetIdx = parseInt(card.getAttribute('data-idx'), 10);
+              if (targetIdx !== draggedPhotoIdx) {
+                markDirty();
+                const [item] = currentPhotos.splice(draggedPhotoIdx, 1);
+                currentPhotos.splice(targetIdx, 0, item);
+                renderMedia();
+              }
+            }
+          });
+        });
+
+        // Drag & drop listeners for video cards (reordering among videos)
+        mediaGrid.querySelectorAll('.video-card').forEach(card => {
+          card.addEventListener('dragstart', (e) => {
+            draggedVideoIdx = parseInt(card.getAttribute('data-vidx'), 10);
+            draggedPhotoIdx = null;
+            card.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+          });
+          card.addEventListener('dragend', () => {
+            card.classList.remove('dragging');
+            mediaGrid.querySelectorAll('.drag-over').forEach(c => c.classList.remove('drag-over'));
+            draggedVideoIdx = null;
+          });
+          card.addEventListener('dragover', (e) => {
+            if (draggedVideoIdx !== null) {
+              e.preventDefault();
+              e.dataTransfer.dropEffect = 'move';
+              card.classList.add('drag-over');
+            }
+          });
+          card.addEventListener('dragleave', () => {
+            card.classList.remove('drag-over');
+          });
+          card.addEventListener('drop', (e) => {
+            if (draggedVideoIdx !== null) {
+              e.preventDefault();
+              card.classList.remove('drag-over');
+              const targetIdx = parseInt(card.getAttribute('data-vidx'), 10);
+              if (targetIdx !== draggedVideoIdx) {
+                markDirty();
+                const [item] = currentVideos.splice(draggedVideoIdx, 1);
+                currentVideos.splice(targetIdx, 0, item);
+                renderMedia();
+              }
+            }
+          });
+        });
       }
+
+      // Add Video Link toggle & submit
+      toggleVideoLinkBtn.onclick = () => {
+        const isHidden = videoLinkBox.style.display === 'none' || !videoLinkBox.style.display;
+        videoLinkBox.style.display = isHidden ? 'block' : 'none';
+        if (isHidden) {
+          videoUrlInput.value = '';
+          videoUrlError.style.display = 'none';
+          videoUrlInput.focus();
+        }
+      };
+
+      cancelVideoUrlBtn.onclick = () => {
+        videoLinkBox.style.display = 'none';
+        videoUrlInput.value = '';
+        videoUrlError.style.display = 'none';
+      };
+
+      function handleAddVideoUrl() {
+        const val = videoUrlInput.value.trim();
+        if (currentVideos.length >= 2) {
+          showToast('error', 'Limit Reached', 'Video limit reached (maximum 2 videos).');
+          return;
+        }
+
+        const parsed = parseVideoLink(val);
+        if (!parsed) {
+          videoUrlError.style.display = 'block';
+          videoUrlError.textContent = 'Please paste a valid YouTube or Vimeo link';
+          return;
+        }
+
+        videoUrlError.style.display = 'none';
+        currentVideos.push(parsed);
+        markDirty();
+        renderMedia();
+        videoUrlInput.value = '';
+        videoLinkBox.style.display = 'none';
+        showToast('success', 'Video Added', `Added ${parsed.type === 'youtube' ? 'YouTube' : 'Vimeo'} video link.`);
+      }
+
+      addVideoUrlBtn.onclick = handleAddVideoUrl;
+      videoUrlInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          handleAddVideoUrl();
+        }
+      });
+
+      // Upload handling for both Photos and Videos
+      let isUploadCancelled = false;
+      cancelUploadBtn.onclick = () => {
+        isUploadCancelled = true;
+        progressWrap.style.display = 'none';
+        progressBar.style.width = '0%';
+        showToast('info', 'Upload Cancelled', 'Media upload was cancelled.');
+      };
 
       async function handleFilesUpload(filesList) {
         const files = Array.from(filesList);
         if (!files.length) return;
 
-        if (currentPhotos.length + files.length > 8) {
-          showToast('error', 'Limit Exceeded', 'A maximum of 8 photographs can be uploaded per property.');
-          return;
-        }
+        isUploadCancelled = false;
 
-        progressWrap.style.display = 'block';
-        let done = 0;
+        const imageFiles = [];
+        const videoFiles = [];
+        const rejectedFiles = [];
 
         for (const file of files) {
+          const name = file.name.toLowerCase();
+          const type = file.type.toLowerCase();
+          if (type.startsWith('image/') || /\.(jpe?g|png|webp)$/i.test(name)) {
+            imageFiles.push(file);
+          } else if (type === 'video/mp4' || type === 'video/webm' || /\.(mp4|webm)$/i.test(name)) {
+            videoFiles.push(file);
+          } else {
+            rejectedFiles.push(file);
+          }
+        }
+
+        if (rejectedFiles.length > 0) {
+          showToast('error', 'Invalid File Type', 'Only JPG, PNG, WebP, MP4, or WebM files are allowed');
+        }
+
+        // Limit validation for photos
+        let allowedImageFiles = imageFiles;
+        if (imageFiles.length > 0) {
+          if (currentPhotos.length >= 8) {
+            showToast('error', 'Limit Reached', 'Photo limit reached (maximum 8 photos).');
+            allowedImageFiles = [];
+          } else if (currentPhotos.length + imageFiles.length > 8) {
+            const allowed = 8 - currentPhotos.length;
+            showToast('error', 'Limit Exceeded', `Cannot add ${imageFiles.length} photos. Only ${allowed} slot(s) remaining.`);
+            allowedImageFiles = imageFiles.slice(0, allowed);
+          }
+        }
+
+        // Limit validation for videos
+        let allowedVideoFiles = videoFiles;
+        if (videoFiles.length > 0) {
+          if (currentVideos.length >= 2) {
+            showToast('error', 'Limit Reached', 'Video limit reached (maximum 2 videos).');
+            allowedVideoFiles = [];
+          } else if (currentVideos.length + videoFiles.length > 2) {
+            const allowed = 2 - currentVideos.length;
+            showToast('error', 'Limit Exceeded', `Cannot add ${videoFiles.length} videos. Only ${allowed} slot(s) remaining.`);
+            allowedVideoFiles = videoFiles.slice(0, allowed);
+          }
+        }
+
+        const totalTasks = allowedImageFiles.length + allowedVideoFiles.length;
+        if (totalTasks === 0) return;
+
+        progressWrap.style.display = 'block';
+        let completed = 0;
+
+        // 1. Process images
+        for (const file of allowedImageFiles) {
+          if (isUploadCancelled) break;
+
           if (file.size > 5 * 1024 * 1024) {
             showToast('error', 'File Too Large', `${file.name} exceeds 5 MB.`);
+            completed++;
             continue;
           }
 
           try {
-            progressText.textContent = `Optimizing ${file.name}...`;
+            progressText.textContent = `Optimizing photo: ${file.name}...`;
             const compressed = await compressPhoto(file, 1600, 0.8);
+
+            if (isUploadCancelled) break;
 
             const fileExt = compressed.name.split('.').pop();
             const fileName = `prop_${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${fileExt}`;
 
-            progressText.textContent = `Uploading ${fileName}...`;
-            const { data, error } = await client.storage
+            progressText.textContent = `Uploading photo: ${fileName}...`;
+            const { error } = await client.storage
               .from('property-images')
               .upload(fileName, compressed, {
                 cacheControl: '3600',
@@ -682,8 +1148,82 @@
             showToast('error', 'Upload Failed', err.message);
           }
 
-          done++;
-          const pct = Math.round((done / files.length) * 100);
+          completed++;
+          const pct = Math.round((completed / totalTasks) * 100);
+          progressBar.style.width = `${pct}%`;
+          progressPct.textContent = `${pct}%`;
+        }
+
+        // 2. Process videos
+        const propCode = (codeInput.value.trim() || 'PROP').replace(/[^a-zA-Z0-9_-]/g, '_');
+        for (const file of allowedVideoFiles) {
+          if (isUploadCancelled) break;
+
+          if (file.size > 50 * 1024 * 1024) {
+            showToast('error', 'Video Too Large', 'This video is larger than 50 MB. Please compress it or paste a YouTube link instead');
+            completed++;
+            continue;
+          }
+
+          try {
+            progressText.textContent = `Generating poster for ${file.name}...`;
+            const posterBlob = await generateVideoPoster(file);
+
+            if (isUploadCancelled) break;
+
+            const timestamp = Date.now();
+            const vExt = file.name.toLowerCase().endsWith('.webm') ? 'webm' : 'mp4';
+            const vIndex = currentVideos.length + 1;
+            const videoFileName = `${propCode}/${timestamp}-${vIndex}.${vExt}`;
+            const posterFileName = `${propCode}/${timestamp}-${vIndex}-poster.webp`;
+
+            progressText.textContent = `Uploading video file: ${file.name}...`;
+            const { error: vError } = await client.storage
+              .from('property-videos')
+              .upload(videoFileName, file, {
+                contentType: vExt === 'webm' ? 'video/webm' : 'video/mp4',
+                cacheControl: '3600',
+                upsert: false,
+              });
+
+            if (vError) throw vError;
+
+            let posterPublicUrl = '';
+            if (posterBlob) {
+              const { error: pError } = await client.storage
+                .from('property-videos')
+                .upload(posterFileName, posterBlob, {
+                  contentType: 'image/webp',
+                  cacheControl: '3600',
+                  upsert: false,
+                });
+              if (!pError) {
+                const { data: pUrlData } = client.storage
+                  .from('property-videos')
+                  .getPublicUrl(posterFileName);
+                posterPublicUrl = pUrlData.publicUrl;
+              }
+            }
+
+            const { data: vUrlData } = client.storage
+              .from('property-videos')
+              .getPublicUrl(videoFileName);
+
+            currentVideos.push({
+              type: 'file',
+              url: vUrlData.publicUrl,
+              poster: posterPublicUrl || vUrlData.publicUrl,
+              path: videoFileName,
+              posterPath: posterFileName
+            });
+            markDirty();
+            showToast('success', 'Video Uploaded', `${file.name} successfully uploaded.`);
+          } catch (err) {
+            showToast('error', 'Video Upload Failed', err.message);
+          }
+
+          completed++;
+          const pct = Math.round((completed / totalTasks) * 100);
           progressBar.style.width = `${pct}%`;
           progressPct.textContent = `${pct}%`;
         }
@@ -693,7 +1233,7 @@
           progressBar.style.width = '0%';
         }, 1000);
 
-        renderPhotos();
+        renderMedia();
       }
 
       // Drag and drop listeners
@@ -852,6 +1392,7 @@
           city: document.getElementById('prop-city').value,
           locality: document.getElementById('prop-locality').value.trim(),
           images: currentPhotos,
+          videos: currentVideos,
           highlights: selectedHighlights,
           amenities: selectedAmenities,
           description: document.getElementById('prop-description').value.trim(),
@@ -898,6 +1439,16 @@
         if (!area) showError('err-area');
         if (!locality) showError('err-locality');
         if (currentPhotos.length === 0) showError('err-photos');
+        if (currentVideos.length > 2) {
+          showToast('error', 'Validation Error', 'Maximum of 2 videos allowed.');
+          valid = false;
+        }
+        for (const v of currentVideos) {
+          if (v.type === 'file' && (!v.url || !v.url.includes('/property-videos/'))) {
+            showToast('error', 'Validation Error', 'Uploaded video must belong to property-videos storage bucket.');
+            valid = false;
+          }
+        }
 
         return valid;
       }
@@ -1057,7 +1608,8 @@
             });
 
             currentPhotos = Array.isArray(data.images) ? [...data.images] : [];
-            renderPhotos();
+            currentVideos = Array.isArray(data.videos) ? [...data.videos] : [];
+            renderMedia();
 
             selectedHighlights = Array.isArray(data.highlights) ? [...data.highlights] : [];
             renderHighlights();
@@ -1071,7 +1623,7 @@
       } else {
         // New property default
         generateNextCode(citySelect.value);
-        renderPhotos();
+        renderMedia();
         renderHighlights();
         renderAmenities();
       }

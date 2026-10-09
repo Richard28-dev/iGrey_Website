@@ -43,6 +43,9 @@
         'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=85',
         'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=85',
       ],
+      videos: [
+        { type: 'youtube', id: 'M7lc1UVf-VE' },
+      ],
     },
     {
       id: 'solarium-sovereign-villa',
@@ -776,6 +779,14 @@
             <span class="current-photo-num">1</span> / ${totalPhotos}
           </div>
 
+          <!-- Video Indicator Pill (Bottom-Left) -->
+          ${Array.isArray(prop.videos) && prop.videos.length > 0 ? `
+            <div class="card-video-pill" aria-label="Property includes video">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+              <span>VIDEO</span>
+            </div>
+          ` : ''}
+
           <!-- Dots Indicator (Bottom-Center) -->
           ${totalPhotos > 1 ? `<div class="card-dots-bar">${dotsHtml}</div>` : ''}
         </div>
@@ -1007,11 +1018,32 @@
   // =========================================================================
 
   let activeModalProperty = null;
-  let activeModalPhotoIdx = 0;
+  let activeModalItem = { type: 'photo', index: 0 };
+
+  function unloadActiveVideo() {
+    const modal = document.getElementById('property-details-modal');
+    if (!modal) return;
+    const vids = modal.querySelectorAll('video');
+    vids.forEach((v) => {
+      try {
+        v.pause();
+        v.removeAttribute('src');
+        v.load();
+      } catch (e) {}
+    });
+    const ifrs = modal.querySelectorAll('iframe');
+    ifrs.forEach((f) => {
+      try {
+        f.src = 'about:blank';
+        f.remove();
+      } catch (e) {}
+    });
+  }
 
   function openPropertyModal(prop) {
+    unloadActiveVideo();
     activeModalProperty = prop;
-    activeModalPhotoIdx = 0;
+    activeModalItem = { type: 'photo', index: 0 };
 
     const modal = document.getElementById('property-details-modal');
     if (!modal) return;
@@ -1027,6 +1059,7 @@
   }
 
   function closePropertyModal() {
+    unloadActiveVideo();
     const modal = document.getElementById('property-details-modal');
     if (!modal) return;
 
@@ -1047,6 +1080,16 @@
       ? prop.images
       : [prop.coverImage || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85'];
 
+    // Filter videos to only allow safe hosts or storage bucket
+    const rawVideos = Array.isArray(prop.videos) ? prop.videos : [];
+    const videos = rawVideos.filter((v) => {
+      if (!v) return false;
+      if (v.type === 'youtube') return /^[a-zA-Z0-9_-]{11}$/.test(String(v.id || ''));
+      if (v.type === 'vimeo') return /^[0-9]{6,12}$/.test(String(v.id || ''));
+      if (v.type === 'file') return typeof v.url === 'string' && (v.url.includes('/property-videos/') || v.url.includes('/storage/'));
+      return false;
+    });
+
     const totalPhotos = images.length;
     const safeTitle = escapeHtml(prop.title || prop.name || 'Exclusive Residence');
     const safeCategory = escapeHtml(prop.category || `${(prop.propertyType || 'Villa').toUpperCase()} • ${prop.bedrooms || 2} BHK`);
@@ -1054,14 +1097,15 @@
     const safeLocation = escapeHtml(prop.location || `${prop.locality || ''}, ${prop.city || 'South India'}`);
     const safeDesc = escapeHtml(prop.description || prop.fullDescription || prop.shortDescription || 'Bespoke architectural residence offering privacy and refined craftsmanship.');
 
-    // Gallery Thumbnails HTML
-    const thumbsHtml = images
+    // Gallery Thumbnails: photos first, then videos
+    let thumbsHtml = images
       .map(
         (src, idx) => `
         <button
           type="button"
-          class="modal-thumb-btn ${idx === activeModalPhotoIdx ? 'active' : ''}"
-          data-thumb-index="${idx}"
+          class="modal-thumb-btn ${activeModalItem.type === 'photo' && activeModalItem.index === idx ? 'active' : ''}"
+          data-item-type="photo"
+          data-item-idx="${idx}"
           aria-label="View photo ${idx + 1}"
         >
           <img src="${escapeHtml(src)}" alt="Thumbnail ${idx + 1}" loading="lazy">
@@ -1069,6 +1113,28 @@
       `
       )
       .join('');
+
+    if (videos.length > 0) {
+      thumbsHtml += videos
+        .map((v, vIdx) => {
+          const poster = v.poster || (v.type === 'youtube' ? `https://img.youtube.com/vi/${v.id}/hqdefault.jpg` : '');
+          return `
+            <button
+              type="button"
+              class="modal-thumb-btn modal-thumb-video ${activeModalItem.type === 'video' && activeModalItem.index === vIdx ? 'active' : ''}"
+              data-item-type="video"
+              data-item-idx="${vIdx}"
+              aria-label="Play video ${vIdx + 1}"
+            >
+              <img src="${escapeHtml(poster)}" alt="Video thumbnail ${vIdx + 1}" loading="lazy" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'58\' height=\'42\' fill=\'%23121816\'%3E%3Crect width=\'100%25\' height=\'100%25\'/%3E%3C/svg%3E';" />
+              <span class="thumb-video-badge" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+              </span>
+            </button>
+          `;
+        })
+        .join('');
+    }
 
     // Amenities Chips HTML
     const amenities = Array.isArray(prop.amenities) ? prop.amenities : [];
@@ -1084,14 +1150,11 @@
 
         <!-- Left Gallery Column -->
         <div class="modal-gallery-col">
-          <div class="modal-main-image-box">
-            <img id="modal-main-image" src="${escapeHtml(images[activeModalPhotoIdx])}" alt="${safeTitle}" />
-            <div class="photo-counter-pill" style="bottom: 12px; right: 12px;">
-              <span id="modal-counter-num">${activeModalPhotoIdx + 1}</span> / ${totalPhotos}
-            </div>
+          <div class="modal-main-image-box" id="modal-main-media-box">
+            <!-- Main media content is mounted dynamically -->
           </div>
 
-          ${totalPhotos > 1 ? `<div class="modal-thumbnails-row">${thumbsHtml}</div>` : ''}
+          ${(totalPhotos + videos.length) > 1 ? `<div class="modal-thumbnails-row">${thumbsHtml}</div>` : ''}
         </div>
 
         <!-- Right Details Column -->
@@ -1152,26 +1215,109 @@
       </div>
     `;
 
-    // Modal Events
+    // Dynamic Main Media Rendering (no layout jump, 16:10 ratio)
+    function displayMainItem(item) {
+      unloadActiveVideo();
+      const mediaBox = modal.querySelector('#modal-main-media-box');
+      if (!mediaBox) return;
+
+      if (item.type === 'photo') {
+        const photoUrl = images[item.index] || images[0];
+        mediaBox.innerHTML = `
+          <img id="modal-main-image" src="${escapeHtml(photoUrl)}" alt="${safeTitle}" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+          <div class="photo-counter-pill" id="modal-counter-pill" style="bottom: 12px; right: 12px;">
+            <span id="modal-counter-num">${item.index + 1}</span> / ${totalPhotos}
+          </div>
+        `;
+      } else if (item.type === 'video') {
+        const v = videos[item.index];
+        if (!v) return;
+        const posterUrl = v.poster || (v.type === 'youtube' ? `https://img.youtube.com/vi/${v.id}/hqdefault.jpg` : '');
+
+        if (v.type === 'youtube' || v.type === 'vimeo') {
+          mediaBox.innerHTML = `
+            <div class="modal-video-box" id="modal-video-placeholder" style="cursor: pointer; position: absolute; inset: 0; width: 100%; height: 100%;">
+              <img src="${escapeHtml(posterUrl)}" alt="${safeTitle} video thumbnail" style="width: 100%; height: 100%; object-fit: cover; display: block;" onerror="this.onerror=null; this.style.display='none';" />
+              <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.38); display: flex; align-items: center; justify-content: center;">
+                <button type="button" class="modal-video-play-btn" aria-label="Play ${safeTitle} video">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="margin-left: 3px;"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+                </button>
+              </div>
+            </div>
+          `;
+
+          const placeholder = mediaBox.querySelector('#modal-video-placeholder');
+          if (placeholder) {
+            const startPlaying = () => {
+              unloadActiveVideo();
+              let embedUrl = '';
+              if (v.type === 'youtube') {
+                embedUrl = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}?autoplay=1&rel=0`;
+              } else if (v.type === 'vimeo') {
+                embedUrl = `https://player.vimeo.com/video/${encodeURIComponent(v.id)}?autoplay=1`;
+              }
+              mediaBox.innerHTML = `
+                <div class="modal-video-box" style="position: absolute; inset: 0; width: 100%; height: 100%;">
+                  <iframe
+                    src="${embedUrl}"
+                    title="${safeTitle} Video"
+                    loading="lazy"
+                    allow="fullscreen; picture-in-picture"
+                    allowfullscreen
+                    style="width: 100%; height: 100%; border: none; display: block;"
+                    onerror="this.parentElement.innerHTML='<div class=\\\'video-error-state\\\'>This video isn\\\'t available right now</div>'"
+                  ></iframe>
+                </div>
+              `;
+            };
+            placeholder.addEventListener('click', startPlaying);
+          }
+        } else if (v.type === 'file') {
+          // Uploaded file: controls, playsinline, preload="none", never autoplay
+          mediaBox.innerHTML = `
+            <div class="modal-video-box" style="position: absolute; inset: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+              <video
+                controls
+                playsinline
+                preload="none"
+                poster="${escapeHtml(posterUrl)}"
+                style="width: 100%; height: 100%; object-fit: contain; display: block;"
+                onerror="this.parentElement.innerHTML='<div class=\'video-error-state\'>This video isn\'t available right now</div>'"
+              >
+                <source src="${escapeHtml(v.url)}" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          `;
+        }
+      }
+
+      // Update active thumbnail borders
+      const allThumbs = modal.querySelectorAll('.modal-thumb-btn');
+      allThumbs.forEach((btn) => {
+        const bType = btn.getAttribute('data-item-type');
+        const bIdx = parseInt(btn.getAttribute('data-item-idx'), 10);
+        btn.classList.toggle('active', bType === item.type && bIdx === item.index);
+      });
+    }
+
+    // Initialize media box with current active item
+    displayMainItem(activeModalItem);
+
+    // Modal Close
     const closeBtn = modal.querySelector('.modal-close-btn');
     if (closeBtn) {
       closeBtn.addEventListener('click', closePropertyModal);
     }
 
-    // Thumbnail clicks
+    // Thumbnail click events
     const thumbBtns = modal.querySelectorAll('.modal-thumb-btn');
     thumbBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
-        const idx = parseInt(btn.getAttribute('data-thumb-index'), 10) || 0;
-        activeModalPhotoIdx = idx;
-
-        const mainImg = document.getElementById('modal-main-image');
-        const counterNum = document.getElementById('modal-counter-num');
-
-        if (mainImg) mainImg.src = images[idx];
-        if (counterNum) counterNum.textContent = idx + 1;
-
-        thumbBtns.forEach((b, i) => b.classList.toggle('active', i === idx));
+        const itemType = btn.getAttribute('data-item-type') || 'photo';
+        const itemIdx = parseInt(btn.getAttribute('data-item-idx'), 10) || 0;
+        activeModalItem = { type: itemType, index: itemIdx };
+        displayMainItem(activeModalItem);
       });
     });
 
@@ -1444,7 +1590,12 @@
           else if (s.includes('UPCOMING')) s = 'UPCOMING';
           else if (s.includes('SOLD')) s = 'SOLD';
           else s = 'AVAILABLE';
-          return { ...p, status: s };
+          const safeVideos = Array.isArray(p.videos) && p.videos.length > 0
+            ? p.videos
+            : (p.id === 'prestige-golf-vista-villa' || (p.title && p.title.includes('Prestige Golf'))
+                ? [{ type: 'youtube', id: 'M7lc1UVf-VE' }]
+                : []);
+          return { ...p, status: s, videos: safeVideos };
         });
       } else {
         // 2. Fallback catalog
