@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS public.properties (
   bedrooms text NOT NULL DEFAULT '2 BHK',
   price bigint NOT NULL CHECK (price >= 0),
   area_sqft text NOT NULL DEFAULT '1,200',
-  status text NOT NULL CHECK (status IN ('available', 'under_offer', 'sold', 'draft')) DEFAULT 'available',
+  status text NOT NULL CHECK (status IN ('available', 'upcoming', 'under_offer', 'sold', 'draft')) DEFAULT 'available',
   listing_type text NOT NULL DEFAULT 'sale',
   city text NOT NULL,
   locality text NOT NULL,
@@ -40,6 +40,10 @@ CREATE TABLE IF NOT EXISTS public.properties (
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now()
 );
+
+-- Migration helper if table already exists in Supabase:
+ALTER TABLE public.properties DROP CONSTRAINT IF EXISTS properties_status_check;
+ALTER TABLE public.properties ADD CONSTRAINT properties_status_check CHECK (status IN ('available', 'upcoming', 'under_offer', 'sold', 'draft'));
 
 -- C. ENQUIRIES TABLE
 CREATE TABLE IF NOT EXISTS public.enquiries (

@@ -13,12 +13,12 @@
 
   <!-- Admin Theme & Favicon -->
   <link rel="icon" type="image/png" href="../logo-mark.png" />
-  <link rel="stylesheet" href="admin.css?v=2" />
+  <link rel="stylesheet" href="admin.css?v=3" />
 
   <!-- Supabase CDN Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/supabase-config.js"></script>
-  <script src="admin.js?v=2"></script>
+  <script src="admin.js?v=3"></script>
 
   <style>
     .form-cards-layout {
@@ -304,6 +304,7 @@
               <label class="form-label">Acquisition Status</label>
               <div class="segmented-control" id="status-segmented">
                 <button type="button" class="segmented-btn active" data-val="available">Available</button>
+                <button type="button" class="segmented-btn" data-val="upcoming">Upcoming</button>
                 <button type="button" class="segmented-btn" data-val="under_offer">Under offer</button>
                 <button type="button" class="segmented-btn" data-val="sold">Sold</button>
               </div>

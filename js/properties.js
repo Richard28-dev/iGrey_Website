@@ -40,7 +40,9 @@
 
     const rawStatus = (row.status || 'available').toLowerCase();
     let displayStatus = 'AVAILABLE';
-    if (rawStatus === 'under_offer' || rawStatus === 'under offer') {
+    if (rawStatus === 'upcoming') {
+      displayStatus = 'UPCOMING';
+    } else if (rawStatus === 'under_offer' || rawStatus === 'under offer') {
       displayStatus = 'UNDER OFFER';
     } else if (rawStatus === 'sold') {
       displayStatus = 'SOLD';
