@@ -172,21 +172,10 @@
       yearEl.textContent = new Date().getFullYear();
     }
 
-    // 2. Hide Privacy and Terms links unless the files exist
+    // 2. Legal links visible
     var legalLinksEl = container.querySelector('.footer-legal-links');
-    if (legalLinksEl && typeof window.fetch === 'function' && window.location.protocol.indexOf('http') === 0) {
-      // Only perform HEAD check in http/https environments without throwing errors
-      fetch('./privacy.html', { method: 'HEAD' })
-        .then(function (res) {
-          if (res.ok) {
-            legalLinksEl.style.display = 'flex';
-          } else {
-            legalLinksEl.style.display = 'none';
-          }
-        })
-        .catch(function () {
-          legalLinksEl.style.display = 'none';
-        });
+    if (legalLinksEl) {
+      legalLinksEl.style.display = 'flex';
     }
 
     // 3. Navigation link handling for in-page anchors on home page vs properties page
