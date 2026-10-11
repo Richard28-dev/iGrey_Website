@@ -179,6 +179,12 @@ export const Reviews: React.FC = () => {
     syncReviews();
   }, []);
 
+  const [cardWidth, setCardWidth] = useState<number>(() => {
+    if (typeof window === 'undefined') return 350;
+    if (window.innerWidth >= 768) return 350;
+    return Math.round(Math.min(290, Math.max(250, window.innerWidth * 0.78)));
+  });
+
   const [activeReview, setActiveReview] = useState<TestimonialCard | null>(null);
   const activeReviewRef = useRef<TestimonialCard | null>(null);
   const [pressedIndex, setPressedIndex] = useState<number | null>(null);
@@ -243,14 +249,19 @@ export const Reviews: React.FC = () => {
     const firstGroup = firstGroupRef.current;
     if (!container || !firstGroup) return;
 
-    // Cache first group width
-    const updateGroupWidth = () => {
+    // Cache integer first group width and integer card width
+    const updateDimensions = () => {
+      const isMobile = window.innerWidth < 768;
+      const newWidth = isMobile
+        ? Math.round(Math.min(290, Math.max(250, window.innerWidth * 0.78)))
+        : 350;
+      setCardWidth(newWidth);
       if (firstGroup) {
-        firstGroupWidthRef.current = firstGroup.offsetWidth;
+        firstGroupWidthRef.current = Math.round(firstGroup.offsetWidth);
       }
     };
-    updateGroupWidth();
-    window.addEventListener('resize', updateGroupWidth);
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
 
     if (window.innerWidth < 768) {
       container.style.scrollSnapType = 'none';
@@ -284,13 +295,13 @@ export const Reviews: React.FC = () => {
     // Manual scroll wrap handler
     const handleScroll = () => {
       if (window.innerWidth >= 768) return;
-      const fgWidth = firstGroupWidthRef.current || firstGroup.offsetWidth;
+      const fgWidth = Math.round(firstGroupWidthRef.current || firstGroup.offsetWidth);
       if (fgWidth > 0) {
         if (container.scrollLeft >= fgWidth * 1.95) {
-          container.scrollLeft -= fgWidth;
+          container.scrollLeft = Math.round(container.scrollLeft - fgWidth);
         }
       }
-      scrollPosRef.current = container.scrollLeft;
+      scrollPosRef.current = Math.round(container.scrollLeft);
     };
     container.addEventListener('scroll', handleScroll, { passive: true });
 
@@ -315,7 +326,7 @@ export const Reviews: React.FC = () => {
         !isPausedRef.current &&
         !activeReviewRef.current
       ) {
-        const fgWidth = firstGroupWidthRef.current || firstGroup.offsetWidth;
+        const fgWidth = Math.round(firstGroupWidthRef.current || firstGroup.offsetWidth);
         if (fgWidth > 0) {
           const deltaSec = Math.min(deltaMs / 1000, 0.1);
           const move = SPEED_PX_PER_SEC * deltaSec;
@@ -324,7 +335,7 @@ export const Reviews: React.FC = () => {
           if (scrollPosRef.current >= fgWidth) {
             scrollPosRef.current -= fgWidth;
           }
-          container.scrollLeft = scrollPosRef.current;
+          container.scrollLeft = Math.round(scrollPosRef.current);
         }
       }
 
@@ -338,7 +349,7 @@ export const Reviews: React.FC = () => {
       if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
       if (pressTimerRef.current) clearTimeout(pressTimerRef.current);
       observer.disconnect();
-      window.removeEventListener('resize', updateGroupWidth);
+      window.removeEventListener('resize', updateDimensions);
       container.removeEventListener('scroll', handleScroll);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       mediaQuery.removeEventListener('change', handleMotionChange);
@@ -745,23 +756,26 @@ export const Reviews: React.FC = () => {
           </div>
         </div>
 
-        {/* Continuous Horizontal Floating Reviews Stream with Soft Edge Fade */}
-        <div
-          className="reviews-marquee-container"
-          ref={containerRef}
-          onTouchStart={handleContainerTouchStart}
-          onTouchEnd={scheduleResume}
-          onTouchCancel={scheduleResume}
-        >
-          <div className="reviews-marquee-track">
-            {/* First Set of Cards */}
-            <div className="reviews-marquee-group" ref={firstGroupRef}>
-              {cards.map((t, idx) => renderCard(t, 'orig', idx))}
-            </div>
+        {/* Continuous Horizontal Floating Reviews Stream with Soft Edge Fade on Non-Scrolling Outer Wrapper */}
+        <div className="reviews-marquee-outer-wrapper">
+          <div
+            className="reviews-marquee-container"
+            ref={containerRef}
+            style={{ '--card-width': `${cardWidth}px` } as React.CSSProperties}
+            onTouchStart={handleContainerTouchStart}
+            onTouchEnd={scheduleResume}
+            onTouchCancel={scheduleResume}
+          >
+            <div className="reviews-marquee-track">
+              {/* First Set of Cards */}
+              <div className="reviews-marquee-group" ref={firstGroupRef}>
+                {cards.map((t, idx) => renderCard(t, 'orig', idx))}
+              </div>
 
-            {/* Duplicated Set for Seamless Infinite Loop */}
-            <div className="reviews-marquee-group" aria-hidden="true">
-              {cards.map((t, idx) => renderCard(t, 'dup', idx))}
+              {/* Duplicated Set for Seamless Infinite Loop */}
+              <div className="reviews-marquee-group" aria-hidden="true">
+                {cards.map((t, idx) => renderCard(t, 'dup', idx))}
+              </div>
             </div>
           </div>
         </div>
@@ -1120,6 +1134,34 @@ export const Reviews: React.FC = () => {
       </div>
 
       <style>{`
+        /* Reviews Marquee Outer Wrapper (pinned edge fades) */
+        .reviews-marquee-outer-wrapper {
+          position: relative;
+          width: 100%;
+          overflow: hidden;
+        }
+
+        /* Edge fades via pseudo-elements on outer NON-scrolling wrapper only (max 24px wide) */
+        .reviews-marquee-outer-wrapper::before,
+        .reviews-marquee-outer-wrapper::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: 24px;
+          max-width: 24px;
+          z-index: 3;
+          pointer-events: none;
+        }
+        .reviews-marquee-outer-wrapper::before {
+          left: 0;
+          background: linear-gradient(to right, #090D0B, transparent);
+        }
+        .reviews-marquee-outer-wrapper::after {
+          right: 0;
+          background: linear-gradient(to left, #090D0B, transparent);
+        }
+
         /* Reviews Marquee Container */
         .reviews-marquee-container {
           position: relative;
@@ -1130,24 +1172,10 @@ export const Reviews: React.FC = () => {
           user-select: none;
         }
 
-        /* Edge fades via pseudo-elements: hardware accelerated, 0 CPU re-rasterization on mobile */
         .reviews-marquee-container::before,
         .reviews-marquee-container::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          width: clamp(24px, 5vw, 80px);
-          z-index: 2;
-          pointer-events: none;
-        }
-        .reviews-marquee-container::before {
-          left: 0;
-          background: linear-gradient(to right, #090D0B, transparent);
-        }
-        .reviews-marquee-container::after {
-          right: 0;
-          background: linear-gradient(to left, #090D0B, transparent);
+          display: none !important;
+          content: none !important;
         }
 
         .reviews-marquee-track {
@@ -1170,11 +1198,11 @@ export const Reviews: React.FC = () => {
 
         /* Review Card Master Styling matching Elena Rostova reference */
         .reviews-marquee-container .review-card {
-          flex: 0 0 350px;
-          width: 350px;
-          min-width: 350px;
-          max-width: 350px;
-          background-color: #0F1613;
+          flex: 0 0 var(--card-width, 350px);
+          width: var(--card-width, 350px);
+          min-width: var(--card-width, 350px);
+          max-width: var(--card-width, 350px);
+          background-color: #0f1513 !important;
           border-radius: 16px;
           border: 1px solid rgba(197, 168, 128, 0.22);
           padding: 2.25rem 2rem;
@@ -1187,10 +1215,10 @@ export const Reviews: React.FC = () => {
           -webkit-tap-highlight-color: transparent;
           user-select: none;
           -webkit-user-select: none;
-          transform: translate3d(0, 0, 0);
-          -webkit-transform: translate3d(0, 0, 0);
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden !important;
+          -webkit-backface-visibility: hidden !important;
+          isolation: isolate !important;
+          contain: layout paint !important;
         }
 
         .reviews-marquee-container .review-card .review-quote {
@@ -1316,9 +1344,10 @@ export const Reviews: React.FC = () => {
             cursor: grabbing;
           }
 
-          .reviews-marquee-container::before,
-          .reviews-marquee-container::after {
+          .reviews-marquee-outer-wrapper::before,
+          .reviews-marquee-outer-wrapper::after {
             width: 20px !important;
+            max-width: 20px !important;
             pointer-events: none !important;
           }
 
@@ -1349,10 +1378,11 @@ export const Reviews: React.FC = () => {
           }
 
           .reviews-marquee-container .review-card {
-            flex: 0 0 clamp(250px, 78vw, 290px) !important;
-            width: clamp(250px, 78vw, 290px) !important;
-            min-width: 250px !important;
-            max-width: 290px !important;
+            flex: 0 0 var(--card-width, 290px) !important;
+            width: var(--card-width, 290px) !important;
+            min-width: var(--card-width, 290px) !important;
+            max-width: var(--card-width, 290px) !important;
+            background-color: #0f1513 !important;
             height: auto !important;
             min-height: 0 !important;
             padding: 18px 18px 16px !important;
@@ -1370,6 +1400,10 @@ export const Reviews: React.FC = () => {
             transition: transform 0.12s ease, box-shadow 0.12s ease !important;
             box-shadow: 0 8px 22px rgba(0, 0, 0, 0.42) !important;
             outline: none !important;
+            backface-visibility: hidden !important;
+            -webkit-backface-visibility: hidden !important;
+            isolation: isolate !important;
+            contain: layout paint !important;
           }
 
           /* Tapped Card Press Effect: Scale 0.98 for 120ms */

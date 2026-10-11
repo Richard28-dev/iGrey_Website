@@ -85,14 +85,17 @@ export const FAQ: React.FC = () => {
           </div>
 
           <h2
+            className="faq-title-heading"
             style={{
               fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(2.4rem, 4.2vw, 3.6rem)',
+              fontSize: 'clamp(1.35rem, 5.8vw, 3.6rem)',
               lineHeight: 1.15,
               color: '#FAF8F4',
               letterSpacing: '-0.02em',
               fontWeight: 400,
               margin: '0 0 1rem 0',
+              whiteSpace: 'nowrap',
+              maxWidth: '100%',
             }}
           >
             Frequently Asked Questions

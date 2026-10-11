@@ -468,6 +468,7 @@
       // ignore
     }
 
+    if (typeof window.updateAllCustomDarkSelects === "function") window.updateAllCustomDarkSelects();
     updateClearFiltersButton();
   }
 
@@ -1554,6 +1555,189 @@
   // 8. DATA INITIALIZATION & BOOTSTRAP
   // =========================================================================
 
+
+  // =========================================================================
+  // SHARED REUSABLE CUSTOM DARK SELECT COMPONENT
+  // =========================================================================
+
+  function initCustomDarkSelects() {
+    const selects = document.querySelectorAll('.filter-select-wrapper select');
+    if (!selects.length) return;
+
+    const backdrop = document.getElementById('igrey-select-sheet-backdrop');
+    const sheet = document.getElementById('igrey-select-sheet');
+    const titleEl = document.getElementById('igrey-sheet-title');
+    const listEl = document.getElementById('igrey-sheet-scroll-list');
+    const closeBtn = document.getElementById('igrey-sheet-close-btn');
+
+    if (!backdrop || !sheet || !titleEl || !listEl) return;
+
+    let activeSelect = null;
+
+    function closeSheet() {
+      if (!backdrop.classList.contains('is-open')) return;
+      backdrop.classList.remove('is-open');
+      sheet.classList.remove('is-open');
+      backdrop.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (activeSelect && activeSelect._triggerBtn) {
+        activeSelect._triggerBtn.setAttribute('aria-expanded', 'false');
+        activeSelect._triggerBtn.classList.remove('is-active');
+        activeSelect._triggerBtn.focus();
+      }
+      activeSelect = null;
+    }
+
+    function openSheet(select) {
+      activeSelect = select;
+      const title = select.getAttribute('data-sheet-title') ||
+                    (select.closest('.filter-select-group') ? select.closest('.filter-select-group').querySelector('.filter-select-label span')?.textContent : '') ||
+                    'Select';
+
+      titleEl.textContent = title;
+
+      // Build rows from select.options
+      let rowsHtml = '';
+      const currentValue = select.value;
+
+      Array.from(select.options).forEach((opt, idx) => {
+        const isSelected = opt.value === currentValue;
+        const isLast = idx === select.options.length - 1;
+        rowsHtml += `
+          <div
+            class="igrey-sheet-row ${isSelected ? 'selected' : ''} ${isLast ? 'last' : ''}"
+            data-value="${escapeHtml(opt.value)}"
+            role="option"
+            aria-selected="${isSelected ? 'true' : 'false'}"
+            tabindex="0"
+          >
+            <span class="igrey-sheet-row-text">${escapeHtml(opt.text)}</span>
+            <div class="igrey-radio-circle ${isSelected ? 'selected' : ''}">
+              ${isSelected ? '<div class="igrey-radio-inner-dot"></div>' : ''}
+            </div>
+          </div>
+        `;
+      });
+
+      listEl.innerHTML = rowsHtml;
+
+      // Attach row clicks
+      listEl.querySelectorAll('.igrey-sheet-row').forEach((row) => {
+        const chooseOption = () => {
+          const val = row.getAttribute('data-value');
+          if (select.value !== val) {
+            select.value = val;
+            select.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+          updateTriggerText(select);
+          closeSheet();
+        };
+
+        row.addEventListener('click', chooseOption);
+        row.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            chooseOption();
+          }
+        });
+      });
+
+      // Animate open
+      backdrop.classList.add('is-open');
+      sheet.classList.add('is-open');
+      backdrop.setAttribute('aria-hidden', 'false');
+      if (select._triggerBtn) {
+        select._triggerBtn.setAttribute('aria-expanded', 'true');
+        select._triggerBtn.classList.add('is-active');
+      }
+      document.body.style.overflow = 'hidden';
+
+      // Scroll selected row into view
+      const selectedRow = listEl.querySelector('.igrey-sheet-row.selected');
+      if (selectedRow) {
+        selectedRow.scrollIntoView({ block: 'nearest' });
+      }
+    }
+
+    // Backdrop click & close button
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop) closeSheet();
+    });
+    if (closeBtn) closeBtn.addEventListener('click', closeSheet);
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && backdrop.classList.contains('is-open')) {
+        closeSheet();
+      }
+    });
+
+    function updateTriggerText(select) {
+      if (!select._triggerText) return;
+      const selectedOption = select.options[select.selectedIndex];
+      const text = selectedOption ? selectedOption.text : '';
+      select._triggerText.textContent = text;
+      if (select._triggerBtn) {
+        const title = select.getAttribute('data-sheet-title') || 'Filter';
+        select._triggerBtn.setAttribute('aria-label', `${title}: ${text}`);
+      }
+    }
+
+    // Enhance each select
+    selects.forEach((select) => {
+      const wrapper = select.closest('.filter-select-wrapper');
+      if (!wrapper || wrapper.classList.contains('has-custom-dark-select')) return;
+
+      wrapper.classList.add('has-custom-dark-select');
+
+      // Native select kept underneath for filtering and accessibility
+      select.classList.add('igrey-native-select-underneath');
+
+      // Create trigger button
+      const triggerBtn = document.createElement('button');
+      triggerBtn.type = 'button';
+      triggerBtn.className = 'igrey-select-trigger-btn';
+      triggerBtn.setAttribute('role', 'combobox');
+      triggerBtn.setAttribute('aria-haspopup', 'dialog');
+      triggerBtn.setAttribute('aria-expanded', 'false');
+
+      const triggerText = document.createElement('span');
+      triggerText.className = 'igrey-select-trigger-text';
+      triggerBtn.appendChild(triggerText);
+
+      const chevron = document.createElement('span');
+      chevron.className = 'filter-select-chevron';
+      chevron.setAttribute('aria-hidden', 'true');
+      chevron.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>`;
+      triggerBtn.appendChild(chevron);
+
+      // Remove old standalone chevron if present in wrapper
+      const oldChevron = wrapper.querySelector('.filter-select-chevron');
+      if (oldChevron && oldChevron.parentElement === wrapper) {
+        oldChevron.remove();
+      }
+
+      wrapper.appendChild(triggerBtn);
+
+      select._triggerBtn = triggerBtn;
+      select._triggerText = triggerText;
+
+      updateTriggerText(select);
+
+      triggerBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openSheet(select);
+      });
+
+      select.addEventListener('change', () => {
+        updateTriggerText(select);
+      });
+    });
+
+    window.updateAllCustomDarkSelects = function () {
+      selects.forEach(updateTriggerText);
+    };
+  }
+
   async function initPropertiesData() {
     const grid = document.getElementById('properties-grid');
 
@@ -1609,6 +1793,7 @@
     // Read URL params and apply
     readParamsFromUrl();
     bindFilterControls();
+    initCustomDarkSelects();
     syncControlsWithState();
     applyFiltersAndSort();
   }

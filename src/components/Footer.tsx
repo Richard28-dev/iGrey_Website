@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { MapPin, Mail, Phone, Clock } from 'lucide-react';
 import { scrollToTarget } from '../utils/scroll';
 import logoWhite from '../assets/logo-white.png';
@@ -54,18 +54,7 @@ const LinkedInIcon = ({ size = 17, color = '#c9a77c' }: { size?: number; color?:
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
-  const [showLegalLinks, setShowLegalLinks] = useState(false);
-
-  useEffect(() => {
-    // Only display legal links if privacy.html exists
-    if (typeof window !== 'undefined' && window.location.protocol.startsWith('http')) {
-      fetch('./privacy.html', { method: 'HEAD' })
-        .then((res) => {
-          if (res.ok) setShowLegalLinks(true);
-        })
-        .catch(() => {});
-    }
-  }, []);
+  const [showLegalLinks] = useState(true);
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (href.startsWith('#')) {

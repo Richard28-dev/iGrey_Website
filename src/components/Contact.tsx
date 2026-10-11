@@ -577,7 +577,31 @@ export const Contact: React.FC = () => {
                       <label htmlFor="role-select-trigger" className="contact-field-label">
                         I am a
                       </label>
-                      <input type="hidden" name="role" value={formData.role} />
+                      {/* Native select underneath for accessibility and form autofill */}
+                      <select
+                        name="role"
+                        id="contact-role-select"
+                        value={formData.role}
+                        onChange={(e) => setFormData((prev) => ({ ...prev, role: e.target.value }))}
+                        tabIndex={-1}
+                        aria-hidden="true"
+                        style={{
+                          position: 'absolute',
+                          opacity: 0,
+                          pointerEvents: 'none',
+                          width: '1px',
+                          height: '1px',
+                          overflow: 'hidden',
+                          clip: 'rect(0 0 0 0)',
+                        }}
+                      >
+                        {ROLE_OPTIONS.map((opt) => (
+                          <option key={opt} value={opt}>
+                            {opt}
+                          </option>
+                        ))}
+                      </select>
+                      <input type="hidden" name="role_value" value={formData.role} />
                       <div ref={dropdownRef} className="contact-select-wrapper" style={{ position: 'relative' }}>
                         <button
                           type="button"

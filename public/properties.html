@@ -96,7 +96,7 @@
                 <span>TYPE</span>
               </label>
               <div class="filter-select-wrapper">
-                <select id="filter-type">
+                <select id="filter-type" data-sheet-title="Type">
                   <option value="all">All Types</option>
                   <option value="gated society">Gated society</option>
                   <option value="villa">Villa</option>
@@ -116,7 +116,7 @@
                 <span>BEDROOMS</span>
               </label>
               <div class="filter-select-wrapper">
-                <select id="filter-bhk">
+                <select id="filter-bhk" data-sheet-title="Bedrooms">
                   <option value="all">All BHK</option>
                   <option value="1">1 BHK</option>
                   <option value="2">2 BHK</option>
@@ -136,7 +136,7 @@
                 <span>BUDGET</span>
               </label>
               <div class="filter-select-wrapper">
-                <select id="filter-budget">
+                <select id="filter-budget" data-sheet-title="Budget">
                   <option value="all">Any Budget</option>
                   <option value="under-50l">Under ₹50 L</option>
                   <option value="50l-1cr">₹50 L to ₹1 Cr</option>
@@ -156,7 +156,7 @@
                 <span>FEATURES</span>
               </label>
               <div class="filter-select-wrapper">
-                <select id="filter-features">
+                <select id="filter-features" data-sheet-title="Features">
                   <option value="all">All Features</option>
                   <option value="swimming pool">Swimming pool</option>
                   <option value="gym">Gym</option>
@@ -180,7 +180,7 @@
                 <span>SORT BY</span>
               </label>
               <div class="filter-select-wrapper">
-                <select id="filter-sort">
+                <select id="filter-sort" data-sheet-title="Sort by">
                   <option value="featured">Featured First</option>
                   <option value="newest">Newest First</option>
                   <option value="price-asc">Price: Low to High</option>
@@ -275,6 +275,41 @@
       aria-modal="true"
     >
       <!-- Modal card dynamically rendered by js/properties-page.js -->
+    </div>
+
+        <!-- =====================================================================
+         6. CUSTOM DARK SELECT BOTTOM SHEET (SHARED REUSABLE COMPONENT)
+         ===================================================================== -->
+    <div
+      class="igrey-select-sheet-backdrop"
+      id="igrey-select-sheet-backdrop"
+      aria-hidden="true"
+    >
+      <div
+        class="igrey-select-sheet"
+        id="igrey-select-sheet"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="igrey-sheet-title"
+      >
+        <div class="igrey-sheet-top-bar">
+          <div class="igrey-sheet-drag-handle" aria-hidden="true"></div>
+          <div class="igrey-sheet-header-inner">
+            <span class="igrey-sheet-header-title" id="igrey-sheet-title">Select</span>
+            <button
+              type="button"
+              class="igrey-sheet-close-btn"
+              id="igrey-sheet-close-btn"
+              aria-label="Close"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="igrey-sheet-scroll-list" id="igrey-sheet-scroll-list" role="listbox"></div>
+      </div>
     </div>
 
     <!-- Unified Global Site Footer -->

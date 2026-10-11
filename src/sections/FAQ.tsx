@@ -30,12 +30,14 @@ export const FAQ: React.FC = () => {
             transition={{ duration: 0.6 }}
             style={{
               fontFamily: 'var(--font-sans)',
-              fontSize: 'clamp(2rem, 3.4vw, 2.75rem)',
+              fontSize: 'clamp(1.35rem, 5.8vw, 2.75rem)',
               lineHeight: 1.2,
               fontWeight: 700,
               color: '#0F1E36',
               marginBottom: '0.85rem',
               letterSpacing: '-0.02em',
+              whiteSpace: 'nowrap',
+              maxWidth: '100%',
             }}
           >
             Frequently Asked Questions

@@ -395,10 +395,10 @@ export const Contact: React.FC<ContactProps> = ({ prefilledProperty, onSuccessNo
                         style={{
                           width: '100%',
                           padding: '0.75rem 2.5rem 0.75rem 1rem',
-                          backgroundColor: '#FFFFFF',
-                          border: '1px solid #D1D5DB',
+                          backgroundColor: '#0d1311',
+                          border: '1px solid #4a3f2b',
                           borderRadius: '8px',
-                          color: '#111827',
+                          color: '#FAF8F4',
                           fontSize: '0.92rem',
                           fontFamily: 'inherit',
                           outline: 'none',
@@ -407,11 +407,11 @@ export const Contact: React.FC<ContactProps> = ({ prefilledProperty, onSuccessNo
                           transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
                         }}
                         onFocus={(e) => {
-                          e.currentTarget.style.borderColor = '#0C2340';
-                          e.currentTarget.style.boxShadow = '0 0 0 3px rgba(12, 35, 64, 0.08)';
+                          e.currentTarget.style.borderColor = '#c9a77c';
+                          e.currentTarget.style.boxShadow = '0 0 0 3px rgba(201, 167, 124, 0.2)';
                         }}
                         onBlur={(e) => {
-                          e.currentTarget.style.borderColor = '#D1D5DB';
+                          e.currentTarget.style.borderColor = '#4a3f2b';
                           e.currentTarget.style.boxShadow = 'none';
                         }}
                       >
