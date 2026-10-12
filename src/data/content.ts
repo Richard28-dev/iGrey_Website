@@ -63,35 +63,35 @@ export const siteContent = {
 
   hero: {
     eyebrow: '',
-    headlinePart1: 'Where Trust Meets',
-    headlinePart2: 'Architectural Grandeur.',
-    headline: 'Where Trust Meets Architectural Grandeur.',
+    headlinePart1: 'Discover Homes',
+    headlinePart2: 'Tailored to Your Needs.',
+    headline: 'Discover Homes Tailored to Your Needs.',
     subtitle:
-      'Discover exceptional homes, premium investments, and lifestyle spaces curated for a better tomorrow.',
+      'From finding the right home to managing it, iGrey Holdings makes every step clearer and simpler.',
     primaryCta: 'Explore Properties →',
     stats: [
       {
         value: '100+',
         label: 'Happy Customers',
-        sublabel: 'Private Wealth & Families',
+        sublabel: '',
         icon: 'users',
       },
       {
         value: '50+',
         label: 'Completed Projects',
-        sublabel: 'Prime Turnkey Enclaves',
+        sublabel: '',
         icon: 'building',
       },
       {
         value: '99.2%',
         label: 'On-Time Rent Payouts',
-        sublabel: 'Guaranteed Yield Precision',
+        sublabel: '',
         icon: 'trending',
       },
       {
         value: '100%',
         label: 'Verified Background KYC',
-        sublabel: 'Institutional Due Diligence',
+        sublabel: '',
         icon: 'shield',
       },
     ],
@@ -103,34 +103,34 @@ export const siteContent = {
     headingPart2: 'iGH?',
     heading: 'Why Choose iGH?',
     subtitle:
-      'We provide a seamless and transparent experience for both homeowners and tenants.',
+      'Property decisions are easier with clear information, transparent processes and the right guidance.',
     features: [
       {
         id: 'tenants',
-        title: 'Verified Tenants',
+        title: 'Identified Property Opportunities',
         description:
-          'Thorough background verification, ID checks, and employment verification for complete safety.',
+          'Explore residential projects with relevant details and documentation.',
         icon: 'userCheck',
       },
       {
         id: 'payouts',
-        title: 'On-Time Rent Payouts',
+        title: 'Transparent Progress Monitoring',
         description:
-          'Reliable and timely monthly rental deposits directly to your bank account with zero hassle.',
+          'Follow project updates and milestones through the proposed digital dashboard.',
         icon: 'home',
       },
       {
         id: 'maintenance',
-        title: 'Property Maintenance',
+        title: 'Defined Participation and Exit Processes',
         description:
-          'Regular inspections, quick plumbing/electrical repairs, and professional housekeeping support.',
+          'Understand the applicable terms, transfer conditions and exit procedures before committing.',
         icon: 'wrench',
       },
       {
         id: 'brokerage',
-        title: 'Zero Brokerage Stays',
+        title: 'Customer-Focused Guidance',
         description:
-          'Tenants can rent clean, fully furnished, and verified rooms and flats with transparent pricing.',
+          'Get clear explanations of the process, documentation and responsibilities.',
         icon: 'key',
       },
     ],

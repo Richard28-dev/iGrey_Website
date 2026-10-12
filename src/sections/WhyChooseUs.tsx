@@ -5,23 +5,23 @@ import { UserCheck, Home, Wrench, Key } from 'lucide-react';
 const advantages = [
   {
     icon: UserCheck,
-    title: 'Verified Tenants',
-    description: 'Thorough background verification, ID checks, and employment verification for complete safety.'
+    title: 'Identified Property Opportunities',
+    description: 'Explore residential projects with relevant details and documentation.'
   },
   {
     icon: Home,
-    title: 'On-Time Rent Payouts',
-    description: 'Reliable and timely monthly rental deposits directly to your bank account with zero hassle.'
+    title: 'Transparent Progress Monitoring',
+    description: 'Follow project updates and milestones through the proposed digital dashboard.'
   },
   {
     icon: Wrench,
-    title: 'Property Maintenance',
-    description: 'Regular inspections, quick plumbing/electrical repairs, and professional housekeeping support.'
+    title: 'Defined Participation and Exit Processes',
+    description: 'Understand the applicable terms, transfer conditions and exit procedures before committing.'
   },
   {
     icon: Key,
-    title: 'Zero Brokerage Stays',
-    description: 'Tenants can rent clean, fully furnished, and verified residences with transparent pricing.'
+    title: 'Customer-Focused Guidance',
+    description: 'Get clear explanations of the process, documentation and responsibilities.'
   }
 ];
 
@@ -103,7 +103,7 @@ export const WhyChooseUs: React.FC = () => {
               margin: '0 auto',
             }}
           >
-            We provide a seamless and transparent experience for both homeowners and tenants.
+            Property decisions are easier with clear information, transparent processes and the right guidance.
           </motion.p>
         </div>
 
