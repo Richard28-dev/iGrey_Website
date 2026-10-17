@@ -221,7 +221,7 @@ Error generating stack: `+e.message+`
 
         @media (max-width: 768px) {
           .hero-bg-img {
-            object-position: center 42% !important;
+            object-position: 61% 32% !important;
             filter: brightness(0.82) contrast(1.08) saturate(1.12) !important;
           }
           .hero-mobile-scrim {
@@ -234,9 +234,10 @@ Error generating stack: `+e.message+`
               180deg,
               transparent 0%,
               transparent 28%,
-              rgba(6, 7, 9, 0.5) 45%,
+              rgba(6, 7, 9, 0.45) 45%,
               rgba(6, 7, 9, 0.72) 65%,
-              rgba(6, 7, 9, 0.85) 100%
+              rgba(6, 7, 9, 0.92) 88%,
+              #090D0B 100%
             ) !important;
             pointer-events: none !important;
             z-index: 2 !important;
@@ -247,8 +248,8 @@ Error generating stack: `+e.message+`
             display: flex !important;
             flex-direction: column !important;
             justify-content: flex-start !important;
-            padding-top: clamp(140px, 32vh, 305px) !important;
-            padding-bottom: clamp(18px, 3.5vh, 28px) !important;
+            padding-top: clamp(140px, 35vh, 310px) !important;
+            padding-bottom: clamp(16px, 3vh, 26px) !important;
             box-sizing: border-box !important;
           }
           .hero-main-content {
@@ -309,7 +310,7 @@ Error generating stack: `+e.message+`
             display: none !important;
           }
           .hero-cta-wrapper {
-            margin-top: clamp(28px, 6.8vh, 58px) !important;
+            margin-top: clamp(24px, 6vh, 52px) !important;
             margin-bottom: 0 !important;
             display: flex !important;
           }
@@ -326,7 +327,7 @@ Error generating stack: `+e.message+`
             padding-bottom: 0 !important;
             padding-left: 18px !important;
             padding-right: 18px !important;
-            margin-top: clamp(32px, 8.8vh, 76px) !important;
+            margin-top: clamp(28px, 7.8vh, 68px) !important;
             width: 100% !important;
             box-sizing: border-box !important;
           }
