@@ -68,6 +68,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           loading="eager"
           fetchPriority="high"
           decoding="async"
+          className="hero-bg-img"
           style={{
             width: '100%',
             height: '100%',
@@ -148,18 +149,38 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
               textShadow: '0 1px 8px rgba(0, 0, 0, 0.45)',
             }}
           >
-            <span className="hero-headline-line1" style={{ display: 'block', color: '#FFFFFF' }}>
-              {headlinePart1 || 'Discover Homes'}
+            {/* Desktop Headline */}
+            <span className="hero-hl-desktop">
+              <span className="hero-headline-line1" style={{ display: 'block', color: '#FFFFFF' }}>
+                {headlinePart1 || 'Discover Homes'}
+              </span>
+              <span
+                className="hero-headline-line2"
+                style={{
+                  display: 'block',
+                  fontStyle: 'italic',
+                  color: '#D4B280',
+                }}
+              >
+                {headlinePart2 || 'Tailored to Your Needs.'}
+              </span>
             </span>
-            <span
-              className="hero-headline-line2"
-              style={{
-                display: 'block',
-                fontStyle: 'italic',
-                color: '#D4B280',
-              }}
-            >
-              {headlinePart2 || 'Tailored to Your Needs.'}
+
+            {/* Mobile Headline (matches user reference design) */}
+            <span className="hero-hl-mobile">
+              <span className="hero-headline-line1" style={{ display: 'block', color: '#FFFFFF' }}>
+                Where Trust Meets
+              </span>
+              <span
+                className="hero-headline-line2"
+                style={{
+                  display: 'block',
+                  fontStyle: 'italic',
+                  color: '#D4B280',
+                }}
+              >
+                Architectural Grandeur.
+              </span>
             </span>
           </motion.h1>
 
@@ -181,9 +202,14 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
               textShadow: '0 1px 8px rgba(0, 0, 0, 0.45)',
             }}
           >
-            From finding the right home to managing it,{' '}
-            <br className="hero-p-break" />
-            <span style={{ whiteSpace: 'nowrap' }}>iGrey Holdings</span> makes every step clearer and simpler.
+            <span className="hero-sub-desktop">
+              From finding the right home to managing it,{' '}
+              <br className="hero-p-break" />
+              <span style={{ whiteSpace: 'nowrap' }}>iGrey Holdings</span> makes every step clearer and simpler.
+            </span>
+            <span className="hero-sub-mobile">
+              Discover residential properties and real estate services tailored to your needs. From finding the right home to managing a property, iGrey Holdings helps make every step clearer and more convenient.
+            </span>
           </motion.p>
 
           {/* Gold Action Button */}
@@ -332,7 +358,14 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                       marginBottom: 0,
                     }}
                   >
-                    {st.label}
+                    {idx === 3 ? (
+                      <>
+                        <span className="hero-lbl-desktop">Verified Background KYC</span>
+                        <span className="hero-lbl-mobile">Verified Background<br />KYC</span>
+                      </>
+                    ) : (
+                      st.label
+                    )}
                   </div>
 
                   {/* Stat Sublabel (only if provided) */}
@@ -359,6 +392,13 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
       </div>
 
       <style>{`
+        .hero-hl-desktop { display: block; }
+        .hero-hl-mobile { display: none; }
+        .hero-sub-desktop { display: inline; }
+        .hero-sub-mobile { display: none; }
+        .hero-lbl-desktop { display: inline; }
+        .hero-lbl-mobile { display: none; }
+
         @media (min-width: 1024px) {
           .hero-headline {
             font-size: clamp(40px, min(4.85vw, 9vh), 96px) !important;
@@ -532,12 +572,25 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
         }
 
         @media (max-width: 767px) {
+          .hero-hl-desktop { display: none !important; }
+          .hero-hl-mobile { display: block !important; }
+          .hero-sub-desktop { display: none !important; }
+          .hero-sub-mobile { display: block !important; }
+          .hero-lbl-desktop { display: none !important; }
+          .hero-lbl-mobile { display: block !important; }
+
+          .hero-bg-img {
+            object-position: 72% 18% !important;
+            filter: brightness(0.85) contrast(1.08) saturate(1.15) !important;
+          }
           .hero-mobile-scrim {
             display: block !important;
+            height: 70% !important;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.25) 30%, rgba(0, 0, 0, 0.75) 100%) !important;
           }
           .hero-section {
-            padding-top: clamp(4.5rem, 11vw, 5.5rem) !important;
-            padding-bottom: 1rem !important;
+            padding-top: 5rem !important;
+            padding-bottom: 1.25rem !important;
             min-height: 100svh !important;
             justify-content: space-between !important;
           }
@@ -560,11 +613,11 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             margin-top: auto !important;
           }
           .hero-headline {
-            font-size: clamp(30px, 8.4vw, 38px) !important;
-            line-height: 1.15 !important;
+            font-size: clamp(38px, 10.4vw, 44px) !important;
+            line-height: 1.08 !important;
             font-weight: 500 !important;
-            margin-bottom: 12px !important;
-            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45) !important;
+            margin-bottom: 16px !important;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
           }
           .hero-headline-line1,
           .hero-headline-line2 {
@@ -572,12 +625,12 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             white-space: normal !important;
           }
           .hero-subtitle {
-            font-size: 16px !important;
-            line-height: 1.6 !important;
+            font-size: 14.5px !important;
+            line-height: 1.55 !important;
             margin-top: 0 !important;
-            margin-bottom: 20px !important;
-            max-width: 100% !important;
-            color: rgba(255, 255, 255, 0.94) !important;
+            margin-bottom: 24px !important;
+            max-width: 360px !important;
+            color: rgba(255, 255, 255, 0.9) !important;
             text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45) !important;
           }
           .hero-p-break {
@@ -585,13 +638,15 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           }
           .hero-cta-wrapper {
             margin-top: 0 !important;
-            margin-bottom: 16px !important;
+            margin-bottom: 26px !important;
           }
           .hero-cta-btn {
-            padding: 0.88rem 2rem !important;
-            font-size: 0.92rem !important;
-            border-radius: 8px !important;
+            padding: 12px 26px !important;
+            font-size: 15px !important;
+            border-radius: 9px !important;
             font-weight: 600 !important;
+            background-color: #DEBA88 !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
           }
           .hero-stats-container {
             padding-top: 0 !important;
@@ -603,17 +658,21 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             grid-template-columns: repeat(2, 1fr) !important;
             border-radius: 18px !important;
             gap: 0 !important;
-            padding: 0.25rem !important;
-            border: 1.5px solid rgba(197, 168, 128, 0.32) !important;
-            background: linear-gradient(155deg, rgba(12, 20, 16, 0.92) 0%, rgba(7, 12, 10, 0.97) 100%) !important;
+            padding: 0 !important;
+            border: 1px solid rgba(197, 168, 128, 0.32) !important;
+            background: rgba(10, 16, 13, 0.85) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            position: relative !important;
+            overflow: hidden !important;
           }
           .hero-floating-stats-grid::before {
             content: '' !important;
             display: block !important;
             position: absolute !important;
             left: 50% !important;
-            top: 4% !important;
-            bottom: 4% !important;
+            top: 0 !important;
+            bottom: 0 !important;
             width: 1px !important;
             transform: translateX(-50%) !important;
             background: rgba(197, 168, 128, 0.22) !important;
@@ -625,8 +684,8 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             display: block !important;
             position: absolute !important;
             top: 50% !important;
-            left: 4% !important;
-            right: 4% !important;
+            left: 0 !important;
+            right: 0 !important;
             height: 1px !important;
             transform: translateY(-50%) !important;
             background: rgba(197, 168, 128, 0.22) !important;
@@ -637,9 +696,9 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             flex-direction: row !important;
             align-items: center !important;
             text-align: left !important;
-            padding: clamp(0.7rem, 2.2vw, 0.85rem) clamp(0.45rem, 2vw, 0.65rem) !important;
-            gap: clamp(0.4rem, 1.8vw, 0.55rem) !important;
-            border-radius: 12px !important;
+            padding: 14px 12px !important;
+            gap: 12px !important;
+            border-radius: 0 !important;
           }
           .hero-stat-cell-0::after,
           .hero-stat-cell-1::after,
@@ -647,23 +706,38 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             display: none !important;
           }
           .hero-stat-icon-wrapper {
-            width: clamp(34px, 9.5vw, 38px) !important;
-            height: clamp(34px, 9.5vw, 38px) !important;
-            min-width: clamp(34px, 9.5vw, 38px) !important;
-            border-radius: 10px !important;
-            border: 1.5px solid rgba(197, 168, 128, 0.4) !important;
+            width: 44px !important;
+            height: 44px !important;
+            min-width: 44px !important;
+            border-radius: 12px !important;
+            background: rgba(14, 22, 18, 0.75) !important;
+            border: 1.2px solid rgba(197, 168, 128, 0.4) !important;
+            margin-bottom: 0 !important;
+            flex-shrink: 0 !important;
+          }
+          .hero-stat-icon-wrapper svg {
+            width: 18px !important;
+            height: 18px !important;
+          }
+          .hero-stat-info {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            text-align: left !important;
+            min-width: 0 !important;
           }
           .hero-stat-val {
-            font-size: clamp(1.15rem, 3.6vw, 1.4rem) !important;
+            font-size: 22px !important;
             font-weight: 700 !important;
-            margin-bottom: 0.12rem !important;
+            margin-bottom: 2px !important;
             line-height: 1.1 !important;
+            color: #FFFFFF !important;
           }
           .hero-stat-lbl {
-            font-size: clamp(0.62rem, 2.35vw, 0.74rem) !important;
+            font-size: 11.5px !important;
             line-height: 1.25 !important;
-            margin-bottom: 0.1rem !important;
-            font-weight: 600 !important;
+            margin-bottom: 0 !important;
+            font-weight: 500 !important;
             color: #FFFFFF !important;
           }
           .hero-stat-sub {
