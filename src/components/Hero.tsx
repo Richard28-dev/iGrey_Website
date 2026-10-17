@@ -131,61 +131,64 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
         }}
       >
         <div className="hero-content-inner" style={{ maxWidth: '820px' }}>
-          {/* Main Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 22 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="hero-headline"
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(40px, min(4.85vw, 9vh), 96px)',
-              lineHeight: 1.1,
-              fontWeight: 500,
-              color: '#FFFFFF',
-              letterSpacing: '-0.02em',
-              margin: 0,
-              marginBottom: 'clamp(16px, 2.6vh, 26px)',
-              textShadow: '0 1px 8px rgba(0, 0, 0, 0.45)',
-            }}
-          >
-            <span className="hero-headline-line1" style={{ display: 'block', color: '#FFFFFF' }}>
-              {headlinePart1 || 'Discover Homes'}
-            </span>
-            <span
-              className="hero-headline-line2"
+          {/* Text Group: Headline + Paragraph */}
+          <div className="hero-text-group">
+            {/* Main Headline */}
+            <motion.h1
+              initial={{ opacity: 0, y: 22 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="hero-headline"
               style={{
-                display: 'block',
-                fontStyle: 'italic',
-                color: '#D4B280',
+                fontFamily: 'var(--font-serif)',
+                fontSize: 'clamp(40px, min(4.85vw, 9vh), 96px)',
+                lineHeight: 1.1,
+                fontWeight: 500,
+                color: '#FFFFFF',
+                letterSpacing: '-0.02em',
+                margin: 0,
+                marginBottom: 'clamp(16px, 2.6vh, 26px)',
+                textShadow: '0 1px 8px rgba(0, 0, 0, 0.45)',
               }}
             >
-              {headlinePart2 || 'Tailored to Your Needs.'}
-            </span>
-          </motion.h1>
+              <span className="hero-headline-line1" style={{ display: 'block', color: '#FFFFFF' }}>
+                {headlinePart1 || 'Discover Homes'}
+              </span>
+              <span
+                className="hero-headline-line2"
+                style={{
+                  display: 'block',
+                  fontStyle: 'italic',
+                  color: '#D4B280',
+                }}
+              >
+                {headlinePart2 || 'Tailored to Your Needs.'}
+              </span>
+            </motion.h1>
 
-          {/* Subtitle / Paragraph */}
-          <motion.p
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="hero-subtitle"
-            style={{
-              fontFamily: 'var(--font-sans)',
-              fontSize: 'clamp(16px, min(1.45vw, 2.7vh), 24px)',
-              lineHeight: 1.6,
-              color: 'rgba(255, 255, 255, 0.88)',
-              maxWidth: '680px',
-              marginTop: 0,
-              marginBottom: 'clamp(20px, 3.4vh, 34px)',
-              fontWeight: 300,
-              textShadow: '0 1px 8px rgba(0, 0, 0, 0.45)',
-            }}
-          >
-            From finding the right home to managing it,{' '}
-            <br className="hero-p-break" />
-            <span style={{ whiteSpace: 'nowrap' }}>iGrey Holdings</span> makes every step clearer and simpler.
-          </motion.p>
+            {/* Subtitle / Paragraph */}
+            <motion.p
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="hero-subtitle"
+              style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: 'clamp(16px, min(1.45vw, 2.7vh), 24px)',
+                lineHeight: 1.6,
+                color: 'rgba(255, 255, 255, 0.88)',
+                maxWidth: '680px',
+                marginTop: 0,
+                marginBottom: 'clamp(20px, 3.4vh, 34px)',
+                fontWeight: 300,
+                textShadow: '0 1px 8px rgba(0, 0, 0, 0.45)',
+              }}
+            >
+              From finding the right home to managing it,{' '}
+              <br className="hero-p-break" />
+              <span style={{ whiteSpace: 'nowrap' }}>iGrey Holdings</span> makes every step clearer and simpler.
+            </motion.p>
+          </div>
 
           {/* Gold Action Button */}
           <motion.div
@@ -566,11 +569,11 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             height: 100% !important;
             background: linear-gradient(
               180deg,
-              rgba(6, 7, 9, 0.45) 0%,
-              rgba(6, 7, 9, 0.2) 20%,
-              rgba(6, 7, 9, 0.72) 42%,
-              rgba(6, 7, 9, 0.88) 65%,
-              rgba(6, 7, 9, 0.98) 100%
+              transparent 0%,
+              transparent 28%,
+              rgba(6, 7, 9, 0.5) 45%,
+              rgba(6, 7, 9, 0.72) 65%,
+              rgba(6, 7, 9, 0.85) 100%
             ) !important;
             pointer-events: none !important;
             z-index: 2 !important;
@@ -580,9 +583,10 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             min-height: 100svh !important;
             display: flex !important;
             flex-direction: column !important;
-            justify-content: flex-end !important;
-            padding-top: 4.8rem !important;
-            padding-bottom: 14px !important;
+            justify-content: flex-start !important;
+            padding-top: clamp(140px, 32vh, 305px) !important;
+            padding-bottom: clamp(18px, 3.5vh, 28px) !important;
+            box-sizing: border-box !important;
           }
           .hero-main-content {
             padding-top: 0 !important;
@@ -592,34 +596,48 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             flex-grow: 0 !important;
             display: flex !important;
             flex-direction: column !important;
-            justify-content: flex-end !important;
-            margin-bottom: 16px !important;
+            justify-content: flex-start !important;
+            margin-bottom: 0 !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
           }
           .hero-content-inner {
             display: flex !important;
             flex-direction: column !important;
-            justify-content: flex-end !important;
+            justify-content: flex-start !important;
             flex-grow: 0 !important;
             width: 100% !important;
             margin-top: 0 !important;
+          }
+          .hero-text-group {
+            display: flex !important;
+            flex-direction: column !important;
+            margin: 0 !important;
+            padding: 0 !important;
           }
           .hero-headline {
             font-size: 35px !important;
             line-height: 1.12 !important;
             font-weight: 500 !important;
             margin-bottom: 12px !important;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
+            text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5) !important;
           }
-          .hero-headline-line1,
+          .hero-headline-line1 {
+            display: block !important;
+            white-space: normal !important;
+            color: #FFFFFF !important;
+          }
           .hero-headline-line2 {
             display: block !important;
             white-space: normal !important;
+            font-style: italic !important;
+            color: #F7DAA5 !important;
           }
           .hero-subtitle {
             font-size: 14.5px !important;
             line-height: 1.5 !important;
             margin-top: 0 !important;
-            margin-bottom: 18px !important;
+            margin-bottom: 0 !important;
             max-width: 350px !important;
             color: rgba(255, 255, 255, 0.9) !important;
             text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45) !important;
@@ -628,8 +646,9 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             display: none !important;
           }
           .hero-cta-wrapper {
-            margin-top: 0 !important;
+            margin-top: clamp(28px, 6.8vh, 58px) !important;
             margin-bottom: 0 !important;
+            display: flex !important;
           }
           .hero-cta-btn {
             padding: 11px 24px !important;
@@ -644,6 +663,9 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             padding-bottom: 0 !important;
             padding-left: 18px !important;
             padding-right: 18px !important;
+            margin-top: clamp(32px, 8.8vh, 76px) !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
           }
           .hero-floating-stats-grid {
             grid-template-columns: repeat(2, 1fr) !important;
@@ -734,49 +756,18 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           .hero-stat-sub {
             display: none !important;
           }
-          .hero-scroll-prompt {
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-            gap: 6px !important;
-            margin-top: 14px !important;
-            margin-bottom: 4px !important;
-            z-index: 15 !important;
-            position: relative !important;
-            cursor: pointer !important;
-            user-select: none !important;
-            transition: transform 0.3s ease, opacity 0.3s ease !important;
+        }
+
+        @media (max-width: 768px) and (max-height: 700px) {
+          .hero-section {
+            padding-top: clamp(90px, 22vh, 150px) !important;
+            padding-bottom: 16px !important;
           }
-          .hero-scroll-prompt:hover {
-            opacity: 1 !important;
+          .hero-cta-wrapper {
+            margin-top: clamp(20px, 4.5vh, 32px) !important;
           }
-          .hero-scroll-prompt:active {
-            transform: scale(0.96) !important;
-          }
-          .hero-scroll-text {
-            font-family: var(--font-sans, system-ui, -apple-system, sans-serif) !important;
-            font-size: 10.5px !important;
-            letter-spacing: 0.22em !important;
-            text-transform: uppercase !important;
-            color: #DEBA88 !important;
-            font-weight: 600 !important;
-            opacity: 0.9 !important;
-          }
-          .hero-scroll-line {
-            width: 1.5px !important;
-            height: 26px !important;
-            background: linear-gradient(180deg, #DEBA88 0%, rgba(222, 186, 136, 0.1) 100%) !important;
-            animation: heroScrollPulse 2s ease-in-out infinite !important;
-          }
-          @keyframes heroScrollPulse {
-            0%, 100% {
-              opacity: 0.45;
-              transform: translateY(0);
-            }
-            50% {
-              opacity: 1;
-              transform: translateY(4px);
-            }
+          .hero-stats-container {
+            margin-top: clamp(22px, 5.5vh, 40px) !important;
           }
         }
       `}</style>
