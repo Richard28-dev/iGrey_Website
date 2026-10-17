@@ -608,8 +608,8 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             display: flex !important;
             flex-direction: column !important;
             justify-content: flex-start !important;
-            padding-top: clamp(140px, 35vh, 310px) !important;
-            padding-bottom: clamp(16px, 3vh, 26px) !important;
+            padding-top: clamp(130px, 33vh, 280px) !important;
+            padding-bottom: clamp(22px, 4vh, 36px) !important;
             box-sizing: border-box !important;
           }
           .hero-main-content {
@@ -670,7 +670,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             display: none !important;
           }
           .hero-cta-wrapper {
-            margin-top: clamp(24px, 6vh, 52px) !important;
+            margin-top: clamp(23px, 5.6vh, 48px) !important;
             margin-bottom: 0 !important;
             display: flex !important;
           }
@@ -687,7 +687,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             padding-bottom: 0 !important;
             padding-left: 18px !important;
             padding-right: 18px !important;
-            margin-top: clamp(28px, 7.8vh, 68px) !important;
+            margin-top: clamp(25px, 6.8vh, 58px) !important;
             width: 100% !important;
             box-sizing: border-box !important;
           }
