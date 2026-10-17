@@ -359,7 +359,28 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
         </motion.div>
       </div>
 
+      {/* Luxury "Scroll to Explore" Affordance (Option 2) */}
+      <div
+        className="hero-scroll-prompt"
+        onClick={() => {
+          const nextSec = document.getElementById('about') || document.querySelector('section:nth-of-type(2)');
+          if (nextSec) {
+            scrollToTarget(nextSec, { offset: -20, duration: 1.2 });
+          }
+        }}
+        role="button"
+        tabIndex={0}
+        aria-label="Scroll to explore"
+      >
+        <span className="hero-scroll-text">Scroll to Explore</span>
+        <div className="hero-scroll-line" />
+      </div>
+
       <style>{`
+        .hero-scroll-prompt {
+          display: none;
+        }
+
         @media (min-width: 1024px) {
           .hero-headline {
             font-size: clamp(40px, min(4.85vw, 9vh), 96px) !important;
@@ -560,18 +581,19 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             display: flex !important;
             flex-direction: column !important;
             justify-content: flex-end !important;
-            padding-top: clamp(60px, 8vh, 80px) !important;
-            padding-bottom: clamp(120px, 24vh, 220px) !important;
+            padding-top: 4.8rem !important;
+            padding-bottom: 14px !important;
           }
           .hero-main-content {
             padding-top: 0 !important;
             padding-bottom: 0 !important;
-            padding-left: 16px !important;
-            padding-right: 16px !important;
+            padding-left: 18px !important;
+            padding-right: 18px !important;
             flex-grow: 0 !important;
             display: flex !important;
             flex-direction: column !important;
             justify-content: flex-end !important;
+            margin-bottom: 16px !important;
           }
           .hero-content-inner {
             display: flex !important;
@@ -582,10 +604,10 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             margin-top: 0 !important;
           }
           .hero-headline {
-            font-size: clamp(32px, 8.8vw, 38px) !important;
+            font-size: 35px !important;
             line-height: 1.12 !important;
             font-weight: 500 !important;
-            margin-bottom: 14px !important;
+            margin-bottom: 12px !important;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
           }
           .hero-headline-line1,
@@ -594,11 +616,11 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             white-space: normal !important;
           }
           .hero-subtitle {
-            font-size: 15px !important;
-            line-height: 1.55 !important;
+            font-size: 14.5px !important;
+            line-height: 1.5 !important;
             margin-top: 0 !important;
-            margin-bottom: 20px !important;
-            max-width: 360px !important;
+            margin-bottom: 18px !important;
+            max-width: 350px !important;
             color: rgba(255, 255, 255, 0.9) !important;
             text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45) !important;
           }
@@ -607,7 +629,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           }
           .hero-cta-wrapper {
             margin-top: 0 !important;
-            margin-bottom: 24px !important;
+            margin-bottom: 0 !important;
           }
           .hero-cta-btn {
             padding: 11px 24px !important;
@@ -620,8 +642,8 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           .hero-stats-container {
             padding-top: 0 !important;
             padding-bottom: 0 !important;
-            padding-left: 16px !important;
-            padding-right: 16px !important;
+            padding-left: 18px !important;
+            padding-right: 18px !important;
           }
           .hero-floating-stats-grid {
             grid-template-columns: repeat(2, 1fr) !important;
@@ -711,6 +733,50 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           }
           .hero-stat-sub {
             display: none !important;
+          }
+          .hero-scroll-prompt {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 6px !important;
+            margin-top: 14px !important;
+            margin-bottom: 4px !important;
+            z-index: 15 !important;
+            position: relative !important;
+            cursor: pointer !important;
+            user-select: none !important;
+            transition: transform 0.3s ease, opacity 0.3s ease !important;
+          }
+          .hero-scroll-prompt:hover {
+            opacity: 1 !important;
+          }
+          .hero-scroll-prompt:active {
+            transform: scale(0.96) !important;
+          }
+          .hero-scroll-text {
+            font-family: var(--font-sans, system-ui, -apple-system, sans-serif) !important;
+            font-size: 10.5px !important;
+            letter-spacing: 0.22em !important;
+            text-transform: uppercase !important;
+            color: #DEBA88 !important;
+            font-weight: 600 !important;
+            opacity: 0.9 !important;
+          }
+          .hero-scroll-line {
+            width: 1.5px !important;
+            height: 26px !important;
+            background: linear-gradient(180deg, #DEBA88 0%, rgba(222, 186, 136, 0.1) 100%) !important;
+            animation: heroScrollPulse 2s ease-in-out infinite !important;
+          }
+          @keyframes heroScrollPulse {
+            0%, 100% {
+              opacity: 0.45;
+              transform: translateY(0);
+            }
+            50% {
+              opacity: 1;
+              transform: translateY(4px);
+            }
           }
         }
       `}</style>
