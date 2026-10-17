@@ -149,38 +149,18 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
               textShadow: '0 1px 8px rgba(0, 0, 0, 0.45)',
             }}
           >
-            {/* Desktop Headline */}
-            <span className="hero-hl-desktop">
-              <span className="hero-headline-line1" style={{ display: 'block', color: '#FFFFFF' }}>
-                {headlinePart1 || 'Discover Homes'}
-              </span>
-              <span
-                className="hero-headline-line2"
-                style={{
-                  display: 'block',
-                  fontStyle: 'italic',
-                  color: '#D4B280',
-                }}
-              >
-                {headlinePart2 || 'Tailored to Your Needs.'}
-              </span>
+            <span className="hero-headline-line1" style={{ display: 'block', color: '#FFFFFF' }}>
+              {headlinePart1 || 'Discover Homes'}
             </span>
-
-            {/* Mobile Headline (matches user reference design) */}
-            <span className="hero-hl-mobile">
-              <span className="hero-headline-line1" style={{ display: 'block', color: '#FFFFFF' }}>
-                Where Trust Meets
-              </span>
-              <span
-                className="hero-headline-line2"
-                style={{
-                  display: 'block',
-                  fontStyle: 'italic',
-                  color: '#D4B280',
-                }}
-              >
-                Architectural Grandeur.
-              </span>
+            <span
+              className="hero-headline-line2"
+              style={{
+                display: 'block',
+                fontStyle: 'italic',
+                color: '#D4B280',
+              }}
+            >
+              {headlinePart2 || 'Tailored to Your Needs.'}
             </span>
           </motion.h1>
 
@@ -202,14 +182,9 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
               textShadow: '0 1px 8px rgba(0, 0, 0, 0.45)',
             }}
           >
-            <span className="hero-sub-desktop">
-              From finding the right home to managing it,{' '}
-              <br className="hero-p-break" />
-              <span style={{ whiteSpace: 'nowrap' }}>iGrey Holdings</span> makes every step clearer and simpler.
-            </span>
-            <span className="hero-sub-mobile">
-              Discover residential properties and real estate services tailored to your needs. From finding the right home to managing a property, iGrey Holdings helps make every step clearer and more convenient.
-            </span>
+            From finding the right home to managing it,{' '}
+            <br className="hero-p-break" />
+            <span style={{ whiteSpace: 'nowrap' }}>iGrey Holdings</span> makes every step clearer and simpler.
           </motion.p>
 
           {/* Gold Action Button */}
@@ -358,14 +333,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                       marginBottom: 0,
                     }}
                   >
-                    {idx === 3 ? (
-                      <>
-                        <span className="hero-lbl-desktop">Verified Background KYC</span>
-                        <span className="hero-lbl-mobile">Verified Background<br />KYC</span>
-                      </>
-                    ) : (
-                      st.label
-                    )}
+                    {st.label}
                   </div>
 
                   {/* Stat Sublabel (only if provided) */}
@@ -392,13 +360,6 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
       </div>
 
       <style>{`
-        .hero-hl-desktop { display: block; }
-        .hero-hl-mobile { display: none; }
-        .hero-sub-desktop { display: inline; }
-        .hero-sub-mobile { display: none; }
-        .hero-lbl-desktop { display: inline; }
-        .hero-lbl-mobile { display: none; }
-
         @media (min-width: 1024px) {
           .hero-headline {
             font-size: clamp(40px, min(4.85vw, 9vh), 96px) !important;
@@ -571,35 +532,43 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           }
         }
 
-        @media (max-width: 767px) {
-          .hero-hl-desktop { display: none !important; }
-          .hero-hl-mobile { display: block !important; }
-          .hero-sub-desktop { display: none !important; }
-          .hero-sub-mobile { display: block !important; }
-          .hero-lbl-desktop { display: none !important; }
-          .hero-lbl-mobile { display: block !important; }
-
+        @media (max-width: 768px) {
           .hero-bg-img {
-            object-position: 72% 18% !important;
-            filter: brightness(0.85) contrast(1.08) saturate(1.15) !important;
+            object-position: center 42% !important;
+            filter: brightness(0.82) contrast(1.08) saturate(1.12) !important;
           }
           .hero-mobile-scrim {
             display: block !important;
-            height: 70% !important;
-            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.25) 30%, rgba(0, 0, 0, 0.75) 100%) !important;
+            position: absolute !important;
+            inset: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: linear-gradient(
+              180deg,
+              rgba(6, 7, 9, 0.45) 0%,
+              rgba(6, 7, 9, 0.2) 20%,
+              rgba(6, 7, 9, 0.72) 42%,
+              rgba(6, 7, 9, 0.88) 65%,
+              rgba(6, 7, 9, 0.98) 100%
+            ) !important;
+            pointer-events: none !important;
+            z-index: 2 !important;
           }
           .hero-section {
-            padding-top: 5rem !important;
-            padding-bottom: 1.25rem !important;
+            min-height: 100vh !important;
             min-height: 100svh !important;
-            justify-content: space-between !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: flex-end !important;
+            padding-top: clamp(60px, 8vh, 80px) !important;
+            padding-bottom: clamp(120px, 24vh, 220px) !important;
           }
           .hero-main-content {
             padding-top: 0 !important;
             padding-bottom: 0 !important;
             padding-left: 16px !important;
             padding-right: 16px !important;
-            flex-grow: 1 !important;
+            flex-grow: 0 !important;
             display: flex !important;
             flex-direction: column !important;
             justify-content: flex-end !important;
@@ -610,13 +579,13 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             justify-content: flex-end !important;
             flex-grow: 0 !important;
             width: 100% !important;
-            margin-top: auto !important;
+            margin-top: 0 !important;
           }
           .hero-headline {
-            font-size: clamp(38px, 10.4vw, 44px) !important;
-            line-height: 1.08 !important;
+            font-size: clamp(32px, 8.8vw, 38px) !important;
+            line-height: 1.12 !important;
             font-weight: 500 !important;
-            margin-bottom: 16px !important;
+            margin-bottom: 14px !important;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
           }
           .hero-headline-line1,
@@ -625,10 +594,10 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             white-space: normal !important;
           }
           .hero-subtitle {
-            font-size: 14.5px !important;
+            font-size: 15px !important;
             line-height: 1.55 !important;
             margin-top: 0 !important;
-            margin-bottom: 24px !important;
+            margin-bottom: 20px !important;
             max-width: 360px !important;
             color: rgba(255, 255, 255, 0.9) !important;
             text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45) !important;
@@ -638,10 +607,10 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           }
           .hero-cta-wrapper {
             margin-top: 0 !important;
-            margin-bottom: 26px !important;
+            margin-bottom: 24px !important;
           }
           .hero-cta-btn {
-            padding: 12px 26px !important;
+            padding: 11px 24px !important;
             font-size: 15px !important;
             border-radius: 9px !important;
             font-weight: 600 !important;
@@ -650,7 +619,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           }
           .hero-stats-container {
             padding-top: 0 !important;
-            padding-bottom: 0.25rem !important;
+            padding-bottom: 0 !important;
             padding-left: 16px !important;
             padding-right: 16px !important;
           }
@@ -696,7 +665,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             flex-direction: row !important;
             align-items: center !important;
             text-align: left !important;
-            padding: 14px 12px !important;
+            padding: 13px 12px !important;
             gap: 12px !important;
             border-radius: 0 !important;
           }
@@ -706,9 +675,9 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             display: none !important;
           }
           .hero-stat-icon-wrapper {
-            width: 44px !important;
-            height: 44px !important;
-            min-width: 44px !important;
+            width: 42px !important;
+            height: 42px !important;
+            min-width: 42px !important;
             border-radius: 12px !important;
             background: rgba(14, 22, 18, 0.75) !important;
             border: 1.2px solid rgba(197, 168, 128, 0.4) !important;
@@ -727,7 +696,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             min-width: 0 !important;
           }
           .hero-stat-val {
-            font-size: 22px !important;
+            font-size: 21px !important;
             font-weight: 700 !important;
             margin-bottom: 2px !important;
             line-height: 1.1 !important;
