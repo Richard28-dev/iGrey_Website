@@ -40,6 +40,29 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
     }
   };
 
+  const renderStatLabel = (label: string) => {
+    if (label.toLowerCase().includes('on-time')) {
+      return (
+        <>
+          <span className="hero-stat-lbl-line1" style={{ display: 'block', whiteSpace: 'nowrap' }}>
+            On-Time
+          </span>
+          <span className="hero-stat-lbl-line2" style={{ display: 'block', whiteSpace: 'nowrap' }}>
+            Rent Payouts
+          </span>
+        </>
+      );
+    }
+    if (label.toLowerCase().includes('completed projects')) {
+      return (
+        <span className="hero-stat-lbl-nowrap" style={{ whiteSpace: 'nowrap' }}>
+          {label}
+        </span>
+      );
+    }
+    return label;
+  };
+
   return (
     <section
       id="hero"
@@ -336,7 +359,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                       marginBottom: 0,
                     }}
                   >
-                    {st.label}
+                    {renderStatLabel(st.label)}
                   </div>
 
                   {/* Stat Sublabel (only if provided) */}
@@ -710,8 +733,8 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             flex-direction: row !important;
             align-items: center !important;
             text-align: left !important;
-            padding: 13px 12px !important;
-            gap: 12px !important;
+            padding: 12px 10px !important;
+            gap: 10px !important;
             border-radius: 0 !important;
           }
           .hero-stat-cell-0::after,
@@ -748,11 +771,14 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             color: #FFFFFF !important;
           }
           .hero-stat-lbl {
-            font-size: 11.5px !important;
+            font-size: clamp(10.2px, 2.7vw, 11.5px) !important;
             line-height: 1.25 !important;
             margin-bottom: 0 !important;
             font-weight: 500 !important;
             color: #FFFFFF !important;
+          }
+          .hero-stat-lbl-nowrap {
+            white-space: nowrap !important;
           }
           .hero-stat-sub {
             display: none !important;
