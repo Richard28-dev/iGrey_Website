@@ -42,7 +42,14 @@ Error generating stack: `+e.message+`
             padding: 1.15rem 0 !important;
           }
         }
-      `})]})},Hm=`/iGrey_Website/`,Um=e=>`${Hm.endsWith(`/`)?Hm:Hm+`/`}images/${e}`,Wm={heroResidential:{src:Um(`hero_residential.jpg`),alt:`Cantilevered glass luxury villa with twilight infinity pool reflections`,width:2e3,height:1125},heroCommercial:{src:Um(`hero_commercial.jpg`),alt:`Modern architectural commercial glass tower at golden hour sunset`,width:2e3,height:1125},heroInvestment:{src:Um(`hero_investment.jpg`),alt:`Contemporary waterfront residences and investment apartment pavilions at dusk`,width:2e3,height:1125},heroAdvisory:{src:Um(`hero_advisory.jpg`),alt:`Double-height luxury penthouse interior with panoramic sunset horizon views`,width:2e3,height:1125},aboutTerrace:{src:Um(`about_terrace.jpg`),alt:`Open-concept living pavilion and wooden sun deck overlooking sunset coastal skyline`,width:1400,height:1050},serviceAdvisory:{src:Um(`service_advisory.jpg`),alt:`Private client advisory suite with marble conference table and architectural blueprints`,width:1200,height:900},serviceSales:{src:Um(`service_sales.jpg`),alt:`High-ceiling modern luxury residence gallery and open terrace foyer`,width:1200,height:900},serviceInvestment:{src:Um(`service_investment.jpg`),alt:`Architectural scale model of prime city developments and analytical blueprints`,width:1200,height:900},serviceManagement:{src:Um(`service_management.jpg`),alt:`Luxury private residence reception desk and concierge hospitality lounge`,width:1200,height:900},propSolarium:{src:Um(`prop_solarium.jpg`),alt:`The Solarium Pavilion — White three-storey modern villa with swimming pool`,width:1600,height:1200},propObscura:{src:Um(`prop_obscura.jpg`),alt:`Villa Obscura — Contemporary dining room with floating staircase in Lake Como`,width:1600,height:1200},propApex:{src:Um(`prop_apex.jpg`),alt:`The Apex Penthouse — Modern luxury villa with plunge pool and palm tree`,width:1600,height:1200},propFeatured:{src:Um(`prop_solarium.jpg`),alt:`The Solarium Pavilion — White three-storey modern villa with swimming pool`,width:1600,height:1200},propPenthouse:{src:Um(`prop_apex.jpg`),alt:`The Apex Penthouse — Modern luxury villa with plunge pool and palm tree`,width:1600,height:1200},propEstate:{src:Um(`prop_obscura.jpg`),alt:`Villa Obscura — Contemporary dining room with floating staircase in Lake Como`,width:1600,height:1200},whyIgrey:{src:Um(`why_igrey.jpg`),alt:`Modern concrete architectural residence surrounded by lush tropical landscaping`,width:1200,height:900},faqSkyline:{src:Um(`faq_skyline.jpg`),alt:`Panoramic city skyline of modern towers across water at golden hour sunset`,width:1600,height:900},contactVilla:{src:Um(`contact_villa.jpg`),alt:`Ultra-luxury modern architectural residence with infinity pool at dusk`,width:1600,height:900}},Gm=({onExploreClick:e})=>{let{headlinePart1:t,headlinePart2:n,stats:r}=zm.hero,i=Wm.heroResidential,a=()=>{e?e():document.getElementById(`properties`)?ce(`#properties`,{offset:-40,duration:1.25}):window.location.href=`./properties.html`},o=e=>{switch(e){case`users`:return(0,H.jsx)(Pm,{size:20,color:`#D4B280`,strokeWidth:1.8});case`building`:return(0,H.jsx)(Ef,{size:20,color:`#D4B280`,strokeWidth:1.8});case`trending`:return(0,H.jsx)(Sm,{size:20,color:`#D4B280`,strokeWidth:1.8});default:return(0,H.jsx)(cm,{size:20,color:`#D4B280`,strokeWidth:1.8})}};return(0,H.jsxs)(`section`,{id:`hero`,className:`hero-section`,style:{position:`relative`,minHeight:`100vh`,width:`100%`,display:`flex`,flexDirection:`column`,justifyContent:`space-between`,overflow:`hidden`,backgroundColor:`#090D0B`,color:`#FFFFFF`,paddingTop:`clamp(4rem, 6.5vh, 5.75rem)`,paddingBottom:`clamp(1rem, 2vh, 2rem)`},children:[(0,H.jsxs)(`div`,{style:{position:`absolute`,inset:0,overflow:`hidden`,zIndex:1},children:[(0,H.jsx)(`img`,{src:i.src,alt:i.alt,width:i.width,height:i.height,loading:`eager`,fetchPriority:`high`,decoding:`async`,style:{width:`100%`,height:`100%`,objectFit:`cover`,objectPosition:`center 45%`,filter:`brightness(0.78) contrast(1.1) saturate(1.12)`}}),(0,H.jsx)(`div`,{style:{position:`absolute`,inset:0,background:`linear-gradient(90deg, rgba(7, 12, 10, 0.85) 0%, rgba(7, 12, 10, 0.6) 40%, rgba(7, 12, 10, 0.2) 70%, rgba(7, 12, 10, 0.35) 100%)`,pointerEvents:`none`}}),(0,H.jsx)(`div`,{style:{position:`absolute`,inset:0,background:`linear-gradient(180deg, rgba(6, 11, 9, 0.68) 0%, rgba(6, 11, 9, 0.08) 36%, rgba(6, 11, 9, 0.45) 75%, rgba(6, 11, 9, 0.95) 100%)`,pointerEvents:`none`}}),(0,H.jsx)(`div`,{className:`hero-mobile-scrim`,style:{position:`absolute`,left:0,right:0,bottom:0,height:`80%`,background:`linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.4) 35%, rgba(0, 0, 0, 0.82) 100%)`,pointerEvents:`none`,display:`none`}})]}),(0,H.jsx)(`div`,{className:`container hero-main-content`,style:{position:`relative`,zIndex:10,width:`100%`,display:`flex`,flexDirection:`column`,justifyContent:`center`,flexGrow:1},children:(0,H.jsxs)(`div`,{className:`hero-content-inner`,style:{maxWidth:`820px`},children:[(0,H.jsxs)(G.h1,{initial:{opacity:0,y:22},animate:{opacity:1,y:0},transition:{duration:.9,delay:.2,ease:[.16,1,.3,1]},className:`hero-headline`,style:{fontFamily:`var(--font-serif)`,fontSize:`clamp(40px, min(4.85vw, 9vh), 96px)`,lineHeight:1.1,fontWeight:500,color:`#FFFFFF`,letterSpacing:`-0.02em`,margin:0,marginBottom:`clamp(16px, 2.6vh, 26px)`,textShadow:`0 1px 8px rgba(0, 0, 0, 0.45)`},children:[(0,H.jsx)(`span`,{className:`hero-headline-line1`,style:{display:`block`,color:`#FFFFFF`},children:t||`Discover Homes`}),(0,H.jsx)(`span`,{className:`hero-headline-line2`,style:{display:`block`,fontStyle:`italic`,color:`#D4B280`},children:n||`Tailored to Your Needs.`})]}),(0,H.jsxs)(G.p,{initial:{opacity:0,y:18},animate:{opacity:1,y:0},transition:{duration:.8,delay:.4,ease:[.16,1,.3,1]},className:`hero-subtitle`,style:{fontFamily:`var(--font-sans)`,fontSize:`clamp(16px, min(1.45vw, 2.7vh), 24px)`,lineHeight:1.6,color:`rgba(255, 255, 255, 0.88)`,maxWidth:`680px`,marginTop:0,marginBottom:`clamp(20px, 3.4vh, 34px)`,fontWeight:300,textShadow:`0 1px 8px rgba(0, 0, 0, 0.45)`},children:[`From finding the right home to managing it,`,` `,(0,H.jsx)(`br`,{className:`hero-p-break`}),(0,H.jsx)(`span`,{style:{whiteSpace:`nowrap`},children:`iGrey Holdings`}),` makes every step clearer and simpler.`]}),(0,H.jsx)(G.div,{className:`hero-cta-wrapper`,initial:{opacity:0,y:18},animate:{opacity:1,y:0},transition:{duration:.8,delay:.6,ease:[.16,1,.3,1]},children:(0,H.jsxs)(`button`,{onClick:a,className:`hero-cta-btn`,style:{backgroundColor:`#DEBA88`,color:`#121614`,padding:`1rem 2.25rem`,fontSize:`0.95rem`,fontWeight:600,letterSpacing:`0.02em`,border:`none`,borderRadius:`8px`,display:`inline-flex`,alignItems:`center`,gap:`0.75rem`,boxShadow:`0 10px 28px rgba(0, 0, 0, 0.35)`,cursor:`pointer`,transition:`all 0.3s cubic-bezier(0.16, 1, 0.3, 1)`},onMouseEnter:e=>{e.currentTarget.style.backgroundColor=`#E5C696`,e.currentTarget.style.transform=`translateY(-2px)`,e.currentTarget.style.boxShadow=`0 14px 34px rgba(222, 186, 136, 0.45)`},onMouseLeave:e=>{e.currentTarget.style.backgroundColor=`#DEBA88`,e.currentTarget.style.transform=`translateY(0)`,e.currentTarget.style.boxShadow=`0 10px 28px rgba(0, 0, 0, 0.35)`},children:[(0,H.jsx)(`span`,{children:`Explore Properties`}),(0,H.jsx)(mf,{size:18,color:`#121614`,strokeWidth:2.2})]})})]})}),(0,H.jsx)(`div`,{className:`container hero-stats-container`,style:{position:`relative`,zIndex:10,width:`100%`,paddingBottom:`0.25rem`,paddingTop:`clamp(6px, 1.2vh, 12px)`},children:(0,H.jsx)(G.div,{initial:{opacity:0,y:22},animate:{opacity:1,y:0},transition:{duration:.9,delay:.7,ease:[.16,1,.3,1]},style:{maxWidth:`1040px`,margin:`0 auto`,background:`linear-gradient(155deg, rgba(12, 20, 16, 0.92) 0%, rgba(7, 12, 10, 0.97) 100%)`,backdropFilter:`blur(20px)`,WebkitBackdropFilter:`blur(20px)`,border:`1.5px solid rgba(197, 168, 128, 0.32)`,borderRadius:`22px`,boxShadow:`0 24px 60px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.1)`,padding:`clamp(12px, 1.8vh, 18px) 1.6rem`,display:`grid`,gridTemplateColumns:`repeat(4, 1fr)`,gap:`0`,alignItems:`center`},className:`hero-floating-stats-grid`,children:r.map((e,t)=>(0,H.jsxs)(G.div,{whileHover:{y:-2},whileTap:{scale:.98},style:{display:`flex`,flexDirection:`column`,alignItems:`center`,textAlign:`center`,padding:`clamp(4px, 0.8vh, 8px) 0.85rem`,borderRadius:`16px`,position:`relative`,userSelect:`none`,transition:`background 0.3s ease`},className:`hero-stat-pillar hero-stat-cell-${t}`,children:[(0,H.jsx)(`div`,{className:`hero-stat-icon-wrapper`,style:{width:`46px`,height:`46px`,borderRadius:`13px`,background:`rgba(10, 16, 13, 0.85)`,border:`1.5px solid rgba(197, 168, 128, 0.35)`,display:`flex`,alignItems:`center`,justifyContent:`center`,marginBottom:`0.65rem`,boxShadow:`0 4px 12px rgba(0, 0, 0, 0.35)`,transition:`all 0.3s ease`,flexShrink:0},children:o(e.icon)}),(0,H.jsxs)(`div`,{className:`hero-stat-info`,children:[(0,H.jsx)(`div`,{className:`hero-stat-val`,style:{fontFamily:`var(--font-sans)`,fontSize:`clamp(1.75rem, 2.2vw, 2.25rem)`,fontWeight:700,color:`#FFFFFF`,lineHeight:1.1,marginBottom:`0.25rem`,letterSpacing:`-0.015em`},children:e.value}),(0,H.jsx)(`div`,{className:`hero-stat-lbl`,style:{fontFamily:`var(--font-sans)`,fontSize:`0.84rem`,fontWeight:600,color:`#FFFFFF`,lineHeight:1.25,marginBottom:0},children:e.label}),e.sublabel?(0,H.jsx)(`div`,{className:`hero-stat-sub`,style:{fontFamily:`var(--font-sans)`,fontSize:`0.7rem`,color:`rgba(237, 232, 223, 0.55)`,fontWeight:400,lineHeight:1.25,marginTop:`0.15rem`},children:e.sublabel}):null]})]},`${e.label}-${t}`))})}),(0,H.jsx)(`style`,{children:`
+      `})]})},Hm=`/iGrey_Website/`,Um=e=>`${Hm.endsWith(`/`)?Hm:Hm+`/`}images/${e}`,Wm={heroResidential:{src:Um(`hero_residential.jpg`),alt:`Cantilevered glass luxury villa with twilight infinity pool reflections`,width:2e3,height:1125},heroCommercial:{src:Um(`hero_commercial.jpg`),alt:`Modern architectural commercial glass tower at golden hour sunset`,width:2e3,height:1125},heroInvestment:{src:Um(`hero_investment.jpg`),alt:`Contemporary waterfront residences and investment apartment pavilions at dusk`,width:2e3,height:1125},heroAdvisory:{src:Um(`hero_advisory.jpg`),alt:`Double-height luxury penthouse interior with panoramic sunset horizon views`,width:2e3,height:1125},aboutTerrace:{src:Um(`about_terrace.jpg`),alt:`Open-concept living pavilion and wooden sun deck overlooking sunset coastal skyline`,width:1400,height:1050},serviceAdvisory:{src:Um(`service_advisory.jpg`),alt:`Private client advisory suite with marble conference table and architectural blueprints`,width:1200,height:900},serviceSales:{src:Um(`service_sales.jpg`),alt:`High-ceiling modern luxury residence gallery and open terrace foyer`,width:1200,height:900},serviceInvestment:{src:Um(`service_investment.jpg`),alt:`Architectural scale model of prime city developments and analytical blueprints`,width:1200,height:900},serviceManagement:{src:Um(`service_management.jpg`),alt:`Luxury private residence reception desk and concierge hospitality lounge`,width:1200,height:900},propSolarium:{src:Um(`prop_solarium.jpg`),alt:`The Solarium Pavilion — White three-storey modern villa with swimming pool`,width:1600,height:1200},propObscura:{src:Um(`prop_obscura.jpg`),alt:`Villa Obscura — Contemporary dining room with floating staircase in Lake Como`,width:1600,height:1200},propApex:{src:Um(`prop_apex.jpg`),alt:`The Apex Penthouse — Modern luxury villa with plunge pool and palm tree`,width:1600,height:1200},propFeatured:{src:Um(`prop_solarium.jpg`),alt:`The Solarium Pavilion — White three-storey modern villa with swimming pool`,width:1600,height:1200},propPenthouse:{src:Um(`prop_apex.jpg`),alt:`The Apex Penthouse — Modern luxury villa with plunge pool and palm tree`,width:1600,height:1200},propEstate:{src:Um(`prop_obscura.jpg`),alt:`Villa Obscura — Contemporary dining room with floating staircase in Lake Como`,width:1600,height:1200},whyIgrey:{src:Um(`why_igrey.jpg`),alt:`Modern concrete architectural residence surrounded by lush tropical landscaping`,width:1200,height:900},faqSkyline:{src:Um(`faq_skyline.jpg`),alt:`Panoramic city skyline of modern towers across water at golden hour sunset`,width:1600,height:900},contactVilla:{src:Um(`contact_villa.jpg`),alt:`Ultra-luxury modern architectural residence with infinity pool at dusk`,width:1600,height:900}},Gm=({onExploreClick:e})=>{let{headlinePart1:t,headlinePart2:n,stats:r}=zm.hero,i=Wm.heroResidential,a=()=>{e?e():document.getElementById(`properties`)?ce(`#properties`,{offset:-40,duration:1.25}):window.location.href=`./properties.html`},o=e=>{switch(e){case`users`:return(0,H.jsx)(Pm,{size:20,color:`#D4B280`,strokeWidth:1.8});case`building`:return(0,H.jsx)(Ef,{size:20,color:`#D4B280`,strokeWidth:1.8});case`trending`:return(0,H.jsx)(Sm,{size:20,color:`#D4B280`,strokeWidth:1.8});default:return(0,H.jsx)(cm,{size:20,color:`#D4B280`,strokeWidth:1.8})}};return(0,H.jsxs)(`section`,{id:`hero`,className:`hero-section`,style:{position:`relative`,minHeight:`100vh`,width:`100%`,display:`flex`,flexDirection:`column`,justifyContent:`space-between`,overflow:`hidden`,backgroundColor:`#090D0B`,color:`#FFFFFF`,paddingTop:`clamp(4rem, 6.5vh, 5.75rem)`,paddingBottom:`clamp(1rem, 2vh, 2rem)`},children:[(0,H.jsxs)(`div`,{style:{position:`absolute`,inset:0,overflow:`hidden`,zIndex:1},children:[(0,H.jsx)(`img`,{src:i.src,alt:i.alt,width:i.width,height:i.height,loading:`eager`,fetchPriority:`high`,decoding:`async`,className:`hero-bg-img`,style:{width:`100%`,height:`100%`,objectFit:`cover`,objectPosition:`center 45%`,filter:`brightness(0.78) contrast(1.1) saturate(1.12)`}}),(0,H.jsx)(`div`,{style:{position:`absolute`,inset:0,background:`linear-gradient(90deg, rgba(7, 12, 10, 0.85) 0%, rgba(7, 12, 10, 0.6) 40%, rgba(7, 12, 10, 0.2) 70%, rgba(7, 12, 10, 0.35) 100%)`,pointerEvents:`none`}}),(0,H.jsx)(`div`,{style:{position:`absolute`,inset:0,background:`linear-gradient(180deg, rgba(6, 11, 9, 0.68) 0%, rgba(6, 11, 9, 0.08) 36%, rgba(6, 11, 9, 0.45) 75%, rgba(6, 11, 9, 0.95) 100%)`,pointerEvents:`none`}}),(0,H.jsx)(`div`,{className:`hero-mobile-scrim`,style:{position:`absolute`,left:0,right:0,bottom:0,height:`80%`,background:`linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.4) 35%, rgba(0, 0, 0, 0.82) 100%)`,pointerEvents:`none`,display:`none`}})]}),(0,H.jsx)(`div`,{className:`container hero-main-content`,style:{position:`relative`,zIndex:10,width:`100%`,display:`flex`,flexDirection:`column`,justifyContent:`center`,flexGrow:1},children:(0,H.jsxs)(`div`,{className:`hero-content-inner`,style:{maxWidth:`820px`},children:[(0,H.jsxs)(G.h1,{initial:{opacity:0,y:22},animate:{opacity:1,y:0},transition:{duration:.9,delay:.2,ease:[.16,1,.3,1]},className:`hero-headline`,style:{fontFamily:`var(--font-serif)`,fontSize:`clamp(40px, min(4.85vw, 9vh), 96px)`,lineHeight:1.1,fontWeight:500,color:`#FFFFFF`,letterSpacing:`-0.02em`,margin:0,marginBottom:`clamp(16px, 2.6vh, 26px)`,textShadow:`0 1px 8px rgba(0, 0, 0, 0.45)`},children:[(0,H.jsxs)(`span`,{className:`hero-hl-desktop`,children:[(0,H.jsx)(`span`,{className:`hero-headline-line1`,style:{display:`block`,color:`#FFFFFF`},children:t||`Discover Homes`}),(0,H.jsx)(`span`,{className:`hero-headline-line2`,style:{display:`block`,fontStyle:`italic`,color:`#D4B280`},children:n||`Tailored to Your Needs.`})]}),(0,H.jsxs)(`span`,{className:`hero-hl-mobile`,children:[(0,H.jsx)(`span`,{className:`hero-headline-line1`,style:{display:`block`,color:`#FFFFFF`},children:`Where Trust Meets`}),(0,H.jsx)(`span`,{className:`hero-headline-line2`,style:{display:`block`,fontStyle:`italic`,color:`#D4B280`},children:`Architectural Grandeur.`})]})]}),(0,H.jsxs)(G.p,{initial:{opacity:0,y:18},animate:{opacity:1,y:0},transition:{duration:.8,delay:.4,ease:[.16,1,.3,1]},className:`hero-subtitle`,style:{fontFamily:`var(--font-sans)`,fontSize:`clamp(16px, min(1.45vw, 2.7vh), 24px)`,lineHeight:1.6,color:`rgba(255, 255, 255, 0.88)`,maxWidth:`680px`,marginTop:0,marginBottom:`clamp(20px, 3.4vh, 34px)`,fontWeight:300,textShadow:`0 1px 8px rgba(0, 0, 0, 0.45)`},children:[(0,H.jsxs)(`span`,{className:`hero-sub-desktop`,children:[`From finding the right home to managing it,`,` `,(0,H.jsx)(`br`,{className:`hero-p-break`}),(0,H.jsx)(`span`,{style:{whiteSpace:`nowrap`},children:`iGrey Holdings`}),` makes every step clearer and simpler.`]}),(0,H.jsx)(`span`,{className:`hero-sub-mobile`,children:`Discover residential properties and real estate services tailored to your needs. From finding the right home to managing a property, iGrey Holdings helps make every step clearer and more convenient.`})]}),(0,H.jsx)(G.div,{className:`hero-cta-wrapper`,initial:{opacity:0,y:18},animate:{opacity:1,y:0},transition:{duration:.8,delay:.6,ease:[.16,1,.3,1]},children:(0,H.jsxs)(`button`,{onClick:a,className:`hero-cta-btn`,style:{backgroundColor:`#DEBA88`,color:`#121614`,padding:`1rem 2.25rem`,fontSize:`0.95rem`,fontWeight:600,letterSpacing:`0.02em`,border:`none`,borderRadius:`8px`,display:`inline-flex`,alignItems:`center`,gap:`0.75rem`,boxShadow:`0 10px 28px rgba(0, 0, 0, 0.35)`,cursor:`pointer`,transition:`all 0.3s cubic-bezier(0.16, 1, 0.3, 1)`},onMouseEnter:e=>{e.currentTarget.style.backgroundColor=`#E5C696`,e.currentTarget.style.transform=`translateY(-2px)`,e.currentTarget.style.boxShadow=`0 14px 34px rgba(222, 186, 136, 0.45)`},onMouseLeave:e=>{e.currentTarget.style.backgroundColor=`#DEBA88`,e.currentTarget.style.transform=`translateY(0)`,e.currentTarget.style.boxShadow=`0 10px 28px rgba(0, 0, 0, 0.35)`},children:[(0,H.jsx)(`span`,{children:`Explore Properties`}),(0,H.jsx)(mf,{size:18,color:`#121614`,strokeWidth:2.2})]})})]})}),(0,H.jsx)(`div`,{className:`container hero-stats-container`,style:{position:`relative`,zIndex:10,width:`100%`,paddingBottom:`0.25rem`,paddingTop:`clamp(6px, 1.2vh, 12px)`},children:(0,H.jsx)(G.div,{initial:{opacity:0,y:22},animate:{opacity:1,y:0},transition:{duration:.9,delay:.7,ease:[.16,1,.3,1]},style:{maxWidth:`1040px`,margin:`0 auto`,background:`linear-gradient(155deg, rgba(12, 20, 16, 0.92) 0%, rgba(7, 12, 10, 0.97) 100%)`,backdropFilter:`blur(20px)`,WebkitBackdropFilter:`blur(20px)`,border:`1.5px solid rgba(197, 168, 128, 0.32)`,borderRadius:`22px`,boxShadow:`0 24px 60px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.1)`,padding:`clamp(12px, 1.8vh, 18px) 1.6rem`,display:`grid`,gridTemplateColumns:`repeat(4, 1fr)`,gap:`0`,alignItems:`center`},className:`hero-floating-stats-grid`,children:r.map((e,t)=>(0,H.jsxs)(G.div,{whileHover:{y:-2},whileTap:{scale:.98},style:{display:`flex`,flexDirection:`column`,alignItems:`center`,textAlign:`center`,padding:`clamp(4px, 0.8vh, 8px) 0.85rem`,borderRadius:`16px`,position:`relative`,userSelect:`none`,transition:`background 0.3s ease`},className:`hero-stat-pillar hero-stat-cell-${t}`,children:[(0,H.jsx)(`div`,{className:`hero-stat-icon-wrapper`,style:{width:`46px`,height:`46px`,borderRadius:`13px`,background:`rgba(10, 16, 13, 0.85)`,border:`1.5px solid rgba(197, 168, 128, 0.35)`,display:`flex`,alignItems:`center`,justifyContent:`center`,marginBottom:`0.65rem`,boxShadow:`0 4px 12px rgba(0, 0, 0, 0.35)`,transition:`all 0.3s ease`,flexShrink:0},children:o(e.icon)}),(0,H.jsxs)(`div`,{className:`hero-stat-info`,children:[(0,H.jsx)(`div`,{className:`hero-stat-val`,style:{fontFamily:`var(--font-sans)`,fontSize:`clamp(1.75rem, 2.2vw, 2.25rem)`,fontWeight:700,color:`#FFFFFF`,lineHeight:1.1,marginBottom:`0.25rem`,letterSpacing:`-0.015em`},children:e.value}),(0,H.jsx)(`div`,{className:`hero-stat-lbl`,style:{fontFamily:`var(--font-sans)`,fontSize:`0.84rem`,fontWeight:600,color:`#FFFFFF`,lineHeight:1.25,marginBottom:0},children:t===3?(0,H.jsxs)(H.Fragment,{children:[(0,H.jsx)(`span`,{className:`hero-lbl-desktop`,children:`Verified Background KYC`}),(0,H.jsxs)(`span`,{className:`hero-lbl-mobile`,children:[`Verified Background`,(0,H.jsx)(`br`,{}),`KYC`]})]}):e.label}),e.sublabel?(0,H.jsx)(`div`,{className:`hero-stat-sub`,style:{fontFamily:`var(--font-sans)`,fontSize:`0.7rem`,color:`rgba(237, 232, 223, 0.55)`,fontWeight:400,lineHeight:1.25,marginTop:`0.15rem`},children:e.sublabel}):null]})]},`${e.label}-${t}`))})}),(0,H.jsx)(`style`,{children:`
+        .hero-hl-desktop { display: block; }
+        .hero-hl-mobile { display: none; }
+        .hero-sub-desktop { display: inline; }
+        .hero-sub-mobile { display: none; }
+        .hero-lbl-desktop { display: inline; }
+        .hero-lbl-mobile { display: none; }
+
         @media (min-width: 1024px) {
           .hero-headline {
             font-size: clamp(40px, min(4.85vw, 9vh), 96px) !important;
@@ -216,12 +223,25 @@ Error generating stack: `+e.message+`
         }
 
         @media (max-width: 767px) {
+          .hero-hl-desktop { display: none !important; }
+          .hero-hl-mobile { display: block !important; }
+          .hero-sub-desktop { display: none !important; }
+          .hero-sub-mobile { display: block !important; }
+          .hero-lbl-desktop { display: none !important; }
+          .hero-lbl-mobile { display: block !important; }
+
+          .hero-bg-img {
+            object-position: 72% 18% !important;
+            filter: brightness(0.85) contrast(1.08) saturate(1.15) !important;
+          }
           .hero-mobile-scrim {
             display: block !important;
+            height: 70% !important;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.25) 30%, rgba(0, 0, 0, 0.75) 100%) !important;
           }
           .hero-section {
-            padding-top: clamp(4.5rem, 11vw, 5.5rem) !important;
-            padding-bottom: 1rem !important;
+            padding-top: 5rem !important;
+            padding-bottom: 1.25rem !important;
             min-height: 100svh !important;
             justify-content: space-between !important;
           }
@@ -244,11 +264,11 @@ Error generating stack: `+e.message+`
             margin-top: auto !important;
           }
           .hero-headline {
-            font-size: clamp(30px, 8.4vw, 38px) !important;
-            line-height: 1.15 !important;
+            font-size: clamp(38px, 10.4vw, 44px) !important;
+            line-height: 1.08 !important;
             font-weight: 500 !important;
-            margin-bottom: 12px !important;
-            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45) !important;
+            margin-bottom: 16px !important;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
           }
           .hero-headline-line1,
           .hero-headline-line2 {
@@ -256,12 +276,12 @@ Error generating stack: `+e.message+`
             white-space: normal !important;
           }
           .hero-subtitle {
-            font-size: 16px !important;
-            line-height: 1.6 !important;
+            font-size: 14.5px !important;
+            line-height: 1.55 !important;
             margin-top: 0 !important;
-            margin-bottom: 20px !important;
-            max-width: 100% !important;
-            color: rgba(255, 255, 255, 0.94) !important;
+            margin-bottom: 24px !important;
+            max-width: 360px !important;
+            color: rgba(255, 255, 255, 0.9) !important;
             text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45) !important;
           }
           .hero-p-break {
@@ -269,13 +289,15 @@ Error generating stack: `+e.message+`
           }
           .hero-cta-wrapper {
             margin-top: 0 !important;
-            margin-bottom: 16px !important;
+            margin-bottom: 26px !important;
           }
           .hero-cta-btn {
-            padding: 0.88rem 2rem !important;
-            font-size: 0.92rem !important;
-            border-radius: 8px !important;
+            padding: 12px 26px !important;
+            font-size: 15px !important;
+            border-radius: 9px !important;
             font-weight: 600 !important;
+            background-color: #DEBA88 !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
           }
           .hero-stats-container {
             padding-top: 0 !important;
@@ -287,17 +309,21 @@ Error generating stack: `+e.message+`
             grid-template-columns: repeat(2, 1fr) !important;
             border-radius: 18px !important;
             gap: 0 !important;
-            padding: 0.25rem !important;
-            border: 1.5px solid rgba(197, 168, 128, 0.32) !important;
-            background: linear-gradient(155deg, rgba(12, 20, 16, 0.92) 0%, rgba(7, 12, 10, 0.97) 100%) !important;
+            padding: 0 !important;
+            border: 1px solid rgba(197, 168, 128, 0.32) !important;
+            background: rgba(10, 16, 13, 0.85) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            position: relative !important;
+            overflow: hidden !important;
           }
           .hero-floating-stats-grid::before {
             content: '' !important;
             display: block !important;
             position: absolute !important;
             left: 50% !important;
-            top: 4% !important;
-            bottom: 4% !important;
+            top: 0 !important;
+            bottom: 0 !important;
             width: 1px !important;
             transform: translateX(-50%) !important;
             background: rgba(197, 168, 128, 0.22) !important;
@@ -309,8 +335,8 @@ Error generating stack: `+e.message+`
             display: block !important;
             position: absolute !important;
             top: 50% !important;
-            left: 4% !important;
-            right: 4% !important;
+            left: 0 !important;
+            right: 0 !important;
             height: 1px !important;
             transform: translateY(-50%) !important;
             background: rgba(197, 168, 128, 0.22) !important;
@@ -321,9 +347,9 @@ Error generating stack: `+e.message+`
             flex-direction: row !important;
             align-items: center !important;
             text-align: left !important;
-            padding: clamp(0.7rem, 2.2vw, 0.85rem) clamp(0.45rem, 2vw, 0.65rem) !important;
-            gap: clamp(0.4rem, 1.8vw, 0.55rem) !important;
-            border-radius: 12px !important;
+            padding: 14px 12px !important;
+            gap: 12px !important;
+            border-radius: 0 !important;
           }
           .hero-stat-cell-0::after,
           .hero-stat-cell-1::after,
@@ -331,23 +357,38 @@ Error generating stack: `+e.message+`
             display: none !important;
           }
           .hero-stat-icon-wrapper {
-            width: clamp(34px, 9.5vw, 38px) !important;
-            height: clamp(34px, 9.5vw, 38px) !important;
-            min-width: clamp(34px, 9.5vw, 38px) !important;
-            border-radius: 10px !important;
-            border: 1.5px solid rgba(197, 168, 128, 0.4) !important;
+            width: 44px !important;
+            height: 44px !important;
+            min-width: 44px !important;
+            border-radius: 12px !important;
+            background: rgba(14, 22, 18, 0.75) !important;
+            border: 1.2px solid rgba(197, 168, 128, 0.4) !important;
+            margin-bottom: 0 !important;
+            flex-shrink: 0 !important;
+          }
+          .hero-stat-icon-wrapper svg {
+            width: 18px !important;
+            height: 18px !important;
+          }
+          .hero-stat-info {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            text-align: left !important;
+            min-width: 0 !important;
           }
           .hero-stat-val {
-            font-size: clamp(1.15rem, 3.6vw, 1.4rem) !important;
+            font-size: 22px !important;
             font-weight: 700 !important;
-            margin-bottom: 0.12rem !important;
+            margin-bottom: 2px !important;
             line-height: 1.1 !important;
+            color: #FFFFFF !important;
           }
           .hero-stat-lbl {
-            font-size: clamp(0.62rem, 2.35vw, 0.74rem) !important;
+            font-size: 11.5px !important;
             line-height: 1.25 !important;
-            margin-bottom: 0.1rem !important;
-            font-weight: 600 !important;
+            margin-bottom: 0 !important;
+            font-weight: 500 !important;
             color: #FFFFFF !important;
           }
           .hero-stat-sub {
