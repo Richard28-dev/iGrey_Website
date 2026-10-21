@@ -90,7 +90,7 @@ export const siteContent = {
       },
       {
         value: '100%',
-        label: 'Verified Background KYC',
+        label: 'Verified Background and KYC',
         sublabel: '',
         icon: 'shield',
       },

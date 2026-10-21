@@ -59,6 +59,14 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
         </span>
       );
     }
+    if (label.toLowerCase().includes('verified background')) {
+      return (
+        <>
+          <span className="hero-stat-lbl-line">Verified Background</span>{' '}
+          <span className="hero-stat-lbl-line">and KYC</span>
+        </>
+      );
+    }
     return label;
   };
 
@@ -453,27 +461,33 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             );
           })}
         </motion.div>
-      </div>
 
-      {/* Luxury "Scroll to Explore" Affordance (Option 2) */}
-      <div
-        className="hero-scroll-prompt"
-        onClick={() => {
-          const nextSec = document.getElementById('about') || document.querySelector('section:nth-of-type(2)');
-          if (nextSec) {
-            scrollToTarget(nextSec, { offset: -20, duration: 1.2 });
-          }
-        }}
-        role="button"
-        tabIndex={0}
-        aria-label="Scroll to explore"
-      >
-        <span className="hero-scroll-text">Scroll to Explore</span>
-        <div className="hero-scroll-line" />
+        {/* Scroll to Explore Indicator */}
+        <div
+          className="hero-scroll-indicator"
+          onClick={() => {
+            const nextSec = document.getElementById('about') || document.querySelector('section:nth-of-type(2)');
+            if (nextSec) {
+              scrollToTarget(nextSec, { offset: -20, duration: 1.2 });
+            }
+          }}
+          role="button"
+          tabIndex={0}
+          aria-label="Scroll to explore"
+        >
+          <span className="hero-scroll-text">SCROLL TO EXPLORE</span>
+          <div className="hero-scroll-mouse">
+            <motion.div
+              className="hero-scroll-mouse-wheel"
+              animate={{ y: [0, 8, 0], opacity: [0.9, 0.3, 0.9] }}
+              transition={{ repeat: Infinity, duration: 1.6, ease: 'easeInOut' }}
+            />
+          </div>
+        </div>
       </div>
 
       <style>{`
-        .hero-scroll-prompt {
+        .hero-scroll-indicator {
           display: none;
         }
 
@@ -674,12 +688,13 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           }
           .hero-section {
             min-height: 100vh !important;
+            min-height: 100svh !important;
             min-height: 100dvh !important;
             display: flex !important;
             flex-direction: column !important;
             justify-content: space-between !important;
-            padding-top: clamp(74px, 11vh, 92px) !important;
-            padding-bottom: clamp(14px, 2.5vh, 22px) !important;
+            padding-top: clamp(66px, 9.8vh, 82px) !important;
+            padding-bottom: clamp(6px, 1.2vh, 12px) !important;
             box-sizing: border-box !important;
           }
           .hero-main-content {
@@ -705,7 +720,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           }
           .hero-eyebrow {
             font-size: 11px !important;
-            letter-spacing: 0.2em !important;
+            letter-spacing: 0.22em !important;
             margin-bottom: 8px !important;
           }
           .hero-text-group {
@@ -730,14 +745,14 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             display: block !important;
             white-space: normal !important;
             font-style: italic !important;
-            color: #F7DAA5 !important;
+            color: #D4B280 !important;
           }
           .hero-subtitle {
             font-size: 14px !important;
             line-height: 1.5 !important;
             margin-top: 0 !important;
             margin-bottom: 0 !important;
-            max-width: 100% !important;
+            max-width: 345px !important;
             color: rgba(255, 255, 255, 0.9) !important;
             text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45) !important;
           }
@@ -745,20 +760,24 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             display: none !important;
           }
           .hero-cta-wrapper {
-            margin-top: clamp(14px, 2.5vh, 20px) !important;
+            margin-top: clamp(14px, 2.4vh, 20px) !important;
             margin-bottom: 0 !important;
             display: flex !important;
             flex-direction: column !important;
+            align-items: flex-start !important;
             width: 100% !important;
-            gap: 9px !important;
+            gap: 10px !important;
           }
           .hero-cta-btn {
             width: 100% !important;
-            padding: 10px 20px !important;
+            max-width: 250px !important;
+            padding: 10.5px 18px !important;
             font-size: 14.5px !important;
             border-radius: 6px !important;
             font-weight: 600 !important;
             box-sizing: border-box !important;
+            display: inline-flex !important;
+            align-items: center !important;
             justify-content: center !important;
           }
           .hero-cta-primary {
@@ -778,7 +797,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             padding-bottom: 0 !important;
             padding-left: 18px !important;
             padding-right: 18px !important;
-            margin-top: clamp(14px, 2.8vh, 22px) !important;
+            margin-top: clamp(12px, 2.2vh, 18px) !important;
             width: 100% !important;
             box-sizing: border-box !important;
           }
@@ -874,8 +893,46 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           .hero-stat-lbl-nowrap {
             white-space: nowrap !important;
           }
+          .hero-stat-lbl-line {
+            display: block !important;
+          }
           .hero-stat-sub {
             display: none !important;
+          }
+          .hero-scroll-indicator {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            padding-top: clamp(8px, 1.4vh, 12px) !important;
+            padding-bottom: clamp(4px, 0.8vh, 8px) !important;
+            cursor: pointer !important;
+            z-index: 10 !important;
+          }
+          .hero-scroll-text {
+            font-family: var(--font-sans) !important;
+            font-size: 0.62rem !important;
+            letter-spacing: 0.26em !important;
+            text-transform: uppercase !important;
+            color: #DEBA88 !important;
+            font-weight: 600 !important;
+            margin-bottom: 5px !important;
+            opacity: 0.9 !important;
+          }
+          .hero-scroll-mouse {
+            width: 18px !important;
+            height: 28px !important;
+            border-radius: 12px !important;
+            border: 1.5px solid rgba(197, 168, 128, 0.5) !important;
+            display: flex !important;
+            justify-content: center !important;
+            padding-top: 4px !important;
+            box-sizing: border-box !important;
+          }
+          .hero-scroll-mouse-wheel {
+            width: 2.5px !important;
+            height: 5px !important;
+            border-radius: 2px !important;
+            background-color: #C5A880 !important;
           }
         }
       `}</style>
