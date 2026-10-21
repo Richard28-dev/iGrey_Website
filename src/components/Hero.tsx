@@ -13,6 +13,29 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
   const { eyebrow, headlinePart1, headlinePart2, stats } = siteContent.hero;
   const heroImage = siteImages.heroResidential;
 
+  const [heroVariant, setHeroVariant] = React.useState<number>(() => {
+    if (typeof window !== 'undefined') {
+      const p = new URLSearchParams(window.location.search).get('hero_variant');
+      if (p) {
+        const n = parseInt(p, 10);
+        if (n >= 1 && n <= 4) return n;
+      }
+    }
+    return 1;
+  });
+
+  React.useEffect(() => {
+    const handlePop = () => {
+      const p = new URLSearchParams(window.location.search).get('hero_variant');
+      if (p) {
+        const n = parseInt(p, 10);
+        if (n >= 1 && n <= 4) setHeroVariant(n);
+      }
+    };
+    window.addEventListener('popstate', handlePop);
+    return () => window.removeEventListener('popstate', handlePop);
+  }, []);
+
   const handleExplore = () => {
     if (onExploreClick) {
       onExploreClick();
@@ -73,7 +96,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
   return (
     <section
       id="hero"
-      className="hero-section"
+      className={`hero-section hero-variant-${heroVariant}`}
       style={{
         position: 'relative',
         minHeight: '100vh',
@@ -944,6 +967,130 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             height: 4.5px !important;
             border-radius: 2px !important;
             background-color: #C5A880 !important;
+          }
+        }
+
+        /* -------------------------------------------------------- */
+        /* VARIANT 2: Golden Ratio Harmonic Balance (Lifted Center) */
+        /* -------------------------------------------------------- */
+        @media (max-width: 768px) {
+          .hero-variant-2.hero-section {
+            justify-content: flex-start !important;
+            padding-top: clamp(110px, 20vh, 160px) !important;
+            padding-bottom: clamp(10px, 1.8vh, 16px) !important;
+          }
+          .hero-variant-2 .hero-main-content {
+            flex-grow: 1 !important;
+            justify-content: center !important;
+          }
+          .hero-variant-2 .hero-headline {
+            font-size: clamp(26px, 7.2vw, 32px) !important;
+            margin-bottom: 10px !important;
+          }
+          .hero-variant-2 .hero-subtitle {
+            font-size: 13.5px !important;
+            line-height: 1.5 !important;
+            max-width: 340px !important;
+          }
+          .hero-variant-2 .hero-cta-wrapper {
+            margin-top: clamp(14px, 2.5vh, 20px) !important;
+            gap: 10px !important;
+          }
+          .hero-variant-2 .hero-cta-btn {
+            max-width: 250px !important;
+            padding: 10px 18px !important;
+            font-size: 14px !important;
+            box-shadow: 0 10px 26px rgba(222, 186, 136, 0.28) !important;
+          }
+          .hero-variant-2 .hero-stats-container {
+            margin-top: auto !important;
+            padding-bottom: 4px !important;
+          }
+        }
+
+        /* -------------------------------------------------------- */
+        /* VARIANT 3: Dual Inline Horizontal CTAs                   */
+        /* -------------------------------------------------------- */
+        @media (max-width: 768px) {
+          .hero-variant-3.hero-section {
+            justify-content: flex-end !important;
+            padding-bottom: clamp(10px, 1.6vh, 16px) !important;
+          }
+          .hero-variant-3 .hero-headline {
+            font-size: clamp(26px, 7vw, 31px) !important;
+            margin-bottom: 8px !important;
+          }
+          .hero-variant-3 .hero-cta-wrapper {
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            gap: 8px !important;
+            width: 100% !important;
+            max-width: 340px !important;
+            margin-top: clamp(12px, 2vh, 16px) !important;
+          }
+          .hero-variant-3 .hero-cta-btn {
+            flex: 1 !important;
+            max-width: none !important;
+            padding: 10px 10px !important;
+            font-size: 12.5px !important;
+            white-space: nowrap !important;
+            gap: 5px !important;
+          }
+          .hero-variant-3 .hero-cta-btn span {
+            font-size: 12.5px !important;
+          }
+          .hero-variant-3 .hero-stats-container {
+            margin-top: clamp(16px, 2.8vh, 22px) !important;
+          }
+        }
+
+        /* -------------------------------------------------------- */
+        /* VARIANT 4: Editorial Luxury Glass with Gold Accents     */
+        /* -------------------------------------------------------- */
+        @media (max-width: 768px) {
+          .hero-variant-4.hero-section {
+            justify-content: flex-end !important;
+            padding-bottom: clamp(8px, 1.4vh, 14px) !important;
+          }
+          .hero-variant-4 .hero-eyebrow {
+            color: #F7DAA5 !important;
+            letter-spacing: 0.26em !important;
+            font-size: 10.5px !important;
+            margin-bottom: 6px !important;
+          }
+          .hero-variant-4 .hero-headline {
+            font-size: clamp(26px, 7.2vw, 32px) !important;
+            letter-spacing: -0.01em !important;
+          }
+          .hero-variant-4 .hero-headline-line2 {
+            color: #E5C696 !important;
+            text-shadow: 0 0 20px rgba(229, 198, 150, 0.3) !important;
+          }
+          .hero-variant-4 .hero-cta-primary {
+            background: linear-gradient(135deg, #DEBA88 0%, #C5A880 100%) !important;
+            border: 1.5px solid #DEBA88 !important;
+            box-shadow: 0 10px 28px rgba(222, 186, 136, 0.4) !important;
+          }
+          .hero-variant-4 .hero-cta-secondary {
+            background: rgba(14, 22, 18, 0.6) !important;
+            border: 1.5px solid rgba(222, 186, 136, 0.6) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+          }
+          .hero-variant-4 .hero-floating-stats-grid {
+            border: 1.5px solid rgba(222, 186, 136, 0.45) !important;
+            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+          }
+          .hero-variant-4 .hero-stat-val {
+            color: #DEBA88 !important;
+            text-shadow: 0 0 16px rgba(222, 186, 136, 0.35) !important;
+          }
+          .hero-variant-4 .hero-scroll-text {
+            color: #F7DAA5 !important;
+          }
+          .hero-variant-4 .hero-scroll-mouse {
+            border-color: rgba(222, 186, 136, 0.7) !important;
           }
         }
       `}</style>
