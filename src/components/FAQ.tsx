@@ -9,34 +9,39 @@ interface FAQItem {
 
 const faqList: FAQItem[] = [
   {
-    question: 'How does iGH guarantee on-time rent payouts?',
+    question: 'What services does iGREY HOLDINGS provide?',
     answer:
-      'iGH utilizes an institutional-grade automated rental payout mechanism. Homeowners receive guaranteed monthly rental deposits directly into their designated bank accounts on or before the 5th of every month, regardless of tenant collection cycles.',
+      'We offer property buying and selling support, residential and commercial renting and leasing, property management, investment-related support, construction and development coordination, and asset management services, subject to the scope of each engagement.',
   },
   {
-    question: 'What background verification is performed on tenants?',
+    question: 'Can I find a property to rent or lease?',
     answer:
-      'Every prospective tenant undergoes comprehensive institutional due diligence, including government ID validation, professional employment verification, KYC compliance, and prior tenancy history checks to ensure total safety and property preservation.',
+      'Yes. Enquire about available residential and commercial properties by sharing your preferred location, budget, property type and required tenure. Availability is subject to confirmation.',
   },
   {
-    question: 'How are property maintenance, painting, and repairs handled?',
+    question: 'What is the property-backed insurance offering for lease customers?',
     answer:
-      'Our dedicated in-house property maintenance team coordinates scheduled inspections, rapid electrical and plumbing repairs, HVAC upkeep, and turnkey restoration or repainting between tenancies with pre-approved certified vendors.',
+      'iGREY HOLDINGS is introducing a property-backed insurance offering for eligible lease customers. The intended timeline is within 90 days from the start of the contract, subject to policy terms, eligibility and final arrangements. Customers should review the applicable coverage and exclusions.',
   },
   {
-    question: 'I am an NRI landlord living abroad. Can I manage my property remotely?',
+    question: 'Can I list my property with iGREY HOLDINGS?',
     answer:
-      'Yes, absolutely. We specialize in 100% remote hands-free property management for NRI and overseas asset owners. From digital lease agreements and biometric check-ins to real-time financial reporting and foreign currency payouts, your asset is fully managed.',
+      'Property owners can contact our team to discuss sale, rental, leasing or management requirements. Applicable services and commercial terms will be explained before engagement.',
   },
   {
-    question: 'Are there any hidden brokerages or commission fees for tenants?',
+    question: 'Does iGREY HOLDINGS manage properties?',
     answer:
-      'No. iGH adheres to complete pricing transparency with zero brokerage on curated residential stays. All terms, utility allocations, and security deposits are clearly documented upfront with zero surprise fees.',
+      'Property management services may include tenant coordination, rent administration, inspections and maintenance coordination, depending on the agreed scope.',
   },
   {
-    question: 'What is the difference between Monthly Rent and Long-Term Lease?',
+    question: 'Can I discuss a property investment opportunity?',
     answer:
-      'Monthly Rent offers flexible executive stays with monthly billing cycles, whereas a Long-Term Lease guarantees continuous multi-year institutional tenancies with structured annual rental escalations and uninterrupted cash flows.',
+      'Yes. You can contact our team to discuss property opportunities, market comparisons and potential income or cost considerations. Returns are not guaranteed.',
+  },
+  {
+    question: 'How can I arrange a property viewing?',
+    answer:
+      'Select an available listing and submit an enquiry with your contact information and preferred viewing time. Our team will confirm availability and next steps.',
   },
 ];
 
@@ -112,7 +117,7 @@ export const FAQ: React.FC = () => {
               fontWeight: 400,
             }}
           >
-            Everything you need to know about property onboarding, rent guarantees, and stay agreements.
+            Everything you need to know about our services, leasing arrangements, insurance offerings, and property viewing.
           </p>
         </div>
 

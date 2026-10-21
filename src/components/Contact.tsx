@@ -13,7 +13,7 @@ import {
   ChevronDown,
   X,
 } from 'lucide-react';
-import { siteImages } from '../data/images';
+import { siteImages, siteVideos } from '../data/images';
 import { sanitizeIndianPhone, getPhoneValidationError } from '../utils/phoneValidation';
 import { enquiryService } from '../admin/services/enquiryService';
 
@@ -28,12 +28,14 @@ interface ContactFormState {
 
 const ROLE_OPTIONS = [
   'Property Owner / Landlord',
-  'Tenant / Looking for Stay',
-  'Property Investor',
-  'Looking for Buy',
-  'Looking for Sell',
-  'Channel Partner / Broker',
-  'Other Advisory Enquiry',
+  'Buyer',
+  'Tenant / Residential Renter',
+  'Commercial Tenant / Lease Seeker',
+  'Seller',
+  'Real Estate Investor',
+  'Construction / Development Client',
+  'Business Partner',
+  'Other',
 ];
 
 export const Contact: React.FC = () => {
@@ -56,9 +58,27 @@ export const Contact: React.FC = () => {
   const formMountTimeRef = useRef<number>(Date.now());
   const dropdownRef = useRef<HTMLDivElement>(null);
   const phoneInputRef = useRef<HTMLInputElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     formMountTimeRef.current = Date.now();
+  }, []);
+
+  // Handle video autoplay and respect reduced-motion preference
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReducedMotion && videoRef.current) {
+        videoRef.current.pause();
+      } else if (videoRef.current) {
+        const playPromise = videoRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            // Autoplay prevented by browser policy; poster image remains visible
+          });
+        }
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -226,6 +246,31 @@ export const Contact: React.FC = () => {
 
     setIsSubmitting(true);
 
+    // Lead category classification
+    const getLeadCategory = (role: string): string => {
+      switch (role) {
+        case 'Property Owner / Landlord':
+          return 'Owner / Landlord';
+        case 'Buyer':
+          return 'Buyer Acquisition';
+        case 'Tenant / Residential Renter':
+          return 'Residential Tenant';
+        case 'Commercial Tenant / Lease Seeker':
+          return 'Commercial Leasing';
+        case 'Seller':
+          return 'Property Disposition';
+        case 'Real Estate Investor':
+          return 'Investor Advisory';
+        case 'Construction / Development Client':
+          return 'Construction & Development';
+        case 'Business Partner':
+          return 'Business Partnership';
+        default:
+          return 'General Enquiry';
+      }
+    };
+    const leadCategory = getLeadCategory(formData.role);
+
     // 1. Submit to Supabase Database
     if (typeof window !== 'undefined' && (window as any).getSupabaseClient) {
       try {
@@ -237,6 +282,7 @@ export const Contact: React.FC = () => {
               phone: formData.phone.trim(),
               email: formData.email.trim(),
               role: formData.role,
+              category: leadCategory,
               city: formData.city.trim() || 'Bangalore',
               message: formData.message.trim(),
               property_code: propertyCode || null,
@@ -259,7 +305,10 @@ export const Contact: React.FC = () => {
         city: formData.city.trim() || undefined,
         message: formData.message.trim(),
         status: 'New',
-        internalNotes: ['Submitted via public website contact form.'],
+        internalNotes: [
+          `Routed to ${leadCategory} lead category.`,
+          'Submitted via public website contact form.',
+        ],
       });
     } catch (err) {
       console.error('Failed to save enquiry to store:', err);
@@ -295,6 +344,59 @@ export const Contact: React.FC = () => {
       }}
     >
       <div className="container" style={{ maxWidth: '1160px', position: 'relative', zIndex: 2 }}>
+        {/* Section Header */}
+        <div style={{ textAlign: 'center', marginBottom: 'clamp(2.5rem, 4.5vw, 3.75rem)' }}>
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '0.35rem 1.15rem',
+              backgroundColor: 'rgba(197, 168, 128, 0.08)',
+              border: '1px solid rgba(197, 168, 128, 0.3)',
+              borderRadius: '9999px',
+              fontFamily: 'var(--font-sans)',
+              fontSize: '0.72rem',
+              letterSpacing: '0.18em',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              color: 'var(--bronze-hi)',
+              marginBottom: '1.25rem',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
+            }}
+          >
+            CONTACT &amp; ENQUIRIES
+          </div>
+
+          <h2
+            style={{
+              fontFamily: 'var(--font-serif)',
+              fontSize: 'clamp(1.85rem, 4.2vw, 3.2rem)',
+              lineHeight: 1.15,
+              color: '#FAF8F4',
+              letterSpacing: '-0.02em',
+              fontWeight: 400,
+              margin: '0 0 1rem 0',
+            }}
+          >
+            How Can We Help With Your Property Goals?
+          </h2>
+
+          <p
+            style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: 'clamp(0.95rem, 1.15vw, 1.05rem)',
+              lineHeight: 1.65,
+              color: 'rgba(237, 232, 223, 0.72)',
+              maxWidth: '680px',
+              margin: '0 auto',
+              fontWeight: 400,
+            }}
+          >
+            Tell us what you are looking for, and our team will direct your enquiry to the appropriate property service. Share your requirements below, and we will respond using the contact details you provide.
+          </p>
+        </div>
+
         {/* Outer Dark Luxury Card */}
         <div className="contact-outer-card">
           {/* Left Column */}
@@ -314,14 +416,27 @@ export const Contact: React.FC = () => {
 
             {/* Media & Details Area (Image + 3 Contact Cards) */}
             <div className="contact-left-media">
-              {/* House Image with Location Pill */}
+              {/* Luxury Property Video with Location Pill & Fallback */}
               <div className="contact-image-wrapper">
-                <img
-                  src={siteImages.contactVilla.src}
-                  alt="iGH Prime Architectural Residence"
-                  loading="lazy"
-                  decoding="async"
-                />
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  poster={siteImages.contactVilla.src}
+                  aria-label="iGH Prime Architectural Residence Video Showcase"
+                >
+                  <source src={siteVideos.contactVilla} type="video/mp4" />
+                  {/* Fallback image if video element is unsupported */}
+                  <img
+                    src={siteImages.contactVilla.src}
+                    alt="iGH Prime Architectural Residence"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </video>
                 <div className="contact-image-pill">
                   <MapPin size={11} color="#c9a77c" style={{ flexShrink: 0 }} />
                   <span>Bangalore · Mysuru · Hyderabad · Chennai</span>
@@ -869,10 +984,12 @@ export const Contact: React.FC = () => {
           background-color: #0b100e;
         }
 
-        .contact-image-wrapper img {
+        .contact-image-wrapper img,
+        .contact-image-wrapper video {
           width: 100%;
           height: 100%;
           object-fit: cover;
+          object-position: center;
           display: block;
           filter: brightness(0.92) contrast(1.05);
         }
@@ -895,6 +1012,7 @@ export const Contact: React.FC = () => {
           color: #f4efe4;
           letter-spacing: 0.02em;
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+          z-index: 3;
         }
 
         .contact-cards-stack {
@@ -1066,7 +1184,7 @@ export const Contact: React.FC = () => {
           background-color: #101614;
           border: 0.5px solid #3a3225;
           border-radius: 12px;
-          max-height: 320px;
+          max-height: 390px;
           overflow-y: auto;
           box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(201, 167, 124, 0.1);
           box-sizing: border-box;

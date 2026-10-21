@@ -10,17 +10,22 @@ interface FooterLink {
 
 const quickLinks: FooterLink[] = [
   { label: 'Home', href: '#hero' },
-  { label: 'About iGrey', href: '#about' },
+  { label: 'About iGREY', href: '#about' },
   { label: 'Our Services', href: '#services' },
-  { label: 'All Properties', href: './properties.html' },
+  { label: 'Available Properties', href: './properties.html' },
+  { label: 'Terms & Conditions', href: './terms.html' },
   { label: 'List Your Property', href: '#contact' },
+  { label: 'Investment Enquiries', href: '#contact' },
+  { label: 'Contact', href: '#contact' },
 ];
 
 const serviceLinks: FooterLink[] = [
-  { label: 'Rent Payouts', href: '#services' },
-  { label: 'Tenant KYC', href: '#services' },
-  { label: 'Inspections & Repairs', href: '#services' },
-  { label: 'Legal Agreements', href: '#services' },
+  { label: 'Buying & Selling', href: '#services' },
+  { label: 'Privacy Policy', href: './privacy.html' },
+  { label: 'Property Management', href: '#services' },
+  { label: 'Construction & Development', href: '#services' },
+  { label: 'Property Investment', href: '#services' },
+  { label: 'Asset Management', href: '#services' },
 ];
 
 // Crisp Luxury Brand Social Icons (40px circular, dark background, gold border on hover)
@@ -86,8 +91,11 @@ export const Footer: React.FC = () => {
                 />
               </a>
 
+              <p className="footer-brand-tagline">
+                Building with a Broader Perspective
+              </p>
               <p className="footer-brand-desc">
-                Redefining luxury real estate advisory and residential acquisitions across South India.
+                iGREY HOLDINGS provides integrated real estate solutions across property buying, selling, renting, leasing, construction, investment and asset management.
               </p>
             </div>
 
@@ -178,12 +186,13 @@ export const Footer: React.FC = () => {
             <h3 className="footer-col-heading">Get in Touch</h3>
             <div className="footer-heading-underline" aria-hidden="true" />
             <div className="footer-contact-list">
-              {/* PLACEHOLDER: Replace with actual office address */}
+              {/* Verified Bangalore Office Address */}
               <div className="footer-contact-item">
                 <MapPin size={18} color="#c9a77c" className="footer-contact-icon" aria-hidden="true" />
                 <span className="footer-contact-text">
-                  Office address line,<br />
-                  Mysuru, Karnataka
+                  178/2, Vaishnavi Senate, Bannerghatta Road,<br />
+                  Dollars Layout, Phase 4, Bilekahalli,<br />
+                  Bangalore, Karnataka - 560076
                 </span>
               </div>
 

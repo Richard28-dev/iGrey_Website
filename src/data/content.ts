@@ -62,12 +62,12 @@ export const siteContent = {
   },
 
   hero: {
-    eyebrow: '',
-    headlinePart1: 'Discover Homes',
-    headlinePart2: 'Tailored to Your Needs.',
-    headline: 'Discover Homes Tailored to Your Needs.',
+    eyebrow: 'BEYOND PROPERTY. BUILDING VALUE.',
+    headlinePart1: 'Real Estate Solutions.',
+    headlinePart2: 'Beyond Expectations.',
+    headline: 'Real Estate Solutions. Beyond Expectations.',
     subtitle:
-      'From finding the right home to managing it, iGrey Holdings makes every step clearer and simpler.',
+      'From finding the right property to managing, developing and investing in real estate, iGREY HOLDINGS brings property solutions together.',
     primaryCta: 'Explore Properties →',
     stats: [
       {
@@ -98,6 +98,41 @@ export const siteContent = {
   },
 
   about: {
+    overview: {
+      eyebrow: 'ABOUT US',
+      headingPart1: 'Real Estate, Considered',
+      headingPart2: 'From Every Angle.',
+      subtitle:
+        'iGREY HOLDINGS brings together a range of real estate services to support individuals, businesses, property owners and investors at different stages of their property journey. From buying and selling to renting, leasing, construction, investment support and asset management, our aim is to make property decisions more structured and transparent.',
+      pillars: [
+        {
+          id: 'vision',
+          title: 'Our Vision',
+          icon: 'eye' as const,
+          description:
+            'To build a trusted real estate group recognised for professional service, transparent practices, responsible property solutions and a long-term approach to value creation.',
+        },
+        {
+          id: 'mission',
+          title: 'Our Mission',
+          icon: 'target' as const,
+          description:
+            'To provide integrated real estate services that help clients make informed decisions, access suitable property opportunities and manage their property requirements effectively.',
+        },
+        {
+          id: 'values',
+          title: 'Our Values',
+          icon: 'heart' as const,
+          valuesList: [
+            'Integrity and transparency',
+            'Accountability and professionalism',
+            'Client-focused service',
+            'Responsible property practices',
+            'Long-term value creation',
+          ],
+        },
+      ],
+    },
     eyebrow: 'THE iGREY ADVANTAGE',
     headingPart1: 'Why Choose',
     headingPart2: 'iGH?',
@@ -137,41 +172,57 @@ export const siteContent = {
   },
 
   services: {
-    eyebrow: 'WHAT WE DO',
-    heading: 'Real Estate Solutions Built Around Your Goals.',
+    eyebrow: 'OUR SERVICES',
+    heading: 'One Partner. Multiple Property Solutions.',
     subtitle:
-      "Whether you're searching for a property, exploring an investment opportunity or seeking professional guidance, iGREY brings a considered approach to every real-estate decision.",
+      'From property transactions to development and asset management, iGREY HOLDINGS supports a wide range of real estate requirements.',
     items: [
       {
-        id: 'advisory',
+        id: 'buying-selling',
         number: '01',
-        title: 'Property Advisory',
+        title: 'Property Buying & Selling',
         description:
-          'Clear guidance to help clients understand opportunities, evaluate options and move forward with confidence.',
-        imageKey: 'serviceAdvisory' as const,
-      },
-      {
-        id: 'sales',
-        number: '02',
-        title: 'Property Sales',
-        description:
-          'A structured approach to presenting, positioning and negotiating property transactions.',
+          'Explore suitable properties, connect with prospective buyers and sellers, and receive support with negotiations and transaction coordination.',
         imageKey: 'serviceSales' as const,
       },
       {
-        id: 'investment',
-        number: '03',
-        title: 'Investment Solutions',
+        id: 'renting-leasing',
+        number: '02',
+        title: 'Renting & Leasing',
         description:
-          'Explore real-estate opportunities with a focus on informed decisions and long-term value.',
+          'Find residential or commercial spaces, market available properties and coordinate rental and lease arrangements.',
+        imageKey: 'serviceAdvisory' as const,
+      },
+      {
+        id: 'property-management',
+        number: '03',
+        title: 'Property Management',
+        description:
+          'Support for tenant coordination, rent administration, inspections, maintenance and day-to-day property operations.',
+        imageKey: 'serviceManagement' as const,
+      },
+      {
+        id: 'property-investment',
+        number: '04',
+        title: 'Property Investment',
+        description:
+          'Evaluate property opportunities through market research, comparative analysis, income assessment and investment planning support.',
         imageKey: 'serviceInvestment' as const,
       },
       {
-        id: 'management',
-        number: '04',
-        title: 'Property Management',
+        id: 'construction-development',
+        number: '05',
+        title: 'Construction & Development',
         description:
-          'Practical support designed to help property owners manage their assets with greater confidence and convenience.',
+          'Project coordination, development planning and construction-related support aligned with the agreed scope and qualified professionals.',
+        imageKey: 'serviceAdvisory' as const,
+      },
+      {
+        id: 'asset-management-advisory',
+        number: '06',
+        title: 'Asset Management & Advisory',
+        description:
+          'Support for property performance, operating costs, portfolio oversight and informed real estate decisions.',
         imageKey: 'serviceManagement' as const,
       },
     ],
@@ -321,50 +372,67 @@ export const siteContent = {
     subtitle: 'Find quick answers to common questions about our services, process and how we work.',
     items: [
       {
-        question: 'What types of properties does iGREY work with?',
+        question: 'What services does iGREY HOLDINGS provide?',
         answer:
-          'We represent an exclusive portfolio of residential apartments, luxury villas, commercial spaces, and high-yield investment properties across prime growth corridors.',
+          'We offer property buying and selling support, residential and commercial renting and leasing, property management, investment-related support, construction and development coordination, and asset management services, subject to the scope of each engagement.',
       },
       {
-        question: 'How can I enquire about a property?',
+        question: 'Can I find a property to rent or lease?',
         answer:
-          'You can enquire directly through our online enquiry form, call our client desk at +91 98765 43210, or schedule an in-person advisory consultation.',
+          'Yes. Enquire about available residential and commercial properties by sharing your preferred location, budget, property type and required tenure. Availability is subject to confirmation.',
       },
       {
-        question: 'Does iGREY assist with property investment?',
+        question: 'What is the property-backed insurance offering for lease customers?',
         answer:
-          'Yes, our team provides structured investment advisory including yield analysis, long-term capital appreciation forecasting, and portfolio diversification.',
+          'iGREY HOLDINGS is introducing a property-backed insurance offering for eligible lease customers. The intended timeline is within 90 days from the start of the contract, subject to policy terms, eligibility and final arrangements. Customers should review the applicable coverage and exclusions.',
       },
       {
-        question: 'Can I schedule a consultation?',
+        question: 'Can I list my property with iGREY HOLDINGS?',
         answer:
-          "Yes, simply click on 'Schedule a Consultation' at the top of the page or fill out our enquiry form to choose your preferred date and time.",
+          'Property owners can contact our team to discuss sale, rental, leasing or management requirements. Applicable services and commercial terms will be explained before engagement.',
       },
       {
-        question: 'How can I list my property with iGREY?',
+        question: 'Does iGREY HOLDINGS manage properties?',
         answer:
-          'Contact our property sales desk with your title details and floor plans. Our valuation team will verify and market your property to our qualified network of buyers.',
+          'Property management services may include tenant coordination, rent administration, inspections and maintenance coordination, depending on the agreed scope.',
+      },
+      {
+        question: 'Can I discuss a property investment opportunity?',
+        answer:
+          'Yes. You can contact our team to discuss property opportunities, market comparisons and potential income or cost considerations. Returns are not guaranteed.',
+      },
+      {
+        question: 'How can I arrange a property viewing?',
+        answer:
+          'Select an available listing and submit an enquiry with your contact information and preferred viewing time. Our team will confirm availability and next steps.',
       },
     ],
   },
 
   contact: {
-    eyebrow: 'GET IN TOUCH',
-    heading: "Let's Talk About Your Next Property Decision.",
+    eyebrow: 'CONTACT & ENQUIRIES',
+    heading: 'How Can We Help With Your Property Goals?',
     subtitle:
-      "Whether you're searching for a new home, exploring an investment or looking for the right property opportunity, we're here to start the conversation.",
-    phone: '+91 98765 43210',
+      'Tell us what you are looking for, and our team will direct your enquiry to the appropriate property service. Share your requirements below, and we will respond using the contact details you provide.',
+    phone: '+91 98765 00000',
     email: 'hello@igreyholdings.com',
-    location: 'Bengaluru, India',
+    location: '178/2, Vaishnavi Senate, Bannerghatta Road, Dollars Layout, Phase 4, Bilekahalli, Bangalore, Karnataka - 560076',
+    hours: 'Mon to Sat, 9:30 am to 7 pm',
     form: {
-      title: 'Send Us a Message',
-      requirements: [
-        'Luxury Residential',
-        'Commercial Space',
-        'Investment Advisory',
-        'Property Management',
+      title: 'Tell us what you need',
+      roles: [
+        'Property Owner / Landlord',
+        'Buyer',
+        'Tenant / Residential Renter',
+        'Commercial Tenant / Lease Seeker',
+        'Seller',
+        'Real Estate Investor',
+        'Construction / Development Client',
+        'Business Partner',
+        'Other',
       ],
-      submitButton: 'Submit Enquiry →',
+      submitButton: 'Send message →',
+      privacyNote: 'Your details stay private. We never share them.',
     },
   },
 
@@ -404,22 +472,36 @@ export const siteContent = {
   },
 
   footer: {
-    tagline: 'Redefining the way you experience real estate.',
-    exploreLinks: [
-      { label: 'About', href: '#about' },
-      { label: 'Properties', href: '#properties' },
-      { label: 'Services', href: '#services' },
-      { label: 'Client Reflections', href: '#reviews' },
-    ],
-    companyLinks: [
-      { label: 'Insights', href: '#faq' },
-      { label: 'FAQ', href: '#faq' },
+    tagline: 'Building with a Broader Perspective',
+    description:
+      'iGREY HOLDINGS provides integrated real estate solutions across property buying, selling, renting, leasing, construction, investment and asset management.',
+    address:
+      '178/2, Vaishnavi Senate, Bannerghatta Road, Dollars Layout, Phase 4, Bilekahalli, Bangalore, Karnataka - 560076',
+    phone: '+91 98765 00000',
+    email: 'hello@igreyholdings.com',
+    hours: 'Mon to Sat, 9:30 am to 7 pm',
+    quickLinks: [
+      { label: 'Home', href: '#hero' },
+      { label: 'About iGREY', href: '#about' },
+      { label: 'Our Services', href: '#services' },
+      { label: 'Available Properties', href: './properties.html' },
+      { label: 'Terms & Conditions', href: './terms.html' },
+      { label: 'List Your Property', href: '#contact' },
+      { label: 'Investment Enquiries', href: '#contact' },
       { label: 'Contact', href: '#contact' },
     ],
-    copyright: '© 2025 iGrey Holdings. All rights reserved.',
+    serviceLinks: [
+      { label: 'Buying & Selling', href: '#services' },
+      { label: 'Privacy Policy', href: './privacy.html' },
+      { label: 'Property Management', href: '#services' },
+      { label: 'Construction & Development', href: '#services' },
+      { label: 'Property Investment', href: '#services' },
+      { label: 'Asset Management', href: '#services' },
+    ],
+    copyright: '© 2026 iGrey Holdings. All rights reserved.',
     legalLinks: [
-      { label: 'Privacy Policy', href: '#' },
-      { label: 'Terms & Conditions', href: '#' },
+      { label: 'Privacy Policy', href: './privacy.html' },
+      { label: 'Terms & Conditions', href: './terms.html' },
     ],
   },
 };

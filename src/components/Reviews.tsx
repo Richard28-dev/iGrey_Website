@@ -445,257 +445,257 @@ export const Reviews: React.FC = () => {
         onTouchCancel={handleTouchCancel}
         onKeyDown={(e) => handleCardKeyDown(e, t)}
       >
-      <div className="review-card-top">
-        {/* Decorative Top Double-Quote */}
-        <div
-          className="review-quote-mark"
-          style={{
-            fontFamily: "'Cormorant Garamond', Georgia, serif",
-            fontSize: '44px',
-            lineHeight: '0.85',
-            color: '#c9a77c',
-            marginBottom: '0.85rem',
-            userSelect: 'none',
-          }}
-          aria-hidden="true"
-        >
-          “
-        </div>
-
-        {/* 5-Star Rating Row: Solid Gold (#d9b36a) for filled, Dim Outline (#5b4b32) for remaining */}
-        <div
-          className="review-stars-row"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '4px',
-            marginBottom: '1.25rem',
-          }}
-          aria-label={`Rated ${t.rating} out of 5`}
-        >
-          {[1, 2, 3, 4, 5].map((starIndex) => {
-            const isFilled = starIndex <= t.rating;
-            return isFilled ? (
-              <svg
-                key={starIndex}
-                className="review-star-svg"
-                width="15"
-                height="15"
-                viewBox="0 0 24 24"
-                fill="#d9b36a"
-                aria-hidden="true"
-                style={{ display: 'block' }}
-              >
-                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-              </svg>
-            ) : (
-              <svg
-                key={starIndex}
-                className="review-star-svg"
-                width="15"
-                height="15"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#5b4b32"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-                style={{ display: 'block' }}
-              >
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-              </svg>
-            );
-          })}
-          <span
-            className="review-rating-num"
-            style={{
-              marginLeft: '6px',
-              fontFamily: "'Manrope', var(--font-sans)",
-              fontSize: '13px',
-              color: '#8e8677',
-              fontWeight: 500,
-            }}
-          >
-            {t.rating.toFixed(1)}
-          </span>
-        </div>
-
-        {/* Master Quote: Cormorant Garamond Italic */}
-        <p className="review-quote">
-          {t.quote}
-        </p>
-      </div>
-
-      <div className="review-card-bottom">
-        {/* Subtle Hairline Divider */}
-        <div
-          className="review-inner-divider"
-          style={{
-            height: '1px',
-            backgroundColor: 'rgba(197, 168, 128, 0.18)',
-            margin: '2rem 0 1.25rem 0',
-          }}
-        />
-
-        {/* Professional Author Section */}
-        <div
-          className="review-author-section"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '14px',
-            minWidth: 0,
-            width: '100%',
-          }}
-        >
-          {/* Avatar: 46px circular, initials in Cormorant Garamond 19px, gold 0.5px border, dark background */}
+        <div className="review-card-top">
+          {/* Decorative Top Double-Quote */}
           <div
-            className="review-author-avatar"
+            className="review-quote-mark"
             style={{
-              width: '46px',
-              height: '46px',
-              minWidth: '46px',
-              minHeight: '46px',
-              borderRadius: '50%',
-              border: '0.5px solid #c9a77c',
-              backgroundColor: '#0c110e',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexShrink: 0,
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontSize: '44px',
+              lineHeight: '0.85',
+              color: '#c9a77c',
+              marginBottom: '0.85rem',
+              userSelect: 'none',
             }}
             aria-hidden="true"
           >
+            “
+          </div>
+
+          {/* 5-Star Rating Row: Solid Gold (#d9b36a) for filled, Dim Outline (#5b4b32) for remaining */}
+          <div
+            className="review-stars-row"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              marginBottom: '1.25rem',
+            }}
+            aria-label={`Rated ${t.rating} out of 5`}
+          >
+            {[1, 2, 3, 4, 5].map((starIndex) => {
+              const isFilled = starIndex <= t.rating;
+              return isFilled ? (
+                <svg
+                  key={starIndex}
+                  className="review-star-svg"
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="#d9b36a"
+                  aria-hidden="true"
+                  style={{ display: 'block' }}
+                >
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+              ) : (
+                <svg
+                  key={starIndex}
+                  className="review-star-svg"
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#5b4b32"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                  style={{ display: 'block' }}
+                >
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
+              );
+            })}
             <span
-              className="review-avatar-initials"
+              className="review-rating-num"
               style={{
-                fontFamily: "'Cormorant Garamond', var(--font-serif)",
-                fontSize: '19px',
+                marginLeft: '6px',
+                fontFamily: "'Manrope', var(--font-sans)",
+                fontSize: '13px',
+                color: '#8e8677',
                 fontWeight: 500,
-                color: '#c9a77c',
-                lineHeight: 1,
-                letterSpacing: '0.02em',
               }}
             >
-              {t.initials}
+              {t.rating.toFixed(1)}
             </span>
           </div>
 
-          {/* Text Block: Name + Verified Check, Role, Location line */}
+          {/* Master Quote: Cormorant Garamond Italic */}
+          <p className="review-quote">
+            {t.quote}
+          </p>
+        </div>
+
+        <div className="review-card-bottom">
+          {/* Subtle Hairline Divider */}
           <div
-            className="review-author-text"
+            className="review-inner-divider"
+            style={{
+              height: '1px',
+              backgroundColor: 'rgba(197, 168, 128, 0.18)',
+              margin: '2rem 0 1.25rem 0',
+            }}
+          />
+
+          {/* Professional Author Section */}
+          <div
+            className="review-author-section"
             style={{
               display: 'flex',
-              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '14px',
               minWidth: 0,
-              flex: 1,
-              overflow: 'hidden',
+              width: '100%',
             }}
           >
-            {/* Name: Manrope 16px, weight 600, color #f7f2e8, letter-spacing 0.01em + 17px gold verified icon */}
+            {/* Avatar: 46px circular, initials in Cormorant Garamond 19px, gold 0.5px border, dark background */}
             <div
-              className="review-author-name-row"
+              className="review-author-avatar"
               style={{
+                width: '46px',
+                height: '46px',
+                minWidth: '46px',
+                minHeight: '46px',
+                borderRadius: '50%',
+                border: '0.5px solid #c9a77c',
+                backgroundColor: '#0c110e',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '6px',
-                minWidth: 0,
+                justifyContent: 'center',
+                flexShrink: 0,
               }}
+              aria-hidden="true"
             >
               <span
-                className="review-author-name"
+                className="review-avatar-initials"
+                style={{
+                  fontFamily: "'Cormorant Garamond', var(--font-serif)",
+                  fontSize: '19px',
+                  fontWeight: 500,
+                  color: '#c9a77c',
+                  lineHeight: 1,
+                  letterSpacing: '0.02em',
+                }}
+              >
+                {t.initials}
+              </span>
+            </div>
+
+            {/* Text Block: Name + Verified Check, Role, Location line */}
+            <div
+              className="review-author-text"
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                minWidth: 0,
+                flex: 1,
+                overflow: 'hidden',
+              }}
+            >
+              {/* Name: Manrope 16px, weight 600, color #f7f2e8, letter-spacing 0.01em + 17px gold verified icon */}
+              <div
+                className="review-author-name-row"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  minWidth: 0,
+                }}
+              >
+                <span
+                  className="review-author-name"
+                  style={{
+                    fontFamily: "'Manrope', var(--font-sans)",
+                    fontSize: '16px',
+                    fontWeight: 600,
+                    color: '#f7f2e8',
+                    letterSpacing: '0.01em',
+                    lineHeight: 1.25,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
+                  {t.name}
+                </span>
+                <svg
+                  className="review-verified-icon"
+                  width="17"
+                  height="17"
+                  viewBox="0 0 24 24"
+                  fill="#c9a77c"
+                  style={{ flexShrink: 0 }}
+                  aria-label="Verified"
+                >
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M10.2 2.7a2.5 2.5 0 0 1 3.6 0l.7.7a2.5 2.5 0 0 0 2.2.8l1-.1a2.5 2.5 0 0 1 2.7 2.7l-.1 1a2.5 2.5 0 0 0 .8 2.2l.7.7a2.5 2.5 0 0 1 0 3.6l-.7.7a2.5 2.5 0 0 0-.8 2.2l.1 1a2.5 2.5 0 0 1-2.7 2.7l-1-.1a2.5 2.5 0 0 0-2.2.8l-.7.7a2.5 2.5 0 0 1-3.6 0l-.7-.7a2.5 2.5 0 0 0-2.2-.8l-1 .1a2.5 2.5 0 0 1-2.7-2.7l.1-1a2.5 2.5 0 0 0-.8-2.2l-.7-.7a2.5 2.5 0 0 1 0-3.6l.7-.7a2.5 2.5 0 0 0 .8-2.2l-.1-1a2.5 2.5 0 0 1 2.7-2.7l1 .1a2.5 2.5 0 0 0 2.2-.8l.7-.7zm6.1 7.6a1 1 0 0 0-1.4-1.4L11 12.8 9.1 10.9a1 1 0 0 0-1.4 1.4l2.6 2.6a1 1 0 0 0 1.4 0l4.6-4.6z"
+                  />
+                </svg>
+              </div>
+
+              {/* Role: Job title, Company in Manrope 12.5px, color #cfc7b6, 3px below name */}
+              <div
+                className="review-author-role"
                 style={{
                   fontFamily: "'Manrope', var(--font-sans)",
-                  fontSize: '16px',
-                  fontWeight: 600,
-                  color: '#f7f2e8',
-                  letterSpacing: '0.01em',
-                  lineHeight: 1.25,
+                  fontSize: '12.5px',
+                  color: '#cfc7b6',
+                  marginTop: '3px',
+                  lineHeight: 1.35,
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                 }}
               >
-                {t.name}
-              </span>
-              <svg
-                className="review-verified-icon"
-                width="17"
-                height="17"
-                viewBox="0 0 24 24"
-                fill="#c9a77c"
-                style={{ flexShrink: 0 }}
-                aria-label="Verified"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M10.2 2.7a2.5 2.5 0 0 1 3.6 0l.7.7a2.5 2.5 0 0 0 2.2.8l1-.1a2.5 2.5 0 0 1 2.7 2.7l-.1 1a2.5 2.5 0 0 0 .8 2.2l.7.7a2.5 2.5 0 0 1 0 3.6l-.7.7a2.5 2.5 0 0 0-.8 2.2l.1 1a2.5 2.5 0 0 1-2.7 2.7l-1-.1a2.5 2.5 0 0 0-2.2.8l-.7.7a2.5 2.5 0 0 1-3.6 0l-.7-.7a2.5 2.5 0 0 0-2.2-.8l-1 .1a2.5 2.5 0 0 1-2.7-2.7l.1-1a2.5 2.5 0 0 0-.8-2.2l-.7-.7a2.5 2.5 0 0 1 0-3.6l.7-.7a2.5 2.5 0 0 0 .8-2.2l-.1-1a2.5 2.5 0 0 1 2.7-2.7l1 .1a2.5 2.5 0 0 0 2.2-.8l.7-.7zm6.1 7.6a1 1 0 0 0-1.4-1.4L11 12.8 9.1 10.9a1 1 0 0 0-1.4 1.4l2.6 2.6a1 1 0 0 0 1.4 0l4.6-4.6z"
-                />
-              </svg>
-            </div>
+                {t.jobTitle}, {t.company}
+              </div>
 
-            {/* Role: Job title, Company in Manrope 12.5px, color #cfc7b6, 3px below name */}
-            <div
-              className="review-author-role"
-              style={{
-                fontFamily: "'Manrope', var(--font-sans)",
-                fontSize: '12.5px',
-                color: '#cfc7b6',
-                marginTop: '3px',
-                lineHeight: 1.35,
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}
-            >
-              {t.jobTitle}, {t.company}
-            </div>
-
-            {/* Location line: 11.5px gold #c9a77c with map-pin icon, city, dot separator, tag */}
-            <div
-              className="review-author-location"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
-                fontFamily: "'Manrope', var(--font-sans)",
-                fontSize: '11.5px',
-                color: '#c9a77c',
-                marginTop: '4px',
-                lineHeight: 1.3,
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}
-            >
-              <svg
-                className="review-location-pin"
-                width="11"
-                height="11"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#c9a77c"
-                strokeWidth="2.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                style={{ flexShrink: 0 }}
-                aria-hidden="true"
+              {/* Location line: 11.5px gold #c9a77c with map-pin icon, city, dot separator, tag */}
+              <div
+                className="review-author-location"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  fontFamily: "'Manrope', var(--font-sans)",
+                  fontSize: '11.5px',
+                  color: '#c9a77c',
+                  marginTop: '4px',
+                  lineHeight: 1.3,
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
               >
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                <circle cx="12" cy="10" r="3" />
-              </svg>
-              <span className="review-location-text" style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                {t.city} &middot; {t.tag}
-              </span>
+                <svg
+                  className="review-location-pin"
+                  width="11"
+                  height="11"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#c9a77c"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{ flexShrink: 0 }}
+                  aria-hidden="true"
+                >
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                <span className="review-location-text" style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {t.city} &middot; {t.tag}
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
   return (
     <section id="reviews" style={{ position: 'relative', backgroundColor: '#090D0B', overflow: 'hidden' }}>
@@ -1650,5 +1650,3 @@ export const Reviews: React.FC = () => {
     </section>
   );
 };
-
-

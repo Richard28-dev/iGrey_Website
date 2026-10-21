@@ -132,3 +132,8 @@ export const siteImages = {
     height: 900,
   },
 };
+
+export const siteVideos = {
+  contactVilla: `${basePath.endsWith('/') ? basePath : basePath + '/'}videos/contact_villa.mp4`,
+};
+

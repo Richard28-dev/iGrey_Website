@@ -1,60 +1,99 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Compass, KeyRound, TrendingUp, ShieldCheck } from 'lucide-react';
+import {
+  Home,
+  KeyRound,
+  Building2,
+  TrendingUp,
+  HardHat,
+  ShieldCheck,
+} from 'lucide-react';
 import { scrollToTarget } from '../utils/scroll';
 
 interface ServiceItem {
   id: string;
   title: string;
-  tagline: string;
-  icon: 'advisory' | 'sales' | 'investment' | 'management';
+  description: string;
+  icon: 'home' | 'key' | 'building' | 'trending' | 'construction' | 'shield';
 }
 
 const servicesData: ServiceItem[] = [
   {
-    id: 'advisory',
-    title: 'Property Advisory',
-    tagline: 'Strategic valuation and due diligence for high-value acquisitions.',
-    icon: 'advisory',
+    id: 'buying-selling',
+    title: 'Property Buying & Selling',
+    description:
+      'Explore suitable properties, connect with prospective buyers and sellers, and receive support with negotiations and transaction coordination.',
+    icon: 'home',
   },
   {
-    id: 'sales',
-    title: 'Property Sales',
-    tagline: 'Discreet positioning and structured negotiation for prime estates.',
-    icon: 'sales',
+    id: 'renting-leasing',
+    title: 'Renting & Leasing',
+    description:
+      'Find residential or commercial spaces, market available properties and coordinate rental and lease arrangements.',
+    icon: 'key',
   },
   {
-    id: 'investment',
-    title: 'Investment Solutions',
-    tagline: 'High-yield portfolio structuring and generational wealth growth.',
-    icon: 'investment',
-  },
-  {
-    id: 'management',
+    id: 'property-management',
     title: 'Property Management',
-    tagline: '100% remote asset supervision with guaranteed on-time payouts.',
-    icon: 'management',
+    description:
+      'Support for tenant coordination, rent administration, inspections, maintenance and day-to-day property operations.',
+    icon: 'building',
+  },
+  {
+    id: 'property-investment',
+    title: 'Property Investment',
+    description:
+      'Evaluate property opportunities through market research, comparative analysis, income assessment and investment planning support.',
+    icon: 'trending',
+  },
+  {
+    id: 'construction-development',
+    title: 'Construction & Development',
+    description:
+      'Project coordination, development planning and construction-related support aligned with the agreed scope and qualified professionals.',
+    icon: 'construction',
+  },
+  {
+    id: 'asset-management-advisory',
+    title: 'Asset Management & Advisory',
+    description:
+      'Support for property performance, operating costs, portfolio oversight and informed real estate decisions.',
+    icon: 'shield',
   },
 ];
 
 export const Services: React.FC = () => {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
-  const handleEnquire = () => {
+  const handleEnquire = (serviceTitle: string) => {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(
+        new CustomEvent('igrey_prefill_contact', {
+          detail: {
+            service: serviceTitle,
+            message: `Inquiring regarding ${serviceTitle} services with iGREY HOLDINGS.`,
+          },
+        })
+      );
+    }
     scrollToTarget('#contact', { offset: -40, duration: 1.25 });
   };
 
-  const getServiceIcon = (type: string) => {
+  const getServiceIcon = (type: ServiceItem['icon']) => {
     switch (type) {
-      case 'advisory':
-        return <Compass size={22} color="var(--bronze-hi)" strokeWidth={1.8} />;
-      case 'sales':
-        return <KeyRound size={22} color="var(--bronze-hi)" strokeWidth={1.8} />;
-      case 'investment':
-        return <TrendingUp size={22} color="var(--bronze-hi)" strokeWidth={1.8} />;
-      case 'management':
+      case 'home':
+        return <Home size={22} color="var(--bronze-hi, #DEBA88)" strokeWidth={1.8} />;
+      case 'key':
+        return <KeyRound size={22} color="var(--bronze-hi, #DEBA88)" strokeWidth={1.8} />;
+      case 'building':
+        return <Building2 size={22} color="var(--bronze-hi, #DEBA88)" strokeWidth={1.8} />;
+      case 'trending':
+        return <TrendingUp size={22} color="var(--bronze-hi, #DEBA88)" strokeWidth={1.8} />;
+      case 'construction':
+        return <HardHat size={22} color="var(--bronze-hi, #DEBA88)" strokeWidth={1.8} />;
+      case 'shield':
       default:
-        return <ShieldCheck size={22} color="var(--bronze-hi)" strokeWidth={1.8} />;
+        return <ShieldCheck size={22} color="var(--bronze-hi, #DEBA88)" strokeWidth={1.8} />;
     }
   };
 
@@ -86,7 +125,7 @@ export const Services: React.FC = () => {
       />
 
       <div className="container" style={{ position: 'relative', zIndex: 10 }}>
-        {/* Section Header: Minimal & Refined */}
+        {/* Section Header: Matching target layout */}
         <div
           style={{
             display: 'flex',
@@ -96,61 +135,66 @@ export const Services: React.FC = () => {
             marginBottom: 'clamp(3rem, 5vw, 4.5rem)',
           }}
         >
+          {/* Eyebrow: — OUR SERVICES — */}
           <span
             style={{
               fontFamily: 'var(--font-sans)',
               fontSize: '0.75rem',
               letterSpacing: '0.24em',
               textTransform: 'uppercase',
-              color: 'var(--bronze-hi)',
+              color: 'var(--bronze-hi, #DEBA88)',
               fontWeight: 600,
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.75rem',
-              marginBottom: '0.85rem',
+              gap: '0.85rem',
+              marginBottom: '1rem',
             }}
           >
-            <span style={{ width: '20px', height: '1px', backgroundColor: 'var(--bronze)' }} />
-            BESPOKE SERVICES
-            <span style={{ width: '20px', height: '1px', backgroundColor: 'var(--bronze)' }} />
+            <span style={{ width: '22px', height: '1px', backgroundColor: 'rgba(197, 168, 128, 0.45)' }} />
+            OUR SERVICES
+            <span style={{ width: '22px', height: '1px', backgroundColor: 'rgba(197, 168, 128, 0.45)' }} />
           </span>
 
+          {/* Heading: One Partner. Multiple Property Solutions. */}
           <h2
             style={{
               fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(2.4rem, 4.2vw, 3.8rem)',
-              lineHeight: 1.12,
-              color: '#FBF9F4',
+              fontSize: 'clamp(2.35rem, 4.2vw, 3.75rem)',
+              lineHeight: 1.15,
+              color: '#FFFFFF',
               letterSpacing: '-0.02em',
               fontWeight: 400,
-              marginBottom: '0.85rem',
+              margin: '0 0 1rem 0',
             }}
           >
-            Distinctive Real Estate{' '}
-            <span style={{ fontStyle: 'italic', color: 'var(--bronze-hi)' }}>Expertise.</span>
+            One Partner.{' '}
+            <span style={{ fontStyle: 'italic', color: '#F7DAA5' }}>
+              Multiple Property Solutions.
+            </span>
           </h2>
 
+          {/* Subtitle paragraph */}
           <p
             style={{
               fontFamily: 'var(--font-sans)',
-              fontSize: '1rem',
-              lineHeight: 1.6,
-              color: 'rgba(255, 255, 255, 0.7)',
+              fontSize: 'clamp(0.95rem, 1.2vw, 1.05rem)',
+              lineHeight: 1.65,
+              color: 'rgba(255, 255, 255, 0.65)',
               fontWeight: 300,
-              maxWidth: '520px',
+              maxWidth: '680px',
               margin: 0,
             }}
           >
-            Four dedicated pillars engineered for discerning homeowners and investors.
+            From property transactions to development and asset management, iGREY HOLDINGS supports a wide range of real estate requirements.
           </p>
         </div>
 
-        {/* 4 Cards matching Why Choose iGH section */}
+        {/* 6 Services Cards: 3x2 Grid matching reference image */}
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: '1.5rem',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '1.75rem',
           }}
           className="services-cards-grid"
         >
@@ -161,22 +205,22 @@ export const Services: React.FC = () => {
                 key={item.id}
                 onMouseEnter={() => setHoveredIdx(idx)}
                 onMouseLeave={() => setHoveredIdx(null)}
-                onClick={handleEnquire}
+                onClick={() => handleEnquire(item.title)}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.7, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.65, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
                 style={{
                   background: isHovered
-                    ? 'linear-gradient(180deg, rgba(18, 30, 24, 0.85) 0%, rgba(12, 19, 15, 0.95) 100%)'
-                    : 'linear-gradient(180deg, rgba(14, 24, 19, 0.75) 0%, rgba(9, 15, 12, 0.9) 100%)',
+                    ? 'linear-gradient(180deg, rgba(18, 30, 24, 0.9) 0%, rgba(12, 19, 15, 0.98) 100%)'
+                    : 'linear-gradient(180deg, rgba(14, 24, 19, 0.72) 0%, rgba(9, 15, 12, 0.88) 100%)',
                   backdropFilter: 'blur(16px)',
                   WebkitBackdropFilter: 'blur(16px)',
                   border: isHovered
                     ? '1px solid rgba(229, 203, 163, 0.65)'
-                    : '1px solid rgba(197, 168, 128, 0.22)',
+                    : '1px solid rgba(197, 168, 128, 0.2)',
                   borderRadius: '22px',
-                  padding: 'clamp(2.25rem, 3vw, 2.75rem) 1.85rem',
+                  padding: 'clamp(2.25rem, 3vw, 2.75rem) clamp(1.6rem, 2.2vw, 2.25rem)',
                   display: 'flex',
                   flexDirection: 'column',
                   cursor: 'pointer',
@@ -188,14 +232,14 @@ export const Services: React.FC = () => {
                 }}
                 className="services-card-item"
               >
-                {/* Squircle Badge Icon matching Why Choose iGH */}
+                {/* Squircle Badge Icon */}
                 <div
                   style={{
-                    width: '50px',
-                    height: '50px',
-                    borderRadius: '14px',
+                    width: '48px',
+                    height: '48px',
+                    borderRadius: '13px',
                     background: 'rgba(10, 17, 13, 0.85)',
-                    border: '1px solid rgba(197, 168, 128, 0.35)',
+                    border: '1px solid rgba(197, 168, 128, 0.32)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -212,11 +256,11 @@ export const Services: React.FC = () => {
                 <h3
                   style={{
                     fontFamily: 'var(--font-serif)',
-                    fontSize: '1.45rem',
+                    fontSize: 'clamp(1.35rem, 1.6vw, 1.55rem)',
                     lineHeight: 1.25,
-                    color: isHovered ? 'var(--bronze-hi)' : '#FFFFFF',
+                    color: isHovered ? 'var(--bronze-hi, #DEBA88)' : '#FFFFFF',
                     fontWeight: 500,
-                    marginBottom: '1rem',
+                    marginBottom: '0.85rem',
                     letterSpacing: '-0.01em',
                     transition: 'color 0.3s ease',
                   }}
@@ -229,15 +273,15 @@ export const Services: React.FC = () => {
                 <p
                   style={{
                     fontFamily: 'var(--font-sans)',
-                    fontSize: '0.9rem',
+                    fontSize: '0.92rem',
                     lineHeight: 1.65,
-                    color: 'rgba(255, 255, 255, 0.65)',
+                    color: 'rgba(255, 255, 255, 0.62)',
                     fontWeight: 300,
                     margin: 0,
                   }}
                   className="services-card-desc"
                 >
-                  {item.tagline}
+                  {item.description}
                 </p>
               </motion.div>
             );
@@ -253,7 +297,7 @@ export const Services: React.FC = () => {
         }
         .services-card-item:hover .services-card-icon-badge {
           transform: scale(1.05);
-          border-color: var(--bronze-hi) !important;
+          border-color: var(--bronze-hi, #DEBA88) !important;
         }
         @media (max-width: 1024px) {
           .services-cards-grid {
@@ -261,13 +305,13 @@ export const Services: React.FC = () => {
             gap: 1.5rem !important;
           }
         }
-        @media (max-width: 580px) {
+        @media (max-width: 640px) {
           .services-cards-grid {
             grid-template-columns: 1fr !important;
             gap: 1.25rem !important;
           }
           .services-card-item {
-            padding: 1.65rem 1.25rem !important;
+            padding: 1.75rem 1.35rem !important;
             border-radius: 18px !important;
           }
         }

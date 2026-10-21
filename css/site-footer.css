@@ -74,12 +74,23 @@
   object-fit: contain;
 }
 
+.footer-brand-tagline {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 500;
+  color: #deb686;
+  margin: 0 0 8px 0;
+  letter-spacing: 0.02em;
+  line-height: 1.35;
+}
+
 .footer-brand-desc {
   font-family: 'Manrope', sans-serif;
   font-size: 13.5px;
   line-height: 1.6;
   color: #8f897b;
-  margin: 0;
+  margin: 0 0 16px 0;
   max-width: 360px;
   font-weight: 400;
 }

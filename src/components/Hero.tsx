@@ -10,7 +10,7 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
-  const { headlinePart1, headlinePart2, stats } = siteContent.hero;
+  const { eyebrow, headlinePart1, headlinePart2, stats } = siteContent.hero;
   const heroImage = siteImages.heroResidential;
 
   const handleExplore = () => {
@@ -24,6 +24,10 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
         window.location.href = './properties.html';
       }
     }
+  };
+
+  const handleServicesClick = () => {
+    scrollToTarget('#services', { offset: -40, duration: 1.25 });
   };
 
   const getStatIcon = (iconName: string) => {
@@ -43,14 +47,9 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
   const renderStatLabel = (label: string) => {
     if (label.toLowerCase().includes('on-time')) {
       return (
-        <>
-          <span className="hero-stat-lbl-line1" style={{ display: 'block', whiteSpace: 'nowrap' }}>
-            On-Time
-          </span>
-          <span className="hero-stat-lbl-line2" style={{ display: 'block', whiteSpace: 'nowrap' }}>
-            Rent Payouts
-          </span>
-        </>
+        <span className="hero-stat-lbl-nowrap" style={{ whiteSpace: 'nowrap' }}>
+          {label}
+        </span>
       );
     }
     if (label.toLowerCase().includes('completed projects')) {
@@ -153,9 +152,31 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           flexGrow: 1,
         }}
       >
-        <div className="hero-content-inner" style={{ maxWidth: '820px' }}>
+        <div className="hero-content-inner" style={{ maxWidth: '960px' }}>
           {/* Text Group: Headline + Paragraph */}
           <div className="hero-text-group">
+            {/* Eyebrow Label */}
+            {eyebrow && (
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className="hero-eyebrow"
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: 'clamp(11px, 1.05vw, 13px)',
+                  letterSpacing: '0.22em',
+                  textTransform: 'uppercase',
+                  fontWeight: 600,
+                  color: 'var(--bronze-hi, #DEBA88)',
+                  marginBottom: 'clamp(12px, 1.8vh, 18px)',
+                  display: 'inline-block',
+                }}
+              >
+                {eyebrow}
+              </motion.div>
+            )}
+
             {/* Main Headline */}
             <motion.h1
               initial={{ opacity: 0, y: 22 }}
@@ -175,7 +196,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
               }}
             >
               <span className="hero-headline-line1" style={{ display: 'block', color: '#FFFFFF' }}>
-                {headlinePart1 || 'Discover Homes'}
+                {headlinePart1 || 'Real Estate Solutions.'}
               </span>
               <span
                 className="hero-headline-line2"
@@ -185,7 +206,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                   color: '#D4B280',
                 }}
               >
-                {headlinePart2 || 'Tailored to Your Needs.'}
+                {headlinePart2 || 'Beyond Expectations.'}
               </span>
             </motion.h1>
 
@@ -197,32 +218,39 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
               className="hero-subtitle"
               style={{
                 fontFamily: 'var(--font-sans)',
-                fontSize: 'clamp(16px, min(1.45vw, 2.7vh), 24px)',
+                fontSize: 'clamp(15px, min(1.2vw, 2.4vh), 18px)',
                 lineHeight: 1.6,
                 color: 'rgba(255, 255, 255, 0.88)',
-                maxWidth: '680px',
+                maxWidth: '620px',
                 marginTop: 0,
                 marginBottom: 'clamp(20px, 3.4vh, 34px)',
                 fontWeight: 300,
                 textShadow: '0 1px 8px rgba(0, 0, 0, 0.45)',
               }}
             >
-              From finding the right home to managing it,{' '}
+              From finding the right property to managing, developing and investing{' '}
               <br className="hero-p-break" />
-              <span style={{ whiteSpace: 'nowrap' }}>iGrey Holdings</span> makes every step clearer and simpler.
+              in real estate, iGREY HOLDINGS brings property solutions together.
             </motion.p>
           </div>
 
-          {/* Gold Action Button */}
+          {/* Action Buttons */}
           <motion.div
             className="hero-cta-wrapper"
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              gap: '18px',
+            }}
           >
             <button
               onClick={handleExplore}
-              className="hero-cta-btn"
+              className="hero-cta-btn hero-cta-primary"
               style={{
                 backgroundColor: '#DEBA88',
                 color: '#121614',
@@ -230,28 +258,70 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                 fontSize: '0.95rem',
                 fontWeight: 600,
                 letterSpacing: '0.02em',
-                border: 'none',
-                borderRadius: '8px',
+                fontFamily: 'var(--font-sans)',
+                border: '1.5px solid #DEBA88',
+                borderRadius: '6px',
                 display: 'inline-flex',
                 alignItems: 'center',
+                justifyContent: 'center',
                 gap: '0.75rem',
                 boxShadow: '0 10px 28px rgba(0, 0, 0, 0.35)',
                 cursor: 'pointer',
                 transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                boxSizing: 'border-box',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = '#E5C696';
+                e.currentTarget.style.borderColor = '#E5C696';
                 e.currentTarget.style.transform = 'translateY(-2px)';
                 e.currentTarget.style.boxShadow = '0 14px 34px rgba(222, 186, 136, 0.45)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = '#DEBA88';
+                e.currentTarget.style.borderColor = '#DEBA88';
                 e.currentTarget.style.transform = 'translateY(0)';
                 e.currentTarget.style.boxShadow = '0 10px 28px rgba(0, 0, 0, 0.35)';
               }}
             >
               <span>Explore Properties</span>
               <ArrowRight size={18} color="#121614" strokeWidth={2.2} />
+            </button>
+
+            <button
+              onClick={handleServicesClick}
+              className="hero-cta-btn hero-cta-secondary"
+              style={{
+                backgroundColor: 'rgba(8, 13, 12, 0.45)',
+                color: '#F3EBDC',
+                padding: '1rem 2.25rem',
+                fontSize: '0.95rem',
+                fontWeight: 600,
+                letterSpacing: '0.02em',
+                fontFamily: 'var(--font-sans)',
+                border: '1.5px solid #DEBA88',
+                borderRadius: '6px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 10px 28px rgba(0, 0, 0, 0.25)',
+                cursor: 'pointer',
+                transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                boxSizing: 'border-box',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#DEBA88';
+                e.currentTarget.style.color = '#1A1408';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 14px 34px rgba(222, 186, 136, 0.35)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(8, 13, 12, 0.45)';
+                e.currentTarget.style.color = '#F3EBDC';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 10px 28px rgba(0, 0, 0, 0.25)';
+              }}
+            >
+              <span>Explore Our Services</span>
             </button>
           </motion.div>
         </div>
@@ -420,9 +490,9 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             white-space: nowrap !important;
           }
           .hero-subtitle {
-            font-size: clamp(16px, min(1.45vw, 2.7vh), 24px) !important;
+            font-size: clamp(15px, min(1.2vw, 2.4vh), 18px) !important;
             line-height: 1.6 !important;
-            max-width: 680px !important;
+            max-width: 620px !important;
             margin-bottom: clamp(20px, 3.4vh, 34px) !important;
           }
           .hero-p-break {
@@ -486,9 +556,9 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             white-space: nowrap !important;
           }
           .hero-subtitle {
-            font-size: 16px !important;
+            font-size: 15px !important;
             line-height: 1.6 !important;
-            max-width: 580px !important;
+            max-width: 620px !important;
             margin-bottom: 22px !important;
           }
           .hero-p-break {
@@ -673,14 +743,30 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             margin-top: clamp(23px, 5.6vh, 48px) !important;
             margin-bottom: 0 !important;
             display: flex !important;
+            flex-direction: column !important;
+            width: 100% !important;
+            gap: 12px !important;
           }
           .hero-cta-btn {
+            width: 100% !important;
             padding: 11px 24px !important;
             font-size: 15px !important;
-            border-radius: 9px !important;
+            border-radius: 6px !important;
             font-weight: 600 !important;
+            box-sizing: border-box !important;
+            justify-content: center !important;
+          }
+          .hero-cta-primary {
             background-color: #DEBA88 !important;
+            color: #121614 !important;
+            border: 1.5px solid #DEBA88 !important;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+          }
+          .hero-cta-secondary {
+            background-color: rgba(8, 13, 12, 0.45) !important;
+            color: #F3EBDC !important;
+            border: 1.5px solid #DEBA88 !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25) !important;
           }
           .hero-stats-container {
             padding-top: 0 !important;
