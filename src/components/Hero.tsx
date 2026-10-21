@@ -21,7 +21,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
         if (n >= 1 && n <= 4) return n;
       }
     }
-    return 1;
+    return 2;
   });
 
   React.useEffect(() => {
@@ -710,20 +710,14 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             z-index: 2 !important;
           }
           .hero-section {
-            height: 100vh !important;
-            height: 100svh !important;
-            height: 100dvh !important;
             min-height: 100vh !important;
             min-height: 100svh !important;
             min-height: 100dvh !important;
-            max-height: 100vh !important;
-            max-height: 100svh !important;
-            max-height: 100dvh !important;
             display: flex !important;
             flex-direction: column !important;
-            justify-content: flex-end !important;
-            padding-top: 0 !important;
-            padding-bottom: clamp(6px, 1.2vh, 10px) !important;
+            justify-content: flex-start !important;
+            padding-top: clamp(110px, 20vh, 160px) !important;
+            padding-bottom: clamp(10px, 1.8vh, 16px) !important;
             box-sizing: border-box !important;
             overflow: hidden !important;
           }
@@ -732,11 +726,10 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             padding-bottom: 0 !important;
             padding-left: 18px !important;
             padding-right: 18px !important;
-            flex-grow: 0 !important;
-            flex-shrink: 0 !important;
+            flex-grow: 1 !important;
             display: flex !important;
             flex-direction: column !important;
-            justify-content: flex-end !important;
+            justify-content: center !important;
             margin-bottom: 0 !important;
             width: 100% !important;
             box-sizing: border-box !important;
@@ -744,7 +737,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           .hero-content-inner {
             display: flex !important;
             flex-direction: column !important;
-            justify-content: flex-end !important;
+            justify-content: center !important;
             flex-grow: 0 !important;
             width: 100% !important;
             margin-top: 0 !important;
@@ -763,10 +756,10 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             padding: 0 !important;
           }
           .hero-headline {
-            font-size: clamp(25px, 6.8vw, 30px) !important;
+            font-size: clamp(26px, 7.2vw, 32px) !important;
             line-height: 1.15 !important;
             font-weight: 500 !important;
-            margin-bottom: 8px !important;
+            margin-bottom: 10px !important;
             text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5) !important;
           }
           .hero-headline-line1 {
@@ -781,11 +774,11 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             color: #D4B280 !important;
           }
           .hero-subtitle {
-            font-size: 13px !important;
-            line-height: 1.45 !important;
+            font-size: 13.5px !important;
+            line-height: 1.5 !important;
             margin-top: 0 !important;
             margin-bottom: 0 !important;
-            max-width: 335px !important;
+            max-width: 340px !important;
             color: rgba(255, 255, 255, 0.9) !important;
             text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45) !important;
           }
@@ -793,19 +786,19 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             display: none !important;
           }
           .hero-cta-wrapper {
-            margin-top: clamp(10px, 1.8vh, 15px) !important;
+            margin-top: clamp(14px, 2.5vh, 20px) !important;
             margin-bottom: 0 !important;
             display: flex !important;
             flex-direction: column !important;
             align-items: flex-start !important;
             width: 100% !important;
-            gap: 8px !important;
+            gap: 10px !important;
           }
           .hero-cta-btn {
             width: 100% !important;
-            max-width: 240px !important;
-            padding: 9.5px 16px !important;
-            font-size: 13.5px !important;
+            max-width: 250px !important;
+            padding: 10px 18px !important;
+            font-size: 14px !important;
             border-radius: 6px !important;
             font-weight: 600 !important;
             box-sizing: border-box !important;
@@ -817,7 +810,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             background-color: #DEBA88 !important;
             color: #121614 !important;
             border: 1.5px solid #DEBA88 !important;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+            box-shadow: 0 10px 26px rgba(222, 186, 136, 0.28) !important;
           }
           .hero-cta-secondary {
             background-color: rgba(8, 13, 12, 0.45) !important;
@@ -827,10 +820,10 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           }
           .hero-stats-container {
             padding-top: 0 !important;
-            padding-bottom: 0 !important;
+            padding-bottom: 4px !important;
             padding-left: 18px !important;
             padding-right: 18px !important;
-            margin-top: clamp(12px, 2vh, 18px) !important;
+            margin-top: auto !important;
             flex-shrink: 0 !important;
             width: 100% !important;
             box-sizing: border-box !important;
