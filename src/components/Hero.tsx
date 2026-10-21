@@ -674,12 +674,12 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           }
           .hero-section {
             min-height: 100vh !important;
-            min-height: 100svh !important;
+            min-height: 100dvh !important;
             display: flex !important;
             flex-direction: column !important;
-            justify-content: flex-start !important;
-            padding-top: clamp(130px, 33vh, 280px) !important;
-            padding-bottom: clamp(22px, 4vh, 36px) !important;
+            justify-content: space-between !important;
+            padding-top: clamp(74px, 11vh, 92px) !important;
+            padding-bottom: clamp(14px, 2.5vh, 22px) !important;
             box-sizing: border-box !important;
           }
           .hero-main-content {
@@ -703,6 +703,11 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             width: 100% !important;
             margin-top: 0 !important;
           }
+          .hero-eyebrow {
+            font-size: 11px !important;
+            letter-spacing: 0.2em !important;
+            margin-bottom: 8px !important;
+          }
           .hero-text-group {
             display: flex !important;
             flex-direction: column !important;
@@ -710,10 +715,10 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             padding: 0 !important;
           }
           .hero-headline {
-            font-size: 35px !important;
-            line-height: 1.12 !important;
+            font-size: clamp(28px, 7.8vw, 34px) !important;
+            line-height: 1.15 !important;
             font-weight: 500 !important;
-            margin-bottom: 12px !important;
+            margin-bottom: 10px !important;
             text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5) !important;
           }
           .hero-headline-line1 {
@@ -728,11 +733,11 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             color: #F7DAA5 !important;
           }
           .hero-subtitle {
-            font-size: 14.5px !important;
+            font-size: 14px !important;
             line-height: 1.5 !important;
             margin-top: 0 !important;
             margin-bottom: 0 !important;
-            max-width: 350px !important;
+            max-width: 100% !important;
             color: rgba(255, 255, 255, 0.9) !important;
             text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45) !important;
           }
@@ -740,17 +745,17 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             display: none !important;
           }
           .hero-cta-wrapper {
-            margin-top: clamp(23px, 5.6vh, 48px) !important;
+            margin-top: clamp(14px, 2.5vh, 20px) !important;
             margin-bottom: 0 !important;
             display: flex !important;
             flex-direction: column !important;
             width: 100% !important;
-            gap: 12px !important;
+            gap: 9px !important;
           }
           .hero-cta-btn {
             width: 100% !important;
-            padding: 11px 24px !important;
-            font-size: 15px !important;
+            padding: 10px 20px !important;
+            font-size: 14.5px !important;
             border-radius: 6px !important;
             font-weight: 600 !important;
             box-sizing: border-box !important;
@@ -773,7 +778,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             padding-bottom: 0 !important;
             padding-left: 18px !important;
             padding-right: 18px !important;
-            margin-top: clamp(25px, 6.8vh, 58px) !important;
+            margin-top: clamp(14px, 2.8vh, 22px) !important;
             width: 100% !important;
             box-sizing: border-box !important;
           }
@@ -819,8 +824,8 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             flex-direction: row !important;
             align-items: center !important;
             text-align: left !important;
-            padding: 12px 10px !important;
-            gap: 10px !important;
+            padding: 10px 10px !important;
+            gap: 9px !important;
             border-radius: 0 !important;
           }
           .hero-stat-cell-0::after,
@@ -829,18 +834,21 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             display: none !important;
           }
           .hero-stat-icon-wrapper {
-            width: 42px !important;
-            height: 42px !important;
-            min-width: 42px !important;
-            border-radius: 12px !important;
+            width: 38px !important;
+            height: 38px !important;
+            min-width: 38px !important;
+            border-radius: 10px !important;
             background: rgba(14, 22, 18, 0.75) !important;
             border: 1.2px solid rgba(197, 168, 128, 0.4) !important;
             margin-bottom: 0 !important;
             flex-shrink: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
           }
           .hero-stat-icon-wrapper svg {
-            width: 18px !important;
-            height: 18px !important;
+            width: 17px !important;
+            height: 17px !important;
           }
           .hero-stat-info {
             display: flex !important;
@@ -850,14 +858,14 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             min-width: 0 !important;
           }
           .hero-stat-val {
-            font-size: 21px !important;
+            font-size: 19px !important;
             font-weight: 700 !important;
             margin-bottom: 2px !important;
             line-height: 1.1 !important;
             color: #FFFFFF !important;
           }
           .hero-stat-lbl {
-            font-size: clamp(10.2px, 2.7vw, 11.5px) !important;
+            font-size: clamp(9.5px, 2.6vw, 11px) !important;
             line-height: 1.25 !important;
             margin-bottom: 0 !important;
             font-weight: 500 !important;
@@ -868,19 +876,6 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           }
           .hero-stat-sub {
             display: none !important;
-          }
-        }
-
-        @media (max-width: 768px) and (max-height: 700px) {
-          .hero-section {
-            padding-top: clamp(90px, 22vh, 150px) !important;
-            padding-bottom: 16px !important;
-          }
-          .hero-cta-wrapper {
-            margin-top: clamp(20px, 4.5vh, 32px) !important;
-          }
-          .hero-stats-container {
-            margin-top: clamp(22px, 5.5vh, 40px) !important;
           }
         }
       `}</style>
