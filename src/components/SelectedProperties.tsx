@@ -128,11 +128,14 @@ export const SelectedProperties: React.FC<SelectedPropertiesProps> = ({ onSelect
 
   // Build link URL to /properties carrying over active filter
   const targetPropertiesUrl = useMemo(() => {
-    if (activeFilter === 'all') return '/properties';
+    const isRepo = typeof window !== 'undefined' && window.location.pathname.startsWith('/iGrey_Website');
+    const base = isRepo ? '/iGrey_Website' : '';
+    const prefix = `${base}/properties`;
+    if (activeFilter === 'all') return prefix;
     if (activeFilter === 'sale' || activeFilter === 'rent' || activeFilter === 'lease') {
-      return `/properties?purpose=${activeFilter}`;
+      return `${prefix}?purpose=${activeFilter}`;
     }
-    return `/properties?type=${activeFilter}`;
+    return `${prefix}?type=${activeFilter}`;
   }, [activeFilter]);
 
   const handleViewAllClick = (e: React.MouseEvent<HTMLAnchorElement>) => {

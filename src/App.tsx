@@ -48,9 +48,13 @@ function parseCurrentAppRoute(): AppRoute {
   if (
     pathname === '/properties' ||
     pathname === '/properties/' ||
+    pathname.endsWith('/properties') ||
+    pathname.endsWith('/properties/') ||
     pathname.endsWith('/properties.html') ||
     hash === '#/properties' ||
-    hash.startsWith('#/properties?')
+    hash.startsWith('#/properties?') ||
+    hash === '#properties' ||
+    hash.startsWith('#properties?')
   ) {
     return { type: 'properties' };
   }
