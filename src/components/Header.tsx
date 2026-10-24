@@ -353,12 +353,55 @@ export const Header: React.FC<HeaderProps> = ({ onScheduleClick }) => {
           }
         }
         @media (max-width: 768px) {
-          .main-header {
-            padding: 1.15rem 0 !important;
+          .main-header,
+          .main-header.header-top,
+          .main-header.scrolled-header {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            height: calc(64px + env(safe-area-inset-top, 0px)) !important;
+            min-height: 64px !important;
+            padding-top: env(safe-area-inset-top, 0px) !important;
+            padding-bottom: 0 !important;
+            padding-left: 20px !important;
+            padding-right: 20px !important;
+            background-color: rgba(7, 13, 11, 0.78) !important;
+            background: rgba(7, 13, 11, 0.78) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+            border-bottom: 1px solid #26332e !important;
+            z-index: 90 !important;
+            display: flex !important;
+            align-items: center !important;
+            box-sizing: border-box !important;
           }
-          .main-header.header-top {
-            background: linear-gradient(to bottom, rgba(11,15,14,.7), transparent) !important;
-            border-bottom-color: transparent !important;
+          .main-header .container {
+            width: 100% !important;
+            max-width: 100% !important;
+            padding: 0 !important;
+            height: 100% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+          }
+          .main-header a img {
+            height: 32px !important;
+            width: auto !important;
+          }
+          .header-mobile-toggle {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            min-width: 44px !important;
+            min-height: 44px !important;
+            width: 44px !important;
+            height: 44px !important;
+            padding: 0 !important;
+            background: none !important;
+            border: none !important;
+            color: #FFFFFF !important;
+            cursor: pointer !important;
           }
         }
       `}</style>

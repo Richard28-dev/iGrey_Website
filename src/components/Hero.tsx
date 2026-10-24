@@ -67,6 +67,21 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
     }
   };
 
+  const getMobileStatLabel = (idx: number, originalLabel: string) => {
+    switch (idx) {
+      case 0:
+        return 'Happy Customers';
+      case 1:
+        return 'Completed Projects';
+      case 2:
+        return 'On-Time Payouts';
+      case 3:
+        return 'Verified KYC';
+      default:
+        return originalLabel;
+    }
+  };
+
   const renderStatLabel = (label: string) => {
     if (label.toLowerCase().includes('on-time')) {
       return (
@@ -112,7 +127,10 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
       }}
     >
       {/* Background Hero Image */}
-      <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', zIndex: 1 }}>
+      <div
+        className="hero-media-window"
+        style={{ position: 'absolute', inset: 0, overflow: 'hidden', zIndex: 1 }}
+      >
         <img
           src={heroImage.src}
           alt={heroImage.alt}
@@ -130,6 +148,10 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             filter: 'brightness(0.78) contrast(1.1) saturate(1.12)',
           }}
         />
+
+        {/* Mobile top and bottom gradients */}
+        <div className="hero-photo-top-gradient" />
+        <div className="hero-photo-bottom-gradient" />
 
         {/* Left-to-right scrim: dark on left for text legibility, transparent on right for villa architecture */}
         <div
@@ -261,9 +283,14 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                 textShadow: '0 1px 8px rgba(0, 0, 0, 0.45)',
               }}
             >
-              From finding the right property to managing, developing and investing{' '}
-              <br className="hero-p-break" />
-              in real estate, iGREY HOLDINGS brings property solutions together.
+              <span className="hero-desc-desktop">
+                From finding the right property to managing, developing and investing{' '}
+                <br className="hero-p-break" />
+                in real estate, iGREY HOLDINGS brings property solutions together.
+              </span>
+              <span className="hero-desc-mobile">
+                From finding the right property to managing and investing, iGREY HOLDINGS brings it all together.
+              </span>
             </motion.p>
           </div>
 
@@ -356,6 +383,17 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             >
               <span>Explore Our Services</span>
             </button>
+
+            <a
+              href="#services"
+              onClick={(e) => {
+                e.preventDefault();
+                handleServicesClick();
+              }}
+              className="hero-mobile-services-link"
+            >
+              Explore Our Services →
+            </a>
           </motion.div>
         </div>
       </div>
@@ -462,7 +500,8 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                       marginBottom: 0,
                     }}
                   >
-                    {renderStatLabel(st.label)}
+                    <span className="hero-stat-lbl-desktop">{renderStatLabel(st.label)}</span>
+                    <span className="hero-stat-lbl-mobile">{getMobileStatLabel(idx, st.label)}</span>
                   </div>
 
                   {/* Stat Sublabel (only if provided) */}
@@ -514,6 +553,23 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
       <style>{`
         .hero-scroll-indicator {
           display: none;
+        }
+
+        @media (min-width: 769px) {
+          .hero-media-window {
+            position: absolute !important;
+            inset: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            z-index: 1 !important;
+          }
+          .hero-photo-top-gradient,
+          .hero-photo-bottom-gradient,
+          .hero-desc-mobile,
+          .hero-mobile-services-link,
+          .hero-stat-lbl-mobile {
+            display: none !important;
+          }
         }
 
         @media (min-width: 1024px) {
@@ -578,7 +634,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           }
         }
 
-        @media (min-width: 768px) and (max-width: 1023px) {
+        @media (min-width: 769px) and (max-width: 1023px) {
           .hero-section {
             padding-top: clamp(4.5rem, 8vh, 5.75rem) !important;
             padding-bottom: clamp(1rem, 2vh, 1.75rem) !important;
@@ -688,42 +744,26 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           }
         }
 
+        /* MOBILE HERO SECTION (max-width: 768px) */
         @media (max-width: 768px) {
-          /* Desktop scrims disabled on mobile so only the refined mobile scrim applies */
+          /* Hide desktop scrims & elements */
           .hero-desktop-scrim,
-          .hero-desktop-vignette {
+          .hero-desktop-vignette,
+          .hero-mobile-scrim,
+          .hero-desc-desktop,
+          .hero-stat-lbl-desktop,
+          .hero-cta-secondary,
+          .hero-scroll-indicator,
+          .hero-p-break,
+          .hero-stat-sub,
+          .hero-stat-icon-wrapper,
+          .hero-stat-cell-0::after,
+          .hero-stat-cell-1::after,
+          .hero-stat-cell-2::after {
             display: none !important;
           }
 
-          /* Architectural villa background image positioning */
-          .hero-bg-img {
-            object-fit: cover !important;
-            object-position: 61% 32% !important;
-            filter: brightness(0.82) contrast(1.08) saturate(1.12) !important;
-          }
-
-          /* Readability scrim: transparent at top, dark behind the text */
-          .hero-section::before,
-          .hero-mobile-scrim {
-            content: "" !important;
-            display: block !important;
-            position: absolute !important;
-            inset: 0 !important;
-            width: 100% !important;
-            height: 100% !important;
-            z-index: 2 !important;
-            background: linear-gradient(
-              to bottom,
-              rgba(11, 15, 14, 0.55) 0%,
-              rgba(11, 15, 14, 0) 22%,
-              rgba(11, 15, 14, 0) 38%,
-              rgba(11, 15, 14, 0.82) 64%,
-              rgba(11, 15, 14, 0.96) 100%
-            ) !important;
-            pointer-events: none !important;
-          }
-
-          /* Hero container: content sits at the bottom, photo shows on top */
+          /* Section container: 100svh column, solid #070d0b background */
           .hero-section {
             position: relative !important;
             min-height: 100vh !important;
@@ -731,44 +771,86 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             height: auto !important;
             display: flex !important;
             flex-direction: column !important;
-            justify-content: flex-end !important;
-            padding: 88px 20px max(20px, env(safe-area-inset-bottom)) !important;
+            justify-content: flex-start !important;
+            align-items: stretch !important;
+            padding: 0 !important;
+            background-color: #070d0b !important;
+            background: #070d0b !important;
             box-sizing: border-box !important;
-            isolation: isolate !important;
             overflow-x: hidden !important;
             overflow-y: visible !important;
           }
 
-          /* Header gradient so logo and menu stay legible */
-          .main-header.header-top,
-          .main-header:not(.scrolled-header),
-          .header {
-            background: linear-gradient(to bottom, rgba(11, 15, 14, 0.7), transparent) !important;
+          /* Section B: Photo Window (~40% of viewport, building visible, gradient fade into #070d0b) */
+          .hero-media-window {
+            position: relative !important;
+            width: 100% !important;
+            height: 38svh !important;
+            min-height: 240px !important;
+            max-height: 320px !important;
+            flex-shrink: 0 !important;
+            overflow: hidden !important;
+            z-index: 1 !important;
+          }
+          .hero-bg-img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            object-position: center 38% !important;
+            filter: brightness(0.85) contrast(1.08) saturate(1.12) !important;
+          }
+          .hero-photo-top-gradient {
+            display: block !important;
+            position: absolute !important;
+            left: 0 !important;
+            right: 0 !important;
+            top: 0 !important;
+            height: 80px !important;
+            background: linear-gradient(
+              180deg,
+              rgba(7, 13, 11, 0.85) 0%,
+              rgba(7, 13, 11, 0) 100%
+            ) !important;
+            pointer-events: none !important;
+            z-index: 2 !important;
+          }
+          .hero-photo-bottom-gradient {
+            display: block !important;
+            position: absolute !important;
+            left: 0 !important;
+            right: 0 !important;
+            top: 0 !important;
+            bottom: 0 !important;
+            background: linear-gradient(
+              180deg,
+              rgba(7, 13, 11, 0) 0%,
+              rgba(7, 13, 11, 0) 45%,
+              rgba(7, 13, 11, 0.65) 70%,
+              rgba(7, 13, 11, 0.95) 88%,
+              #070d0b 100%
+            ) !important;
+            pointer-events: none !important;
+            z-index: 2 !important;
           }
 
-          /* Hero Content Wrapper: eyebrow + heading + paragraph + buttons */
+          /* Section C: Content block (sits on solid #070d0b area, margin-top -48px, 20px padding) */
           .hero-main-content {
+            position: relative !important;
+            z-index: 10 !important;
             width: 100% !important;
             max-width: 100% !important;
-            margin: 0 0 20px 0 !important; /* exactly 20px above the stats card */
-            padding: 0 !important;
-            text-align: left !important;
+            margin-top: -48px !important;
+            margin-bottom: 0 !important;
+            padding: 0 20px !important;
+            box-sizing: border-box !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: flex-start !important;
+            align-items: stretch !important;
             flex-grow: 0 !important;
             flex-shrink: 0 !important;
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: flex-end !important;
-            box-sizing: border-box !important;
           }
-          .hero-content-inner {
-            width: 100% !important;
-            max-width: 100% !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            display: flex !important;
-            flex-direction: column !important;
-            box-sizing: border-box !important;
-          }
+          .hero-content-inner,
           .hero-text-group {
             width: 100% !important;
             max-width: 100% !important;
@@ -776,262 +858,227 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             padding: 0 !important;
             display: flex !important;
             flex-direction: column !important;
+            align-items: flex-start !important;
+            text-align: left !important;
             box-sizing: border-box !important;
           }
 
-          /* Eyebrow */
+          /* Eyebrow: 10.5px bold, letter-spacing 0.18em, colour #c9a77c, 14px to heading */
           .hero-eyebrow {
-            font-size: 12px !important;
-            letter-spacing: 0.22em !important;
-            margin-bottom: 12px !important;
-            color: #D9B98A !important;
-            font-weight: 600 !important;
+            font-size: 10.5px !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.18em !important;
+            color: #c9a77c !important;
             text-transform: uppercase !important;
+            margin-bottom: 14px !important;
+            line-height: 1.25 !important;
             display: inline-block !important;
+            text-shadow: none !important;
           }
 
-          /* Title / Heading */
+          /* Heading: clamp(30px, 8.5vw, 36px), line-height 1.15, line 1 #ffffff, line 2 #f7daa5, 14px to paragraph */
           .hero-headline {
-            font-size: clamp(30px, 8.4vw, 40px) !important;
-            line-height: 1.1 !important;
-            margin: 0 0 14px 0 !important;
-            text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45) !important;
+            font-family: var(--font-serif) !important;
+            font-size: clamp(30px, 8.5vw, 36px) !important;
+            line-height: 1.15 !important;
             font-weight: 500 !important;
+            margin: 0 0 14px 0 !important;
+            letter-spacing: -0.015em !important;
+            text-shadow: none !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
           }
           .hero-headline-line1 {
             display: block !important;
-            color: #FFFFFF !important;
+            color: #ffffff !important;
             white-space: normal !important;
+            opacity: 1 !important;
           }
           .hero-headline-line2 {
             display: block !important;
-            color: #D9B98A !important;
             font-style: italic !important;
+            color: #f7daa5 !important;
             white-space: normal !important;
+            opacity: 1 !important;
           }
 
-          /* Paragraph / Subtitle */
+          /* Paragraph: 14.5px, line-height 1.55, colour #c3ccc9, 22px to buttons */
           .hero-subtitle {
-            font-size: 15px !important;
+            font-size: 14.5px !important;
             line-height: 1.55 !important;
-            width: 100% !important;
-            max-width: 100% !important;
+            color: #c3ccc9 !important;
             margin: 0 0 22px 0 !important;
-            color: rgba(255, 255, 255, 0.88) !important;
-            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5) !important;
-            font-weight: 300 !important;
+            max-width: 100% !important;
+            font-weight: 400 !important;
+            text-shadow: none !important;
           }
-          .hero-p-break {
-            display: none !important;
+          .hero-desc-mobile {
+            display: inline !important;
           }
 
-          /* Hero Actions / Buttons */
+          /* Section D: Actions */
           .hero-cta-wrapper {
             display: flex !important;
             flex-direction: column !important;
-            gap: 10px !important;
+            align-items: stretch !important;
             width: 100% !important;
+            gap: 0 !important;
             margin: 0 !important;
             padding: 0 !important;
           }
-          .hero-cta-btn {
-            width: 100% !important; /* same width as the stats card */
-            max-width: 100% !important;
-            box-sizing: border-box !important;
-            min-height: 52px !important;
-            display: inline-flex !important;
+          /* One full-width primary button: background #d9b17f, text #1a1208, 54px high, radius 12px, font-weight 600 */
+          .hero-cta-primary {
+            width: 100% !important;
+            height: 54px !important;
+            min-height: 54px !important;
+            background-color: #d9b17f !important;
+            background: #d9b17f !important;
+            color: #1a1208 !important;
+            border-radius: 12px !important;
+            font-weight: 600 !important;
+            font-size: 15.5px !important;
+            border: none !important;
+            display: flex !important;
             align-items: center !important;
             justify-content: center !important;
-            gap: 10px !important;
-            border-radius: 12px !important;
-            font-size: 16px !important;
-            font-weight: 600 !important;
-            padding: 12px 20px !important;
+            gap: 8px !important;
+            margin: 0 0 14px 0 !important;
+            padding: 0 20px !important;
+            box-shadow: none !important;
+            box-sizing: border-box !important;
+            text-decoration: none !important;
             cursor: pointer !important;
           }
-          .hero-cta-primary {
-            background-color: #D9B98A !important;
-            color: #0B0F0E !important;
-            border: 1.5px solid #D9B98A !important;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
-          }
           .hero-cta-primary span {
-            color: #0B0F0E !important;
+            color: #1a1208 !important;
             font-weight: 600 !important;
           }
           .hero-cta-primary svg {
-            color: #0B0F0E !important;
-            stroke: #0B0F0E !important;
+            color: #1a1208 !important;
+            stroke: #1a1208 !important;
           }
-          .hero-cta-secondary {
-            background: rgba(11, 15, 14, 0.45) !important;
-            color: #FFFFFF !important;
-            -webkit-backdrop-filter: blur(6px) !important;
-            backdrop-filter: blur(6px) !important;
-            border: 1px solid #D9B98A !important;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25) !important;
-          }
-          .hero-cta-secondary span {
-            color: #FFFFFF !important;
+          /* Centered text link: gold #c9a77c, 14px, 600 weight, 44px tap target */
+          .hero-mobile-services-link {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            color: #c9a77c !important;
+            font-size: 14px !important;
             font-weight: 600 !important;
+            min-height: 44px !important;
+            height: 44px !important;
+            text-decoration: none !important;
+            text-align: center !important;
+            width: 100% !important;
+            cursor: pointer !important;
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            box-sizing: border-box !important;
+          }
+          .hero-mobile-services-link:hover,
+          .hero-mobile-services-link:focus {
+            color: #f7daa5 !important;
+            text-decoration: underline !important;
           }
 
-          /* Stats Container & Grid */
+          /* Section E: Stats Container & 2x2 Grid Card */
           .hero-stats-container {
+            position: relative !important;
+            z-index: 10 !important;
             width: 100% !important;
             max-width: 100% !important;
-            margin: 0 !important;
-            padding: 0 !important;
+            margin-top: 24px !important;
+            margin-bottom: 0 !important;
+            padding: 0 20px calc(28px + env(safe-area-inset-bottom, 0px)) !important;
             flex-shrink: 0 !important;
             box-sizing: border-box !important;
           }
+          /* 2 x 2 grid card, 1px border #2c3a34, radius 16px, background #0c1411, 1px dividers between cells */
           .hero-floating-stats-grid {
             width: 100% !important;
             max-width: 100% !important;
             box-sizing: border-box !important;
             display: grid !important;
             grid-template-columns: 1fr 1fr !important;
-            grid-auto-rows: 1fr !important; /* equal row heights even if a label wraps */
-            background: rgba(11, 15, 14, 0.72) !important;
-            -webkit-backdrop-filter: blur(10px) !important;
-            backdrop-filter: blur(10px) !important;
-            border: 1px solid rgba(217, 185, 138, 0.55) !important;
-            border-radius: 18px !important;
+            grid-auto-rows: 1fr !important;
+            gap: 1px !important;
+            background: #2c3a34 !important;
+            border: 1px solid #2c3a34 !important;
+            border-radius: 16px !important;
             overflow: hidden !important;
-            position: relative !important;
             padding: 0 !important;
             margin: 0 !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
           }
-          .hero-floating-stats-grid::before {
-            content: "" !important;
-            display: block !important;
-            position: absolute !important;
-            left: 50% !important;
-            top: 0 !important;
-            bottom: 0 !important;
-            width: 1px !important;
-            transform: translateX(-50%) !important;
-            background: rgba(217, 185, 138, 0.25) !important;
-            pointer-events: none !important;
-            z-index: 2 !important;
-          }
+          .hero-floating-stats-grid::before,
           .hero-floating-stats-grid::after {
-            content: "" !important;
-            display: block !important;
-            position: absolute !important;
-            top: 50% !important;
-            left: 0 !important;
-            right: 0 !important;
-            height: 1px !important;
-            transform: translateY(-50%) !important;
-            background: rgba(217, 185, 138, 0.25) !important;
-            pointer-events: none !important;
-            z-index: 2 !important;
+            display: none !important;
           }
           .hero-stat-pillar {
             display: flex !important;
-            flex-direction: row !important;
+            flex-direction: column !important;
             align-items: center !important;
-            gap: 9px !important;
-            min-height: 84px !important;
+            justify-content: center !important;
+            text-align: center !important;
+            background: #0c1411 !important;
+            padding: 12px 6px !important;
             height: 100% !important;
-            padding: 12px 10px !important;
+            min-height: 64px !important;
             box-sizing: border-box !important;
             border-radius: 0 !important;
-            justify-content: flex-start !important;
-            text-align: left !important;
-            min-width: 0 !important;
+            gap: 0 !important;
+            user-select: none !important;
           }
           .hero-stat-pillar:hover {
             transform: none !important;
           }
-          .hero-stat-icon-wrapper {
-            width: 34px !important;
-            height: 34px !important;
-            min-width: 34px !important;
-            border-radius: 8px !important;
-            background: rgba(14, 22, 18, 0.75) !important;
-            border: 1px solid rgba(217, 185, 138, 0.35) !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            flex-shrink: 0 !important;
-            margin-bottom: 0 !important;
-          }
-          .hero-stat-icon-wrapper svg {
-            width: 16px !important;
-            height: 16px !important;
-          }
           .hero-stat-info {
             display: flex !important;
             flex-direction: column !important;
-            justify-content: center !important;
-            align-items: flex-start !important;
-            text-align: left !important;
-            min-width: 0 !important;
-            flex: 1 !important;
-          }
-          .hero-stat-val {
-            font-size: 22px !important;
-            line-height: 1.1 !important;
-            font-weight: 700 !important;
-            color: #FFFFFF !important;
-            margin-bottom: 2px !important;
-          }
-          .hero-stat-lbl {
-            font-size: clamp(11px, 2.9vw, 12.5px) !important;
-            line-height: 1.25 !important;
-            color: rgba(255, 255, 255, 0.78) !important;
-            font-weight: 500 !important;
-            margin-bottom: 0 !important;
-          }
-          .hero-stat-lbl-line {
-            display: block !important;
-          }
-          .hero-stat-sub {
-            display: none !important;
-          }
-
-          /* Scroll to explore indicator */
-          .hero-scroll-indicator {
-            margin-top: 18px !important;
-            align-self: center !important;
-            display: flex !important;
-            flex-direction: column !important;
             align-items: center !important;
-            padding: 0 !important;
-            cursor: pointer !important;
-            z-index: 10 !important;
-          }
-          .hero-scroll-text {
-            font-family: var(--font-sans) !important;
-            font-size: 0.65rem !important;
-            letter-spacing: 0.24em !important;
-            text-transform: uppercase !important;
-            color: #D9B98A !important;
-            font-weight: 600 !important;
-            margin-bottom: 6px !important;
-            opacity: 0.9 !important;
-          }
-          .hero-scroll-mouse {
-            width: 16px !important;
-            height: 25px !important;
-            border-radius: 11px !important;
-            border: 1.5px solid rgba(217, 185, 138, 0.5) !important;
-            display: flex !important;
             justify-content: center !important;
-            padding-top: 3px !important;
-            box-sizing: border-box !important;
+            text-align: center !important;
+            width: 100% !important;
           }
-          .hero-scroll-mouse-wheel {
-            width: 2px !important;
-            height: 4.5px !important;
-            border-radius: 2px !important;
-            background-color: #D9B98A !important;
+          /* Number (19px, bold, white) */
+          .hero-stat-val {
+            font-family: var(--font-sans) !important;
+            font-size: 19px !important;
+            line-height: 1.15 !important;
+            font-weight: 700 !important;
+            color: #ffffff !important;
+            margin-bottom: 3px !important;
+            letter-spacing: -0.01em !important;
+          }
+          /* Label (11px, #a9b4b0, one line nowrap) */
+          .hero-stat-lbl {
+            font-family: var(--font-sans) !important;
+            font-size: 11px !important;
+            line-height: 1.2 !important;
+            color: #a9b4b0 !important;
+            font-weight: 500 !important;
+            margin: 0 !important;
+            white-space: nowrap !important;
+            text-align: center !important;
+          }
+          .hero-stat-lbl-mobile {
+            display: inline !important;
+            white-space: nowrap !important;
           }
         }
 
-        /* Subtle staggered entrance, respects reduced motion */
+        @media (max-width: 375px) {
+          .hero-eyebrow {
+            letter-spacing: 0.12em !important;
+          }
+        }
+
+        /* Subtle entrance animation, respects reduced motion */
         @media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
           .hero-eyebrow,
           .hero-headline,
@@ -1056,10 +1103,21 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             animation-delay: 0.32s;
           }
         }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-eyebrow,
+          .hero-headline,
+          .hero-subtitle,
+          .hero-cta-wrapper,
+          .hero-stats-container {
+            animation: none !important;
+            transform: none !important;
+            opacity: 1 !important;
+          }
+        }
         @keyframes heroUp {
           from {
             opacity: 0;
-            transform: translateY(14px);
+            transform: translateY(12px);
           }
           to {
             opacity: 1;
