@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Featured & Available Properties | iGrey Holdings</title>
+    <meta
+      name="description"
+      content="Discover properties that match your lifestyle, business needs or investment objectives. Explore available homes, commercial spaces and other real estate opportunities through iGREY HOLDINGS."
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230A0F0E'/><text x='50%' y='62%' font-family='serif' font-size='56' fill='%23DEB686' text-anchor='middle'>iG</text></svg>"
+    />
+
+    <!-- Google Fonts: Cormorant Garamond, Inter, Manrope -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Dedicated Page Stylesheets -->
+    <link rel="stylesheet" href="./css/properties.css" />
+    <link rel="stylesheet" href="./css/site-footer.css" />
+  </head>
+  <body>
+    <!-- =====================================================================
+         1. TOP NAVIGATION / HEADER BAND
+         ===================================================================== -->
+    <header class="properties-header-band">
+      <div class="container">
+        <div class="properties-header-top">
+          <a href="./" class="btn-back-home" aria-label="Back to Home Page">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>
+            </svg>
+            <span>Back to Home</span>
+          </a>
+
+          <a href="./index.html" class="properties-brand-logo-link" aria-label="iGrey Holdings, go to home page">
+            <img
+              src="./logo-white.png"
+              alt="iGrey Holdings"
+              class="properties-brand-logo-img"
+              width="120"
+              height="40"
+              onerror="if(this.src.indexOf('public/')===-1){this.src='./public/logo-white.png';}else{this.onerror=null;this.style.display='none';const s=document.createElement('span');s.className='logo-fallback-text';s.textContent='iGREY HOLDINGS';this.parentElement.appendChild(s);}"
+            />
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content" class="properties-main-wrap">
+      <!-- =====================================================================
+           SECTION 05: FEATURED & AVAILABLE PROPERTIES
+           ===================================================================== -->
+      <section class="properties-section section-05" id="section-05-properties" aria-labelledby="heading-section-05">
+        <div class="container">
+          <div class="section-header-block">
+            <span class="section-eyebrow">Featured & Available Properties</span>
+            <h1 class="section-heading" id="heading-section-05">
+              Find Your <em class="accent-phrase">Next Space.</em>
+            </h1>
+            <p class="section-lead">
+              Discover properties that match your lifestyle, business needs or investment objectives. Explore available homes, commercial spaces and other real estate opportunities through iGREY HOLDINGS.
+            </p>
+          </div>
+
+          <!-- Single-Select Filter Chips -->
+          <div class="filter-chips-wrapper" role="toolbar" aria-label="Filter properties by category or transaction type">
+            <div class="filter-chips-scroll" id="filter-chips-bar">
+              <button type="button" class="filter-chip active" data-filter="all" aria-pressed="true">All Properties</button>
+              <button type="button" class="filter-chip" data-filter="sale" aria-pressed="false">For Sale</button>
+              <button type="button" class="filter-chip" data-filter="rent" aria-pressed="false">For Rent</button>
+              <button type="button" class="filter-chip" data-filter="lease" aria-pressed="false">For Lease</button>
+              <button type="button" class="filter-chip" data-filter="residential" aria-pressed="false">Residential</button>
+              <button type="button" class="filter-chip" data-filter="commercial" aria-pressed="false">Commercial</button>
+              <button type="button" class="filter-chip" data-filter="land" aria-pressed="false">Land / Plots</button>
+              <button type="button" class="filter-chip" data-filter="office-warehouse" aria-pressed="false">Office, Shop / Showroom and Warehouse</button>
+            </div>
+          </div>
+
+          <!-- Results Summary Bar with Verified Badge and Quick Search -->
+          <div class="results-summary-bar">
+            <div class="results-left">
+              <div class="results-count-text" aria-live="polite">
+                Showing <strong id="results-count">0</strong> properties
+              </div>
+              <div class="verified-pill">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+                  <path d="m9 12 2 2 4-4"/>
+                </svg>
+                <span>100% Authorised & Verified Listings</span>
+              </div>
+            </div>
+
+            <div class="search-box-wrap">
+              <label for="properties-search-input" class="visually-hidden">Quick search properties</label>
+              <div class="search-input-inner">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+                </svg>
+                <input
+                  type="text"
+                  id="properties-search-input"
+                  class="search-input-field"
+                  placeholder="Search location, name or ID..."
+                  autocomplete="off"
+                />
+                <button type="button" id="search-clear-btn" class="search-clear-btn" aria-label="Clear search text" style="display:none;">✕</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Property Cards Grid (3 cols desktop, 2 cols tablet, 1 col mobile) -->
+          <div class="property-cards-grid" id="properties-grid" role="region" aria-label="Available property listings">
+            <!-- Dynamically populated by js/properties-page.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           SECTION 06: TENANTS & COMMERCIAL OCCUPIERS
+           ===================================================================== -->
+      <section class="properties-section section-06" id="section-06-tenants" aria-labelledby="heading-section-06">
+        <div class="container">
+          <div class="section-06-layout">
+            <!-- Left Column: Content & 3 Cards -->
+            <div class="section-06-content">
+              <span class="section-eyebrow">Tenants & Commercial Occupiers</span>
+              <h2 class="section-heading" id="heading-section-06">
+                Looking for a Place to <em class="accent-phrase">Call Your Own?</em>
+              </h2>
+              <p class="section-text">
+                Whether you need a home, an office, a retail outlet or a commercial space, iGREY HOLDINGS helps you explore available properties that fit your requirements.
+              </p>
+              <p class="section-text">
+                Tell us your preferred location, budget, property type and intended tenure. Our team can help you review suitable options, arrange viewings and understand the applicable rental or lease terms.
+              </p>
+
+              <!-- Three Occupier Cards -->
+              <div class="occupier-cards-grid">
+                <div class="occupier-card">
+                  <div class="occupier-card-icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#DEB686" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                      <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="occupier-card-title">Residential Rentals</h3>
+                    <p class="occupier-card-desc">Homes and apartments for individuals and families.</p>
+                  </div>
+                </div>
+
+                <div class="occupier-card">
+                  <div class="occupier-card-icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#DEB686" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect width="16" height="20" x="4" y="2" rx="2" ry="2"/>
+                      <path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M16 10h.01"/><path d="M8 14h.01"/><path d="M16 14h.01"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="occupier-card-title">Commercial Leasing</h3>
+                    <p class="occupier-card-desc">Offices, shops and business premises.</p>
+                  </div>
+                </div>
+
+                <div class="occupier-card">
+                  <div class="occupier-card-icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#DEB686" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+                      <path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="occupier-card-title">Specialised Spaces</h3>
+                    <p class="occupier-card-desc">Warehouses, industrial premises and other properties, subject to availability.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CTAs -->
+              <div class="occupier-ctas-row">
+                <a href="#tenant-enquiry-form" class="btn-primary-gold" id="btn-find-property">Find a Property</a>
+                <a href="#section-05-properties" class="btn-secondary-outline" id="btn-browse-properties">Browse Available Properties</a>
+              </div>
+            </div>
+
+            <!-- Right Column: Tenant Enquiry Form -->
+            <div class="section-06-form-col">
+              <div class="tenant-enquiry-card" id="tenant-form-container">
+                <div class="form-header">
+                  <h3 class="form-title">Tenant & Occupier Enquiry</h3>
+                  <p class="form-subtitle">Tell us your requirements and our leasing advisory team will coordinate suitable options.</p>
+                </div>
+
+                <!-- Prefilled Property Banner (if clicked 'Enquire Now' or 'Schedule a Visit') -->
+                <div id="enquiry-prefill-banner" class="enquiry-prefill-banner" style="display:none;">
+                  <div class="prefill-banner-content">
+                    <span class="prefill-badge">PREFILLED FOR</span>
+                    <strong id="prefill-property-title">Title</strong>
+                    <span id="prefill-property-id" class="prefill-id">ID</span>
+                  </div>
+                  <button type="button" id="clear-prefill-btn" class="clear-prefill-btn" aria-label="Clear selected property">✕</button>
+                </div>
+
+                <form id="tenant-enquiry-form" class="tenant-form" novalidate>
+                  <!-- Anti-Spam Honeypot Field -->
+                  <div style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" aria-hidden="true">
+                    <label for="tenant-honeypot-field">Leave this empty</label>
+                    <input type="text" id="tenant-honeypot-field" name="_gotcha_honey" tabindex="-1" autocomplete="off" />
+                  </div>
+
+                  <!-- 1. Segment (Radio Group) -->
+                  <fieldset class="form-fieldset">
+                    <legend class="form-legend">Segment</legend>
+                    <div class="form-radio-chips" role="radiogroup" aria-label="Property segment">
+                      <label class="radio-chip-label">
+                        <input type="radio" name="segment" value="Residential" checked />
+                        <span>Residential</span>
+                      </label>
+                      <label class="radio-chip-label">
+                        <input type="radio" name="segment" value="Commercial" />
+                        <span>Commercial</span>
+                      </label>
+                      <label class="radio-chip-label">
+                        <input type="radio" name="segment" value="Industrial" />
+                        <span>Industrial</span>
+                      </label>
+                    </div>
+                  </fieldset>
+
+                  <!-- 2. Tenure Type (Radio Group) -->
+                  <fieldset class="form-fieldset">
+                    <legend class="form-legend">Tenure Type</legend>
+                    <div class="form-radio-chips" role="radiogroup" aria-label="Tenure type">
+                      <label class="radio-chip-label">
+                        <input type="radio" name="tenureType" value="Rent" checked />
+                        <span>Rent</span>
+                      </label>
+                      <label class="radio-chip-label">
+                        <input type="radio" name="tenureType" value="Lease" />
+                        <span>Lease</span>
+                      </label>
+                    </div>
+                  </fieldset>
+
+                  <!-- 3. Preferred Location & Property Type -->
+                  <div class="form-grid-row">
+                    <div class="form-group">
+                      <label for="tenant-location" class="form-label">Preferred Location</label>
+                      <input
+                        type="text"
+                        id="tenant-location"
+                        name="preferredLocation"
+                        class="form-input"
+                        placeholder="e.g. Indiranagar, Sadashivanagar"
+                        autocomplete="off"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="tenant-property-type" class="form-label">Property Type</label>
+                      <select id="tenant-property-type" name="propertyType" class="form-select">
+                        <option value="Apartment / Flat">Apartment / Flat</option>
+                        <option value="Architectural Villa">Architectural Villa</option>
+                        <option value="Penthouse">Penthouse</option>
+                        <option value="Gated Society Residence">Gated Society Residence</option>
+                        <option value="Office Suite">Office Suite</option>
+                        <option value="Retail Store / Showroom">Retail Store / Showroom</option>
+                        <option value="Warehouse / Logistics Hub">Warehouse / Logistics Hub</option>
+                        <option value="Industrial Plot">Industrial Plot</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- 4. BHK (Conditional: Shown ONLY when Residential is selected) -->
+                  <div class="form-group" id="tenant-bhk-group">
+                    <label for="tenant-bhk" class="form-label">BHK</label>
+                    <select id="tenant-bhk" name="bhk" class="form-select">
+                      <option value="1 BHK">1 BHK</option>
+                      <option value="2 BHK" selected>2 BHK</option>
+                      <option value="3 BHK">3 BHK</option>
+                      <option value="4+ BHK">4+ BHK</option>
+                    </select>
+                  </div>
+
+                  <!-- 5. Budget & Move-in Date -->
+                  <div class="form-grid-row">
+                    <div class="form-group">
+                      <label for="tenant-budget" class="form-label">Budget</label>
+                      <input
+                        type="text"
+                        id="tenant-budget"
+                        name="budget"
+                        class="form-input"
+                        placeholder="e.g. ₹75,000 / mo or ₹2.5 L / mo"
+                        autocomplete="off"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="tenant-move-in" class="form-label">Move-in Date</label>
+                      <input
+                        type="text"
+                        id="tenant-move-in"
+                        name="moveInDate"
+                        class="form-input"
+                        placeholder="Immediate or DD/MM/YYYY"
+                        autocomplete="off"
+                      />
+                    </div>
+                  </div>
+
+                  <!-- 6. Tenure -->
+                  <div class="form-group">
+                    <label for="tenant-tenure" class="form-label">Tenure</label>
+                    <select id="tenant-tenure" name="tenure" class="form-select">
+                      <option value="11 Months (Renewable)">11 Months (Renewable)</option>
+                      <option value="1 - 2 Years">1 - 2 Years</option>
+                      <option value="3 - 5 Years">3 - 5 Years</option>
+                      <option value="5+ Years">5+ Years</option>
+                      <option value="Long-term Commercial (9+ Years)">Long-term Commercial (9+ Years)</option>
+                    </select>
+                  </div>
+
+                  <!-- 7. Additional Requirements -->
+                  <div class="form-group">
+                    <label for="tenant-requirements" class="form-label">Additional Requirements</label>
+                    <textarea
+                      id="tenant-requirements"
+                      name="additionalRequirements"
+                      class="form-textarea"
+                      rows="3"
+                      placeholder="Special requirements (e.g. Furnished, high power load, parking bays, Vastu)..."
+                    ></textarea>
+                  </div>
+
+                  <!-- 8. Credentials: Name, Phone, Email -->
+                  <div class="form-grid-row">
+                    <div class="form-group">
+                      <label for="tenant-name" class="form-label">Full Name <span class="required-mark" aria-hidden="true">*</span></label>
+                      <input
+                        type="text"
+                        id="tenant-name"
+                        name="fullName"
+                        class="form-input"
+                        placeholder="Your full name"
+                        required
+                        autocomplete="name"
+                      />
+                      <span class="field-error-msg" id="err-tenant-name" aria-live="polite"></span>
+                    </div>
+                    <div class="form-group">
+                      <label for="tenant-phone" class="form-label">Phone Number <span class="required-mark" aria-hidden="true">*</span></label>
+                      <input
+                        type="tel"
+                        id="tenant-phone"
+                        name="phone"
+                        class="form-input"
+                        placeholder="10-digit mobile number"
+                        required
+                        autocomplete="tel"
+                      />
+                      <span class="field-error-msg" id="err-tenant-phone" aria-live="polite"></span>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="tenant-email" class="form-label">Email Address <span class="required-mark" aria-hidden="true">*</span></label>
+                    <input
+                      type="email"
+                      id="tenant-email"
+                      name="email"
+                      class="form-input"
+                      placeholder="name@company.com"
+                      required
+                      autocomplete="email"
+                    />
+                    <span class="field-error-msg" id="err-tenant-email" aria-live="polite"></span>
+                  </div>
+
+                  <!-- 9. Required Consent Checkbox -->
+                  <div class="form-checkbox-group">
+                    <input
+                      type="checkbox"
+                      id="tenant-consent"
+                      name="consent"
+                      class="form-checkbox"
+                      required
+                    />
+                    <label for="tenant-consent" class="checkbox-label">
+                      I consent to iGREY HOLDINGS contacting me about my enquiry. <span class="required-mark" aria-hidden="true">*</span>
+                    </label>
+                  </div>
+                  <span class="field-error-msg" id="err-tenant-consent" aria-live="polite"></span>
+
+                  <!-- Inline Error Container -->
+                  <div id="tenant-form-general-error" class="form-alert-error" role="alert" style="display:none;"></div>
+
+                  <!-- Submit Button -->
+                  <div class="form-submit-wrap">
+                    <button type="submit" id="tenant-submit-btn" class="btn-primary-gold btn-block">
+                      <span>Submit Enquiry</span>
+                    </button>
+                  </div>
+                </form>
+
+                <!-- Success State Overlay -->
+                <div id="tenant-form-success" class="form-alert-success" role="status" style="display:none;">
+                  <div class="success-icon-wrap" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#27AE60" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                  </div>
+                  <h4 class="success-title">Enquiry Received Successfully</h4>
+                  <p class="success-desc" id="tenant-success-message">
+                    Thank you. Your enquiry has been routed to our Senior Client Partner. We will contact you promptly.
+                  </p>
+                  <button type="button" id="btn-submit-another" class="btn-secondary-outline">Submit Another Enquiry</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           SECTION 07: PROPERTY-BACKED INSURANCE FOR LEASE CUSTOMERS
+           ===================================================================== -->
+      <section class="properties-section section-07" id="section-07-insurance" aria-labelledby="heading-section-07">
+        <div class="container">
+          <div class="section-header-block">
+            <span class="section-eyebrow">Property-Backed Insurance for Lease Customers</span>
+            <h2 class="section-heading" id="heading-section-07">
+              Added Confidence for Your <em class="accent-phrase">Lease Commitment.</em>
+            </h2>
+            <p class="section-lead">
+              For customers entering into eligible lease arrangements through iGREY HOLDINGS, we are introducing a property-backed insurance offering intended to provide protection for the eligible amount associated with the lease. The offering is planned to be arranged within 90 days from the start date of the customer's contract, subject to the applicable policy terms, eligibility, insurer approval and documentation.
+            </p>
+          </div>
+
+          <!-- Highlight Panel -->
+          <div class="insurance-highlight-panel">
+            <div class="insurance-shield-glow" aria-hidden="true"></div>
+            
+            <div class="insurance-panel-header">
+              <div class="insurance-shield-icon" aria-hidden="true">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#DEB686" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  <path d="m9 12 2 2 4-4"/>
+                </svg>
+              </div>
+              <div class="insurance-panel-titles">
+                <span class="insurance-panel-label">PROPERTY-BACKED INSURANCE FOR ELIGIBLE LEASE CUSTOMERS</span>
+                <h3 class="insurance-highlight-line">An added layer of confidence for your lease commitment.</h3>
+              </div>
+            </div>
+
+            <div class="insurance-panel-body">
+              <div class="insurance-timeline-pill">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <span>Target timeline: within 90 days from the contract start date, subject to policy terms and eligibility.</span>
+              </div>
+
+              <!-- CTA Button (TODO: Point this CTA at the final details page when published) -->
+              <div class="insurance-cta-wrap">
+                <a href="#lease-protection" class="btn-primary-gold" id="btn-lease-protection">
+                  <span>Learn About Lease Protection</span>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+                  </svg>
+                </a>
+              </div>
+
+              <p class="insurance-footnote">
+                Cover is subject to policy terms, eligibility, insurer approval and documentation.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- =====================================================================
+         PROPERTY DETAILS POPUP MODAL
+         ===================================================================== -->
+    <div
+      class="property-modal-backdrop"
+      id="property-details-modal"
+      aria-hidden="true"
+      role="dialog"
+      aria-modal="true"
+    >
+      <!-- Modal card dynamically rendered by js/properties-page.js -->
+    </div>
+
+    <!-- Unified Global Site Footer -->
+    <div id="site-footer-container" data-igrey-footer></div>
+
+    <!-- Scripts -->
+    <script src="./js/properties-data.js"></script>
+    <script src="./js/properties-page.js"></script>
+    <script src="./js/site-footer.js"></script>
+  </body>
+</html>

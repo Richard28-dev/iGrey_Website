@@ -133,6 +133,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
 
         {/* Left-to-right scrim: dark on left for text legibility, transparent on right for villa architecture */}
         <div
+          className="hero-desktop-scrim"
           style={{
             position: 'absolute',
             inset: 0,
@@ -144,6 +145,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
 
         {/* Top-to-bottom vignette: darker at top for header readability and bottom for stats panel grounding */}
         <div
+          className="hero-desktop-vignette"
           style={{
             position: 'absolute',
             inset: 0,
@@ -687,161 +689,221 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
         }
 
         @media (max-width: 768px) {
+          /* Desktop scrims disabled on mobile so only the refined mobile scrim applies */
+          .hero-desktop-scrim,
+          .hero-desktop-vignette {
+            display: none !important;
+          }
+
+          /* Architectural villa background image positioning */
           .hero-bg-img {
+            object-fit: cover !important;
             object-position: 61% 32% !important;
             filter: brightness(0.82) contrast(1.08) saturate(1.12) !important;
           }
+
+          /* Readability scrim: transparent at top, dark behind the text */
+          .hero-section::before,
           .hero-mobile-scrim {
+            content: "" !important;
             display: block !important;
             position: absolute !important;
             inset: 0 !important;
             width: 100% !important;
             height: 100% !important;
+            z-index: 2 !important;
             background: linear-gradient(
-              180deg,
-              transparent 0%,
-              transparent 28%,
-              rgba(6, 7, 9, 0.45) 45%,
-              rgba(6, 7, 9, 0.72) 65%,
-              rgba(6, 7, 9, 0.92) 88%,
-              #090D0B 100%
+              to bottom,
+              rgba(11, 15, 14, 0.55) 0%,
+              rgba(11, 15, 14, 0) 22%,
+              rgba(11, 15, 14, 0) 38%,
+              rgba(11, 15, 14, 0.82) 64%,
+              rgba(11, 15, 14, 0.96) 100%
             ) !important;
             pointer-events: none !important;
-            z-index: 2 !important;
           }
+
+          /* Hero container: content sits at the bottom, photo shows on top */
           .hero-section {
+            position: relative !important;
             min-height: 100vh !important;
             min-height: 100svh !important;
-            min-height: 100dvh !important;
+            height: auto !important;
             display: flex !important;
             flex-direction: column !important;
-            justify-content: flex-start !important;
-            padding-top: clamp(110px, 20vh, 160px) !important;
-            padding-bottom: clamp(10px, 1.8vh, 16px) !important;
+            justify-content: flex-end !important;
+            padding: 88px 20px max(20px, env(safe-area-inset-bottom)) !important;
             box-sizing: border-box !important;
-            overflow: hidden !important;
+            isolation: isolate !important;
+            overflow-x: hidden !important;
+            overflow-y: visible !important;
           }
+
+          /* Header gradient so logo and menu stay legible */
+          .main-header.header-top,
+          .main-header:not(.scrolled-header),
+          .header {
+            background: linear-gradient(to bottom, rgba(11, 15, 14, 0.7), transparent) !important;
+          }
+
+          /* Hero Content Wrapper: eyebrow + heading + paragraph + buttons */
           .hero-main-content {
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
-            padding-left: 18px !important;
-            padding-right: 18px !important;
-            flex-grow: 1 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 0 20px 0 !important; /* exactly 20px above the stats card */
+            padding: 0 !important;
+            text-align: left !important;
+            flex-grow: 0 !important;
+            flex-shrink: 0 !important;
             display: flex !important;
             flex-direction: column !important;
-            justify-content: center !important;
-            margin-bottom: 0 !important;
-            width: 100% !important;
+            justify-content: flex-end !important;
             box-sizing: border-box !important;
           }
           .hero-content-inner {
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: center !important;
-            flex-grow: 0 !important;
             width: 100% !important;
-            margin-top: 0 !important;
-          }
-          .hero-eyebrow {
-            font-size: 10.5px !important;
-            letter-spacing: 0.22em !important;
-            margin-bottom: 6px !important;
-            color: #DEBA88 !important;
-            font-weight: 600 !important;
-          }
-          .hero-text-group {
-            display: flex !important;
-            flex-direction: column !important;
+            max-width: 100% !important;
             margin: 0 !important;
             padding: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            box-sizing: border-box !important;
           }
+          .hero-text-group {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            box-sizing: border-box !important;
+          }
+
+          /* Eyebrow */
+          .hero-eyebrow {
+            font-size: 12px !important;
+            letter-spacing: 0.22em !important;
+            margin-bottom: 12px !important;
+            color: #D9B98A !important;
+            font-weight: 600 !important;
+            text-transform: uppercase !important;
+            display: inline-block !important;
+          }
+
+          /* Title / Heading */
           .hero-headline {
-            font-size: clamp(26px, 7.2vw, 32px) !important;
-            line-height: 1.15 !important;
+            font-size: clamp(30px, 8.4vw, 40px) !important;
+            line-height: 1.1 !important;
+            margin: 0 0 14px 0 !important;
+            text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45) !important;
             font-weight: 500 !important;
-            margin-bottom: 10px !important;
-            text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5) !important;
           }
           .hero-headline-line1 {
             display: block !important;
-            white-space: normal !important;
             color: #FFFFFF !important;
+            white-space: normal !important;
           }
           .hero-headline-line2 {
             display: block !important;
-            white-space: normal !important;
+            color: #D9B98A !important;
             font-style: italic !important;
-            color: #D4B280 !important;
+            white-space: normal !important;
           }
+
+          /* Paragraph / Subtitle */
           .hero-subtitle {
-            font-size: 13.5px !important;
-            line-height: 1.5 !important;
-            margin-top: 0 !important;
-            margin-bottom: 0 !important;
-            max-width: 340px !important;
-            color: rgba(255, 255, 255, 0.9) !important;
-            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45) !important;
+            font-size: 15px !important;
+            line-height: 1.55 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 0 22px 0 !important;
+            color: rgba(255, 255, 255, 0.88) !important;
+            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5) !important;
+            font-weight: 300 !important;
           }
           .hero-p-break {
             display: none !important;
           }
+
+          /* Hero Actions / Buttons */
           .hero-cta-wrapper {
-            margin-top: clamp(14px, 2.5vh, 20px) !important;
-            margin-bottom: 0 !important;
             display: flex !important;
             flex-direction: column !important;
-            align-items: flex-start !important;
-            width: 100% !important;
             gap: 10px !important;
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
           }
           .hero-cta-btn {
-            width: 100% !important;
-            max-width: 250px !important;
-            padding: 10px 18px !important;
-            font-size: 14px !important;
-            border-radius: 6px !important;
-            font-weight: 600 !important;
+            width: 100% !important; /* same width as the stats card */
+            max-width: 100% !important;
             box-sizing: border-box !important;
+            min-height: 52px !important;
             display: inline-flex !important;
             align-items: center !important;
             justify-content: center !important;
+            gap: 10px !important;
+            border-radius: 12px !important;
+            font-size: 16px !important;
+            font-weight: 600 !important;
+            padding: 12px 20px !important;
+            cursor: pointer !important;
           }
           .hero-cta-primary {
-            background-color: #DEBA88 !important;
-            color: #121614 !important;
-            border: 1.5px solid #DEBA88 !important;
-            box-shadow: 0 10px 26px rgba(222, 186, 136, 0.28) !important;
+            background-color: #D9B98A !important;
+            color: #0B0F0E !important;
+            border: 1.5px solid #D9B98A !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
+          }
+          .hero-cta-primary span {
+            color: #0B0F0E !important;
+            font-weight: 600 !important;
+          }
+          .hero-cta-primary svg {
+            color: #0B0F0E !important;
+            stroke: #0B0F0E !important;
           }
           .hero-cta-secondary {
-            background-color: rgba(8, 13, 12, 0.45) !important;
-            color: #F3EBDC !important;
-            border: 1.5px solid #DEBA88 !important;
+            background: rgba(11, 15, 14, 0.45) !important;
+            color: #FFFFFF !important;
+            -webkit-backdrop-filter: blur(6px) !important;
+            backdrop-filter: blur(6px) !important;
+            border: 1px solid #D9B98A !important;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25) !important;
           }
+          .hero-cta-secondary span {
+            color: #FFFFFF !important;
+            font-weight: 600 !important;
+          }
+
+          /* Stats Container & Grid */
           .hero-stats-container {
-            padding-top: 0 !important;
-            padding-bottom: 4px !important;
-            padding-left: 18px !important;
-            padding-right: 18px !important;
-            margin-top: auto !important;
-            flex-shrink: 0 !important;
             width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            flex-shrink: 0 !important;
             box-sizing: border-box !important;
           }
           .hero-floating-stats-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-            border-radius: 16px !important;
-            gap: 0 !important;
-            padding: 0 !important;
-            border: 1px solid rgba(197, 168, 128, 0.32) !important;
-            background: rgba(10, 16, 13, 0.85) !important;
-            backdrop-filter: blur(20px) !important;
-            -webkit-backdrop-filter: blur(20px) !important;
-            position: relative !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            grid-auto-rows: 1fr !important; /* equal row heights even if a label wraps */
+            background: rgba(11, 15, 14, 0.72) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(217, 185, 138, 0.55) !important;
+            border-radius: 18px !important;
             overflow: hidden !important;
+            position: relative !important;
+            padding: 0 !important;
+            margin: 0 !important;
           }
           .hero-floating-stats-grid::before {
-            content: '' !important;
+            content: "" !important;
             display: block !important;
             position: absolute !important;
             left: 50% !important;
@@ -849,12 +911,12 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             bottom: 0 !important;
             width: 1px !important;
             transform: translateX(-50%) !important;
-            background: rgba(197, 168, 128, 0.22) !important;
+            background: rgba(217, 185, 138, 0.25) !important;
             pointer-events: none !important;
             z-index: 2 !important;
           }
           .hero-floating-stats-grid::after {
-            content: '' !important;
+            content: "" !important;
             display: block !important;
             position: absolute !important;
             top: 50% !important;
@@ -862,35 +924,39 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             right: 0 !important;
             height: 1px !important;
             transform: translateY(-50%) !important;
-            background: rgba(197, 168, 128, 0.22) !important;
+            background: rgba(217, 185, 138, 0.25) !important;
             pointer-events: none !important;
             z-index: 2 !important;
           }
           .hero-stat-pillar {
+            display: flex !important;
             flex-direction: row !important;
             align-items: center !important;
-            text-align: left !important;
-            padding: 8px 10px !important;
-            gap: 8px !important;
+            gap: 9px !important;
+            min-height: 84px !important;
+            height: 100% !important;
+            padding: 12px 10px !important;
+            box-sizing: border-box !important;
             border-radius: 0 !important;
+            justify-content: flex-start !important;
+            text-align: left !important;
+            min-width: 0 !important;
           }
-          .hero-stat-cell-0::after,
-          .hero-stat-cell-1::after,
-          .hero-stat-cell-2::after {
-            display: none !important;
+          .hero-stat-pillar:hover {
+            transform: none !important;
           }
           .hero-stat-icon-wrapper {
-            width: 35px !important;
-            height: 35px !important;
-            min-width: 35px !important;
-            border-radius: 9px !important;
+            width: 34px !important;
+            height: 34px !important;
+            min-width: 34px !important;
+            border-radius: 8px !important;
             background: rgba(14, 22, 18, 0.75) !important;
-            border: 1.2px solid rgba(197, 168, 128, 0.4) !important;
-            margin-bottom: 0 !important;
-            flex-shrink: 0 !important;
+            border: 1px solid rgba(217, 185, 138, 0.35) !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
+            flex-shrink: 0 !important;
+            margin-bottom: 0 !important;
           }
           .hero-stat-icon-wrapper svg {
             width: 16px !important;
@@ -899,26 +965,25 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           .hero-stat-info {
             display: flex !important;
             flex-direction: column !important;
+            justify-content: center !important;
             align-items: flex-start !important;
             text-align: left !important;
             min-width: 0 !important;
+            flex: 1 !important;
           }
           .hero-stat-val {
-            font-size: 17.5px !important;
-            font-weight: 700 !important;
-            margin-bottom: 1px !important;
+            font-size: 22px !important;
             line-height: 1.1 !important;
+            font-weight: 700 !important;
             color: #FFFFFF !important;
+            margin-bottom: 2px !important;
           }
           .hero-stat-lbl {
-            font-size: clamp(9px, 2.5vw, 10.5px) !important;
-            line-height: 1.2 !important;
-            margin-bottom: 0 !important;
+            font-size: clamp(11px, 2.9vw, 12.5px) !important;
+            line-height: 1.25 !important;
+            color: rgba(255, 255, 255, 0.78) !important;
             font-weight: 500 !important;
-            color: #FFFFFF !important;
-          }
-          .hero-stat-lbl-nowrap {
-            white-space: nowrap !important;
+            margin-bottom: 0 !important;
           }
           .hero-stat-lbl-line {
             display: block !important;
@@ -926,30 +991,33 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           .hero-stat-sub {
             display: none !important;
           }
+
+          /* Scroll to explore indicator */
           .hero-scroll-indicator {
+            margin-top: 18px !important;
+            align-self: center !important;
             display: flex !important;
             flex-direction: column !important;
             align-items: center !important;
-            padding-top: clamp(6px, 1.1vh, 10px) !important;
-            padding-bottom: clamp(2px, 0.5vh, 6px) !important;
+            padding: 0 !important;
             cursor: pointer !important;
             z-index: 10 !important;
           }
           .hero-scroll-text {
             font-family: var(--font-sans) !important;
-            font-size: 0.6rem !important;
-            letter-spacing: 0.26em !important;
+            font-size: 0.65rem !important;
+            letter-spacing: 0.24em !important;
             text-transform: uppercase !important;
-            color: #DEBA88 !important;
+            color: #D9B98A !important;
             font-weight: 600 !important;
-            margin-bottom: 4px !important;
+            margin-bottom: 6px !important;
             opacity: 0.9 !important;
           }
           .hero-scroll-mouse {
             width: 16px !important;
             height: 25px !important;
             border-radius: 11px !important;
-            border: 1.5px solid rgba(197, 168, 128, 0.5) !important;
+            border: 1.5px solid rgba(217, 185, 138, 0.5) !important;
             display: flex !important;
             justify-content: center !important;
             padding-top: 3px !important;
@@ -959,131 +1027,43 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             width: 2px !important;
             height: 4.5px !important;
             border-radius: 2px !important;
-            background-color: #C5A880 !important;
+            background-color: #D9B98A !important;
           }
         }
 
-        /* -------------------------------------------------------- */
-        /* VARIANT 2: Golden Ratio Harmonic Balance (Lifted Center) */
-        /* -------------------------------------------------------- */
-        @media (max-width: 768px) {
-          .hero-variant-2.hero-section {
-            justify-content: flex-start !important;
-            padding-top: clamp(110px, 20vh, 160px) !important;
-            padding-bottom: clamp(10px, 1.8vh, 16px) !important;
+        /* Subtle staggered entrance, respects reduced motion */
+        @media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
+          .hero-eyebrow,
+          .hero-headline,
+          .hero-subtitle,
+          .hero-cta-wrapper,
+          .hero-stats-container {
+            animation: heroUp 0.6s ease both;
           }
-          .hero-variant-2 .hero-main-content {
-            flex-grow: 1 !important;
-            justify-content: center !important;
+          .hero-eyebrow {
+            animation-delay: 0s;
           }
-          .hero-variant-2 .hero-headline {
-            font-size: clamp(26px, 7.2vw, 32px) !important;
-            margin-bottom: 10px !important;
+          .hero-headline {
+            animation-delay: 0.08s;
           }
-          .hero-variant-2 .hero-subtitle {
-            font-size: 13.5px !important;
-            line-height: 1.5 !important;
-            max-width: 340px !important;
+          .hero-subtitle {
+            animation-delay: 0.16s;
           }
-          .hero-variant-2 .hero-cta-wrapper {
-            margin-top: clamp(14px, 2.5vh, 20px) !important;
-            gap: 10px !important;
+          .hero-cta-wrapper {
+            animation-delay: 0.24s;
           }
-          .hero-variant-2 .hero-cta-btn {
-            max-width: 250px !important;
-            padding: 10px 18px !important;
-            font-size: 14px !important;
-            box-shadow: 0 10px 26px rgba(222, 186, 136, 0.28) !important;
-          }
-          .hero-variant-2 .hero-stats-container {
-            margin-top: auto !important;
-            padding-bottom: 4px !important;
+          .hero-stats-container {
+            animation-delay: 0.32s;
           }
         }
-
-        /* -------------------------------------------------------- */
-        /* VARIANT 3: Dual Inline Horizontal CTAs                   */
-        /* -------------------------------------------------------- */
-        @media (max-width: 768px) {
-          .hero-variant-3.hero-section {
-            justify-content: flex-end !important;
-            padding-bottom: clamp(10px, 1.6vh, 16px) !important;
+        @keyframes heroUp {
+          from {
+            opacity: 0;
+            transform: translateY(14px);
           }
-          .hero-variant-3 .hero-headline {
-            font-size: clamp(26px, 7vw, 31px) !important;
-            margin-bottom: 8px !important;
-          }
-          .hero-variant-3 .hero-cta-wrapper {
-            flex-direction: row !important;
-            align-items: center !important;
-            justify-content: flex-start !important;
-            gap: 8px !important;
-            width: 100% !important;
-            max-width: 340px !important;
-            margin-top: clamp(12px, 2vh, 16px) !important;
-          }
-          .hero-variant-3 .hero-cta-btn {
-            flex: 1 !important;
-            max-width: none !important;
-            padding: 10px 10px !important;
-            font-size: 12.5px !important;
-            white-space: nowrap !important;
-            gap: 5px !important;
-          }
-          .hero-variant-3 .hero-cta-btn span {
-            font-size: 12.5px !important;
-          }
-          .hero-variant-3 .hero-stats-container {
-            margin-top: clamp(16px, 2.8vh, 22px) !important;
-          }
-        }
-
-        /* -------------------------------------------------------- */
-        /* VARIANT 4: Editorial Luxury Glass with Gold Accents     */
-        /* -------------------------------------------------------- */
-        @media (max-width: 768px) {
-          .hero-variant-4.hero-section {
-            justify-content: flex-end !important;
-            padding-bottom: clamp(8px, 1.4vh, 14px) !important;
-          }
-          .hero-variant-4 .hero-eyebrow {
-            color: #F7DAA5 !important;
-            letter-spacing: 0.26em !important;
-            font-size: 10.5px !important;
-            margin-bottom: 6px !important;
-          }
-          .hero-variant-4 .hero-headline {
-            font-size: clamp(26px, 7.2vw, 32px) !important;
-            letter-spacing: -0.01em !important;
-          }
-          .hero-variant-4 .hero-headline-line2 {
-            color: #E5C696 !important;
-            text-shadow: 0 0 20px rgba(229, 198, 150, 0.3) !important;
-          }
-          .hero-variant-4 .hero-cta-primary {
-            background: linear-gradient(135deg, #DEBA88 0%, #C5A880 100%) !important;
-            border: 1.5px solid #DEBA88 !important;
-            box-shadow: 0 10px 28px rgba(222, 186, 136, 0.4) !important;
-          }
-          .hero-variant-4 .hero-cta-secondary {
-            background: rgba(14, 22, 18, 0.6) !important;
-            border: 1.5px solid rgba(222, 186, 136, 0.6) !important;
-            backdrop-filter: blur(12px) !important;
-            -webkit-backdrop-filter: blur(12px) !important;
-          }
-          .hero-variant-4 .hero-floating-stats-grid {
-            border: 1.5px solid rgba(222, 186, 136, 0.45) !important;
-            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
-          }
-          .hero-variant-4 .hero-stat-val {
-            color: #DEBA88 !important;
-            text-shadow: 0 0 16px rgba(222, 186, 136, 0.35) !important;
-          }
-          .hero-variant-4 .hero-scroll-text {
-            color: #F7DAA5 !important;
-          }
-          .hero-variant-4 .hero-scroll-mouse {
-            border-color: rgba(222, 186, 136, 0.7) !important;
+          to {
+            opacity: 1;
+            transform: none;
           }
         }
       `}</style>

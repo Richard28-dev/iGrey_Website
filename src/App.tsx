@@ -17,6 +17,7 @@ import { Toast } from './components/Toast';
 import { IntroLoader } from './components/IntroLoader';
 import { ScrollProgress } from './components/ScrollProgress';
 import { BackToTop } from './components/BackToTop';
+import { AllPropertiesPage } from './components/AllPropertiesPage';
 import { AdminApp } from './admin/AdminApp';
 import { propertyService } from './admin/services/propertyService';
 import type { AdminProperty } from './admin/types';
@@ -24,6 +25,7 @@ import type { AdminProperty } from './admin/types';
 type AppRoute =
   | { type: 'admin' }
   | { type: 'property-details'; propertyId: string }
+  | { type: 'properties' }
   | { type: 'public' };
 
 function parseCurrentAppRoute(): AppRoute {
@@ -40,6 +42,17 @@ function parseCurrentAppRoute(): AppRoute {
   const propMatch = pathname.match(/properties\/([a-zA-Z0-9_-]+)/i);
   if (propMatch && propMatch[1]) {
     return { type: 'property-details', propertyId: propMatch[1] };
+  }
+
+  // Dedicated "All Properties" page route: /properties, /properties/, /properties.html, or hash #/properties
+  if (
+    pathname === '/properties' ||
+    pathname === '/properties/' ||
+    pathname.endsWith('/properties.html') ||
+    hash === '#/properties' ||
+    hash.startsWith('#/properties?')
+  ) {
+    return { type: 'properties' };
   }
 
   return { type: 'public' };
@@ -214,7 +227,27 @@ export function App() {
     );
   }
 
-  // 3. Main Public Website
+  // 3. Dedicated All Properties View
+  if (currentRoute.type === 'properties') {
+    return (
+      <div style={{ backgroundColor: 'var(--prop-bg, #070d0b)', minHeight: '100vh', position: 'relative' }}>
+        <Header />
+        <main style={{ paddingTop: '80px' }}>
+          <AllPropertiesPage onSelectProperty={handleSelectProperty} />
+        </main>
+        <Footer />
+        <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
+        <BackToTop />
+        <PropertyDetailsModal
+          isOpen={Boolean(modalProperty)}
+          property={modalProperty}
+          onClose={handleCloseModal}
+        />
+      </div>
+    );
+  }
+
+  // 4. Main Public Website
   return (
     <div style={{ backgroundColor: 'var(--ink)', minHeight: '100vh', position: 'relative' }}>
       {/* Luxury Hairline Top Scroll Progress Indicator */}

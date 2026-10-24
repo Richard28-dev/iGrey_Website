@@ -1,414 +1,287 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Heart, ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState, useRef, useMemo, useCallback } from 'react';
+import { MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
 import type { PropertyListing } from '../data/propertiesData';
 
 const DARK_PLACEHOLDER_SVG =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 500' width='800' height='500'%3E%3Crect width='100%25' height='100%25' fill='%230D1513'/%3E%3Crect x='20' y='20' width='760' height='460' rx='16' fill='none' stroke='%231F2B27' stroke-width='2'/%3E%3Cpath d='M360 210h80v80h-80z' fill='%23DEB686' opacity='0.25'/%3E%3Ctext x='50%25' y='52%25' font-family='sans-serif' font-size='18' fill='%23A3AEA9' text-anchor='middle'%3EiGREY HOLDINGS PROPERTY%3C/text%3E%3C/svg%3E";
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 500' width='800' height='500'%3E%3Crect width='100%25' height='100%25' fill='%23070D0B'/%3E%3Crect x='20' y='20' width='760' height='460' rx='14' fill='none' stroke='%2326332E' stroke-width='2'/%3E%3Ctext x='50%25' y='52%25' font-family='sans-serif' font-weight='600' font-size='18' fill='%239AA39E' text-anchor='middle'%3EiGREY HOLDINGS%3C/text%3E%3C/svg%3E";
 
 export interface PropertyCardProps {
   property: PropertyListing;
   index?: number;
   onSelect?: (property: PropertyListing) => void;
   onEnquire?: (property: PropertyListing) => void;
-  onScheduleVisit?: (property: PropertyListing) => void;
 }
 
 export const PropertyCard: React.FC<PropertyCardProps> = ({
   property,
-  index = 0,
   onSelect,
   onEnquire,
-  onScheduleVisit,
 }) => {
-  const [currentIdx, setCurrentIdx] = useState(0);
-  const [isFavorite, setIsFavorite] = useState(false);
-  const touchStartX = useRef<number | null>(null);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const isScrollingProgrammatically = useRef(false);
 
   const images = property.images && property.images.length > 0 ? property.images : [DARK_PLACEHOLDER_SVG];
   const total = images.length;
-  const safeIdx = ((currentIdx % total) + total) % total;
 
-  // Sync wishlist from localStorage
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem('igrey_wishlist');
-      if (stored) {
-        const list = JSON.parse(stored);
-        if (Array.isArray(list) && list.includes(property.id)) {
-          setIsFavorite(true);
-        }
-      }
-    } catch {
-      // ignore
+  // Sync active slide index with native track scroll
+  const handleScroll = useCallback(() => {
+    if (isScrollingProgrammatically.current) return;
+    const track = trackRef.current;
+    if (!track) return;
+    const scrollLeft = track.scrollLeft;
+    const width = track.clientWidth || 1;
+    const newIdx = Math.round(scrollLeft / width);
+    if (newIdx >= 0 && newIdx < total && newIdx !== activeSlide) {
+      setActiveSlide(newIdx);
     }
-  }, [property.id]);
+  }, [total, activeSlide]);
 
-  const toggleFavorite = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsFavorite((prev) => {
-      const next = !prev;
-      try {
-        const stored = localStorage.getItem('igrey_wishlist');
-        let list: string[] = stored ? JSON.parse(stored) : [];
-        if (!Array.isArray(list)) list = [];
-        if (next) {
-          if (!list.includes(property.id)) list.push(property.id);
-        } else {
-          list = list.filter((id) => id !== property.id);
-        }
-        localStorage.setItem('igrey_wishlist', JSON.stringify(list));
-      } catch {
-        // ignore
-      }
-      return next;
-    });
-  };
+  const scrollToSlide = useCallback((index: number) => {
+    const track = trackRef.current;
+    if (!track) return;
+    const targetIdx = ((index % total) + total) % total;
+    isScrollingProgrammatically.current = true;
+    const targetLeft = targetIdx * track.clientWidth;
+    track.scrollTo({ left: targetLeft, behavior: 'smooth' });
+    setActiveSlide(targetIdx);
+    setTimeout(() => {
+      isScrollingProgrammatically.current = false;
+    }, 350);
+  }, [total]);
 
   const handlePrev = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setCurrentIdx((prev) => (prev - 1 + total) % total);
+    scrollToSlide(activeSlide - 1);
   };
 
   const handleNext = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setCurrentIdx((prev) => (prev + 1) % total);
+    scrollToSlide(activeSlide + 1);
   };
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX.current === null) return;
-    const diffX = e.changedTouches[0].clientX - touchStartX.current;
-    if (diffX > 40) {
-      handlePrev(e);
-    } else if (diffX < -40) {
-      handleNext(e);
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      e.stopPropagation();
+      scrollToSlide(activeSlide - 1);
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      e.stopPropagation();
+      scrollToSlide(activeSlide + 1);
     }
-    touchStartX.current = null;
   };
 
-  // Status badge styling
-  const statusLower = (property.status || 'Available').toLowerCase();
-  let statusClass = 'status-available';
-  let statusText = 'Available';
+  // Status Badge Determination
+  // Available #278d65, Under Offer #d97706, Upcoming #2f5fd0, Sold #6b7280
+  const statusLower = (property.status || 'available').toLowerCase();
+  let statusText = 'AVAILABLE';
+  let statusBg = '#278d65';
 
-  if (statusLower.includes('sold') || statusLower.includes('rented') || statusLower.includes('leased')) {
-    statusClass = 'status-closed';
-    statusText = property.status;
-  } else if (statusLower.includes('offer')) {
-    statusClass = 'status-under-offer';
-    statusText = 'Under Offer';
+  if (statusLower.includes('offer')) {
+    statusText = 'UNDER OFFER';
+    statusBg = '#d97706';
   } else if (statusLower.includes('upcoming')) {
-    statusClass = 'status-upcoming';
-    statusText = 'Upcoming';
+    statusText = 'UPCOMING';
+    statusBg = '#2f5fd0';
+  } else if (statusLower.includes('sold') || statusLower.includes('closed') || statusLower.includes('leased')) {
+    statusText = 'SOLD';
+    statusBg = '#6b7280';
   } else {
-    statusClass = 'status-available';
-    statusText = 'Available';
+    statusText = 'AVAILABLE';
+    statusBg = '#278d65';
   }
 
-  // Listing type badge label
+  // Listing Type: "For Sale" | "For Rent" | "For Lease"
   let listingTypeLabel = 'For Sale';
-  if (property.listingType === 'rent') listingTypeLabel = 'For Rent';
-  if (property.listingType === 'lease') listingTypeLabel = 'For Lease';
+  if (property.listingType === 'rent') {
+    listingTypeLabel = 'For Rent';
+  } else if (property.listingType === 'lease') {
+    listingTypeLabel = 'For Lease';
+  } else {
+    listingTypeLabel = 'For Sale';
+  }
 
-  // Action handlers prefilling enquiry form
-  const handleEnquireClick = (e: React.MouseEvent) => {
+  // Category and specs row: e.g. "EXECUTIVE VILLA • 4 BHK"
+  const categoryRow = useMemo(() => {
+    const cat = (property.category || property.propertyType || '').toUpperCase();
+    if (property.bhk && property.bhk > 0) {
+      return `${cat} • ${property.bhk} BHK`;
+    }
+    return cat;
+  }, [property.category, property.propertyType, property.bhk]);
+
+  // Pricing display
+  const isRentOrLease = property.listingType === 'rent' || property.listingType === 'lease';
+  const displayPrice = property.price || 'Price on Request';
+  const priceSuffix = isRentOrLease ? (property.priceSuffix || '/mo') : '';
+
+  // Deposit or Lease note: e.g. "Deposit: ₹6.0 L" or "Lease: ₹12.0 L (2-3 Yrs)"
+  const noteText = property.note ? `• ${property.note}` : '';
+  const isLongNote = noteText.length > 22;
+
+  const handleInquireClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     if (onEnquire) {
       onEnquire(property);
     } else {
-      const role = property.listingType === 'sale' ? 'Looking for Buy' : 'Tenant / Looking for Stay';
-      const detail = {
-        message: `I am interested in acquiring/leasing ${property.title} (ID: ${property.id}) located at ${property.location}. Please share comprehensive details, financial terms, and availability.`,
-        role,
-        propertyCode: property.id,
-        propertyId: property.id,
-      };
-      window.dispatchEvent(new CustomEvent('igrey_prefill_contact', { detail }));
-      const contactEl = document.getElementById('contact');
-      if (contactEl) {
-        contactEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }
-  };
-
-  const handleScheduleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (onScheduleVisit) {
-      onScheduleVisit(property);
-    } else {
-      const role = property.listingType === 'sale' ? 'Looking for Buy' : 'Tenant / Looking for Stay';
-      const detail = {
-        message: `I would like to schedule a private walkthrough visit for ${property.title} (ID: ${property.id}) located at ${property.location}. Please contact me with available inspection slots.`,
-        role,
-        propertyCode: property.id,
-        propertyId: property.id,
-      };
-      window.dispatchEvent(new CustomEvent('igrey_prefill_contact', { detail }));
-      const contactEl = document.getElementById('contact');
-      if (contactEl) {
-        contactEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      window.dispatchEvent(
+        new CustomEvent('igrey_inquire_property', { detail: { property } })
+      );
     }
   };
 
   return (
-    <motion.article
-      className="property-card"
+    <article
+      className="prop-card"
       tabIndex={0}
       role="region"
       aria-label={`${property.title} - ${listingTypeLabel}`}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
       onClick={() => onSelect && onSelect(property)}
       style={{ cursor: onSelect ? 'pointer' : 'default' }}
     >
-      {/* Media Box with Image Carousel */}
-      <div
-        className="property-card-media"
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-      >
-        <img
-          src={images[safeIdx]}
-          alt={`${property.title} - ${property.type} view ${safeIdx + 1} of ${total}`}
-          className="property-card-img"
-          loading="lazy"
-          decoding="async"
-          onError={(e) => {
-            const target = e.currentTarget;
-            if (target.src !== DARK_PLACEHOLDER_SVG) {
-              target.onerror = null;
-              target.src = DARK_PLACEHOLDER_SVG;
-            }
-          }}
-        />
+      {/* 16:10 Photo Carousel with Native Scroll-Snap */}
+      <div className="prop-card-media-wrap">
+        <div
+          ref={trackRef}
+          className="prop-carousel-track"
+          tabIndex={0}
+          onScroll={handleScroll}
+          onKeyDown={handleKeyDown}
+          aria-label={`Photos of ${property.title}. Use arrow keys to navigate.`}
+        >
+          {images.map((imgUrl, idx) => (
+            <div key={idx} className="prop-carousel-slide">
+              <img
+                src={imgUrl}
+                alt={`${property.title} - Photo ${idx + 1} of ${total}`}
+                className="prop-carousel-img"
+                loading={idx === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (target.src !== DARK_PLACEHOLDER_SVG) {
+                    target.onerror = null;
+                    target.src = DARK_PLACEHOLDER_SVG;
+                  }
+                }}
+              />
+            </div>
+          ))}
+        </div>
 
-        {/* Status Badge: Solid high-contrast badge (no dot) */}
-        <span className={`card-badge-status ${statusClass}`} aria-label={`Status: ${statusText}`}>
+        {/* Top-Left Status Badge (uppercase, white text, radius 6px) */}
+        <span
+          className="prop-badge-status"
+          style={{ backgroundColor: statusBg }}
+          aria-label={`Status: ${statusText}`}
+        >
           {statusText}
         </span>
 
-        {/* Listing Type Badge */}
-        <span className="card-badge-listing-type" style={{ right: '58px' }}>
+        {/* Top-Right Listing Type Badge (Dark pill #111514, 1px border) */}
+        <span
+          className="prop-badge-type"
+          aria-label={`Listing type: ${listingTypeLabel}`}
+        >
           {listingTypeLabel}
         </span>
 
-        {/* Wishlist Heart Button (Top-Right) */}
-        <button
-          type="button"
-          onClick={toggleFavorite}
-          aria-label={isFavorite ? `Remove ${property.title} from wishlist` : `Save ${property.title} to wishlist`}
-          style={{
-            position: 'absolute',
-            top: '12px',
-            right: '12px',
-            width: '34px',
-            height: '34px',
-            borderRadius: '50%',
-            backgroundColor: 'rgba(13, 21, 19, 0.75)',
-            backdropFilter: 'blur(6px)',
-            WebkitBackdropFilter: 'blur(6px)',
-            border: '1px solid rgba(255, 255, 255, 0.18)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            zIndex: 30,
-            transition: 'all 0.25s ease',
-            color: isFavorite ? '#E11D48' : '#FFFFFF',
-            outline: 'none',
-          }}
-          className="property-favorite-btn"
-        >
-          <Heart
-            size={16}
-            color={isFavorite ? '#E11D48' : '#FFFFFF'}
-            fill={isFavorite ? '#E11D48' : 'none'}
-            strokeWidth={2}
-          />
-        </button>
-
-        {/* Carousel Navigation Arrows */}
+        {/* Desktop Hover Arrows (‹ ›, looping) */}
         {total > 1 && (
           <>
             <button
               type="button"
+              className="prop-carousel-arrow prop-arrow-prev"
               onClick={handlePrev}
-              aria-label="Previous image"
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '10px',
-                transform: 'translateY(-50%)',
-                width: '32px',
-                height: '32px',
-                borderRadius: '50%',
-                backgroundColor: 'rgba(10, 15, 14, 0.7)',
-                backdropFilter: 'blur(4px)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                color: '#FFFFFF',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                zIndex: 25,
-                transition: 'background-color 0.2s ease',
-              }}
+              aria-label="Previous photo"
             >
-              <ChevronLeft size={16} />
+              <ChevronLeft size={16} strokeWidth={2.4} aria-hidden="true" />
             </button>
             <button
               type="button"
+              className="prop-carousel-arrow prop-arrow-next"
               onClick={handleNext}
-              aria-label="Next image"
-              style={{
-                position: 'absolute',
-                top: '50%',
-                right: '10px',
-                transform: 'translateY(-50%)',
-                width: '32px',
-                height: '32px',
-                borderRadius: '50%',
-                backgroundColor: 'rgba(10, 15, 14, 0.7)',
-                backdropFilter: 'blur(4px)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                color: '#FFFFFF',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                zIndex: 25,
-                transition: 'background-color 0.2s ease',
-              }}
+              aria-label="Next photo"
             >
-              <ChevronRight size={16} />
+              <ChevronRight size={16} strokeWidth={2.4} aria-hidden="true" />
             </button>
-          </>
-        )}
 
-        {/* Photo Index Counter */}
-        {total > 1 && (
-          <div
-            style={{
-              position: 'absolute',
-              bottom: '10px',
-              right: '12px',
-              backgroundColor: 'rgba(10, 15, 14, 0.75)',
-              backdropFilter: 'blur(4px)',
-              border: '1px solid rgba(255, 255, 255, 0.15)',
-              borderRadius: '999px',
-              padding: '2px 8px',
-              fontSize: '10.5px',
-              fontFamily: "'Inter', var(--font-sans)",
-              color: '#FAF8F4',
-              zIndex: 20,
-              pointerEvents: 'none',
-              letterSpacing: '0.04em',
-            }}
-          >
-            {safeIdx + 1} / {total}
-          </div>
+            {/* Bottom-Center Dots */}
+            <div className="prop-carousel-dots" role="tablist" aria-label="Photo pagination">
+              {images.map((_, dotIdx) => (
+                <button
+                  key={dotIdx}
+                  type="button"
+                  className={`prop-carousel-dot ${dotIdx === activeSlide ? 'active' : ''}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    scrollToSlide(dotIdx);
+                  }}
+                  aria-label={`Go to photo ${dotIdx + 1}`}
+                  aria-selected={dotIdx === activeSlide}
+                  role="tab"
+                />
+              ))}
+            </div>
+
+            {/* Bottom-Right "1 / N" Counter */}
+            <div className="prop-carousel-counter" aria-live="polite">
+              {activeSlide + 1} / {total}
+            </div>
+          </>
         )}
       </div>
 
       {/* Card Body */}
-      <div className="property-card-body">
-        {/* Type Tag */}
-        <div className="property-type-tag">{property.type}</div>
+      <div className="prop-card-body">
+        {/* Category Row: "EXECUTIVE VILLA • 4 BHK" (bold, uppercase, small) */}
+        <div className="prop-category-row">{categoryRow}</div>
 
-        {/* Title */}
-        <h3 className="property-card-title">{property.title}</h3>
+        {/* Bold Sans Title */}
+        <h3 className="prop-card-title">{property.title}</h3>
 
-        {/* Location & ID */}
-        <div className="property-card-location">
-          <div className="location-inner">
-            <span className="location-diamond" aria-hidden="true">✦</span>
-            <span>{property.location}</span>
+        {/* Location Row with Pin Icon and ID Chip ("• ID: IGH-RES-01") */}
+        <div className="prop-location-row">
+          <div className="prop-location-inner">
+            <MapPin size={14} className="prop-pin-icon" aria-hidden="true" />
+            <span className="prop-location-text">{property.location}</span>
           </div>
-          <span className="property-id-pill">ID: {property.id}</span>
+          <span className="prop-id-chip">• ID: {property.id}</span>
         </div>
 
-        {/* Key Specifications Chips */}
-        {property.keySpecs && property.keySpecs.length > 0 && (
-          <ul className="property-specs-list" aria-label="Key specifications">
-            {property.keySpecs.slice(0, 4).map((spec, sIdx) => (
-              <li key={`spec-${property.id}-${sIdx}`} className="property-spec-chip">
-                {spec}
-              </li>
-            ))}
-          </ul>
-        )}
+        {/* Divider directly above footer */}
+        <div className="prop-card-divider" />
 
-        {/* Pricing Block: Sale listings show sale price; Rent/Lease show rent & lease specs. NEVER show sale price on rent/lease */}
-        <div className="property-pricing-box">
-          {property.listingType === 'sale' ? (
-            <div className="sale-pricing-wrap">
-              <span className="pricing-label">Guide Price</span>
-              <span className="pricing-figure-sale">{property.salePrice || 'Price on Request'}</span>
+        {/* Pinned Footer with Bold Price & Outlined Inquire Button */}
+        <div className="prop-card-footer">
+          <div className="prop-price-box">
+            <div className="prop-price-main-line">
+              <span className="prop-price-val">{displayPrice}</span>
+              {priceSuffix && <span className="prop-price-suffix">{priceSuffix}</span>}
+              {noteText && !isLongNote && (
+                <span className="prop-note-inline">{noteText}</span>
+              )}
             </div>
-          ) : (
-            <div className="rent-pricing-wrap">
-              <div className="rent-main-row">
-                <span className="pricing-label">Monthly Rent</span>
-                <div>
-                  <span className="pricing-figure-rent">{property.monthlyRent || 'Rent on Request'}</span>
-                </div>
-              </div>
-              <div className="rent-specs-grid">
-                <div className="rent-spec-item">
-                  <span className="lbl">Deposit:</span>
-                  <span className="val">{property.securityDeposit || 'N/A'}</span>
-                </div>
-                <div className="rent-spec-item">
-                  <span className="lbl">Tenure:</span>
-                  <span className="val">{property.leaseTenure || 'Flexible'}</span>
-                </div>
-                {property.maintenanceCharges && (
-                  <div className="rent-spec-item">
-                    <span className="lbl">Maint:</span>
-                    <span className="val">{property.maintenanceCharges}</span>
-                  </div>
-                )}
-                <div className="rent-spec-item">
-                  <span className="lbl">Available:</span>
-                  <span className="val">{property.availabilityDate || 'Immediate'}</span>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
+            {noteText && isLongNote && (
+              <div className="prop-note-wrap">{noteText}</div>
+            )}
+          </div>
 
-        {/* Dual Actions: Enquire Now & Schedule a Visit */}
-        <div className="property-card-actions">
           <button
             type="button"
-            className="btn-primary-gold card-action-btn"
-            onClick={handleEnquireClick}
-            aria-label={`Enquire now about ${property.title}`}
+            className="prop-inquire-btn"
+            onClick={handleInquireClick}
+            aria-label={`Inquire about ${property.title}`}
           >
-            Enquire Now
-          </button>
-          <button
-            type="button"
-            className="btn-secondary-outline card-action-btn"
-            onClick={handleScheduleClick}
-            aria-label={`Schedule a visit for ${property.title}`}
-          >
-            Schedule a Visit
+            Inquire
           </button>
         </div>
       </div>
-    </motion.article>
+    </article>
   );
 };

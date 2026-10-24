@@ -21,45 +21,87 @@ export const Header: React.FC<HeaderProps> = ({ onScheduleClick }) => {
       setScrolled(window.scrollY > 40);
 
       const sectionIds = ['hero', 'about', 'services', 'properties', 'reviews', 'faq', 'contact'];
+      const triggerPoint = 160;
+
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 80) {
+        setActiveSection('contact');
+        return;
+      }
+
+      if (window.scrollY < 100) {
+        setActiveSection('hero');
+        return;
+      }
+
+      let current = '';
       for (const id of sectionIds) {
         const el = document.getElementById(id);
         if (el) {
           const rect = el.getBoundingClientRect();
-          if (rect.top <= 200 && rect.bottom >= 200) {
-            setActiveSection(id);
+          if (rect.top <= triggerPoint && rect.bottom > triggerPoint) {
+            current = id;
             break;
           }
         }
       }
+
+      if (!current) {
+        let minDiff = Infinity;
+        for (const id of sectionIds) {
+          const el = document.getElementById(id);
+          if (el) {
+            const rect = el.getBoundingClientRect();
+            if (rect.bottom > 0 && rect.top < window.innerHeight) {
+              const diff = Math.abs(rect.top - triggerPoint);
+              if (diff < minDiff) {
+                minDiff = diff;
+                current = id;
+              }
+            }
+          }
+        }
+      }
+
+      if (current) {
+        setActiveSection(current);
+      }
     };
 
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
   }, []);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href.endsWith('.html') || !href.startsWith('#')) {
+    if (href.endsWith('.html') && !href.startsWith('#')) {
       setMobileMenuOpen(false);
       return;
     }
     e.preventDefault();
     setMobileMenuOpen(false);
-    const targetEl = document.querySelector(href);
+    const targetSelector = href.startsWith('#') ? href : `#${href}`;
+    const targetEl = document.querySelector(targetSelector);
     if (targetEl) {
-      scrollToTarget(href, { offset: -40, duration: 1.25 });
+      const sectionKey = targetSelector.replace('#', '');
+      setActiveSection(sectionKey);
+      scrollToTarget(targetSelector, { offset: -40, duration: 1.25 });
     } else {
       // Navigating from a sub-route like Property Details back to homepage section
       const basePath = import.meta.env.BASE_URL || '/';
       const cleanBase = basePath.endsWith('/') ? basePath.slice(0, -1) : basePath;
       try {
-        window.history.pushState({}, '', `${cleanBase}/${href}`);
+        window.history.pushState({}, '', `${cleanBase}/${targetSelector}`);
       } catch {
         // ignore
       }
-      window.location.hash = href;
+      window.location.hash = targetSelector;
       window.dispatchEvent(new PopStateEvent('popstate'));
       setTimeout(() => {
-        scrollToTarget(href, { offset: -40, duration: 1.0 });
+        scrollToTarget(targetSelector, { offset: -40, duration: 1.0 });
       }, 100);
     }
   };
@@ -76,7 +118,7 @@ export const Header: React.FC<HeaderProps> = ({ onScheduleClick }) => {
   return (
     <>
       <header
-        className="main-header"
+        className={`main-header ${scrolled ? 'scrolled-header' : 'header-top'}`}
         style={{
           position: 'fixed',
           top: 0,
@@ -132,7 +174,13 @@ export const Header: React.FC<HeaderProps> = ({ onScheduleClick }) => {
             className="header-desktop-nav"
           >
             {navLinks.map((link) => {
-              const isActive = activeSection === link.href.replace('#', '') || (link.label === 'Home' && activeSection === 'hero');
+              const linkKey = link.href.replace('#', '').toLowerCase();
+              const isProperties = link.label.toLowerCase() === 'properties' || linkKey.includes('properties');
+              const isActive =
+                activeSection === linkKey ||
+                (link.label === 'Home' && activeSection === 'hero') ||
+                (isProperties && activeSection === 'properties') ||
+                link.label.toLowerCase() === activeSection.toLowerCase();
               return (
                 <a
                   key={link.label}
@@ -307,6 +355,10 @@ export const Header: React.FC<HeaderProps> = ({ onScheduleClick }) => {
         @media (max-width: 768px) {
           .main-header {
             padding: 1.15rem 0 !important;
+          }
+          .main-header.header-top {
+            background: linear-gradient(to bottom, rgba(11,15,14,.7), transparent) !important;
+            border-bottom-color: transparent !important;
           }
         }
       `}</style>
