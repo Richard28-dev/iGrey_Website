@@ -67,16 +67,26 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
     }
   };
 
-  const getMobileStatLabel = (idx: number, originalLabel: string) => {
+  const renderMobileStatLabel = (idx: number, originalLabel: string) => {
     switch (idx) {
       case 0:
-        return 'Happy Customers';
+        return <span className="hero-stat-lbl-line">Happy Customers</span>;
       case 1:
-        return 'Completed Projects';
+        return <span className="hero-stat-lbl-line">Completed Projects</span>;
       case 2:
-        return 'On-Time Payouts';
+        return (
+          <>
+            <span className="hero-stat-lbl-line">On-Time</span>
+            <span className="hero-stat-lbl-line">Rent Payouts</span>
+          </>
+        );
       case 3:
-        return 'Verified KYC';
+        return (
+          <>
+            <span className="hero-stat-lbl-line">Verified Background</span>
+            <span className="hero-stat-lbl-line">and KYC</span>
+          </>
+        );
       default:
         return originalLabel;
     }
@@ -86,23 +96,22 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
     if (label.toLowerCase().includes('on-time')) {
       return (
         <span className="hero-stat-lbl-nowrap" style={{ whiteSpace: 'nowrap' }}>
-          {label}
+          On-Time Rent Payouts
         </span>
       );
     }
     if (label.toLowerCase().includes('completed projects')) {
       return (
         <span className="hero-stat-lbl-nowrap" style={{ whiteSpace: 'nowrap' }}>
-          {label}
+          Completed Projects
         </span>
       );
     }
     if (label.toLowerCase().includes('verified background')) {
       return (
-        <>
-          <span className="hero-stat-lbl-line">Verified Background</span>{' '}
-          <span className="hero-stat-lbl-line">and KYC</span>
-        </>
+        <span className="hero-stat-lbl-nowrap" style={{ whiteSpace: 'nowrap' }}>
+          Verified Background and KYC
+        </span>
       );
     }
     return label;
@@ -344,7 +353,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
               }}
             >
               <span>Explore Properties</span>
-              <ArrowRight size={18} color="#121614" strokeWidth={2.2} />
+              <ArrowRight size={18} className="hero-cta-arrow" color="#121614" strokeWidth={2.2} />
             </button>
 
             <button
@@ -369,31 +378,24 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                 boxSizing: 'border-box',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#DEBA88';
-                e.currentTarget.style.color = '#1A1408';
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 14px 34px rgba(222, 186, 136, 0.35)';
+                if (window.innerWidth > 768) {
+                  e.currentTarget.style.backgroundColor = '#DEBA88';
+                  e.currentTarget.style.color = '#1A1408';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 14px 34px rgba(222, 186, 136, 0.35)';
+                }
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(8, 13, 12, 0.45)';
-                e.currentTarget.style.color = '#F3EBDC';
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 10px 28px rgba(0, 0, 0, 0.25)';
+                if (window.innerWidth > 768) {
+                  e.currentTarget.style.backgroundColor = 'rgba(8, 13, 12, 0.45)';
+                  e.currentTarget.style.color = '#F3EBDC';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 10px 28px rgba(0, 0, 0, 0.25)';
+                }
               }}
             >
               <span>Explore Our Services</span>
             </button>
-
-            <a
-              href="#services"
-              onClick={(e) => {
-                e.preventDefault();
-                handleServicesClick();
-              }}
-              className="hero-mobile-services-link"
-            >
-              Explore Our Services →
-            </a>
           </motion.div>
         </div>
       </div>
@@ -501,7 +503,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
                     }}
                   >
                     <span className="hero-stat-lbl-desktop">{renderStatLabel(st.label)}</span>
-                    <span className="hero-stat-lbl-mobile">{getMobileStatLabel(idx, st.label)}</span>
+                    <span className="hero-stat-lbl-mobile">{renderMobileStatLabel(idx, st.label)}</span>
                   </div>
 
                   {/* Stat Sublabel (only if provided) */}
@@ -566,9 +568,12 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           .hero-photo-top-gradient,
           .hero-photo-bottom-gradient,
           .hero-desc-mobile,
-          .hero-mobile-services-link,
           .hero-stat-lbl-mobile {
             display: none !important;
+          }
+          .hero-stat-lbl-desktop {
+            display: inline !important;
+            white-space: nowrap !important;
           }
         }
 
@@ -752,11 +757,9 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           .hero-mobile-scrim,
           .hero-desc-desktop,
           .hero-stat-lbl-desktop,
-          .hero-cta-secondary,
           .hero-scroll-indicator,
           .hero-p-break,
           .hero-stat-sub,
-          .hero-stat-icon-wrapper,
           .hero-stat-cell-0::after,
           .hero-stat-cell-1::after,
           .hero-stat-cell-2::after {
@@ -787,7 +790,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             width: 100% !important;
             height: 38svh !important;
             min-height: 240px !important;
-            max-height: 320px !important;
+            max-height: 310px !important;
             flex-shrink: 0 !important;
             overflow: hidden !important;
             z-index: 1 !important;
@@ -917,74 +920,120 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             display: inline !important;
           }
 
-          /* Section D: Actions */
+          /* D (update): Actions (mobile only, 2 full-width buttons stacked with 12px gap) */
           .hero-cta-wrapper {
             display: flex !important;
             flex-direction: column !important;
             align-items: stretch !important;
             width: 100% !important;
-            gap: 0 !important;
+            gap: 12px !important;
             margin: 0 !important;
             padding: 0 !important;
           }
-          /* One full-width primary button: background #d9b17f, text #1a1208, 54px high, radius 12px, font-weight 600 */
+
+          /* 1) Primary: "Explore Properties →" */
           .hero-cta-primary {
             width: 100% !important;
-            height: 54px !important;
-            min-height: 54px !important;
-            background-color: #d9b17f !important;
-            background: #d9b17f !important;
-            color: #1a1208 !important;
-            border-radius: 12px !important;
-            font-weight: 600 !important;
-            font-size: 15.5px !important;
+            height: 56px !important;
+            min-height: 56px !important;
+            border-radius: 16px !important;
             border: none !important;
+            font-weight: 600 !important;
+            font-size: 16px !important;
+            color: #1a1208 !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             gap: 8px !important;
-            margin: 0 0 14px 0 !important;
+            background: linear-gradient(180deg, #ecce9e 0%, #c9a06b 100%) !important;
+            box-shadow: 0 10px 28px rgba(217, 177, 127, 0.35), inset 0 1px 0 rgba(255, 244, 222, 0.9) !important;
+            margin: 0 !important;
             padding: 0 20px !important;
-            box-shadow: none !important;
-            box-sizing: border-box !important;
-            text-decoration: none !important;
             cursor: pointer !important;
+            text-decoration: none !important;
+            box-sizing: border-box !important;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
           }
           .hero-cta-primary span {
             color: #1a1208 !important;
             font-weight: 600 !important;
+            font-size: 16px !important;
           }
+          .hero-cta-primary .hero-cta-arrow,
           .hero-cta-primary svg {
             color: #1a1208 !important;
             stroke: #1a1208 !important;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
           }
-          /* Centered text link: gold #c9a77c, 14px, 600 weight, 44px tap target */
-          .hero-mobile-services-link {
+          .hero-cta-primary:hover,
+          .hero-cta-primary:focus {
+            background: linear-gradient(180deg, #f1d7ad 0%, #d2a974 100%) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 14px 34px rgba(217, 177, 127, 0.45), inset 0 1px 0 rgba(255, 244, 222, 0.9) !important;
+          }
+          .hero-cta-primary:hover .hero-cta-arrow,
+          .hero-cta-primary:focus .hero-cta-arrow,
+          .hero-cta-primary:hover svg,
+          .hero-cta-primary:focus svg {
+            transform: translateX(4px) !important;
+          }
+          .hero-cta-primary:active {
+            transform: translateY(0) !important;
+            box-shadow: 0 6px 16px rgba(217, 177, 127, 0.3), inset 0 1px 0 rgba(255, 244, 222, 0.9) !important;
+          }
+          .hero-cta-primary:active .hero-cta-arrow,
+          .hero-cta-primary:active svg {
+            transform: translateX(0) !important;
+          }
+          .hero-cta-primary:focus-visible {
+            outline: 2px solid #f7daa5 !important;
+            outline-offset: 3px !important;
+          }
+
+          /* 2) Secondary: "Explore Our Services" (no arrow) */
+          .hero-cta-secondary {
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
-            color: #c9a77c !important;
-            font-size: 14px !important;
-            font-weight: 600 !important;
-            min-height: 44px !important;
-            height: 44px !important;
-            text-decoration: none !important;
-            text-align: center !important;
             width: 100% !important;
-            cursor: pointer !important;
+            height: 48px !important;
+            min-height: 48px !important;
+            border-radius: 16px !important;
             background: transparent !important;
-            border: none !important;
-            padding: 0 !important;
+            border: 1px solid #c9a77c !important;
+            color: #f4f1ea !important;
+            font-size: 15px !important;
+            font-weight: 600 !important;
             margin: 0 !important;
+            padding: 0 20px !important;
+            cursor: pointer !important;
+            text-decoration: none !important;
             box-sizing: border-box !important;
+            box-shadow: none !important;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
           }
-          .hero-mobile-services-link:hover,
-          .hero-mobile-services-link:focus {
-            color: #f7daa5 !important;
-            text-decoration: underline !important;
+          .hero-cta-secondary span {
+            color: #f4f1ea !important;
+            font-weight: 600 !important;
+            font-size: 15px !important;
+          }
+          .hero-cta-secondary:hover,
+          .hero-cta-secondary:focus {
+            background: rgba(201, 167, 124, 0.12) !important;
+            border-color: #e3c49a !important;
+            color: #f4f1ea !important;
+            transform: none !important;
+            box-shadow: none !important;
+          }
+          .hero-cta-secondary:active {
+            background: rgba(201, 167, 124, 0.2) !important;
+          }
+          .hero-cta-secondary:focus-visible {
+            outline: 2px solid #f7daa5 !important;
+            outline-offset: 3px !important;
           }
 
-          /* Section E: Stats Container & 2x2 Grid Card */
+          /* E (update): Stats Container & 2x2 Grid Card */
           .hero-stats-container {
             position: relative !important;
             z-index: 10 !important;
@@ -996,17 +1045,18 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             flex-shrink: 0 !important;
             box-sizing: border-box !important;
           }
-          /* 2 x 2 grid card, 1px border #2c3a34, radius 16px, background #0c1411, 1px dividers between cells */
+
+          /* 2 x 2 grid card (1px border #3a3326, radius 16px, background #0c1411, 1px dividers #2c3a34) */
           .hero-floating-stats-grid {
             width: 100% !important;
             max-width: 100% !important;
             box-sizing: border-box !important;
             display: grid !important;
             grid-template-columns: 1fr 1fr !important;
-            grid-auto-rows: 1fr !important;
+            grid-template-rows: auto auto !important;
             gap: 1px !important;
             background: #2c3a34 !important;
-            border: 1px solid #2c3a34 !important;
+            border: 1px solid #3a3326 !important;
             border-radius: 16px !important;
             overflow: hidden !important;
             padding: 0 !important;
@@ -1019,32 +1069,63 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
           .hero-floating-stats-grid::after {
             display: none !important;
           }
+
+          /* Each cell is a flex row with align-items: center */
           .hero-stat-pillar {
             display: flex !important;
-            flex-direction: column !important;
+            flex-direction: row !important;
             align-items: center !important;
-            justify-content: center !important;
-            text-align: center !important;
+            justify-content: flex-start !important;
+            text-align: left !important;
             background: #0c1411 !important;
-            padding: 12px 6px !important;
+            padding: 10px 10px !important;
             height: 100% !important;
-            min-height: 64px !important;
+            min-height: 58px !important;
             box-sizing: border-box !important;
             border-radius: 0 !important;
-            gap: 0 !important;
+            gap: 12px !important;
             user-select: none !important;
           }
           .hero-stat-pillar:hover {
             transform: none !important;
           }
+
+          /* 36 x 36px rounded icon square (radius 10px, background #101a16, 1px border #4a3f2c, gold 18px icon) */
+          .hero-stat-icon-wrapper {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 36px !important;
+            height: 36px !important;
+            min-width: 36px !important;
+            max-width: 36px !important;
+            border-radius: 10px !important;
+            background: #101a16 !important;
+            border: 1px solid #4a3f2c !important;
+            box-shadow: none !important;
+            margin-bottom: 0 !important;
+            margin-right: 0 !important;
+            flex-shrink: 0 !important;
+          }
+          .hero-stat-icon-wrapper svg {
+            width: 18px !important;
+            height: 18px !important;
+            color: #D4B280 !important;
+            stroke: #D4B280 !important;
+            stroke-width: 1.8 !important;
+          }
+
+          /* Text block (12px gap from icon, number above label, vertically centered) */
           .hero-stat-info {
             display: flex !important;
             flex-direction: column !important;
-            align-items: center !important;
+            align-items: flex-start !important;
             justify-content: center !important;
-            text-align: center !important;
-            width: 100% !important;
+            text-align: left !important;
+            min-width: 0 !important;
+            flex: 1 !important;
           }
+
           /* Number (19px, bold, white) */
           .hero-stat-val {
             font-family: var(--font-sans) !important;
@@ -1052,27 +1133,45 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             line-height: 1.15 !important;
             font-weight: 700 !important;
             color: #ffffff !important;
-            margin-bottom: 3px !important;
+            margin: 0 0 2px 0 !important;
             letter-spacing: -0.01em !important;
+            text-align: left !important;
           }
-          /* Label (11px, #a9b4b0, one line nowrap) */
+
+          /* Label (10.5px, #a9b4b0, line-height 1.25) */
           .hero-stat-lbl {
             font-family: var(--font-sans) !important;
-            font-size: 11px !important;
-            line-height: 1.2 !important;
+            font-size: 10.5px !important;
+            line-height: 1.25 !important;
             color: #a9b4b0 !important;
             font-weight: 500 !important;
             margin: 0 !important;
-            white-space: nowrap !important;
-            text-align: center !important;
+            text-align: left !important;
           }
           .hero-stat-lbl-mobile {
-            display: inline !important;
+            display: block !important;
+            text-align: left !important;
+          }
+          .hero-stat-lbl-line {
+            display: block !important;
             white-space: nowrap !important;
           }
         }
 
-        @media (max-width: 375px) {
+        @media (max-width: 365px) {
+          .hero-stat-pillar {
+            padding: 9px 7px !important;
+            gap: 8px !important;
+          }
+          .hero-stat-icon-wrapper {
+            width: 32px !important;
+            height: 32px !important;
+            min-width: 32px !important;
+          }
+          .hero-stat-icon-wrapper svg {
+            width: 16px !important;
+            height: 16px !important;
+          }
           .hero-eyebrow {
             letter-spacing: 0.12em !important;
           }
@@ -1103,7 +1202,19 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
             animation-delay: 0.32s;
           }
         }
-        @media (prefers-reduced-motion: reduce) {
+        @media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+          .hero-cta-primary,
+          .hero-cta-primary:hover,
+          .hero-cta-primary:focus,
+          .hero-cta-primary:active {
+            transform: none !important;
+          }
+          .hero-cta-primary .hero-cta-arrow,
+          .hero-cta-primary:hover .hero-cta-arrow,
+          .hero-cta-primary:focus .hero-cta-arrow,
+          .hero-cta-primary:active .hero-cta-arrow {
+            transform: none !important;
+          }
           .hero-eyebrow,
           .hero-headline,
           .hero-subtitle,
