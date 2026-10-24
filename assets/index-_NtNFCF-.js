@@ -89,7 +89,7 @@ Error generating stack: `+e.message+`
             cursor: pointer !important;
           }
         }
-      `})]})},Xm=`/iGrey_Website/`,Zm=e=>`${Xm.endsWith(`/`)?Xm:Xm+`/`}images/${e}`,Qm={heroResidential:{src:Zm(`hero_residential.jpg`),alt:`Cantilevered glass luxury villa with twilight infinity pool reflections`,width:2e3,height:1125},heroCommercial:{src:Zm(`hero_commercial.jpg`),alt:`Modern architectural commercial glass tower at golden hour sunset`,width:2e3,height:1125},heroInvestment:{src:Zm(`hero_investment.jpg`),alt:`Contemporary waterfront residences and investment apartment pavilions at dusk`,width:2e3,height:1125},heroAdvisory:{src:Zm(`hero_advisory.jpg`),alt:`Double-height luxury penthouse interior with panoramic sunset horizon views`,width:2e3,height:1125},aboutTerrace:{src:Zm(`about_terrace.jpg`),alt:`Open-concept living pavilion and wooden sun deck overlooking sunset coastal skyline`,width:1400,height:1050},serviceAdvisory:{src:Zm(`service_advisory.jpg`),alt:`Private client advisory suite with marble conference table and architectural blueprints`,width:1200,height:900},serviceSales:{src:Zm(`service_sales.jpg`),alt:`High-ceiling modern luxury residence gallery and open terrace foyer`,width:1200,height:900},serviceInvestment:{src:Zm(`service_investment.jpg`),alt:`Architectural scale model of prime city developments and analytical blueprints`,width:1200,height:900},serviceManagement:{src:Zm(`service_management.jpg`),alt:`Luxury private residence reception desk and concierge hospitality lounge`,width:1200,height:900},propSolarium:{src:Zm(`prop_solarium.jpg`),alt:`The Solarium Pavilion — White three-storey modern villa with swimming pool`,width:1600,height:1200},propObscura:{src:Zm(`prop_obscura.jpg`),alt:`Villa Obscura — Contemporary dining room with floating staircase in Lake Como`,width:1600,height:1200},propApex:{src:Zm(`prop_apex.jpg`),alt:`The Apex Penthouse — Modern luxury villa with plunge pool and palm tree`,width:1600,height:1200},propFeatured:{src:Zm(`prop_solarium.jpg`),alt:`The Solarium Pavilion — White three-storey modern villa with swimming pool`,width:1600,height:1200},propPenthouse:{src:Zm(`prop_apex.jpg`),alt:`The Apex Penthouse — Modern luxury villa with plunge pool and palm tree`,width:1600,height:1200},propEstate:{src:Zm(`prop_obscura.jpg`),alt:`Villa Obscura — Contemporary dining room with floating staircase in Lake Como`,width:1600,height:1200},whyIgrey:{src:Zm(`why_igrey.jpg`),alt:`Modern concrete architectural residence surrounded by lush tropical landscaping`,width:1200,height:900},faqSkyline:{src:Zm(`faq_skyline.jpg`),alt:`Panoramic city skyline of modern towers across water at golden hour sunset`,width:1600,height:900},contactVilla:{src:Zm(`contact_villa.jpg`),alt:`Ultra-luxury modern architectural residence with infinity pool at dusk`,width:1600,height:900}},$m={contactVilla:`${Xm.endsWith(`/`)?Xm:Xm+`/`}videos/contact_villa.mp4`},eh=({onExploreClick:e})=>{let{eyebrow:t,headlinePart1:n,headlinePart2:r,stats:i}=qm.hero,a=Qm.heroResidential,[o,s]=_.useState(()=>{if(typeof window<`u`){let e=new URLSearchParams(window.location.search).get(`hero_variant`);if(e){let t=parseInt(e,10);if(t>=1&&t<=4)return t}}return 2});_.useEffect(()=>{let e=()=>{let e=new URLSearchParams(window.location.search).get(`hero_variant`);if(e){let t=parseInt(e,10);t>=1&&t<=4&&s(t)}};return window.addEventListener(`popstate`,e),()=>window.removeEventListener(`popstate`,e)},[]);let c=()=>{e?e():document.getElementById(`properties`)?se(`#properties`,{offset:-40,duration:1.25}):window.location.href=`./properties.html`},l=()=>{se(`#services`,{offset:-40,duration:1.25})},u=e=>{switch(e){case`users`:return(0,H.jsx)(Hm,{size:20,color:`#D4B280`,strokeWidth:1.8});case`building`:return(0,H.jsx)(Af,{size:20,color:`#D4B280`,strokeWidth:1.8});case`trending`:return(0,H.jsx)(Am,{size:20,color:`#D4B280`,strokeWidth:1.8});default:return(0,H.jsx)(mm,{size:20,color:`#D4B280`,strokeWidth:1.8})}},d=(e,t)=>{switch(e){case 0:return`Happy Customers`;case 1:return`Completed Projects`;case 2:return`On-Time Payouts`;case 3:return`Verified KYC`;default:return t}},f=e=>e.toLowerCase().includes(`on-time`)||e.toLowerCase().includes(`completed projects`)?(0,H.jsx)(`span`,{className:`hero-stat-lbl-nowrap`,style:{whiteSpace:`nowrap`},children:e}):e.toLowerCase().includes(`verified background`)?(0,H.jsxs)(H.Fragment,{children:[(0,H.jsx)(`span`,{className:`hero-stat-lbl-line`,children:`Verified Background`}),` `,(0,H.jsx)(`span`,{className:`hero-stat-lbl-line`,children:`and KYC`})]}):e;return(0,H.jsxs)(`section`,{id:`hero`,className:`hero-section hero-variant-${o}`,style:{position:`relative`,minHeight:`100vh`,width:`100%`,display:`flex`,flexDirection:`column`,justifyContent:`space-between`,overflow:`hidden`,backgroundColor:`#090D0B`,color:`#FFFFFF`,paddingTop:`clamp(4rem, 6.5vh, 5.75rem)`,paddingBottom:`clamp(1rem, 2vh, 2rem)`},children:[(0,H.jsxs)(`div`,{className:`hero-media-window`,style:{position:`absolute`,inset:0,overflow:`hidden`,zIndex:1},children:[(0,H.jsx)(`img`,{src:a.src,alt:a.alt,width:a.width,height:a.height,loading:`eager`,fetchPriority:`high`,decoding:`async`,className:`hero-bg-img`,style:{width:`100%`,height:`100%`,objectFit:`cover`,objectPosition:`center 45%`,filter:`brightness(0.78) contrast(1.1) saturate(1.12)`}}),(0,H.jsx)(`div`,{className:`hero-photo-top-gradient`}),(0,H.jsx)(`div`,{className:`hero-photo-bottom-gradient`}),(0,H.jsx)(`div`,{className:`hero-desktop-scrim`,style:{position:`absolute`,inset:0,background:`linear-gradient(90deg, rgba(7, 12, 10, 0.85) 0%, rgba(7, 12, 10, 0.6) 40%, rgba(7, 12, 10, 0.2) 70%, rgba(7, 12, 10, 0.35) 100%)`,pointerEvents:`none`}}),(0,H.jsx)(`div`,{className:`hero-desktop-vignette`,style:{position:`absolute`,inset:0,background:`linear-gradient(180deg, rgba(6, 11, 9, 0.68) 0%, rgba(6, 11, 9, 0.08) 36%, rgba(6, 11, 9, 0.45) 75%, rgba(6, 11, 9, 0.95) 100%)`,pointerEvents:`none`}}),(0,H.jsx)(`div`,{className:`hero-mobile-scrim`,style:{position:`absolute`,left:0,right:0,bottom:0,height:`80%`,background:`linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.4) 35%, rgba(0, 0, 0, 0.82) 100%)`,pointerEvents:`none`,display:`none`}})]}),(0,H.jsx)(`div`,{className:`container hero-main-content`,style:{position:`relative`,zIndex:10,width:`100%`,display:`flex`,flexDirection:`column`,justifyContent:`center`,flexGrow:1},children:(0,H.jsxs)(`div`,{className:`hero-content-inner`,style:{maxWidth:`960px`},children:[(0,H.jsxs)(`div`,{className:`hero-text-group`,children:[t&&(0,H.jsx)(G.div,{initial:{opacity:0,y:14},animate:{opacity:1,y:0},transition:{duration:.8,delay:.1,ease:[.16,1,.3,1]},className:`hero-eyebrow`,style:{fontFamily:`var(--font-sans)`,fontSize:`clamp(11px, 1.05vw, 13px)`,letterSpacing:`0.22em`,textTransform:`uppercase`,fontWeight:600,color:`var(--bronze-hi, #DEBA88)`,marginBottom:`clamp(12px, 1.8vh, 18px)`,display:`inline-block`},children:t}),(0,H.jsxs)(G.h1,{initial:{opacity:0,y:22},animate:{opacity:1,y:0},transition:{duration:.9,delay:.2,ease:[.16,1,.3,1]},className:`hero-headline`,style:{fontFamily:`var(--font-serif)`,fontSize:`clamp(40px, min(4.85vw, 9vh), 96px)`,lineHeight:1.1,fontWeight:500,color:`#FFFFFF`,letterSpacing:`-0.02em`,margin:0,marginBottom:`clamp(16px, 2.6vh, 26px)`,textShadow:`0 1px 8px rgba(0, 0, 0, 0.45)`},children:[(0,H.jsx)(`span`,{className:`hero-headline-line1`,style:{display:`block`,color:`#FFFFFF`},children:n||`Real Estate Solutions.`}),(0,H.jsx)(`span`,{className:`hero-headline-line2`,style:{display:`block`,fontStyle:`italic`,color:`#D4B280`},children:r||`Beyond Expectations.`})]}),(0,H.jsxs)(G.p,{initial:{opacity:0,y:18},animate:{opacity:1,y:0},transition:{duration:.8,delay:.4,ease:[.16,1,.3,1]},className:`hero-subtitle`,style:{fontFamily:`var(--font-sans)`,fontSize:`clamp(15px, min(1.2vw, 2.4vh), 18px)`,lineHeight:1.6,color:`rgba(255, 255, 255, 0.88)`,maxWidth:`620px`,marginTop:0,marginBottom:`clamp(20px, 3.4vh, 34px)`,fontWeight:300,textShadow:`0 1px 8px rgba(0, 0, 0, 0.45)`},children:[(0,H.jsxs)(`span`,{className:`hero-desc-desktop`,children:[`From finding the right property to managing, developing and investing`,` `,(0,H.jsx)(`br`,{className:`hero-p-break`}),`in real estate, iGREY HOLDINGS brings property solutions together.`]}),(0,H.jsx)(`span`,{className:`hero-desc-mobile`,children:`From finding the right property to managing and investing, iGREY HOLDINGS brings it all together.`})]})]}),(0,H.jsxs)(G.div,{className:`hero-cta-wrapper`,initial:{opacity:0,y:18},animate:{opacity:1,y:0},transition:{duration:.8,delay:.6,ease:[.16,1,.3,1]},style:{display:`flex`,flexDirection:`row`,alignItems:`center`,justifyContent:`flex-start`,gap:`18px`},children:[(0,H.jsxs)(`button`,{onClick:c,className:`hero-cta-btn hero-cta-primary`,style:{backgroundColor:`#DEBA88`,color:`#121614`,padding:`1rem 2.25rem`,fontSize:`0.95rem`,fontWeight:600,letterSpacing:`0.02em`,fontFamily:`var(--font-sans)`,border:`1.5px solid #DEBA88`,borderRadius:`6px`,display:`inline-flex`,alignItems:`center`,justifyContent:`center`,gap:`0.75rem`,boxShadow:`0 10px 28px rgba(0, 0, 0, 0.35)`,cursor:`pointer`,transition:`all 0.3s cubic-bezier(0.16, 1, 0.3, 1)`,boxSizing:`border-box`},onMouseEnter:e=>{e.currentTarget.style.backgroundColor=`#E5C696`,e.currentTarget.style.borderColor=`#E5C696`,e.currentTarget.style.transform=`translateY(-2px)`,e.currentTarget.style.boxShadow=`0 14px 34px rgba(222, 186, 136, 0.45)`},onMouseLeave:e=>{e.currentTarget.style.backgroundColor=`#DEBA88`,e.currentTarget.style.borderColor=`#DEBA88`,e.currentTarget.style.transform=`translateY(0)`,e.currentTarget.style.boxShadow=`0 10px 28px rgba(0, 0, 0, 0.35)`},children:[(0,H.jsx)(`span`,{children:`Explore Properties`}),(0,H.jsx)(mf,{size:18,color:`#121614`,strokeWidth:2.2})]}),(0,H.jsx)(`button`,{onClick:l,className:`hero-cta-btn hero-cta-secondary`,style:{backgroundColor:`rgba(8, 13, 12, 0.45)`,color:`#F3EBDC`,padding:`1rem 2.25rem`,fontSize:`0.95rem`,fontWeight:600,letterSpacing:`0.02em`,fontFamily:`var(--font-sans)`,border:`1.5px solid #DEBA88`,borderRadius:`6px`,display:`inline-flex`,alignItems:`center`,justifyContent:`center`,boxShadow:`0 10px 28px rgba(0, 0, 0, 0.25)`,cursor:`pointer`,transition:`all 0.3s cubic-bezier(0.16, 1, 0.3, 1)`,boxSizing:`border-box`},onMouseEnter:e=>{e.currentTarget.style.backgroundColor=`#DEBA88`,e.currentTarget.style.color=`#1A1408`,e.currentTarget.style.transform=`translateY(-2px)`,e.currentTarget.style.boxShadow=`0 14px 34px rgba(222, 186, 136, 0.35)`},onMouseLeave:e=>{e.currentTarget.style.backgroundColor=`rgba(8, 13, 12, 0.45)`,e.currentTarget.style.color=`#F3EBDC`,e.currentTarget.style.transform=`translateY(0)`,e.currentTarget.style.boxShadow=`0 10px 28px rgba(0, 0, 0, 0.25)`},children:(0,H.jsx)(`span`,{children:`Explore Our Services`})}),(0,H.jsx)(`a`,{href:`#services`,onClick:e=>{e.preventDefault(),l()},className:`hero-mobile-services-link`,children:`Explore Our Services →`})]})]})}),(0,H.jsxs)(`div`,{className:`container hero-stats-container`,style:{position:`relative`,zIndex:10,width:`100%`,paddingBottom:`0.25rem`,paddingTop:`clamp(6px, 1.2vh, 12px)`},children:[(0,H.jsx)(G.div,{initial:{opacity:0,y:22},animate:{opacity:1,y:0},transition:{duration:.9,delay:.7,ease:[.16,1,.3,1]},style:{maxWidth:`1040px`,margin:`0 auto`,background:`linear-gradient(155deg, rgba(12, 20, 16, 0.92) 0%, rgba(7, 12, 10, 0.97) 100%)`,backdropFilter:`blur(20px)`,WebkitBackdropFilter:`blur(20px)`,border:`1.5px solid rgba(197, 168, 128, 0.32)`,borderRadius:`22px`,boxShadow:`0 24px 60px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.1)`,padding:`clamp(12px, 1.8vh, 18px) 1.6rem`,display:`grid`,gridTemplateColumns:`repeat(4, 1fr)`,gap:`0`,alignItems:`center`},className:`hero-floating-stats-grid`,children:i.map((e,t)=>(0,H.jsxs)(G.div,{whileHover:{y:-2},whileTap:{scale:.98},style:{display:`flex`,flexDirection:`column`,alignItems:`center`,textAlign:`center`,padding:`clamp(4px, 0.8vh, 8px) 0.85rem`,borderRadius:`16px`,position:`relative`,userSelect:`none`,transition:`background 0.3s ease`},className:`hero-stat-pillar hero-stat-cell-${t}`,children:[(0,H.jsx)(`div`,{className:`hero-stat-icon-wrapper`,style:{width:`46px`,height:`46px`,borderRadius:`13px`,background:`rgba(10, 16, 13, 0.85)`,border:`1.5px solid rgba(197, 168, 128, 0.35)`,display:`flex`,alignItems:`center`,justifyContent:`center`,marginBottom:`0.65rem`,boxShadow:`0 4px 12px rgba(0, 0, 0, 0.35)`,transition:`all 0.3s ease`,flexShrink:0},children:u(e.icon)}),(0,H.jsxs)(`div`,{className:`hero-stat-info`,children:[(0,H.jsx)(`div`,{className:`hero-stat-val`,style:{fontFamily:`var(--font-sans)`,fontSize:`clamp(1.75rem, 2.2vw, 2.25rem)`,fontWeight:700,color:`#FFFFFF`,lineHeight:1.1,marginBottom:`0.25rem`,letterSpacing:`-0.015em`},children:e.value}),(0,H.jsxs)(`div`,{className:`hero-stat-lbl`,style:{fontFamily:`var(--font-sans)`,fontSize:`0.84rem`,fontWeight:600,color:`#FFFFFF`,lineHeight:1.25,marginBottom:0},children:[(0,H.jsx)(`span`,{className:`hero-stat-lbl-desktop`,children:f(e.label)}),(0,H.jsx)(`span`,{className:`hero-stat-lbl-mobile`,children:d(t,e.label)})]}),e.sublabel?(0,H.jsx)(`div`,{className:`hero-stat-sub`,style:{fontFamily:`var(--font-sans)`,fontSize:`0.7rem`,color:`rgba(237, 232, 223, 0.55)`,fontWeight:400,lineHeight:1.25,marginTop:`0.15rem`},children:e.sublabel}):null]})]},`${e.label}-${t}`))}),(0,H.jsxs)(`div`,{className:`hero-scroll-indicator`,onClick:()=>{let e=document.getElementById(`about`)||document.querySelector(`section:nth-of-type(2)`);e&&se(e,{offset:-20,duration:1.2})},role:`button`,tabIndex:0,"aria-label":`Scroll to explore`,children:[(0,H.jsx)(`span`,{className:`hero-scroll-text`,children:`SCROLL TO EXPLORE`}),(0,H.jsx)(`div`,{className:`hero-scroll-mouse`,children:(0,H.jsx)(G.div,{className:`hero-scroll-mouse-wheel`,animate:{y:[0,8,0],opacity:[.9,.3,.9]},transition:{repeat:1/0,duration:1.6,ease:`easeInOut`}})})]})]}),(0,H.jsx)(`style`,{children:`
+      `})]})},Xm=`/iGrey_Website/`,Zm=e=>`${Xm.endsWith(`/`)?Xm:Xm+`/`}images/${e}`,Qm={heroResidential:{src:Zm(`hero_residential.jpg`),alt:`Cantilevered glass luxury villa with twilight infinity pool reflections`,width:2e3,height:1125},heroCommercial:{src:Zm(`hero_commercial.jpg`),alt:`Modern architectural commercial glass tower at golden hour sunset`,width:2e3,height:1125},heroInvestment:{src:Zm(`hero_investment.jpg`),alt:`Contemporary waterfront residences and investment apartment pavilions at dusk`,width:2e3,height:1125},heroAdvisory:{src:Zm(`hero_advisory.jpg`),alt:`Double-height luxury penthouse interior with panoramic sunset horizon views`,width:2e3,height:1125},aboutTerrace:{src:Zm(`about_terrace.jpg`),alt:`Open-concept living pavilion and wooden sun deck overlooking sunset coastal skyline`,width:1400,height:1050},serviceAdvisory:{src:Zm(`service_advisory.jpg`),alt:`Private client advisory suite with marble conference table and architectural blueprints`,width:1200,height:900},serviceSales:{src:Zm(`service_sales.jpg`),alt:`High-ceiling modern luxury residence gallery and open terrace foyer`,width:1200,height:900},serviceInvestment:{src:Zm(`service_investment.jpg`),alt:`Architectural scale model of prime city developments and analytical blueprints`,width:1200,height:900},serviceManagement:{src:Zm(`service_management.jpg`),alt:`Luxury private residence reception desk and concierge hospitality lounge`,width:1200,height:900},propSolarium:{src:Zm(`prop_solarium.jpg`),alt:`The Solarium Pavilion — White three-storey modern villa with swimming pool`,width:1600,height:1200},propObscura:{src:Zm(`prop_obscura.jpg`),alt:`Villa Obscura — Contemporary dining room with floating staircase in Lake Como`,width:1600,height:1200},propApex:{src:Zm(`prop_apex.jpg`),alt:`The Apex Penthouse — Modern luxury villa with plunge pool and palm tree`,width:1600,height:1200},propFeatured:{src:Zm(`prop_solarium.jpg`),alt:`The Solarium Pavilion — White three-storey modern villa with swimming pool`,width:1600,height:1200},propPenthouse:{src:Zm(`prop_apex.jpg`),alt:`The Apex Penthouse — Modern luxury villa with plunge pool and palm tree`,width:1600,height:1200},propEstate:{src:Zm(`prop_obscura.jpg`),alt:`Villa Obscura — Contemporary dining room with floating staircase in Lake Como`,width:1600,height:1200},whyIgrey:{src:Zm(`why_igrey.jpg`),alt:`Modern concrete architectural residence surrounded by lush tropical landscaping`,width:1200,height:900},faqSkyline:{src:Zm(`faq_skyline.jpg`),alt:`Panoramic city skyline of modern towers across water at golden hour sunset`,width:1600,height:900},contactVilla:{src:Zm(`contact_villa.jpg`),alt:`Ultra-luxury modern architectural residence with infinity pool at dusk`,width:1600,height:900}},$m={contactVilla:`${Xm.endsWith(`/`)?Xm:Xm+`/`}videos/contact_villa.mp4`},eh=({onExploreClick:e})=>{let{eyebrow:t,headlinePart1:n,headlinePart2:r,stats:i}=qm.hero,a=Qm.heroResidential,[o,s]=_.useState(()=>{if(typeof window<`u`){let e=new URLSearchParams(window.location.search).get(`hero_variant`);if(e){let t=parseInt(e,10);if(t>=1&&t<=4)return t}}return 2});_.useEffect(()=>{let e=()=>{let e=new URLSearchParams(window.location.search).get(`hero_variant`);if(e){let t=parseInt(e,10);t>=1&&t<=4&&s(t)}};return window.addEventListener(`popstate`,e),()=>window.removeEventListener(`popstate`,e)},[]);let c=()=>{e?e():document.getElementById(`properties`)?se(`#properties`,{offset:-40,duration:1.25}):window.location.href=`./properties.html`},l=()=>{se(`#services`,{offset:-40,duration:1.25})},u=e=>{switch(e){case`users`:return(0,H.jsx)(Hm,{size:20,color:`#D4B280`,strokeWidth:1.8});case`building`:return(0,H.jsx)(Af,{size:20,color:`#D4B280`,strokeWidth:1.8});case`trending`:return(0,H.jsx)(Am,{size:20,color:`#D4B280`,strokeWidth:1.8});default:return(0,H.jsx)(mm,{size:20,color:`#D4B280`,strokeWidth:1.8})}},d=(e,t)=>{switch(e){case 0:return(0,H.jsx)(`span`,{className:`hero-stat-lbl-line`,children:`Happy Customers`});case 1:return(0,H.jsx)(`span`,{className:`hero-stat-lbl-line`,children:`Completed Projects`});case 2:return(0,H.jsxs)(H.Fragment,{children:[(0,H.jsx)(`span`,{className:`hero-stat-lbl-line`,children:`On-Time`}),(0,H.jsx)(`span`,{className:`hero-stat-lbl-line`,children:`Rent Payouts`})]});case 3:return(0,H.jsxs)(H.Fragment,{children:[(0,H.jsx)(`span`,{className:`hero-stat-lbl-line`,children:`Verified Background`}),(0,H.jsx)(`span`,{className:`hero-stat-lbl-line`,children:`and KYC`})]});default:return t}},f=e=>e.toLowerCase().includes(`on-time`)?(0,H.jsx)(`span`,{className:`hero-stat-lbl-nowrap`,style:{whiteSpace:`nowrap`},children:`On-Time Rent Payouts`}):e.toLowerCase().includes(`completed projects`)?(0,H.jsx)(`span`,{className:`hero-stat-lbl-nowrap`,style:{whiteSpace:`nowrap`},children:`Completed Projects`}):e.toLowerCase().includes(`verified background`)?(0,H.jsx)(`span`,{className:`hero-stat-lbl-nowrap`,style:{whiteSpace:`nowrap`},children:`Verified Background and KYC`}):e;return(0,H.jsxs)(`section`,{id:`hero`,className:`hero-section hero-variant-${o}`,style:{position:`relative`,minHeight:`100vh`,width:`100%`,display:`flex`,flexDirection:`column`,justifyContent:`space-between`,overflow:`hidden`,backgroundColor:`#090D0B`,color:`#FFFFFF`,paddingTop:`clamp(4rem, 6.5vh, 5.75rem)`,paddingBottom:`clamp(1rem, 2vh, 2rem)`},children:[(0,H.jsxs)(`div`,{className:`hero-media-window`,style:{position:`absolute`,inset:0,overflow:`hidden`,zIndex:1},children:[(0,H.jsx)(`img`,{src:a.src,alt:a.alt,width:a.width,height:a.height,loading:`eager`,fetchPriority:`high`,decoding:`async`,className:`hero-bg-img`,style:{width:`100%`,height:`100%`,objectFit:`cover`,objectPosition:`center 45%`,filter:`brightness(0.78) contrast(1.1) saturate(1.12)`}}),(0,H.jsx)(`div`,{className:`hero-photo-top-gradient`}),(0,H.jsx)(`div`,{className:`hero-photo-bottom-gradient`}),(0,H.jsx)(`div`,{className:`hero-desktop-scrim`,style:{position:`absolute`,inset:0,background:`linear-gradient(90deg, rgba(7, 12, 10, 0.85) 0%, rgba(7, 12, 10, 0.6) 40%, rgba(7, 12, 10, 0.2) 70%, rgba(7, 12, 10, 0.35) 100%)`,pointerEvents:`none`}}),(0,H.jsx)(`div`,{className:`hero-desktop-vignette`,style:{position:`absolute`,inset:0,background:`linear-gradient(180deg, rgba(6, 11, 9, 0.68) 0%, rgba(6, 11, 9, 0.08) 36%, rgba(6, 11, 9, 0.45) 75%, rgba(6, 11, 9, 0.95) 100%)`,pointerEvents:`none`}}),(0,H.jsx)(`div`,{className:`hero-mobile-scrim`,style:{position:`absolute`,left:0,right:0,bottom:0,height:`80%`,background:`linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.4) 35%, rgba(0, 0, 0, 0.82) 100%)`,pointerEvents:`none`,display:`none`}})]}),(0,H.jsx)(`div`,{className:`container hero-main-content`,style:{position:`relative`,zIndex:10,width:`100%`,display:`flex`,flexDirection:`column`,justifyContent:`center`,flexGrow:1},children:(0,H.jsxs)(`div`,{className:`hero-content-inner`,style:{maxWidth:`960px`},children:[(0,H.jsxs)(`div`,{className:`hero-text-group`,children:[t&&(0,H.jsx)(G.div,{initial:{opacity:0,y:14},animate:{opacity:1,y:0},transition:{duration:.8,delay:.1,ease:[.16,1,.3,1]},className:`hero-eyebrow`,style:{fontFamily:`var(--font-sans)`,fontSize:`clamp(11px, 1.05vw, 13px)`,letterSpacing:`0.22em`,textTransform:`uppercase`,fontWeight:600,color:`var(--bronze-hi, #DEBA88)`,marginBottom:`clamp(12px, 1.8vh, 18px)`,display:`inline-block`},children:t}),(0,H.jsxs)(G.h1,{initial:{opacity:0,y:22},animate:{opacity:1,y:0},transition:{duration:.9,delay:.2,ease:[.16,1,.3,1]},className:`hero-headline`,style:{fontFamily:`var(--font-serif)`,fontSize:`clamp(40px, min(4.85vw, 9vh), 96px)`,lineHeight:1.1,fontWeight:500,color:`#FFFFFF`,letterSpacing:`-0.02em`,margin:0,marginBottom:`clamp(16px, 2.6vh, 26px)`,textShadow:`0 1px 8px rgba(0, 0, 0, 0.45)`},children:[(0,H.jsx)(`span`,{className:`hero-headline-line1`,style:{display:`block`,color:`#FFFFFF`},children:n||`Real Estate Solutions.`}),(0,H.jsx)(`span`,{className:`hero-headline-line2`,style:{display:`block`,fontStyle:`italic`,color:`#D4B280`},children:r||`Beyond Expectations.`})]}),(0,H.jsxs)(G.p,{initial:{opacity:0,y:18},animate:{opacity:1,y:0},transition:{duration:.8,delay:.4,ease:[.16,1,.3,1]},className:`hero-subtitle`,style:{fontFamily:`var(--font-sans)`,fontSize:`clamp(15px, min(1.2vw, 2.4vh), 18px)`,lineHeight:1.6,color:`rgba(255, 255, 255, 0.88)`,maxWidth:`620px`,marginTop:0,marginBottom:`clamp(20px, 3.4vh, 34px)`,fontWeight:300,textShadow:`0 1px 8px rgba(0, 0, 0, 0.45)`},children:[(0,H.jsxs)(`span`,{className:`hero-desc-desktop`,children:[`From finding the right property to managing, developing and investing`,` `,(0,H.jsx)(`br`,{className:`hero-p-break`}),`in real estate, iGREY HOLDINGS brings property solutions together.`]}),(0,H.jsx)(`span`,{className:`hero-desc-mobile`,children:`From finding the right property to managing and investing, iGREY HOLDINGS brings it all together.`})]})]}),(0,H.jsxs)(G.div,{className:`hero-cta-wrapper`,initial:{opacity:0,y:18},animate:{opacity:1,y:0},transition:{duration:.8,delay:.6,ease:[.16,1,.3,1]},style:{display:`flex`,flexDirection:`row`,alignItems:`center`,justifyContent:`flex-start`,gap:`18px`},children:[(0,H.jsxs)(`button`,{onClick:c,className:`hero-cta-btn hero-cta-primary`,style:{backgroundColor:`#DEBA88`,color:`#121614`,padding:`1rem 2.25rem`,fontSize:`0.95rem`,fontWeight:600,letterSpacing:`0.02em`,fontFamily:`var(--font-sans)`,border:`1.5px solid #DEBA88`,borderRadius:`6px`,display:`inline-flex`,alignItems:`center`,justifyContent:`center`,gap:`0.75rem`,boxShadow:`0 10px 28px rgba(0, 0, 0, 0.35)`,cursor:`pointer`,transition:`all 0.3s cubic-bezier(0.16, 1, 0.3, 1)`,boxSizing:`border-box`},onMouseEnter:e=>{e.currentTarget.style.backgroundColor=`#E5C696`,e.currentTarget.style.borderColor=`#E5C696`,e.currentTarget.style.transform=`translateY(-2px)`,e.currentTarget.style.boxShadow=`0 14px 34px rgba(222, 186, 136, 0.45)`},onMouseLeave:e=>{e.currentTarget.style.backgroundColor=`#DEBA88`,e.currentTarget.style.borderColor=`#DEBA88`,e.currentTarget.style.transform=`translateY(0)`,e.currentTarget.style.boxShadow=`0 10px 28px rgba(0, 0, 0, 0.35)`},children:[(0,H.jsx)(`span`,{children:`Explore Properties`}),(0,H.jsx)(mf,{size:18,className:`hero-cta-arrow`,color:`#121614`,strokeWidth:2.2})]}),(0,H.jsx)(`button`,{onClick:l,className:`hero-cta-btn hero-cta-secondary`,style:{backgroundColor:`rgba(8, 13, 12, 0.45)`,color:`#F3EBDC`,padding:`1rem 2.25rem`,fontSize:`0.95rem`,fontWeight:600,letterSpacing:`0.02em`,fontFamily:`var(--font-sans)`,border:`1.5px solid #DEBA88`,borderRadius:`6px`,display:`inline-flex`,alignItems:`center`,justifyContent:`center`,boxShadow:`0 10px 28px rgba(0, 0, 0, 0.25)`,cursor:`pointer`,transition:`all 0.3s cubic-bezier(0.16, 1, 0.3, 1)`,boxSizing:`border-box`},onMouseEnter:e=>{window.innerWidth>768&&(e.currentTarget.style.backgroundColor=`#DEBA88`,e.currentTarget.style.color=`#1A1408`,e.currentTarget.style.transform=`translateY(-2px)`,e.currentTarget.style.boxShadow=`0 14px 34px rgba(222, 186, 136, 0.35)`)},onMouseLeave:e=>{window.innerWidth>768&&(e.currentTarget.style.backgroundColor=`rgba(8, 13, 12, 0.45)`,e.currentTarget.style.color=`#F3EBDC`,e.currentTarget.style.transform=`translateY(0)`,e.currentTarget.style.boxShadow=`0 10px 28px rgba(0, 0, 0, 0.25)`)},children:(0,H.jsx)(`span`,{children:`Explore Our Services`})})]})]})}),(0,H.jsxs)(`div`,{className:`container hero-stats-container`,style:{position:`relative`,zIndex:10,width:`100%`,paddingBottom:`0.25rem`,paddingTop:`clamp(6px, 1.2vh, 12px)`},children:[(0,H.jsx)(G.div,{initial:{opacity:0,y:22},animate:{opacity:1,y:0},transition:{duration:.9,delay:.7,ease:[.16,1,.3,1]},style:{maxWidth:`1040px`,margin:`0 auto`,background:`linear-gradient(155deg, rgba(12, 20, 16, 0.92) 0%, rgba(7, 12, 10, 0.97) 100%)`,backdropFilter:`blur(20px)`,WebkitBackdropFilter:`blur(20px)`,border:`1.5px solid rgba(197, 168, 128, 0.32)`,borderRadius:`22px`,boxShadow:`0 24px 60px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.1)`,padding:`clamp(12px, 1.8vh, 18px) 1.6rem`,display:`grid`,gridTemplateColumns:`repeat(4, 1fr)`,gap:`0`,alignItems:`center`},className:`hero-floating-stats-grid`,children:i.map((e,t)=>(0,H.jsxs)(G.div,{whileHover:{y:-2},whileTap:{scale:.98},style:{display:`flex`,flexDirection:`column`,alignItems:`center`,textAlign:`center`,padding:`clamp(4px, 0.8vh, 8px) 0.85rem`,borderRadius:`16px`,position:`relative`,userSelect:`none`,transition:`background 0.3s ease`},className:`hero-stat-pillar hero-stat-cell-${t}`,children:[(0,H.jsx)(`div`,{className:`hero-stat-icon-wrapper`,style:{width:`46px`,height:`46px`,borderRadius:`13px`,background:`rgba(10, 16, 13, 0.85)`,border:`1.5px solid rgba(197, 168, 128, 0.35)`,display:`flex`,alignItems:`center`,justifyContent:`center`,marginBottom:`0.65rem`,boxShadow:`0 4px 12px rgba(0, 0, 0, 0.35)`,transition:`all 0.3s ease`,flexShrink:0},children:u(e.icon)}),(0,H.jsxs)(`div`,{className:`hero-stat-info`,children:[(0,H.jsx)(`div`,{className:`hero-stat-val`,style:{fontFamily:`var(--font-sans)`,fontSize:`clamp(1.75rem, 2.2vw, 2.25rem)`,fontWeight:700,color:`#FFFFFF`,lineHeight:1.1,marginBottom:`0.25rem`,letterSpacing:`-0.015em`},children:e.value}),(0,H.jsxs)(`div`,{className:`hero-stat-lbl`,style:{fontFamily:`var(--font-sans)`,fontSize:`0.84rem`,fontWeight:600,color:`#FFFFFF`,lineHeight:1.25,marginBottom:0},children:[(0,H.jsx)(`span`,{className:`hero-stat-lbl-desktop`,children:f(e.label)}),(0,H.jsx)(`span`,{className:`hero-stat-lbl-mobile`,children:d(t,e.label)})]}),e.sublabel?(0,H.jsx)(`div`,{className:`hero-stat-sub`,style:{fontFamily:`var(--font-sans)`,fontSize:`0.7rem`,color:`rgba(237, 232, 223, 0.55)`,fontWeight:400,lineHeight:1.25,marginTop:`0.15rem`},children:e.sublabel}):null]})]},`${e.label}-${t}`))}),(0,H.jsxs)(`div`,{className:`hero-scroll-indicator`,onClick:()=>{let e=document.getElementById(`about`)||document.querySelector(`section:nth-of-type(2)`);e&&se(e,{offset:-20,duration:1.2})},role:`button`,tabIndex:0,"aria-label":`Scroll to explore`,children:[(0,H.jsx)(`span`,{className:`hero-scroll-text`,children:`SCROLL TO EXPLORE`}),(0,H.jsx)(`div`,{className:`hero-scroll-mouse`,children:(0,H.jsx)(G.div,{className:`hero-scroll-mouse-wheel`,animate:{y:[0,8,0],opacity:[.9,.3,.9]},transition:{repeat:1/0,duration:1.6,ease:`easeInOut`}})})]})]}),(0,H.jsx)(`style`,{children:`
         .hero-scroll-indicator {
           display: none;
         }
@@ -105,9 +105,12 @@ Error generating stack: `+e.message+`
           .hero-photo-top-gradient,
           .hero-photo-bottom-gradient,
           .hero-desc-mobile,
-          .hero-mobile-services-link,
           .hero-stat-lbl-mobile {
             display: none !important;
+          }
+          .hero-stat-lbl-desktop {
+            display: inline !important;
+            white-space: nowrap !important;
           }
         }
 
@@ -291,11 +294,9 @@ Error generating stack: `+e.message+`
           .hero-mobile-scrim,
           .hero-desc-desktop,
           .hero-stat-lbl-desktop,
-          .hero-cta-secondary,
           .hero-scroll-indicator,
           .hero-p-break,
           .hero-stat-sub,
-          .hero-stat-icon-wrapper,
           .hero-stat-cell-0::after,
           .hero-stat-cell-1::after,
           .hero-stat-cell-2::after {
@@ -326,7 +327,7 @@ Error generating stack: `+e.message+`
             width: 100% !important;
             height: 38svh !important;
             min-height: 240px !important;
-            max-height: 320px !important;
+            max-height: 310px !important;
             flex-shrink: 0 !important;
             overflow: hidden !important;
             z-index: 1 !important;
@@ -456,74 +457,120 @@ Error generating stack: `+e.message+`
             display: inline !important;
           }
 
-          /* Section D: Actions */
+          /* D (update): Actions (mobile only, 2 full-width buttons stacked with 12px gap) */
           .hero-cta-wrapper {
             display: flex !important;
             flex-direction: column !important;
             align-items: stretch !important;
             width: 100% !important;
-            gap: 0 !important;
+            gap: 12px !important;
             margin: 0 !important;
             padding: 0 !important;
           }
-          /* One full-width primary button: background #d9b17f, text #1a1208, 54px high, radius 12px, font-weight 600 */
+
+          /* 1) Primary: "Explore Properties →" */
           .hero-cta-primary {
             width: 100% !important;
-            height: 54px !important;
-            min-height: 54px !important;
-            background-color: #d9b17f !important;
-            background: #d9b17f !important;
-            color: #1a1208 !important;
-            border-radius: 12px !important;
-            font-weight: 600 !important;
-            font-size: 15.5px !important;
+            height: 56px !important;
+            min-height: 56px !important;
+            border-radius: 16px !important;
             border: none !important;
+            font-weight: 600 !important;
+            font-size: 16px !important;
+            color: #1a1208 !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             gap: 8px !important;
-            margin: 0 0 14px 0 !important;
+            background: linear-gradient(180deg, #ecce9e 0%, #c9a06b 100%) !important;
+            box-shadow: 0 10px 28px rgba(217, 177, 127, 0.35), inset 0 1px 0 rgba(255, 244, 222, 0.9) !important;
+            margin: 0 !important;
             padding: 0 20px !important;
-            box-shadow: none !important;
-            box-sizing: border-box !important;
-            text-decoration: none !important;
             cursor: pointer !important;
+            text-decoration: none !important;
+            box-sizing: border-box !important;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
           }
           .hero-cta-primary span {
             color: #1a1208 !important;
             font-weight: 600 !important;
+            font-size: 16px !important;
           }
+          .hero-cta-primary .hero-cta-arrow,
           .hero-cta-primary svg {
             color: #1a1208 !important;
             stroke: #1a1208 !important;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
           }
-          /* Centered text link: gold #c9a77c, 14px, 600 weight, 44px tap target */
-          .hero-mobile-services-link {
+          .hero-cta-primary:hover,
+          .hero-cta-primary:focus {
+            background: linear-gradient(180deg, #f1d7ad 0%, #d2a974 100%) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 14px 34px rgba(217, 177, 127, 0.45), inset 0 1px 0 rgba(255, 244, 222, 0.9) !important;
+          }
+          .hero-cta-primary:hover .hero-cta-arrow,
+          .hero-cta-primary:focus .hero-cta-arrow,
+          .hero-cta-primary:hover svg,
+          .hero-cta-primary:focus svg {
+            transform: translateX(4px) !important;
+          }
+          .hero-cta-primary:active {
+            transform: translateY(0) !important;
+            box-shadow: 0 6px 16px rgba(217, 177, 127, 0.3), inset 0 1px 0 rgba(255, 244, 222, 0.9) !important;
+          }
+          .hero-cta-primary:active .hero-cta-arrow,
+          .hero-cta-primary:active svg {
+            transform: translateX(0) !important;
+          }
+          .hero-cta-primary:focus-visible {
+            outline: 2px solid #f7daa5 !important;
+            outline-offset: 3px !important;
+          }
+
+          /* 2) Secondary: "Explore Our Services" (no arrow) */
+          .hero-cta-secondary {
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
-            color: #c9a77c !important;
-            font-size: 14px !important;
-            font-weight: 600 !important;
-            min-height: 44px !important;
-            height: 44px !important;
-            text-decoration: none !important;
-            text-align: center !important;
             width: 100% !important;
-            cursor: pointer !important;
+            height: 48px !important;
+            min-height: 48px !important;
+            border-radius: 16px !important;
             background: transparent !important;
-            border: none !important;
-            padding: 0 !important;
+            border: 1px solid #c9a77c !important;
+            color: #f4f1ea !important;
+            font-size: 15px !important;
+            font-weight: 600 !important;
             margin: 0 !important;
+            padding: 0 20px !important;
+            cursor: pointer !important;
+            text-decoration: none !important;
             box-sizing: border-box !important;
+            box-shadow: none !important;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
           }
-          .hero-mobile-services-link:hover,
-          .hero-mobile-services-link:focus {
-            color: #f7daa5 !important;
-            text-decoration: underline !important;
+          .hero-cta-secondary span {
+            color: #f4f1ea !important;
+            font-weight: 600 !important;
+            font-size: 15px !important;
+          }
+          .hero-cta-secondary:hover,
+          .hero-cta-secondary:focus {
+            background: rgba(201, 167, 124, 0.12) !important;
+            border-color: #e3c49a !important;
+            color: #f4f1ea !important;
+            transform: none !important;
+            box-shadow: none !important;
+          }
+          .hero-cta-secondary:active {
+            background: rgba(201, 167, 124, 0.2) !important;
+          }
+          .hero-cta-secondary:focus-visible {
+            outline: 2px solid #f7daa5 !important;
+            outline-offset: 3px !important;
           }
 
-          /* Section E: Stats Container & 2x2 Grid Card */
+          /* E (update): Stats Container & 2x2 Grid Card */
           .hero-stats-container {
             position: relative !important;
             z-index: 10 !important;
@@ -535,17 +582,18 @@ Error generating stack: `+e.message+`
             flex-shrink: 0 !important;
             box-sizing: border-box !important;
           }
-          /* 2 x 2 grid card, 1px border #2c3a34, radius 16px, background #0c1411, 1px dividers between cells */
+
+          /* 2 x 2 grid card (1px border #3a3326, radius 16px, background #0c1411, 1px dividers #2c3a34) */
           .hero-floating-stats-grid {
             width: 100% !important;
             max-width: 100% !important;
             box-sizing: border-box !important;
             display: grid !important;
             grid-template-columns: 1fr 1fr !important;
-            grid-auto-rows: 1fr !important;
+            grid-template-rows: auto auto !important;
             gap: 1px !important;
             background: #2c3a34 !important;
-            border: 1px solid #2c3a34 !important;
+            border: 1px solid #3a3326 !important;
             border-radius: 16px !important;
             overflow: hidden !important;
             padding: 0 !important;
@@ -558,32 +606,63 @@ Error generating stack: `+e.message+`
           .hero-floating-stats-grid::after {
             display: none !important;
           }
+
+          /* Each cell is a flex row with align-items: center */
           .hero-stat-pillar {
             display: flex !important;
-            flex-direction: column !important;
+            flex-direction: row !important;
             align-items: center !important;
-            justify-content: center !important;
-            text-align: center !important;
+            justify-content: flex-start !important;
+            text-align: left !important;
             background: #0c1411 !important;
-            padding: 12px 6px !important;
+            padding: 10px 10px !important;
             height: 100% !important;
-            min-height: 64px !important;
+            min-height: 58px !important;
             box-sizing: border-box !important;
             border-radius: 0 !important;
-            gap: 0 !important;
+            gap: 12px !important;
             user-select: none !important;
           }
           .hero-stat-pillar:hover {
             transform: none !important;
           }
+
+          /* 36 x 36px rounded icon square (radius 10px, background #101a16, 1px border #4a3f2c, gold 18px icon) */
+          .hero-stat-icon-wrapper {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 36px !important;
+            height: 36px !important;
+            min-width: 36px !important;
+            max-width: 36px !important;
+            border-radius: 10px !important;
+            background: #101a16 !important;
+            border: 1px solid #4a3f2c !important;
+            box-shadow: none !important;
+            margin-bottom: 0 !important;
+            margin-right: 0 !important;
+            flex-shrink: 0 !important;
+          }
+          .hero-stat-icon-wrapper svg {
+            width: 18px !important;
+            height: 18px !important;
+            color: #D4B280 !important;
+            stroke: #D4B280 !important;
+            stroke-width: 1.8 !important;
+          }
+
+          /* Text block (12px gap from icon, number above label, vertically centered) */
           .hero-stat-info {
             display: flex !important;
             flex-direction: column !important;
-            align-items: center !important;
+            align-items: flex-start !important;
             justify-content: center !important;
-            text-align: center !important;
-            width: 100% !important;
+            text-align: left !important;
+            min-width: 0 !important;
+            flex: 1 !important;
           }
+
           /* Number (19px, bold, white) */
           .hero-stat-val {
             font-family: var(--font-sans) !important;
@@ -591,27 +670,45 @@ Error generating stack: `+e.message+`
             line-height: 1.15 !important;
             font-weight: 700 !important;
             color: #ffffff !important;
-            margin-bottom: 3px !important;
+            margin: 0 0 2px 0 !important;
             letter-spacing: -0.01em !important;
+            text-align: left !important;
           }
-          /* Label (11px, #a9b4b0, one line nowrap) */
+
+          /* Label (10.5px, #a9b4b0, line-height 1.25) */
           .hero-stat-lbl {
             font-family: var(--font-sans) !important;
-            font-size: 11px !important;
-            line-height: 1.2 !important;
+            font-size: 10.5px !important;
+            line-height: 1.25 !important;
             color: #a9b4b0 !important;
             font-weight: 500 !important;
             margin: 0 !important;
-            white-space: nowrap !important;
-            text-align: center !important;
+            text-align: left !important;
           }
           .hero-stat-lbl-mobile {
-            display: inline !important;
+            display: block !important;
+            text-align: left !important;
+          }
+          .hero-stat-lbl-line {
+            display: block !important;
             white-space: nowrap !important;
           }
         }
 
-        @media (max-width: 375px) {
+        @media (max-width: 365px) {
+          .hero-stat-pillar {
+            padding: 9px 7px !important;
+            gap: 8px !important;
+          }
+          .hero-stat-icon-wrapper {
+            width: 32px !important;
+            height: 32px !important;
+            min-width: 32px !important;
+          }
+          .hero-stat-icon-wrapper svg {
+            width: 16px !important;
+            height: 16px !important;
+          }
           .hero-eyebrow {
             letter-spacing: 0.12em !important;
           }
@@ -642,7 +739,19 @@ Error generating stack: `+e.message+`
             animation-delay: 0.32s;
           }
         }
-        @media (prefers-reduced-motion: reduce) {
+        @media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+          .hero-cta-primary,
+          .hero-cta-primary:hover,
+          .hero-cta-primary:focus,
+          .hero-cta-primary:active {
+            transform: none !important;
+          }
+          .hero-cta-primary .hero-cta-arrow,
+          .hero-cta-primary:hover .hero-cta-arrow,
+          .hero-cta-primary:focus .hero-cta-arrow,
+          .hero-cta-primary:active .hero-cta-arrow {
+            transform: none !important;
+          }
           .hero-eyebrow,
           .hero-headline,
           .hero-subtitle,
